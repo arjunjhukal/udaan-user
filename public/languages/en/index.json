@@ -1,0 +1,20 @@
+{
+    "menus": {
+        "dashboard": "Dashboard",
+        "user": "User",
+        "create_user": "Create User",
+        "edit_user": "Edit User",
+        "delete_user": "Delete User",
+        "view_user": "View User",
+        "role": "Role",
+        "create_role": "Create Role",
+        "edit_role": "Edit Role",
+        "delete_role": "Delete Role",
+        "view_role": "View Role",
+        "course": "Course",
+        "create_course": "Create Course",
+        "edit_course": "Edit Course",
+        "delete_course": "Delete Course",
+        "view_course": "View Course"
+    }
+}
