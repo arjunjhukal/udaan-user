@@ -16,17 +16,4 @@ export const PATH = {
     DASHBOARD: {
         ROOT: "/dashboard"
     },
-    ROLES: {
-        ROOT: "/roles",
-        ALL_ROLES: {
-            ROOT: "all-roles"
-        },
-        CREATE_ROLE: {
-            ROOT: "/roles/create-role"
-        },
-        EDIT_ROLE: {
-            ROOT: "/roles/:id"
-        }
-    }
-
 }
