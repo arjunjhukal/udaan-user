@@ -1,5 +1,5 @@
-import DashboardIcon from '@mui/icons-material/Dashboard';
 import { Box, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography } from '@mui/material';
+import { Element4 } from 'iconsax-reactjs';
 import { useTranslation } from 'react-i18next';
 export default function PrimaryMenu() {
     const { t } = useTranslation();
@@ -13,7 +13,7 @@ export default function PrimaryMenu() {
                 <ListItem>
                     <ListItemButton>
                         <ListItemIcon>
-                            <DashboardIcon />
+                            <Element4 />
                         </ListItemIcon>
                         <ListItemText primary={t("menus.dashboard")} />
                     </ListItemButton>
