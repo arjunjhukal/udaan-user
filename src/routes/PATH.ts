@@ -20,10 +20,7 @@ export const PATH = {
         ROOT: "/course-management",
         COURSES: {
             ROOT: "/courses",
-            CREATE_COURSE: {
-                ROOT: "/courses/create-course",
-            },
-            EDIT_COURSE: {
+            VIEW_COURSE: {
                 ROOT: (id?: number) => (id ? `/courses/${id}` : "/courses/:id"),
             },
         },
