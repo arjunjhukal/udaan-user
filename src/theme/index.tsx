@@ -117,7 +117,7 @@ declare module "@mui/material/styles" {
 // Common theme options
 const commonThemeOptions: ThemeOptions = {
   typography: {
-    fontFamily: '"Helvetica Neue", sans-serif',
+    fontFamily: '"Noto Sans", sans-serif',
     h1: { fontWeight: 700, fontSize: "64px", lineHeight: "89.67px" },
     h2: { fontWeight: 500, fontSize: "48px", lineHeight: "67.25px" },
     h3: { fontWeight: 500, fontSize: "32px", lineHeight: "44.8px" },
