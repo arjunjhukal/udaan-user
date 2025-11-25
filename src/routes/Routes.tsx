@@ -8,47 +8,62 @@ import AuthLayout from "../components/pages/layout/AuthLayout";
 import SingleFormAuthLayout from "../components/pages/layout/SingleFormAuthLayout";
 import { PATH } from "./PATH";
 import Private from "./Private";
+import TestManagementRoot from "../components/pages/CourseManagement/test";
+import AllTests from "../components/pages/CourseManagement/test/allTest";
+import NotFound from "../components/pages/layout/NotFound";
 
 const router = createBrowserRouter([
-    {
-        element: <AuthRoot />,
+  {
+    element: <AuthRoot />,
+    children: [
+      {
+        path: PATH.AUTH.VERIFY_OTP.ROOT,
+        element: (
+          <SingleFormAuthLayout>
+            <VerifyOTP />
+          </SingleFormAuthLayout>
+        ),
+      },
+      {
+        element: <AuthLayout />,
         children: [
-            {
-                path: PATH.AUTH.VERIFY_OTP.ROOT,
-                element: (
-                    <SingleFormAuthLayout>
-                        <VerifyOTP />
-                    </SingleFormAuthLayout>
-                ),
-            },
-            {
-                element: <AuthLayout />,
-                children: [{
-                    path: PATH.AUTH.LOGIN.ROOT,
-                    element: <Login />
-                },
-                {
-                    path: PATH.AUTH.REGISTER.ROOT,
-                    element: <Register />
-                }]
-            }
-
+          {
+            path: PATH.AUTH.LOGIN.ROOT,
+            element: <Login />,
+          },
+          {
+            path: PATH.AUTH.REGISTER.ROOT,
+            element: <Register />,
+          },
         ],
-    },
-    {
-        element: <Private />,
+      },
+    ],
+  },
+  {
+    element: <Private />,
+    children: [
+      {
+        index: true,
+        path: "/",
+        element: <App />,
+      },
+      {
+        path: PATH.DASHBOARD.ROOT,
+        element: <App />,
+      },
+      {
+        element: <TestManagementRoot />,
         children: [
-            {
-                index: true,
-                path: "/",
-                element: <App />,
-            },
-            {
-                path: PATH.DASHBOARD.ROOT,
-                element: <App />,
-            },]
-    }
-])
+          { path: PATH.COURSE_MANAGEMENT.TEST.ROOT, element: <AllTests /> },
+        ],
+      },
+    ],
+  },
+  {
+    path: "*",
+    element: <NotFound />,
+  },
+]);
 export default function GlobalRoutes() {
-    return <RouterProvider router={router} />;
+  return <RouterProvider router={router} />;
 }
