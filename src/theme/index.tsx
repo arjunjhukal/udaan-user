@@ -71,8 +71,21 @@ declare module "@mui/material/styles" {
       placeholder: string;
       name: string;
     };
+    brand: {
+      logo: string;
+      main: string;
+      light: string;
+      hover: string;
+    }
   }
   interface PaletteOptions {
+
+    brand: {
+      logo?: string;
+      main?: string;
+      light?: string;
+      hover?: string;
+    }
     button?: {
       main?: string;
       gray?: string;
@@ -161,7 +174,6 @@ declare module "@mui/material/Typography" {
     h5?: false;
     h6?: false;
     subtitle1?: false;
-    subtitle2?: false;
     caption?: false;
     overline?: false;
     button?: false;
@@ -178,7 +190,7 @@ const commonThemeOptions: ThemeOptions = {
     textLg: { fontSize: "18px", lineHeight: "28px" },
     textXl: { fontSize: "20px", lineHeight: "32px" },
     text2Xl: { fontSize: "24px", lineHeight: "38px" },
-    text3Xl: { fontSize: "32px", lineHeight: "48px" },
+    text3Xl: { fontSize: "30px", lineHeight: "48px" },
     text4Xl: { fontSize: "40px", lineHeight: "60px" },
     text5Xl: { fontSize: "48px", lineHeight: "72px" },
   },
@@ -193,7 +205,7 @@ const commonThemeOptions: ThemeOptions = {
             display: "flex",
             gap: "16px",
             li: {
-              ...theme.typography.subtitle2,
+              ...theme.typography.textSm,
               color: theme.palette.text.dark,
               display: "flex",
               alignItems: "center",
@@ -217,7 +229,7 @@ const commonThemeOptions: ThemeOptions = {
           },
           p: {
             marginBottom: "8px",
-            ...theme.typography.subtitle2,
+            ...theme.typography.textSm,
           },
         },
         ".live__class__form": {
@@ -225,6 +237,79 @@ const commonThemeOptions: ThemeOptions = {
             color: `${theme.palette.textField.name} !important`,
           },
         },
+        ".general__content__box": {
+          '& h2': {
+            ...theme.typography.text3Xl,
+            fontWeight: 700,
+            margin: '1.5rem 0 1rem 0',
+          },
+          '& h3': {
+            ...theme.typography.text2Xl,
+            fontWeight: 600,
+            margin: '1.25rem 0 0.75rem 0',
+          },
+          '& h4': {
+            ...theme.typography.textXl,
+            fontWeight: 600,
+            margin: '1rem 0 0.5rem 0',
+          },
+          '& p': {
+            ...theme.typography.textBase,
+            margin: '0.75rem 0',
+          },
+          '& ul': {
+            paddingLeft: '1.5rem',
+            margin: '0.75rem 0',
+            '& li': {
+              ...theme.typography.textBase,
+              margin: '0.25rem 0',
+            },
+          },
+          '& ol': {
+            paddingLeft: '1.5rem',
+            margin: '0.75rem 0',
+            '& li': {
+              ...theme.typography.textBase,
+              margin: '0.25rem 0',
+            },
+          },
+          '& strong': {
+            fontWeight: 700,
+          },
+          '& a': {
+            color: theme.palette.primary.main,
+            textDecoration: 'underline',
+            '&:hover': {
+              textDecoration: 'none',
+            },
+          },
+          '& blockquote': {
+            borderLeft: `4px solid ${theme.palette.primary.main}`,
+            paddingLeft: '1rem',
+            margin: '1rem 0',
+            fontStyle: 'italic',
+            backgroundColor: theme.palette.action.hover,
+          },
+          '& img': {
+            maxWidth: '100%',
+            height: 'auto',
+          },
+          '& table': {
+            width: '100%',
+            borderCollapse: 'collapse',
+            margin: '1rem 0',
+            '& th, & td': {
+              border: `1px solid ${theme.palette.divider}`,
+              padding: '0.5rem',
+              textAlign: 'left',
+            },
+          },
+          '& hr': {
+            border: 'none',
+            borderTop: `1px solid ${theme.palette.divider}`,
+            margin: '2rem 0',
+          },
+        }
       }),
     },
     MuiStack: {
@@ -406,10 +491,8 @@ const commonThemeOptions: ThemeOptions = {
     },
     MuiTypography: {
       styleOverrides: {
-        root: ({ theme }) => ({
-          "&.MuiTypography-body1": {
-            ...theme.typography.subtitle1,
-          },
+        root: () => ({
+          marginBottom: "0 !important",
         }),
       },
     },
@@ -541,7 +624,7 @@ const commonThemeOptions: ThemeOptions = {
         //     },
         // },
         option: ({ theme }) => ({
-          ...theme.typography.body1,
+          ...theme.typography.textLg,
           padding: "8px 12px",
           color: theme.palette.text.primary,
           '&[aria-selected="true"]': {
