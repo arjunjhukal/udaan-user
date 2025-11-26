@@ -1,6 +1,6 @@
 export const lightPalette = {
   primary: {
-    main: "#1D82F5",
+    main: "#303188",
     hover: "#1755B6",
     light: "#E9E9F7",
     black: "#111827",
@@ -10,7 +10,7 @@ export const lightPalette = {
     main: "#303188",
     gray: "#6B7280",
     hover: "#1755B6",
-    light: "#D9F0FF",
+    light: "#F1F5F9",
     lightest: "#D9F0FF",
     contrastText: "#FFFFFF",
   },
@@ -66,7 +66,7 @@ export const lightPalette = {
   },
   text: {
     main: "#303188",
-    dark: "#111827",
+    dark: "#020617",
     light: "#94A3B8",
     lightest: "#F9FAFB",
     middle: "#64748B",
