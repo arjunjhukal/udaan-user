@@ -1,4 +1,4 @@
-import type { Pagination } from "./roleAndPermission";
+import type { Pagination } from ".";
 import type { GlobalResponse } from "./user";
 
 export type QuestionTypeProps = "mcq" | "subjective"

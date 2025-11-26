@@ -28,7 +28,7 @@ export default function CustomAppbar({
                 borderBottom: (theme) => `1px solid ${theme.palette.divider}`,
                 borderRadius: 0,
                 padding: " 20px 24px",
-                backgroundColor: (theme) => theme.palette.primary.contrastText,
+                backgroundColor: (theme) => theme.palette.background.default,
             }}
             color="default"
             elevation={0}
