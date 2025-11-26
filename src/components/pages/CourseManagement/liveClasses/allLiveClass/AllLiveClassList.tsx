@@ -1,9 +1,13 @@
+import { Divider } from "@mui/material";
 import { useEffect, useState } from "react";
+import type { TestProps } from "../../../../../types";
 import Paginations from "../../../../molecules/Paginations";
+import TabSelector from "../../../../molecules/TabSelector";
+import LiveClassCard from "../../../../organism/Cards/LiveClassCard";
+import PastClassCard from "../../../../organism/Cards/PastClassCard";
+import UpcomingClassCard from "../../../../organism/Cards/UpcomingClassCard";
 import PageHeader from "../../../../organism/PageHeader";
 import TableFilter from "../../../../organism/TableFilter";
-import TestCard from "../../../../organism/Cards/TestCard";
-import type { TestProps } from "../../../../../types";
 
 const test: TestProps[] = [
   {
@@ -68,13 +72,21 @@ const test: TestProps[] = [
   },
 ];
 
-export default function AllTestLists() {
+export default function AllLiveClassList() {
   const [testData, setTestData] = useState(test);
   const [search, setSearch] = useState<string>("");
   const [qp, setQp] = useState({
     pageIndex: 1,
     pageSize: 8,
   });
+
+  const [activeTab, setActiveTab] = useState("Ongoing Classes");
+
+  const menuItems = [
+    "Ongoing Classes",
+    "Upcoming Classes",
+    "Post Classes"
+  ];
 
   useEffect(() => {
     const filteredData = test.filter((item) =>
@@ -83,23 +95,44 @@ export default function AllTestLists() {
     setTestData(filteredData);
   }, [search]);
 
-  const onFilter = () => {};
+  const onFilter = () => { };
 
   return (
     <>
       <PageHeader
         breadcrumb={[
           {
-            title: "Test",
+            title: "Live Classes",
           },
         ]}
       />
       <TableFilter search={search} setSearch={setSearch} onFilter={onFilter} />
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {testData.map((test, index) => (
-          <TestCard key={index} test={test} />
-        ))}
+      <div className="flex gap-6">
+        <TabSelector activeTab={activeTab} onChange={setActiveTab} items={menuItems} />
+        <Divider orientation="vertical" flexItem />
+        {
+          activeTab === "Ongoing Classes" ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 flex-1">
+              {testData.map((test, index) => (
+                <LiveClassCard key={index} test={test} />
+              ))}
+            </div>
+          ) : activeTab === "Upcoming Classes" ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 flex-1">
+              {testData.map((test, index) => (
+                <UpcomingClassCard key={index} test={test} />
+              ))}
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 flex-1">
+              {testData.map((test, index) => (
+                <PastClassCard key={index} test={test} />
+              ))}
+            </div>
+          )
+        }
       </div>
+
       <Paginations qp={qp} setQp={setQp} totalPages={10} />
     </>
   );

@@ -11,6 +11,8 @@ import Private from "./Private";
 import TestManagementRoot from "../components/pages/CourseManagement/test";
 import AllTests from "../components/pages/CourseManagement/test/allTest";
 import NotFound from "../components/pages/layout/NotFound";
+import LiveClassRoot from "../components/pages/CourseManagement/liveClasses";
+import AllLiveClass from "../components/pages/CourseManagement/liveClasses/allLiveClass";
 
 const router = createBrowserRouter([
   {
@@ -55,6 +57,15 @@ const router = createBrowserRouter([
         element: <TestManagementRoot />,
         children: [
           { path: PATH.COURSE_MANAGEMENT.TEST.ROOT, element: <AllTests /> },
+        ],
+      },
+      {
+        element: <LiveClassRoot />,
+        children: [
+          {
+            path: PATH.COURSE_MANAGEMENT.LIVE_CLASSES.ROOT,
+            element: <AllLiveClass />,
+          },
         ],
       },
     ],

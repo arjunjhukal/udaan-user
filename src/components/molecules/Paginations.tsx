@@ -66,11 +66,12 @@ export default function Paginations({
         padding: "16px",
         flexWrap: "wrap",
         gap: 2,
+        marginTop: 1,
       }}
     >
       {/* Page Size Selector */}
       <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-        <Typography variant="caption" color="text.dark">
+        <Typography variant="textXs" color="text.dark">
           Show
         </Typography>
         <Select
@@ -85,7 +86,7 @@ export default function Paginations({
             </MenuItem>
           ))}
         </Select>
-        <Typography variant="caption" color="text.dark">
+        <Typography variant="textXs" color="text.dark">
           per page {totalRecords ? `of ${totalRecords}` : ""}
         </Typography>
       </Box>
