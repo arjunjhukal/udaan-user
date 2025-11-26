@@ -30,7 +30,6 @@ export const lightPalette = {
     white: "#FFFFFF",
   },
 
-  // Secondary colors (Green scale)
   secondary: {
     main: "#248585", // MUI requires 'main'
     light: "#E5F3F3",
