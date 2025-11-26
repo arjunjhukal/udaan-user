@@ -161,7 +161,6 @@ declare module "@mui/material/Typography" {
     h5?: false;
     h6?: false;
     subtitle1?: false;
-    subtitle2?: false;
     caption?: false;
     overline?: false;
     button?: false;
@@ -193,7 +192,7 @@ const commonThemeOptions: ThemeOptions = {
             display: "flex",
             gap: "16px",
             li: {
-              ...theme.typography.subtitle2,
+              ...theme.typography.textSm,
               color: theme.palette.text.dark,
               display: "flex",
               alignItems: "center",
@@ -217,7 +216,7 @@ const commonThemeOptions: ThemeOptions = {
           },
           p: {
             marginBottom: "8px",
-            ...theme.typography.subtitle2,
+            ...theme.typography.textSm,
           },
         },
         ".live__class__form": {
@@ -408,7 +407,7 @@ const commonThemeOptions: ThemeOptions = {
       styleOverrides: {
         root: ({ theme }) => ({
           "&.MuiTypography-body1": {
-            ...theme.typography.subtitle1,
+            ...theme.typography.textBase,
           },
         }),
       },
@@ -541,7 +540,7 @@ const commonThemeOptions: ThemeOptions = {
         //     },
         // },
         option: ({ theme }) => ({
-          ...theme.typography.body1,
+          ...theme.typography.textLg,
           padding: "8px 12px",
           color: theme.palette.text.primary,
           '&[aria-selected="true"]': {
