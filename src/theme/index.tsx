@@ -4,6 +4,31 @@ import { darkPalette } from "./palette/darkPalette";
 import { lightPalette } from "./palette/lightPalette";
 
 declare module "@mui/material/styles" {
+  interface TypographyVariants {
+    textXs: React.CSSProperties;
+    textSm: React.CSSProperties;
+    textBase: React.CSSProperties;
+    textLg: React.CSSProperties;
+    textXl: React.CSSProperties;
+    text2Xl: React.CSSProperties;
+    text3Xl: React.CSSProperties;
+    text4Xl: React.CSSProperties;
+    text5Xl: React.CSSProperties;
+  }
+
+  // Allow using them in `createTheme`
+  interface TypographyVariantsOptions {
+    textXs?: React.CSSProperties;
+    textSm?: React.CSSProperties;
+    textBase?: React.CSSProperties;
+    textLg?: React.CSSProperties;
+    textXl?: React.CSSProperties;
+    text2Xl?: React.CSSProperties;
+    text3Xl?: React.CSSProperties;
+    text4Xl?: React.CSSProperties;
+    text5Xl?: React.CSSProperties;
+  }
+
   interface Palette {
     button: {
       main: string;
@@ -114,29 +139,48 @@ declare module "@mui/material/styles" {
   }
 }
 
+declare module "@mui/material/Typography" {
+  interface TypographyPropsVariantOverrides {
+    textXs: true;
+    textSm: true;
+    textBase: true;
+    textLg: true;
+    textXl: true;
+    text2Xl: true;
+    text3Xl: true;
+    text4Xl: true;
+    text5Xl: true;
+
+    // OPTIONAL: disable built-in variants you don’t need
+    body1?: false;
+    body2?: false;
+    h1?: false;
+    h2?: false;
+    h3?: false;
+    h4?: false;
+    h5?: false;
+    h6?: false;
+    subtitle1?: false;
+    subtitle2?: false;
+    caption?: false;
+    overline?: false;
+    button?: false;
+  }
+}
+
 // Common theme options
 const commonThemeOptions: ThemeOptions = {
   typography: {
     fontFamily: '"Noto Sans", sans-serif',
-    h1: { fontWeight: 700, fontSize: "64px", lineHeight: "89.67px" },
-    h2: { fontWeight: 500, fontSize: "48px", lineHeight: "67.25px" },
-    h3: { fontWeight: 500, fontSize: "32px", lineHeight: "44.8px" },
-    h4: { fontWeight: 500, fontSize: "24px", lineHeight: "33.6px" },
-    h5: { fontWeight: 500, fontSize: "20px", lineHeight: "28px" },
-    h6: { fontWeight: 500, fontSize: "18px", lineHeight: "25.2px" },
-    body1: { fontWeight: 500, fontSize: "20px", lineHeight: "28px" },
-    body2: { fontWeight: 500, fontSize: "18px", lineHeight: "26px" },
-    subtitle1: { fontWeight: 400, fontSize: "16px", lineHeight: "22.4px" },
-    subtitle2: { fontWeight: 400, fontSize: "14px", lineHeight: "19.6px" },
-    caption: { fontWeight: 400, fontSize: "12px", lineHeight: "16.8px" },
-    overline: {
-      fontWeight: 400,
-      fontSize: "8px",
-      lineHeight: "11.2px",
-      textTransform: "unset",
-      letterSpacing: "0px",
-    },
-    button: { fontWeight: 400, textTransform: "none" },
+    textXs: { fontSize: "12px", lineHeight: "16px" },
+    textSm: { fontSize: "14px", lineHeight: "20px" },
+    textBase: { fontSize: "16px", lineHeight: "24px" },
+    textLg: { fontSize: "18px", lineHeight: "28px" },
+    textXl: { fontSize: "20px", lineHeight: "32px" },
+    text2Xl: { fontSize: "24px", lineHeight: "38px" },
+    text3Xl: { fontSize: "32px", lineHeight: "48px" },
+    text4Xl: { fontSize: "40px", lineHeight: "60px" },
+    text5Xl: { fontSize: "48px", lineHeight: "72px" },
   },
   shape: {
     borderRadius: 8,
@@ -194,7 +238,8 @@ const commonThemeOptions: ThemeOptions = {
       styleOverrides: {
         root: ({ theme }) => ({
           borderRadius: 8,
-          padding: "10px 16px",
+          padding: "8px 16px",
+          textTransform: "none",
           boxShadow: "none",
           "&.black__btn": {
             backgroundColor: theme.palette.primary.black,
@@ -244,8 +289,8 @@ const commonThemeOptions: ThemeOptions = {
     MuiOutlinedInput: {
       styleOverrides: {
         root: ({ theme }) => ({
-          ...theme.typography.subtitle1,
-          padding: "16px",
+          ...theme.typography.textBase,
+          padding: "10px 16px",
           borderRadius: "8px",
           fontWeight: "500",
         }),
