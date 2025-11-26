@@ -112,6 +112,12 @@ export const lightPalette = {
     contrastText: "#FFFFFF",
   },
 
+  brand: {
+    main: "#303188",
+    hover: "#26276D",
+    light: "#1755B6"
+  }
+  ,
   gray: {
     main: "#3B9AFF",
     gray1: "#F3F4F6",

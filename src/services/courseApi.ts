@@ -20,7 +20,7 @@ export const courseApi = createApi({
                     page_size: pageSize,
                     search: search,
                     mega_categories: categoryFilter?.mega_category,
-                categories: categoryFilter?.category,
+                    categories: categoryFilter?.category,
                     sub_categories: categoryFilter?.sub_category,
                     positions: categoryFilter?.positions,
                 })
@@ -38,7 +38,7 @@ export const courseApi = createApi({
                     : [{ type: "Course", id: "LIST" }],
         }),
 
-        getCourseById: builder.query<{ data: CourseProps }, { id: string }>({
+        getCourseById: builder.query<{ data: CourseProps }, { id: number }>({
             query: ({ id }) => ({
                 url: `/course/${id}`,
                 method: "GET",
@@ -46,36 +46,17 @@ export const courseApi = createApi({
             providesTags: (_result, _error, { id }) => [{ type: "Course", id }],
         }),
 
-
-        getAllCurriculum: builder.query<CurriculumList, QueryParams & { id: number }>({
-            query: ({ pageIndex, pageSize, search, id }) => {
-
-                const queryString = buildQueryParams({
-                    page: pageIndex,
-                    page_size: pageSize,
-                    search: search,
-                })
-
-
-                return {
-                    url: `/course/curriculum/${id}?${queryString}`,
-                    method: "GET",
-                };
-            },
-            providesTags: (result) =>
-                result?.data?.data
-                    ? [
-                        ...result.data.data.map((curriculum) => ({ type: "Curriculum" as const, id: curriculum.id })),
-                        { type: "Curriculum", id: "LIST" },
-                        { type: "Media", id: "LIST" }
-                    ]
-                    : [{ type: "Curriculum", id: "LIST" },
-                    { type: "Media", id: "LIST" }
-                    ],
-        }),
-        getCourseCurriculumById: builder.query<{ data: CurriculumProps }, { id: number }>({
+        getCourseOverviewById: builder.query<{ data: CourseProps }, { id: number }>({
             query: ({ id }) => ({
-                url: `/course/curriculum/${id}`,
+                url: `/course/${id}/overview`,
+                method: "GET",
+            }),
+            providesTags: (_result, _error, { id }) => [{ type: "Course", id }],
+        }),
+
+        getCourseCurriculumById: builder.query<CurriculumList, { id: number }>({
+            query: ({ id }) => ({
+                url: `/course/${id}/curriculum/`,
                 method: "GET",
             }),
             providesTags: (_result, _error, { id }) => [{ type: "Curriculum", id }],
@@ -118,7 +99,7 @@ export const courseApi = createApi({
 export const {
     useGetAllCourseQuery,
     useGetCourseByIdQuery,
-    useGetAllCurriculumQuery,
+    useGetCourseOverviewByIdQuery,
     useGetCourseCurriculumByIdQuery,
     useGetCourseMediaByTypeQuery,
     useGetCourseTestQuery

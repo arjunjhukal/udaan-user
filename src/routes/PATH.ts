@@ -23,24 +23,20 @@ export const PATH = {
             VIEW_COURSE: {
                 ROOT: (id?: number) => (id ? `/courses/${id}` : "/courses/:id"),
             },
+            MY_COURSE: {
+                ROOT: "/courses/my-course"
+            }
         },
         LIVE_CLASSES: {
             ROOT: "/live-classes",
-            CREATE_LIVE_CLASS: {
-                ROOT: "/live-classes/create-live-class",
-            },
-            EDIT_LIVE_CLASS: {
-                ROOT: (id?: number) =>
-                    id ? `/live-classes/${id}` : "/live-classes/:id",
+            VIEW_LIVE_CLASS: {
+                ROOT: (id?: number) => (id ? `/courses/${id}` : "/courses/:id"),
             },
         },
         TEST: {
             ROOT: "/test",
-            CREATE_TEST: {
-                ROOT: "/test/create-test",
-            },
-            EDIT_TEST: {
-                ROOT: (id?: string) => (id ? `/test/${id}` : "/test/:id"),
+            VIEW_TEST: {
+                ROOT: (id?: number) => (id ? `/courses/${id}` : "/courses/:id"),
             },
         },
     },
