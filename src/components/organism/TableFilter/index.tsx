@@ -56,7 +56,7 @@ export default function TableFilter({
             }}
           />
         ) : (
-          <Typography variant="h5" color="text.dark">
+          <Typography variant="textLg" color="text.dark">
             {title}
           </Typography>
         )}

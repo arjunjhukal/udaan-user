@@ -1,24 +1,29 @@
-import { Typography } from "@mui/material";
+import { Activity, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useGetCourseByIdQuery } from "../../../../../services/courseApi";
-import { renderHtml } from "../../../../../utils/renderHtml";
+import { useGetCourseCurriculumByIdQuery, useGetCourseOverviewByIdQuery } from "../../../../../services/courseApi";
 import TabController from "../../../../molecules/TabController";
-import InstructorCard from "../../../../organism/Cards/InstructorCard";
 import CourseBanner from "../../../../organism/CourseBanner";
+import SinlgeCourseCurriculum from "./curriculum";
+import SingleCourseMedia from "./media";
+import SinlgeCourseOverview from "./overview";
+import SinlgeCourseTest from "./test";
 
 export default function SingleCourse() {
     const { id } = useParams();
-    const { data, isLoading } = useGetCourseByIdQuery({ id: id || "" });
-    console.log({ data: data?.data, isLoading })
+
+    const [activeTab, setActiveTab] = useState("overview");
+
+    const { data, isLoading: loadingOverview } = useGetCourseOverviewByIdQuery({ id: Number(id) });
+    const { data: curriculum, isLoading: loadingCurriculum } = useGetCourseCurriculumByIdQuery({ id: Number(id) }, { skip: !id })
     return (
         <>
-            <CourseBanner />
+            <CourseBanner id={id} />
             <div className="mt-8">
                 <TabController
                     options={[
                         {
                             label: "Overview",
-                            value: "Overview"
+                            value: "overview"
                         },
                         {
                             label: "Curriculum",
@@ -41,19 +46,19 @@ export default function SingleCourse() {
                             value: "reviews"
                         },
                     ]}
-                    setActiveTab={() => { }}
-                    currentActive="overview"
+                    setActiveTab={setActiveTab}
+                    currentActive={activeTab}
 
                 />
             </div>
-            <div className="general-content">
-                {renderHtml(data?.data?.description || "")}
-            </div>
 
-            <div className="mt-8">
-                <Typography className="mb-4!">Instructors</Typography>
-                <InstructorCard />
-            </div>
+            {activeTab === "overview" && <Activity><SinlgeCourseOverview data={data?.data && data.data} isLoading={loadingOverview} /></Activity>}
+            {activeTab === "curriculum" && <Activity><SinlgeCourseCurriculum data={curriculum?.data?.data} isLoading={loadingCurriculum} /></Activity>}
+            {activeTab === "notes" && <Activity><SingleCourseMedia /></Activity>}
+            {activeTab === "audios" && <Activity><SingleCourseMedia /></Activity>}
+            {activeTab === "videos" && <Activity><SingleCourseMedia /></Activity>}
+            {activeTab === "test" && <Activity><SinlgeCourseTest /></Activity>}
+
         </>
     )
 }

@@ -8,23 +8,23 @@ export default function CourseCardButton({ courseType, sellingPrice, markedPrice
             case "free":
                 return (
                     <div className="free__price">
-                        <Typography>This course is free. You can learn anytime you want.</Typography>
+                        <Typography className='text-[10px]!' color='text.middle'>This course is free. You can learn anytime you want.</Typography>
                     </div>
                 );
 
             case "expiry":
                 return (
                     <div className="expiry__price flex gap-1 items-end">
-                        {markedPrice ? <Typography><del>NPR. {markedPrice}</del></Typography> : ""}
-                        {sellingPrice ? <Typography>NPR. {sellingPrice}</Typography> : ""}
+                        {markedPrice ? <Typography variant='textXs' color='text.middle' className='text-nowrap'><del>NPR. {markedPrice}</del></Typography> : ""}
+                        {sellingPrice ? <Typography variant='textBase' fontWeight={600} className='text-nowrap'>NPR. {sellingPrice}</Typography> : ""}
                     </div>
                 );
 
             case "subscription":
                 return (
                     <div className="subscription__price">
-                        <Typography>Starting from</Typography>
-                        {sellingPrice ? <Typography>NPR. {sellingPrice}</Typography> : ""}
+                        <Typography className='text-[8px]!' color='text.middle'>Starting from</Typography>
+                        {sellingPrice ? <Typography variant='textBase' fontWeight={600}>NPR. {sellingPrice}</Typography> : ""}
                     </div>
                 );
         }
@@ -46,7 +46,7 @@ export default function CourseCardButton({ courseType, sellingPrice, markedPrice
     };
 
     return (
-        <div className="grid grid-cols-2">
+        <div className="grid grid-cols-2 items-center">
             <div className="pricing__box">
                 {renderPrice()}
             </div>

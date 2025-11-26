@@ -32,6 +32,8 @@ export interface CourseSubscription {
     billing_cycle: BillingCycle
     number: number;
 }
+
+export interface Teacher { id: number; name: string; profile: string; designation: string; }
 export interface CourseProps {
     id?: number;
     name: string;
@@ -41,8 +43,8 @@ export interface CourseProps {
     thumbnail: File | null;
     thumbnail_url?: string;
     selections: SelectionType;
-    about_this_course_np: string;
-    teachers: number[];
+    about_this_course: string;
+    teachers: Teacher[];
     course_type: CourseTypeProps
     course_expiry: CourseExpiry;
     free_type_description?: string;
@@ -54,35 +56,6 @@ export interface CourseProps {
     mega_categories?: string[];
 }
 
-export const initialCourseState: CourseProps = {
-    name: "",
-    slug: "",
-    duration: {
-        hours: 0,
-        minutes: 0,
-    },
-    description: "",
-    thumbnail: null,
-    thumbnail_url: "",
-    selections: {
-        mega_category: [],
-        category: {},
-        sub_category: {},
-        position_ids: [],
-    },
-    about_this_course_np: "",
-    teachers: [],
-    course_type: "free",
-    course_expiry: {
-        start_date: "",
-        end_date: "",
-        price: "",
-        discount: 0,
-        discount_type: "percentage",
-    },
-    free_type_description: "",
-    course_subscription: [],
-};
 
 export interface CourseList extends GlobalResponse {
     data: {
