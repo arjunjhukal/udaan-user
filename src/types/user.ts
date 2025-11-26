@@ -10,6 +10,7 @@ export interface RegisterUserProps {
 	name: string;
 	email: string;
 	phone: string;
+	profile_url?: string;
 }
 
 export const RegisterUserInitialData = {
