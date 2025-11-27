@@ -1,8 +1,9 @@
-import { Activity, useState } from "react";
+import React, { Activity, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useGetCourseCurriculumByIdQuery, useGetCourseMediaByTypeQuery, useGetCourseOverviewByIdQuery, useGetCourseTestQuery } from "../../../../../services/courseApi";
+import { useGetCourseByIdQuery, useGetCourseCurriculumByIdQuery, useGetCourseMediaByTypeQuery, useGetCourseOverviewByIdQuery, useGetCourseTestQuery } from "../../../../../services/courseApi";
 import TabController from "../../../../molecules/TabController";
 import CourseBanner from "../../../../organism/CourseBanner";
+import PurchaseCourseDialog from "../../../../organism/Dialog/PurchaseCourseDialog";
 import CourseMediaListing from "./courseMediaListing";
 import SinlgeCourseCurriculum from "./curriculum";
 import SinlgeCourseOverview from "./overview";
@@ -11,7 +12,9 @@ import SinlgeCourseTest from "./test";
 export default function SingleCourse() {
     const { id } = useParams();
 
-    const [activeTab, setActiveTab] = useState("notes");
+    const [activeTab, setActiveTab] = useState("overview");
+    const [havePurchesed, setHavePurchased] = useState(false);
+    const { data: courseBasic, isLoading: loadingBasic } = useGetCourseByIdQuery({ id: Number(id) });
 
     const { data, isLoading: loadingOverview } = useGetCourseOverviewByIdQuery({ id: Number(id) });
     const { data: curriculum, isLoading: loadingCurriculum } = useGetCourseCurriculumByIdQuery({ id: Number(id) }, { skip: !id });
@@ -20,9 +23,16 @@ export default function SingleCourse() {
     const { data: videos, isLoading: loadingVideos } = useGetCourseMediaByTypeQuery({ id: Number(id), type: "videos" }, { skip: !id });
     const { data: test, isLoading: loadingTest } = useGetCourseTestQuery({ id: Number(id) }, { skip: !id });
 
+    React.useEffect(() => {
+        if (data?.data) {
+            setHavePurchased(data?.data?.user?.has_purchased)
+        }
+    }, [data]);
+
+    console.log(data)
     return (
         <>
-            <CourseBanner id={id} />
+            <CourseBanner data={courseBasic?.data && courseBasic.data} isLoading={loadingBasic} />
             <div className="mt-8">
                 <TabController
                     options={[
@@ -57,16 +67,17 @@ export default function SingleCourse() {
                     ]}
                     setActiveTab={setActiveTab}
                     currentActive={activeTab}
-
                 />
             </div>
 
             {activeTab === "overview" && <Activity><SinlgeCourseOverview data={data?.data && data.data} isLoading={loadingOverview} /></Activity>}
-            {activeTab === "curriculum" && <Activity><SinlgeCourseCurriculum data={curriculum?.data?.data} isLoading={loadingCurriculum} /></Activity>}
-            {activeTab === "notes" && <Activity><CourseMediaListing data={notes} isLoading={loadingNotes} type="temp_notes" /></Activity>}
-            {activeTab === "audios" && <Activity><CourseMediaListing data={audios} isLoading={loadingAudios} type="temp_audios" /></Activity>}
-            {activeTab === "videos" && <Activity><CourseMediaListing data={videos} isLoading={loadingVideos} type="temp_video" /></Activity>}
+            {activeTab === "curriculum" && <Activity><SinlgeCourseCurriculum havePurchased={havePurchesed} data={curriculum?.data?.data} isLoading={loadingCurriculum} /></Activity>}
+            {activeTab === "notes" && <Activity><CourseMediaListing havePurchased={havePurchesed} data={notes} isLoading={loadingNotes} type="temp_notes" /></Activity>}
+            {activeTab === "audios" && <Activity><CourseMediaListing havePurchased={havePurchesed} data={audios} isLoading={loadingAudios} type="temp_audios" /></Activity>}
+            {activeTab === "videos" && <Activity><CourseMediaListing havePurchased={havePurchesed} data={videos} isLoading={loadingVideos} type="temp_video" /></Activity>}
             {activeTab === "test" && <Activity><SinlgeCourseTest data={test} isLoading={loadingTest} /></Activity>}
+            <PurchaseCourseDialog type={courseBasic?.data?.course_type} />
+
 
         </>
     )

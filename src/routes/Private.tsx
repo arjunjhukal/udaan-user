@@ -1,6 +1,5 @@
 import React from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
-import PurchaseCourseDialog from '../components/organism/Dialog/PurchaseCourseDialog';
 import ResponsiveDrawer from '../components/pages/layout/sidebar';
 import { useAppSelector } from '../store/hook';
 import { PATH } from './PATH';
@@ -21,7 +20,6 @@ export default function Private() {
         <div className='udaan__root'>
             <ResponsiveDrawer >
                 <Outlet />
-                <PurchaseCourseDialog />
             </ResponsiveDrawer>
         </div>
     );

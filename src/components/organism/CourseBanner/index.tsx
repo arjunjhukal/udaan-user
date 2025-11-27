@@ -1,14 +1,13 @@
 import { Box, Typography, useTheme } from "@mui/material";
-import { useGetCourseByIdQuery } from "../../../services/courseApi";
+import type { CourseProps } from "../../../types/course";
 import { renderHtml } from "../../../utils/renderHtml";
 import BannerCourseTypeModule from "./BannerCourseTypeModule";
 
-export default function CourseBanner({ id }: { id?: string }) {
+export default function CourseBanner({ data, isLoading }: { data?: CourseProps; isLoading: boolean }) {
     const theme = useTheme();
 
-    const { data, isLoading } = useGetCourseByIdQuery({ id: Number(id) });
 
-    const course = data?.data || null;
+    const course = data || null;
     return (
         <Box className="rounded-4xl py-11.5  px-16" sx={{
             background: `url(/banner-bg.svg) no-repeat center/cover, ${theme.palette.brand.light}`
@@ -57,7 +56,7 @@ export default function CourseBanner({ id }: { id?: string }) {
                     <BannerCourseTypeModule
                         courseType={course?.course_type}
                         courseExpiry={course?.course_expiry}
-                        courseSubscription={course?.course_subscription || []}
+                        courseSubscription={course?.subscriptions || []}
                     />
                 </div>
             </div>

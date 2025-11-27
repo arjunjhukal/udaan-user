@@ -1,5 +1,7 @@
 import { Box, Divider, Typography, useTheme } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { setPurchase } from '../../../slice/purchaseSlice';
+import { useAppDispatch } from '../../../store/hook';
 import type { CurriculumMediaType } from '../../../types/course';
 import type { MediaProps } from '../../../types/media';
 import { convertToMb } from '../../../utils/convertToMb';
@@ -33,9 +35,11 @@ const mediaUiConfig: any = {
         )
     }
 }
-export default function MediaCard({ media, type }: { media: MediaProps; type?: CurriculumMediaType }) {
+export default function MediaCard({ media, type, havePurchased }: { media: MediaProps; type?: CurriculumMediaType; havePurchased: boolean }) {
     const theme = useTheme();
+    const dispatch = useAppDispatch();
     const navigate = useNavigate();
+    const { id } = useParams();
     const config = mediaUiConfig[type || "temp_notes"];
 
     let bgColor = theme.palette.warning.light;
@@ -54,8 +58,22 @@ export default function MediaCard({ media, type }: { media: MediaProps; type?: C
             bgColor = theme.palette.warning.light;
     }
 
+    const handleMediaClick = () => {
+        if (havePurchased) {
+            navigate(media.url)
+        }
+        else {
+            dispatch(
+                setPurchase({
+                    courseId: Number(id),
+                    open: true
+                })
+            )
+        }
+    }
+
     return (
-        <Box sx={{ border: `1px solid ${theme.palette.textField.border}` }} className="p-3 rounded-md flex items-center gap-3 cursor-pointer" onClick={() => navigate(media.url)}>
+        <Box sx={{ border: `1px solid ${theme.palette.textField.border}` }} className="p-3 rounded-md flex items-center gap-3 cursor-pointer" onClick={handleMediaClick}>
 
             {/* ICON BOX WITH DYNAMIC COLOR */}
             <Box

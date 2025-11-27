@@ -9,6 +9,7 @@ interface Props {
 
 export default function BannerCourseTypeModule({ courseType, courseExpiry, courseSubscription }: Props) {
 
+    console.log(courseSubscription);
     const renderButtons = () => {
         if (courseType === "free") {
             return <Button variant="contained" className="black__btn" fullWidth>Start Learning</Button>;
@@ -63,8 +64,8 @@ export default function BannerCourseTypeModule({ courseType, courseExpiry, cours
                         <Typography color="white" variant="textLg" fontWeight={500}>Subscription Plans</Typography>
                         {courseSubscription?.map((plan, index) => (
                             <div key={index} className="grid grid-cols-2 gap-2">
-                                <Typography color="white">{plan.price}</Typography>
-                                <Typography color="white">{plan.price} / </Typography>
+                                <Typography color="white">{plan.name}</Typography>
+                                <Typography color="white">NRs. {plan.price} / {plan.number} {plan.billing_cycle}</Typography>
                             </div>
                         ))}
                         {renderButtons()}

@@ -8,6 +8,7 @@ import MediaCard from '../../../../../organism/Cards/MediaCard';
 interface Props {
     data?: CurriculumProps[];
     isLoading: boolean;
+    havePurchased: boolean;
 }
 
 interface ResourceCounts {
@@ -188,31 +189,47 @@ const SubjectSidebar = ({
 
 interface ChildLessonProps {
     childLesson: any;
+    isOpen: boolean;
+    onToggle: (childLessonId: number) => void;
+    havePurchased: boolean;
 }
 
-const ChildLesson = ({ childLesson }: ChildLessonProps) => {
+const ChildLesson = ({ childLesson, isOpen, onToggle, havePurchased }: ChildLessonProps) => {
     const theme = useTheme();
 
     return (
-        <Box
-            style={{ background: theme.palette.primary.light }}
-            className="rounded-md py-3 px-4"
-        >
-            <div className="flex justify-between items-start mb-2">
-                <span className="text-lg flex-1">{childLesson.name}</span>
+        <Box className="mb-2">
+            <Box
+                style={{ background: theme.palette.primary.light }}
+                className="rounded-md py-3 px-4 flex justify-between items-center cursor-pointer"
+                onClick={() => onToggle(Number(childLesson.id))}
+            >
+                <CustomCollapseIcon isOpen={isOpen} />
+                <span className="text-base truncate flex-1 mx-4">
+                    {childLesson.name}
+                </span>
                 <ResourceCounter item={childLesson} />
-            </div>
-            <div
-                className="general__content__box text-sm"
-                dangerouslySetInnerHTML={{ __html: childLesson.description }}
-            />
-            {childLesson?.media?.length ? <div className="grid grid-cols-3 gap-4 mb-2">
-                {childLesson.media.map((item: CurriculumMediaProps) => (
-                    <div className="col-span-1" key={item.id}>
-                        <MediaCard type={item.type} media={item} />
-                    </div>
-                ))}
-            </div> : ""}
+            </Box>
+
+            <Collapse in={isOpen} timeout="auto" unmountOnExit>
+                <Box className="p-4 rounded-md" sx={{
+                    border: `1px solid ${theme.palette.textField.border}`
+                }}>
+                    <div
+                        className="general__content__box mb-4 text-sm"
+                        dangerouslySetInnerHTML={{ __html: childLesson.description }}
+                    />
+                    {childLesson?.media?.length ? (
+                        <div className="grid grid-cols-3 gap-4">
+                            {childLesson.media.map((item: CurriculumMediaProps) => (
+                                <div className="col-span-1" key={item.id}>
+                                    <MediaCard havePurchased={havePurchased} type={item.type} media={item} />
+                                </div>
+                            ))}
+                        </div>
+                    ) : null}
+                </Box>
+            </Collapse>
         </Box>
     );
 };
@@ -220,10 +237,13 @@ const ChildLesson = ({ childLesson }: ChildLessonProps) => {
 interface LessonItemProps {
     lesson: any;
     isOpen: boolean;
+    openChildLessonIds: Set<number>;
     onToggle: (lessonId: number) => void;
+    onChildLessonToggle: (childLessonId: number) => void;
+    havePurchased: boolean;
 }
 
-const LessonItem = ({ lesson, isOpen, onToggle }: LessonItemProps) => {
+const LessonItem = ({ lesson, isOpen, openChildLessonIds, onToggle, onChildLessonToggle, havePurchased }: LessonItemProps) => {
     const theme = useTheme();
 
     return (
@@ -249,18 +269,26 @@ const LessonItem = ({ lesson, isOpen, onToggle }: LessonItemProps) => {
                         dangerouslySetInnerHTML={{ __html: lesson.description }}
                     />
 
-                    {lesson?.media?.length ? <div className="grid grid-cols-3 gap-4 mb-2">
-                        {lesson.media.map((item: CurriculumMediaProps) => (
-                            <div className="col-span-1" key={item.id}>
-                                <MediaCard type={item.type} media={item} />
-                            </div>
-                        ))}
-                    </div> : ""}
+                    {lesson?.media?.length ? (
+                        <div className="grid grid-cols-3 gap-4 mb-4">
+                            {lesson.media.map((item: CurriculumMediaProps) => (
+                                <div className="col-span-1" key={item.id}>
+                                    <MediaCard havePurchased={havePurchased} type={item.type} media={item} />
+                                </div>
+                            ))}
+                        </div>
+                    ) : null}
 
                     {lesson.child_lessons?.length > 0 && (
                         <div className="space-y-2">
                             {lesson.child_lessons.map((childLesson: any) => (
-                                <ChildLesson key={childLesson.id} childLesson={childLesson} />
+                                <ChildLesson
+                                    key={childLesson.id}
+                                    childLesson={childLesson}
+                                    isOpen={openChildLessonIds.has(childLesson.id)}
+                                    onToggle={onChildLessonToggle}
+                                    havePurchased={havePurchased}
+                                />
                             ))}
                         </div>
                     )}
@@ -274,11 +302,14 @@ interface UnitItemProps {
     unit: any;
     isOpen: boolean;
     openLessonIds: Set<number>;
+    openChildLessonIds: Set<number>;
     onUnitToggle: (unitId: number) => void;
     onLessonToggle: (lessonId: number) => void;
+    onChildLessonToggle: (childLessonId: number) => void;
+    havePurchased: boolean;
 }
 
-const UnitItem = ({ unit, isOpen, openLessonIds, onUnitToggle, onLessonToggle }: UnitItemProps) => {
+const UnitItem = ({ unit, isOpen, openLessonIds, openChildLessonIds, onUnitToggle, onLessonToggle, onChildLessonToggle, havePurchased }: UnitItemProps) => {
     const theme = useTheme();
 
     return (
@@ -304,20 +335,25 @@ const UnitItem = ({ unit, isOpen, openLessonIds, onUnitToggle, onLessonToggle }:
                         dangerouslySetInnerHTML={{ __html: unit.description }}
                     />
 
-                    {unit?.media?.length ? <div className="grid grid-cols-3 gap-4 mb-2">
-                        {unit.media.map((item: CurriculumMediaProps) => (
-                            <div className="col-span-1" key={item.id}>
-                                <MediaCard type={item.type} media={item} />
-                            </div>
-                        ))}
-                    </div> : ""}
+                    {unit?.media?.length ? (
+                        <div className="grid grid-cols-3 gap-4 mb-4">
+                            {unit.media.map((item: CurriculumMediaProps) => (
+                                <div className="col-span-1" key={item.id}>
+                                    <MediaCard havePurchased={havePurchased} type={item.type} media={item} />
+                                </div>
+                            ))}
+                        </div>
+                    ) : null}
 
                     {unit.lessons?.map((lesson: any) => (
                         <LessonItem
                             key={lesson.id}
                             lesson={lesson}
                             isOpen={openLessonIds.has(lesson.id)}
+                            openChildLessonIds={openChildLessonIds}
                             onToggle={onLessonToggle}
+                            onChildLessonToggle={onChildLessonToggle}
+                            havePurchased={havePurchased}
                         />
                     ))}
                 </Box>
@@ -331,8 +367,11 @@ interface ChapterContentProps {
     activeChapter: any;
     openUnitIds: Set<number>;
     openLessonIds: Set<number>;
+    openChildLessonIds: Set<number>;
     onUnitToggle: (unitId: number) => void;
     onLessonToggle: (lessonId: number) => void;
+    onChildLessonToggle: (childLessonId: number) => void;
+    havePurchased: boolean;
 }
 
 const ChapterContent = ({
@@ -340,8 +379,11 @@ const ChapterContent = ({
     activeChapter,
     openUnitIds,
     openLessonIds,
+    openChildLessonIds,
     onUnitToggle,
-    onLessonToggle
+    onLessonToggle,
+    onChildLessonToggle,
+    havePurchased
 }: ChapterContentProps) => {
     return (
         <div>
@@ -354,6 +396,15 @@ const ChapterContent = ({
                 />
                 <ResourceCounter item={activeChapter} />
             </div>
+            {activeChapter?.media?.length ? (
+                <div className="grid grid-cols-3 gap-4 mb-4">
+                    {activeChapter.media.map((item: CurriculumMediaProps) => (
+                        <div className="col-span-1" key={item.id}>
+                            <MediaCard havePurchased={havePurchased} type={item.type} media={item} />
+                        </div>
+                    ))}
+                </div>
+            ) : null}
 
             <Divider className="my-5 mb-4" />
 
@@ -364,8 +415,11 @@ const ChapterContent = ({
                         unit={unit}
                         isOpen={openUnitIds.has(unit.id)}
                         openLessonIds={openLessonIds}
+                        openChildLessonIds={openChildLessonIds}
                         onUnitToggle={onUnitToggle}
                         onLessonToggle={onLessonToggle}
+                        onChildLessonToggle={onChildLessonToggle}
+                        havePurchased={havePurchased}
                     />
                 ))}
             </Box>
@@ -411,12 +465,13 @@ const EmptyChaptersState = () => {
     );
 };
 
-export default function SingleCourseCurriculum({ data, isLoading }: Props) {
+export default function SingleCourseCurriculum({ data, isLoading, havePurchased }: Props) {
 
     const [openSubjectId, setOpenSubjectId] = useState<number | null>(null);
     const [activeChapterId, setActiveChapterId] = useState<number | null>(null);
     const [openUnitIds, setOpenUnitIds] = useState<Set<number>>(new Set());
     const [openLessonIds, setOpenLessonIds] = useState<Set<number>>(new Set());
+    const [openChildLessonIds, setOpenChildLessonIds] = useState<Set<number>>(new Set());
 
     // Set first subject and chapter active on load
     useEffect(() => {
@@ -471,6 +526,18 @@ export default function SingleCourseCurriculum({ data, isLoading }: Props) {
         });
     };
 
+    const toggleChildLesson = (childLessonId: number) => {
+        setOpenChildLessonIds(prev => {
+            const newSet = new Set(prev);
+            if (newSet.has(childLessonId)) {
+                newSet.delete(childLessonId);
+            } else {
+                newSet.add(childLessonId);
+            }
+            return newSet;
+        });
+    };
+
     const activeSubject = data?.find(s => s.id === openSubjectId);
     const activeChapter = activeSubject?.chapters?.find(c => c.id === activeChapterId);
 
@@ -496,8 +563,11 @@ export default function SingleCourseCurriculum({ data, isLoading }: Props) {
                         activeChapter={activeChapter}
                         openUnitIds={openUnitIds}
                         openLessonIds={openLessonIds}
+                        openChildLessonIds={openChildLessonIds}
                         onUnitToggle={toggleUnit}
                         onLessonToggle={toggleLesson}
+                        onChildLessonToggle={toggleChildLesson}
+                        havePurchased={havePurchased}
                     />
                 ) : (
                     <div className="text-center py-12 text-gray-500">

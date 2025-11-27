@@ -1,13 +1,11 @@
 
 import { Box, Skeleton } from "@mui/material";
-import React from "react";
 
+import type { CurriculumMediaType } from "../../../../../../types/course";
 import type { MediaList } from "../../../../../../types/media";
 import { EmptyList } from "../../../../../molecules/EmptyList";
 import MediaCard from "../../../../../organism/Cards/MediaCard";
-import type { CurriculumMediaType } from "../../../../../../types/course";
 
-type MediaType = "audios" | "notes" | "videos";
 
 interface MediaConfig {
     image: string;
@@ -43,10 +41,10 @@ interface Props {
     type: CurriculumMediaType;
     data?: MediaList;
     isLoading: boolean
+    havePurchased: boolean;
 }
 
-export default function CourseMediaListing({ type, data, isLoading }: Props) {
-    const [open, setOpen] = React.useState(false);
+export default function CourseMediaListing({ type, data, isLoading, havePurchased }: Props) {
     const config = mediaConfigs[type];
     const medias = data?.data?.data || [];
     if (!isLoading && !medias.length) {
@@ -72,7 +70,7 @@ export default function CourseMediaListing({ type, data, isLoading }: Props) {
                     ))
                 ) :
                     medias.map((media) => (
-                        <MediaCard media={media} key={media.id} type={type} />
+                        <MediaCard media={media} key={media.id} type={type} havePurchased={havePurchased} />
                     ))
                 }
             </div>
