@@ -13,7 +13,7 @@ import SingleCourseVideos from "./video";
 export default function SingleCourse() {
     const { id } = useParams();
 
-    const [activeTab, setActiveTab] = useState("overview");
+    const [activeTab, setActiveTab] = useState("curriculum");
 
     const { data, isLoading: loadingOverview } = useGetCourseOverviewByIdQuery({ id: Number(id) });
     const { data: curriculum, isLoading: loadingCurriculum } = useGetCourseCurriculumByIdQuery({ id: Number(id) }, { skip: !id })

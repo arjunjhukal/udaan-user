@@ -1,5 +1,148 @@
+// import type { Pagination } from ".";
+// import type { GlobalResponse } from "./user";
+
+// export interface SelectionType {
+//     mega_category: number[];
+//     category: { [megaCategoryId: number]: number[] };
+//     sub_category: { [categoryId: number]: number[] };
+//     position_ids: number[];
+// }
+
+// export type CourseTypeProps = "free" | "expiry" | "subscription"
+// export type DiscountTypeProps = "percentage" | "amount"
+// export type BillingCycle = "days" | "months" | "years"
+// export type CurriculumType = "subject" | "chapter" | "unit" | "lesson" | "child_lesson";
+
+// export interface DurationProps {
+//     hours: number;
+//     minutes: number;
+// }
+// export interface CourseExpiry {
+//     start_date: string;
+//     end_date: string;
+//     price: string;
+//     discount: number
+//     discount_type: DiscountTypeProps;
+// }
+
+// export interface CourseSubscription {
+//     subscription_id: number;
+//     price: string;
+//     billing_cycle: BillingCycle
+//     number: number;
+// }
+
+// export interface Teacher { id: number; name: string; profile: string; designation: string; }
+// export interface CourseProps {
+//     id?: number;
+//     name: string;
+//     slug: string;
+//     duration: DurationProps;
+//     description: string;
+//     thumbnail: File | null;
+//     thumbnail_url?: string;
+//     selections: SelectionType;
+//     about_this_course: string;
+//     teachers: Teacher[];
+//     course_type: CourseTypeProps
+//     course_expiry: CourseExpiry;
+//     free_type_description?: string;
+//     subjects?: number;
+//     created_at?: string;
+//     course_subscription?: CourseSubscription[] | null;
+//     marked_price?: string,
+//     sale_price?: string,
+//     mega_categories?: string[];
+// }
+
+
+// export interface CourseList extends GlobalResponse {
+//     data: {
+//         data: CourseProps[];
+//         pagination: Pagination;
+//     }
+// }
+
+
+// export type courseTabType = "overview" | "curriculum" | "notes" | "test" | "audios" | "videos"
+
+// export const CourseTabs: { label: string; value: courseTabType }[] = [
+//     {
+//         label: "Overview",
+//         value: "overview"
+//     },
+//     {
+//         label: "Curriculum",
+//         value: "curriculum"
+//     },
+//     {
+//         label: "Notes",
+//         value: "notes"
+//     },
+//     {
+//         label: "Test",
+//         value: "test"
+//     },
+//     {
+//         label: "Audios",
+//         value: "audios"
+//     },
+//     {
+//         label: "Videos",
+//         value: "videos"
+//     }
+// ]
+
+
+// export type CurriculumCommonProps = {
+//     id?: number;
+//     name: string;
+//     description: string;
+//     media: CurriculumCommonMediaProps
+// }
+// export type CurriculumCommonMediaProps = {
+//     id: number;
+//     file_name: string;
+//     url: string;
+//     size: number;
+//     type: "temp_audios" | "temp_video" | "temp_notes"
+// }
+
+// export interface ChildLessonProps
+//     extends CurriculumCommonProps { }
+
+// export interface LessonProps
+//     extends CurriculumCommonProps {
+//     child_lessons: ChildLessonProps[];
+// }
+
+// export interface UnitProps
+//     extends CurriculumCommonProps {
+//     lessons: LessonProps[];
+// }
+
+// export interface ChapterProps
+//     extends CurriculumCommonProps {
+//     units: UnitProps[];
+// }
+
+// export interface SubjectProps
+//     extends CurriculumCommonProps {
+//     chapters: ChapterProps[] | null;
+// }
+
+
+// export interface CurriculumProps extends SubjectProps {
+// }
+
+// export interface CurriculumList extends GlobalResponse {
+//     data: {
+//         data: CurriculumProps[],
+//         pagination: Pagination
+//     }
+// }
+
 import type { Pagination } from ".";
-import type { MediaProps } from "./media";
 import type { GlobalResponse } from "./user";
 
 export interface SelectionType {
@@ -18,6 +161,7 @@ export interface DurationProps {
     hours: number;
     minutes: number;
 }
+
 export interface CourseExpiry {
     start_date: string;
     end_date: string;
@@ -33,7 +177,13 @@ export interface CourseSubscription {
     number: number;
 }
 
-export interface Teacher { id: number; name: string; profile: string; designation: string; }
+export interface Teacher {
+    id: number;
+    name: string;
+    profile: string;
+    designation: string;
+}
+
 export interface CourseProps {
     id?: number;
     name: string;
@@ -56,14 +206,12 @@ export interface CourseProps {
     mega_categories?: string[];
 }
 
-
 export interface CourseList extends GlobalResponse {
     data: {
         data: CourseProps[];
         pagination: Pagination;
     }
 }
-
 
 export type courseTabType = "overview" | "curriculum" | "notes" | "test" | "audios" | "videos"
 
@@ -94,62 +242,49 @@ export const CourseTabs: { label: string; value: courseTabType }[] = [
     }
 ]
 
+// Media type for curriculum items
+export type CurriculumMediaType = "temp_audios" | "temp_video" | "temp_notes"
 
-export type CurriculumCommonProps = {
+export interface CurriculumMediaProps {
+    id: number;
+    file_name: string;
+    url: string;
+    size: number;
+    type: CurriculumMediaType;
+}
+
+// Base props for all curriculum items
+export interface CurriculumCommonProps {
     id?: number;
     name: string;
     description: string;
-}
-export type CurriculumCommonMediaProps = {
-    video_url: string;
-    note_id: number | null;
-    audio_id: number | null;
-    parent_id: number | null;
-    note?: MediaProps
-    audio?: MediaProps
-    video?: MediaProps
+    media: CurriculumMediaProps;
 }
 
-export interface ChildLessonProps
-    extends CurriculumCommonProps, CurriculumCommonMediaProps { }
+// Hierarchy of curriculum items
+export interface ChildLessonProps extends CurriculumCommonProps { }
 
-export interface LessonProps
-    extends CurriculumCommonProps, CurriculumCommonMediaProps {
+export interface LessonProps extends CurriculumCommonProps {
     child_lessons: ChildLessonProps[];
 }
 
-export interface UnitProps
-    extends CurriculumCommonProps, CurriculumCommonMediaProps {
+export interface UnitProps extends CurriculumCommonProps {
     lessons: LessonProps[];
 }
 
-export interface ChapterProps
-    extends CurriculumCommonProps, CurriculumCommonMediaProps {
+export interface ChapterProps extends CurriculumCommonProps {
     units: UnitProps[];
 }
 
-export interface SubjectProps
-    extends CurriculumCommonProps, CurriculumCommonMediaProps {
+export interface SubjectProps extends CurriculumCommonProps {
     chapters: ChapterProps[] | null;
 }
 
-
-export interface CurriculumProps extends SubjectProps {
-}
+export interface CurriculumProps extends SubjectProps { }
 
 export interface CurriculumList extends GlobalResponse {
     data: {
-        data: CurriculumProps[],
-        pagination: Pagination
+        data: CurriculumProps[];
+        pagination: Pagination;
     }
 }
-export const initialCurriculumInitialState: CurriculumProps = {
-    id: undefined,
-    name: "",
-    description: "",
-    video_url: "",
-    note_id: null,
-    audio_id: null,
-    chapters: null,
-    parent_id: null,
-};
