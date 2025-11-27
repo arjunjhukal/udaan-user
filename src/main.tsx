@@ -41,6 +41,7 @@ createRoot(document.getElementById("root")!).render(
             {/* <ScreenProtection> */}
             <GlobalRoutes />
             <Toast />
+
             {/* </ScreenProtection> */}
           </UdaanThemeProvider>
         </Suspense>

@@ -108,7 +108,7 @@ export default function ResponsiveDrawer(props: Props) {
                 }}>
                 <Toolbar sx={{ height: 100 }} />
                 <Box className="content px-8 pt-8 rounded-2xl overflow-y-auto flex flex-col" sx={{
-                    background: theme.palette.primary.contrastText,
+                    background: theme.palette.primary.white,
                     height: "calc(100vh - 165px)"
 
                 }}>

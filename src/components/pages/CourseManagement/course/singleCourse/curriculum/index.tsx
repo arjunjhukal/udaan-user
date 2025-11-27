@@ -1,8 +1,9 @@
 import { Box, Collapse, Divider, useTheme } from '@mui/material';
 import { ArrowRight2 } from 'iconsax-reactjs';
 import { useEffect, useState } from 'react';
-import type { CurriculumProps } from '../../../../../../types/course';
+import type { CurriculumMediaProps, CurriculumProps } from '../../../../../../types/course';
 import CustomCollapseIcon from '../../../../../atom/CustomCollapseIcon';
+import MediaCard from '../../../../../organism/Cards/MediaCard';
 
 interface Props {
     data?: CurriculumProps[];
@@ -205,6 +206,13 @@ const ChildLesson = ({ childLesson }: ChildLessonProps) => {
                 className="general__content__box text-sm"
                 dangerouslySetInnerHTML={{ __html: childLesson.description }}
             />
+            {childLesson?.media?.length ? <div className="grid grid-cols-3 gap-4 mb-2">
+                {childLesson.media.map((item: CurriculumMediaProps) => (
+                    <div className="col-span-1" key={item.id}>
+                        <MediaCard type={item.type} media={item} />
+                    </div>
+                ))}
+            </div> : ""}
         </Box>
     );
 };
@@ -240,6 +248,14 @@ const LessonItem = ({ lesson, isOpen, onToggle }: LessonItemProps) => {
                         className="general__content__box mb-4"
                         dangerouslySetInnerHTML={{ __html: lesson.description }}
                     />
+
+                    {lesson?.media?.length ? <div className="grid grid-cols-3 gap-4 mb-2">
+                        {lesson.media.map((item: CurriculumMediaProps) => (
+                            <div className="col-span-1" key={item.id}>
+                                <MediaCard type={item.type} media={item} />
+                            </div>
+                        ))}
+                    </div> : ""}
 
                     {lesson.child_lessons?.length > 0 && (
                         <div className="space-y-2">
@@ -287,6 +303,14 @@ const UnitItem = ({ unit, isOpen, openLessonIds, onUnitToggle, onLessonToggle }:
                         className="general__content__box mb-4"
                         dangerouslySetInnerHTML={{ __html: unit.description }}
                     />
+
+                    {unit?.media?.length ? <div className="grid grid-cols-3 gap-4 mb-2">
+                        {unit.media.map((item: CurriculumMediaProps) => (
+                            <div className="col-span-1" key={item.id}>
+                                <MediaCard type={item.type} media={item} />
+                            </div>
+                        ))}
+                    </div> : ""}
 
                     {unit.lessons?.map((lesson: any) => (
                         <LessonItem
@@ -388,7 +412,6 @@ const EmptyChaptersState = () => {
 };
 
 export default function SingleCourseCurriculum({ data, isLoading }: Props) {
-    const theme = useTheme();
 
     const [openSubjectId, setOpenSubjectId] = useState<number | null>(null);
     const [activeChapterId, setActiveChapterId] = useState<number | null>(null);

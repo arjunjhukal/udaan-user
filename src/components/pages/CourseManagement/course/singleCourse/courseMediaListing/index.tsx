@@ -1,0 +1,81 @@
+
+import { Box, Skeleton } from "@mui/material";
+import React from "react";
+
+import type { MediaList } from "../../../../../../types/media";
+import { EmptyList } from "../../../../../molecules/EmptyList";
+import MediaCard from "../../../../../organism/Cards/MediaCard";
+import type { CurriculumMediaType } from "../../../../../../types/course";
+
+type MediaType = "audios" | "notes" | "videos";
+
+interface MediaConfig {
+    image: string;
+    emptyTitle: string;
+    emptyMessage: string;
+}
+
+
+const mediaConfigs: Record<CurriculumMediaType, MediaConfig> = {
+    temp_audios: {
+        image: "/empty-audio.png",
+        emptyTitle: "No Audio found",
+        emptyMessage: "Oops your audio is empty. Please add audio to help student gain knowledge.",
+
+
+    },
+    temp_notes: {
+
+        emptyTitle: "No Notes found",
+        emptyMessage: "Oops your notes is empty. Please add notes to help student gain knowledge.",
+        image: "/empty-notes.png"
+    },
+    temp_video: {
+
+        emptyTitle: "No Videos found",
+        emptyMessage: "Oops your video is empty. Please add video to help student gain knowledge.",
+        image: "/empty-videos.png"
+
+    }
+};
+
+interface Props {
+    type: CurriculumMediaType;
+    data?: MediaList;
+    isLoading: boolean
+}
+
+export default function CourseMediaListing({ type, data, isLoading }: Props) {
+    const [open, setOpen] = React.useState(false);
+    const config = mediaConfigs[type];
+    const medias = data?.data?.data || [];
+    if (!isLoading && !medias.length) {
+        return <EmptyList
+            image={config.image}
+            title={config.emptyTitle}
+            description={config.emptyMessage}
+        />
+    }
+
+    return (
+        <>
+            <div className="flex flex-col gap-4 md:grid grid-cols-2 xl:grid-cols-3 lg:gap-6">
+                {isLoading ? (
+                    [...Array(6)].map((_, idx) => (
+                        <div key={idx} className="col-span-1">
+                            <div className="flex gap-3 items-center">
+                                <Box className="w-full">
+                                    <Skeleton variant="rectangular" height={60} className="rounded-xl" />
+                                </Box>
+                            </div>
+                        </div>
+                    ))
+                ) :
+                    medias.map((media) => (
+                        <MediaCard media={media} key={media.id} type={type} />
+                    ))
+                }
+            </div>
+        </>
+    );
+}

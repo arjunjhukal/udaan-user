@@ -17,7 +17,7 @@ export default function BannerCourseTypeModule({ courseType, courseExpiry, cours
             <div className="actions flex flex-col gap-2">
                 {courseType === "subscription" && <Button variant="contained" className="black__btn" fullWidth>View Subscription</Button>}
                 {courseType === "expiry" && <Button variant="contained" className="black__btn" fullWidth>Enroll Now</Button>}
-                <Button variant="contained" fullWidth>Free Trial</Button>
+                <Button variant="contained" fullWidth className="white__btn">Free Trial</Button>
             </div>
         );
     };
@@ -45,16 +45,13 @@ export default function BannerCourseTypeModule({ courseType, courseExpiry, cours
                         <div className="grid grid-cols-3 gap-2">
                             <div>
                                 <Typography variant="textXs" color="white">Starts from</Typography>
-                                <Typography variant="textSm" color="white" fontWeight={600}>{courseExpiry?.start_date}</Typography>
+                                <Typography variant="textSm" color="white" className="block" fontWeight={600}>{courseExpiry?.start_date}</Typography>
                             </div>
                             <div>
                                 <Typography variant="textXs" color="white">Ends On</Typography>
-                                <Typography variant="textSm" color="white" fontWeight={600}>{courseExpiry?.end_date}</Typography>
+                                <Typography variant="textSm" color="white" className="block" fontWeight={600}>{courseExpiry?.end_date}</Typography>
                             </div>
-                            <div>
-                                <Typography variant="textXs" color="white"><del>{courseExpiry?.price}</del></Typography>
-                                {/* <Typography variant="textSm" color="white" fontWeight={600}>{courseExpiry.discountedPrice}</Typography> */}
-                            </div>
+
                         </div>
                         {renderButtons()}
                     </div>

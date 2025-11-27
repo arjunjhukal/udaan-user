@@ -1,6 +1,19 @@
+import type { TestList } from "../../../../../../types/question";
+import { EmptyList } from "../../../../../molecules/EmptyList";
 
-export default function SinlgeCourseTest() {
+interface Props {
+    data?: TestList;
+    isLoading: boolean;
+}
+export default function SinlgeCourseTest({ data, isLoading }: Props) {
+    console.log(data, isLoading)
     return (
-        <div>SinlgeCourseTest</div>
+        <>
+            <EmptyList
+                image="/empty-notes.png"
+                title="No Test Found"
+                description=""
+            />
+        </>
     )
 }

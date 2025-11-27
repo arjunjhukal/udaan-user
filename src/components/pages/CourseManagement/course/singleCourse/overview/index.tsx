@@ -18,7 +18,7 @@ export default function SinlgeCourseOverview({ data, isLoading }: Props) {
                 {renderHtml(data?.about_this_course || "")}
             </div> : ""}
 
-            <div >
+            {data?.teachers.length ? <div >
                 <Typography className="mb-4!">Instructors</Typography>
                 <div className="grid gap-4 md:gap-6 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5">
                     {
@@ -28,7 +28,7 @@ export default function SinlgeCourseOverview({ data, isLoading }: Props) {
                     }
 
                 </div>
-            </div>
+            </div> : ""}
         </>
     )
 }

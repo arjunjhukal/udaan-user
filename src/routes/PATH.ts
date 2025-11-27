@@ -40,4 +40,10 @@ export const PATH = {
             },
         },
     },
+    PURCHASE: {
+        ROOT: "/purchase",
+        PURCHASE_COURSE: {
+            ROOT: (id?: number) => (id ? `/purchase/${id}` : "/purchase/:id"),
+        },
+    }
 };

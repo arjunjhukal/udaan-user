@@ -1,4 +1,4 @@
-import type { Pagination } from "./roleAndPermission"
+import type { Pagination } from "."
 
 export interface MediaProps {
     id: number,

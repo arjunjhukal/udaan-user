@@ -333,6 +333,29 @@ const commonThemeOptions: ThemeOptions = {
               backgroundColor: theme.palette.primary.hover,
             },
           },
+          "&.primary__btn": {
+            backgroundColor: theme.palette.brand.main,
+            color: theme.palette.primary.white,
+            "&:hover": {
+              backgroundColor: theme.palette.brand.hover,
+            },
+          },
+          "&.secondary__btn": {
+            backgroundColor: "#F1F5F9",
+            color: theme.palette.brand.main,
+            "&:hover": {
+              backgroundColor: theme.palette.brand.main,
+              color: theme.palette.primary.white,
+            },
+          },
+          "&.white__btn": {
+            backgroundColor: theme.palette.primary.white,
+            color: theme.palette.brand.main,
+            "&:hover": {
+              backgroundColor: theme.palette.brand.main,
+              color: theme.palette.primary.white,
+            },
+          },
         }),
       },
     },

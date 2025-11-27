@@ -1,11 +1,12 @@
 import { Box, Divider, Typography, useTheme } from '@mui/material';
-import type { courseTabType } from '../../../types/course';
+import { useNavigate } from 'react-router-dom';
+import type { CurriculumMediaType } from '../../../types/course';
 import type { MediaProps } from '../../../types/media';
 import { convertToMb } from '../../../utils/convertToMb';
 
 
 const mediaUiConfig: any = {
-    audios: {
+    temp_audios: {
         variant: "success",
         icon: (
             <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -14,7 +15,7 @@ const mediaUiConfig: any = {
             </svg>
         )
     },
-    notes: {
+    temp_notes: {
         variant: "warning",
         icon: (
             <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -22,7 +23,7 @@ const mediaUiConfig: any = {
             </svg>
         )
     },
-    videos: {
+    temp_video: {
         variant: "error",
         icon: (
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -32,9 +33,10 @@ const mediaUiConfig: any = {
         )
     }
 }
-export default function MediaCard({ media, type }: { media: MediaProps; type?: courseTabType }) {
+export default function MediaCard({ media, type }: { media: MediaProps; type?: CurriculumMediaType }) {
     const theme = useTheme();
-    const config = mediaUiConfig[type || "notes"];
+    const navigate = useNavigate();
+    const config = mediaUiConfig[type || "temp_notes"];
 
     let bgColor = theme.palette.warning.light;
 
@@ -53,7 +55,7 @@ export default function MediaCard({ media, type }: { media: MediaProps; type?: c
     }
 
     return (
-        <Box sx={{ border: `1px solid ${theme.palette.textField.border}` }} className="p-3 rounded-md flex items-center gap-3">
+        <Box sx={{ border: `1px solid ${theme.palette.textField.border}` }} className="p-3 rounded-md flex items-center gap-3 cursor-pointer" onClick={() => navigate(media.url)}>
 
             {/* ICON BOX WITH DYNAMIC COLOR */}
             <Box
@@ -63,7 +65,7 @@ export default function MediaCard({ media, type }: { media: MediaProps; type?: c
                 {config.icon}
             </Box>
 
-            <div className="content">
+            <div className="content w-full">
                 <Typography variant='subtitle2' fontWeight={500} className='line-clamp-1'>
                     {media.file_name}
                 </Typography>

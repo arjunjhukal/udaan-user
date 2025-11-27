@@ -1,6 +1,6 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import type { CategoryFilterParams, QueryParams } from "../types";
-import type { CourseList, CourseProps, courseTabType, CurriculumList, CurriculumProps } from "../types/course";
+import type { CourseList, CourseProps, courseTabType, CurriculumList } from "../types/course";
 import type { MediaList } from "../types/media";
 import type { TestList } from "../types/question";
 import { buildQueryParams } from "../utils/buildQueryParams";
@@ -62,7 +62,7 @@ export const courseApi = createApi({
             providesTags: (_result, _error, { id }) => [{ type: "Curriculum", id }],
         }),
 
-        getCourseMediaByType: builder.query<MediaList, { id: string | null; type: courseTabType }>({
+        getCourseMediaByType: builder.query<MediaList, { id: number | null; type: courseTabType }>({
             query: ({ id, type }) => {
                 const queryString = buildQueryParams({ type });
 
