@@ -6,8 +6,8 @@ export default function AuthHeader({ title, description }: { title?: string; des
     }
     return (
         <div className="mb-8">
-            {title ? <Typography variant="h4" className="mb-1.5!">{title} </Typography > : ""}
-            {description ? <Typography variant="subtitle1" color="text.secondary" >{description}</Typography> : ""}
+            {title ? <Typography variant="textXl" className="mb-1.5! font-medium">{title} </Typography > : ""}
+            {description ? <Typography variant="textSm" color="text.secondary" >{description}</Typography> : ""}
         </div>
     )
 }

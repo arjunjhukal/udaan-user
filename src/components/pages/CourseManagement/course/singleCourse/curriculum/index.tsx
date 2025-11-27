@@ -467,6 +467,8 @@ const EmptyChaptersState = () => {
 
 export default function SingleCourseCurriculum({ data, isLoading, havePurchased }: Props) {
 
+    console.log(isLoading)
+
     const [openSubjectId, setOpenSubjectId] = useState<number | null>(null);
     const [activeChapterId, setActiveChapterId] = useState<number | null>(null);
     const [openUnitIds, setOpenUnitIds] = useState<Set<number>>(new Set());

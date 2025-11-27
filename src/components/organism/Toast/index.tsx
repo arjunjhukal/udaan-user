@@ -45,21 +45,21 @@ export default function Toast() {
 				},
 			}}>
 			<Box
-				className={`toast toast__${severity} p-4 rounded-[8px] w-full border `}
+				className={`toast toast__${severity} p-4 rounded-md w-full border `}
 				sx={{
 					borderColor: borderColor,
 					backgroundColor: bgColor,
 				}}>
 				<Stack justifyContent={"space-between"}>
-					<Stack className="!gap-3" alignItems="center">
+					<Stack className="gap-3!" alignItems="center">
 						{severity === "success" && <ChartSuccess color="success" />}
 						{severity === "warning" && <Warning2 color="warning" />}
 						{severity === "error" && <CalendarCircle color="error" />}
 						<Box>
 							<Typography
-								variant="h5"
+								variant="textLg"
 								color="text.primary"
-								className="capitalize">
+								className="capitalize font-medium">
 								{severity}
 							</Typography>
 							<Typography variant="subtitle2" color="text.secondary">
