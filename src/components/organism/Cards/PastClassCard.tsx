@@ -3,6 +3,7 @@ import { Devices } from "iconsax-reactjs";
 import type { TestProps } from "../../../types";
 
 export default function PastClassCard({ test }: { test: TestProps }) {
+    console.log(test);
     const theme = useTheme();
     return (
         <Box
