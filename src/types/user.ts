@@ -1,0 +1,59 @@
+import type { Pagination } from ".";
+
+export type PermissionProps = string[];
+export type Token = {
+	access_token: string;
+} | null;
+
+export interface RegisterUserProps {
+	id?: string;
+	name: string;
+	email: string;
+	phone: string;
+	profile_url?: string;
+}
+
+export const RegisterUserInitialData = {
+	name: "",
+	email: "",
+	phone: "",
+	role: {
+		name: "",
+		id: ""
+	},
+	password: "",
+	password_confirmation: "",
+	profile: null,
+	profile_url: "",
+	designation: "",
+}
+
+export interface LoginUserProps {
+	phone: string
+	otp: string;
+}
+
+export interface GlobalResponse {
+	message: string;
+	status: string;
+}
+
+export interface User extends RegisterUserProps {
+	permissions: PermissionProps;
+	// role: string[];
+}
+
+export interface UserResponse extends GlobalResponse {
+	data: {
+		user: User;
+		token: Token;
+	};
+}
+
+
+export interface UserList extends GlobalResponse {
+	data: {
+		data: RegisterUserProps[];
+		pagination: Pagination;
+	}
+}
