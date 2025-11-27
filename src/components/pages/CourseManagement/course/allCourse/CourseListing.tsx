@@ -5,7 +5,7 @@ import CourseCard from "../../../../organism/Cards/CourseCard/CourseCard";
 
 export default function CourseListing() {
 
-    const [qp, setQp] = useState({
+    const [qp, _setQp] = useState({
         pageIndex: 1,
         pageSize: 8,
         search: ""
