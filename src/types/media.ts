@@ -7,9 +7,9 @@ export interface MediaProps {
     size: number
 }
 
-export interface MediaList{
-    data:{
-        data:MediaProps[],
-        pagination:Pagination
+export interface MediaList {
+    data: {
+        data: MediaProps[],
+        pagination: Pagination
     }
 }
