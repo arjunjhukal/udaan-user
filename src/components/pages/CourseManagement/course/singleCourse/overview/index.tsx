@@ -11,6 +11,7 @@ interface Props {
     isLoading: boolean;
 }
 export default function SinlgeCourseOverview({ data, isLoading }: Props) {
+    console.log(isLoading)
 
     return (
         <>

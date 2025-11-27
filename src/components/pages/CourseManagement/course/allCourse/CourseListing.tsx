@@ -1,9 +1,7 @@
 import { Box } from "@mui/material";
 import { useState } from "react";
 import { useGetAllCourseQuery } from "../../../../../services/courseApi";
-import TabController from "../../../../molecules/TabController";
 import CourseCard from "../../../../organism/Cards/CourseCard/CourseCard";
-import TableFilter from "../../../../organism/TableFilter";
 
 export default function CourseListing() {
 
@@ -17,14 +15,15 @@ export default function CourseListing() {
 
     const courses = data?.data?.data || [];
 
+    console.log(isLoading)
     return (
         <>
             <Box className="flex items-center justify-between">
-                <TabController />
+                {/* <TabController />
                 <TableFilter categoryLayout={true} search={qp.search} setSearch={(newVal) => setQp({
                     ...qp,
                     search: newVal
-                })} onFilter={() => { }} />
+                })} onFilter={() => { }} /> */}
 
             </Box>
             <div className="flex flex-col gap-4 lg:gap-3 sm:grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">

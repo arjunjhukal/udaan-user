@@ -6,6 +6,7 @@ import BannerCourseTypeModule from "./BannerCourseTypeModule";
 export default function CourseBanner({ data, isLoading }: { data?: CourseProps; isLoading: boolean }) {
     const theme = useTheme();
 
+    console.log(isLoading);
 
     const course = data || null;
     return (

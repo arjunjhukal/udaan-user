@@ -4,6 +4,7 @@ import type { TestProps } from "../../../types";
 
 export default function LiveClassCard({ test }: { test: TestProps }) {
     const theme = useTheme();
+    console.log(test)
     return (
         <Box
             className="test__card rounded-md p-4 w-full"

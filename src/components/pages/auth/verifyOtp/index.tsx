@@ -142,7 +142,7 @@ export default function VerifyOTP() {
 
     // Fixed: Proper typing for clipboard event
     const handlePaste = (
-        e: React.ClipboardEvent<HTMLInputElement | HTMLTextAreaElement>
+        e: React.ClipboardEvent<HTMLDivElement>
     ) => {
         e.preventDefault();
         const pastedData = e.clipboardData.getData("text").trim();
@@ -282,7 +282,7 @@ export default function VerifyOTP() {
                 )}
 
                 <Typography
-                    variant="subtitle1"
+                    variant="textSm"
                     textAlign="end"
                     color="text.secondary"
                     sx={{ mb: 2 }}
