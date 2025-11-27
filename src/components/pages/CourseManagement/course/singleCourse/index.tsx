@@ -3,10 +3,12 @@ import { useParams } from "react-router-dom";
 import { useGetCourseCurriculumByIdQuery, useGetCourseOverviewByIdQuery } from "../../../../../services/courseApi";
 import TabController from "../../../../molecules/TabController";
 import CourseBanner from "../../../../organism/CourseBanner";
+import SingleCourseAudio from "./audio";
 import SinlgeCourseCurriculum from "./curriculum";
-import SingleCourseMedia from "./media";
+import SingleCourseNotes from "./notes";
 import SinlgeCourseOverview from "./overview";
 import SinlgeCourseTest from "./test";
+import SingleCourseVideos from "./video";
 
 export default function SingleCourse() {
     const { id } = useParams();
@@ -38,6 +40,10 @@ export default function SingleCourse() {
                             value: "videos"
                         },
                         {
+                            label: "Audios",
+                            value: "audios"
+                        },
+                        {
                             label: "Tests",
                             value: "tests"
                         },
@@ -54,9 +60,9 @@ export default function SingleCourse() {
 
             {activeTab === "overview" && <Activity><SinlgeCourseOverview data={data?.data && data.data} isLoading={loadingOverview} /></Activity>}
             {activeTab === "curriculum" && <Activity><SinlgeCourseCurriculum data={curriculum?.data?.data} isLoading={loadingCurriculum} /></Activity>}
-            {activeTab === "notes" && <Activity><SingleCourseMedia /></Activity>}
-            {activeTab === "audios" && <Activity><SingleCourseMedia /></Activity>}
-            {activeTab === "videos" && <Activity><SingleCourseMedia /></Activity>}
+            {activeTab === "notes" && <Activity><SingleCourseNotes /></Activity>}
+            {activeTab === "audios" && <Activity><SingleCourseAudio /></Activity>}
+            {activeTab === "videos" && <Activity><SingleCourseVideos /></Activity>}
             {activeTab === "test" && <Activity><SinlgeCourseTest /></Activity>}
 
         </>
