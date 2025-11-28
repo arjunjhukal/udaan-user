@@ -35,7 +35,6 @@ export default function CourseListing() {
 
 
 
-    console.log(isLoading)
     return (
         <>
             <Box className="flex items-center justify-between">
