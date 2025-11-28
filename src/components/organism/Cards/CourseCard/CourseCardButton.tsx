@@ -33,13 +33,13 @@ export default function CourseCardButton({ courseType, sellingPrice, markedPrice
     const renderButton = () => {
         if (courseType === "free") {
             return (
-                <Button href="/" variant="contained" color="primary">
+                <Button href="/" variant="contained" className='primary__btn'>
                     Start Learning
                 </Button>
             );
         }
         return (
-            <Button href="/" variant="contained" color="primary">
+            <Button href="/" variant="contained" className='primary__btn'>
                 Enroll Now
             </Button>
         );

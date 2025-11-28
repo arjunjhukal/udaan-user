@@ -218,6 +218,7 @@ export default function VerifyOTP() {
 
             <Typography
                 textAlign="center"
+                className=" mb-4!"
                 sx={{ mb: 3, fontSize: { xs: 14, lg: 16 } }}
             >
                 We've sent a 6-digit code to{" "}

@@ -75,10 +75,8 @@ export default function SingleCourse() {
             {activeTab === "notes" && <Activity><CourseMediaListing havePurchased={havePurchesed} data={notes} isLoading={loadingNotes} type="temp_notes" /></Activity>}
             {activeTab === "audios" && <Activity><CourseMediaListing havePurchased={havePurchesed} data={audios} isLoading={loadingAudios} type="temp_audios" /></Activity>}
             {activeTab === "videos" && <Activity><CourseMediaListing havePurchased={havePurchesed} data={videos} isLoading={loadingVideos} type="temp_video" /></Activity>}
-            {activeTab === "test" && <Activity><SinlgeCourseTest data={test} isLoading={loadingTest} /></Activity>}
+            {activeTab === "tests" && <Activity><SinlgeCourseTest data={test} isLoading={loadingTest} /></Activity>}
             <PurchaseCourseDialog type={courseBasic?.data?.course_type} />
-
-
         </>
     )
 }

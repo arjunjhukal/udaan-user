@@ -11,11 +11,11 @@ export default function AuthRoot() {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                background: theme.palette.primary.light,
+                background: theme.palette.background.sidebar,
             }}>
             <Box
                 sx={{
-                    background: theme.palette.background.paper,
+                    background: theme.palette.primary.white,
                     padding: "56px",
                     borderRadius: "24px",
                     minWidth: {

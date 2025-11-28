@@ -16,7 +16,7 @@ interface MediaConfig {
 
 const mediaConfigs: Record<CurriculumMediaType, MediaConfig> = {
     temp_audios: {
-        image: "/empty-audio.png",
+        image: "/empty-list-placeholder.svg",
         emptyTitle: "No Audio found",
         emptyMessage: "Oops your audio is empty. Please add audio to help student gain knowledge.",
 
@@ -26,13 +26,13 @@ const mediaConfigs: Record<CurriculumMediaType, MediaConfig> = {
 
         emptyTitle: "No Notes found",
         emptyMessage: "Oops your notes is empty. Please add notes to help student gain knowledge.",
-        image: "/empty-notes.png"
+        image: "/empty-list-placeholder.svg"
     },
     temp_video: {
 
         emptyTitle: "No Videos found",
         emptyMessage: "Oops your video is empty. Please add video to help student gain knowledge.",
-        image: "/empty-videos.png"
+        image: "/empty-list-placeholder.svg"
 
     }
 };

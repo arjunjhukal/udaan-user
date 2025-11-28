@@ -51,8 +51,8 @@ export default function PrimaryMenu() {
         </ListItem>
         <ListItem disablePadding className="menu__item">
           <ListItemButton
-            onClick={() => navigate(PATH.COURSE_MANAGEMENT.COURSES.MY_COURSE.ROOT)}
-            className={isActive(PATH.COURSE_MANAGEMENT.COURSES.MY_COURSE.ROOT) ? "active" : ""}
+            onClick={() => navigate(PATH.MY_COURSE.ROOT)}
+            className={isActive(PATH.MY_COURSE.ROOT) ? "active" : ""}
           >
             <ListItemIcon>
               <Book size={20} />
@@ -96,8 +96,8 @@ export default function PrimaryMenu() {
         </ListItem>
         <ListItem disablePadding className="menu__item">
           <ListItemButton
-            onClick={() => navigate(PATH.COURSE_MANAGEMENT.COURSES.MY_COURSE.ROOT)}
-            className={isActive(PATH.COURSE_MANAGEMENT.COURSES.MY_COURSE.ROOT) ? "active" : ""}
+            onClick={() => navigate(PATH.MY_COURSE.ROOT)}
+            className={isActive(PATH.MY_COURSE.ROOT) ? "active" : ""}
           >
             <ListItemIcon>
               <Book />

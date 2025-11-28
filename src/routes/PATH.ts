@@ -23,9 +23,6 @@ export const PATH = {
             VIEW_COURSE: {
                 ROOT: (id?: number) => (id ? `/courses/${id}` : "/courses/:id"),
             },
-            MY_COURSE: {
-                ROOT: "/courses/my-course"
-            }
         },
         LIVE_CLASSES: {
             ROOT: "/live-classes",
@@ -39,6 +36,9 @@ export const PATH = {
                 ROOT: (id?: number) => (id ? `/courses/${id}` : "/courses/:id"),
             },
         },
+    },
+    MY_COURSE: {
+        ROOT: "/my-course"
     },
     PURCHASE: {
         ROOT: "/purchase",
