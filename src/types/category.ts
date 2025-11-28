@@ -1,4 +1,3 @@
-import type { Pagination } from ".";
 import type { GlobalResponse } from "./user";
 
 export interface CategoryProps {
@@ -15,10 +14,7 @@ export interface CategoryProps {
 }
 
 export interface CategroyList extends GlobalResponse {
-    data: {
-        data: CategoryProps[];
-        pagination: Pagination;
-    }
+    data: CategoryProps[];
 }
 
 export interface CategoryTypeResponse extends GlobalResponse {

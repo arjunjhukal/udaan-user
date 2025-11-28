@@ -19,14 +19,14 @@ export const categoryApi = createApi({
                 })
 
                 return {
-                    url: `/admin/category?${queryString}`,
+                    url: `/category/megacategories?${queryString}`,
                     method: "GET",
                 };
             },
             providesTags: (result) =>
-                result?.data?.data
+                result?.data
                     ? [
-                        ...result.data.data.map((user) => ({ type: "Category" as const, id: user.id })),
+                        ...result.data.map((user) => ({ type: "Category" as const, id: user.id })),
                         { type: "Category", id: "LIST" },
                     ]
                     : [{ type: "Category", id: "LIST" }],
