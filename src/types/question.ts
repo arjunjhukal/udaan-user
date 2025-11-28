@@ -36,6 +36,7 @@ export interface QuestionList extends GlobalResponse {
 export interface TestProps {
     id?: number;
     name: string;
+    type?: string;
     duration: {
         hours: number;
         minutes: number;
@@ -57,6 +58,7 @@ export interface TestProps {
 
 export const TestInitialState: TestProps = {
     name: "",
+    type: "",
     duration: {
         hours: 0,
         minutes: 0

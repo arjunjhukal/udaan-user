@@ -76,7 +76,7 @@ export interface CourseList extends GlobalResponse {
     }
 }
 
-export type courseTabType = "overview" | "curriculum" | "notes" | "test" | "audios" | "videos"
+export type courseTabType = "overview" | "curriculum" | "notes" | "test" | "audios" | "videos" | "live_classes";
 
 export const CourseTabs: { label: string; value: courseTabType }[] = [
     {
@@ -102,7 +102,11 @@ export const CourseTabs: { label: string; value: courseTabType }[] = [
     {
         label: "Videos",
         value: "videos"
-    }
+    },
+    {
+        label: "Live Classes",
+        value: "live_classes"
+    },
 ]
 
 // Media type for curriculum items
