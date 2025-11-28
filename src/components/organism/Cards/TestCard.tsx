@@ -1,9 +1,13 @@
 import { Box, Button, Divider, Typography, useTheme } from "@mui/material";
+import { NotificationBing } from "iconsax-reactjs";
 import type { TestProps } from "../../../types";
+import { formatDate } from "../../../utils/formatDate";
+import { getStatus } from "../../../utils/getStatus";
 
 export default function TestCard({ test }: { test: TestProps }) {
   const theme = useTheme();
-  console.log(test)
+  const status = getStatus(test.start_datetime);
+
 
   return (
     <Box
@@ -15,14 +19,14 @@ export default function TestCard({ test }: { test: TestProps }) {
       <div className="test__card__top flex gap-3">
         <Box className="w-full flex justify-between items-center">
           <Typography variant="textBase" fontWeight={600} color="text.dark">
-            Test 1
+            {test.name}
           </Typography>
           <Typography
             color="text.main"
             bgcolor={"button.light"}
             className="text-[11px]! px-2.5 py-1.5 rounded-md ml-2 font-semibold!"
           >
-            Upcoming
+            {status}
           </Typography>
         </Box>
       </div>
@@ -32,7 +36,7 @@ export default function TestCard({ test }: { test: TestProps }) {
           variant="textSm"
           fontWeight={500}
           color="text.secondary"
-          className="inline-flex"
+          className="flex"
         >
           Exam Type:{" "}
           <Typography
@@ -41,23 +45,23 @@ export default function TestCard({ test }: { test: TestProps }) {
             color="text.dark"
             ml={1}
           >
-            Subjective Exams
+            {test.type}
           </Typography>
         </Typography>
         <Typography
           variant="textSm"
           color="text.secondary"
-          className="inline-flex"
+          className="flex"
           mt={1}
         >
           Date:{" "}
           <Typography
             variant="textSm"
-            fontWeight={500}
+            fontWeight={600}
             color="text.dark"
             ml={1}
           >
-            9th Nov,2025
+            {formatDate(test.start_datetime)}
           </Typography>
         </Typography>
         <Box
@@ -84,7 +88,7 @@ export default function TestCard({ test }: { test: TestProps }) {
                 color="text.dark"
                 ml={1}
               >
-                12
+                {test?.questions}
               </Typography>
             </Typography>
             <Typography
@@ -98,12 +102,15 @@ export default function TestCard({ test }: { test: TestProps }) {
                 fontWeight={500}
                 color="text.dark"
                 ml={1}
+                sx={{
+                  textWrap: "nowrap"
+                }}
               >
-                2 Hrs
+                {test.duration.hours} Hrs {test.duration.minutes} Mins
               </Typography>
             </Typography>
           </Box>
-          <Divider className="my-3!" />
+          <Divider className="my-2!" />
           <Box
             component={"div"}
             className="flex justify-between items-center gap-2"
@@ -113,14 +120,14 @@ export default function TestCard({ test }: { test: TestProps }) {
               color="text.secondary"
               className="inline-flex"
             >
-              Questions:{" "}
+              Full marks:{" "}
               <Typography
                 variant="textSm"
                 fontWeight={500}
                 color="text.dark"
                 ml={1}
               >
-                12
+                {test.full_marks}
               </Typography>
             </Typography>
             <Typography
@@ -128,30 +135,37 @@ export default function TestCard({ test }: { test: TestProps }) {
               color="text.secondary"
               className="inline-flex"
             >
-              Duration:{" "}
+              Pass marks:{" "}
               <Typography
                 variant="textSm"
                 fontWeight={500}
                 color="text.dark"
                 ml={1}
               >
-                2 Hrs
+                {test.pass_marks}
               </Typography>
             </Typography>
           </Box>
         </Box>
       </div>
       <Button
-        variant="contained"
-        size="small"
-        color="primary"
-        // sx={{
-        //   backgroundColor: "button.main",
-        // }}
+        variant={status === "upcoming" ? "text" : "contained"}
+        color={status === "upcoming" ? "inherit" : "primary"}
         className="mt-4"
         fullWidth
+        sx={{
+          backgroundColor: status === "upcoming" ? "button.light" : "button.main",
+          fontWeight: 600,
+          fontSize: "16px",
+        }}
+        startIcon={
+          status === "upcoming" ? (
+            <NotificationBing size={24} />
+          ) : null
+        }
       >
-        Start Now
+        {status === "upcoming" && "Remind Me"}
+        {status === "today" && "Start Test"}
       </Button>
     </Box>
   );

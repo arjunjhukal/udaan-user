@@ -21,6 +21,7 @@ export interface Pagination {
 export interface TestProps {
   id?: number;
   name: string;
+  type?: string;
   duration: {
     hours: number;
     minutes: number;

@@ -6,6 +6,7 @@ import CourseBanner from "../../../../organism/CourseBanner";
 import PurchaseCourseDialog from "../../../../organism/Dialog/PurchaseCourseDialog";
 import CourseMediaListing from "./courseMediaListing";
 import SinlgeCourseCurriculum from "./curriculum";
+import SinlgeCourseLiveClass from "./liveClass";
 import SinlgeCourseOverview from "./overview";
 import SinlgeCourseTest from "./test";
 
@@ -22,6 +23,7 @@ export default function SingleCourse() {
     const { data: audios, isLoading: loadingAudios } = useGetCourseMediaByTypeQuery({ id: Number(id), type: "audios" }, { skip: !id });
     const { data: videos, isLoading: loadingVideos } = useGetCourseMediaByTypeQuery({ id: Number(id), type: "videos" }, { skip: !id });
     const { data: test, isLoading: loadingTest } = useGetCourseTestQuery({ id: Number(id) }, { skip: !id });
+
 
     React.useEffect(() => {
         if (courseBasic?.data?.user) {
@@ -69,6 +71,10 @@ export default function SingleCourse() {
                             value: "tests"
                         },
                         {
+                            label: "Live Classes",
+                            value: "live-classes"
+                        },
+                        {
                             label: "Reviews",
                             value: "reviews"
                         },
@@ -84,6 +90,8 @@ export default function SingleCourse() {
             {activeTab === "audios" && <Activity><CourseMediaListing havePurchased={havePurchesed} data={audios} isLoading={loadingAudios} type="temp_audios" /></Activity>}
             {activeTab === "videos" && <Activity><CourseMediaListing havePurchased={havePurchesed} data={videos} isLoading={loadingVideos} type="temp_video" /></Activity>}
             {activeTab === "tests" && <Activity><SinlgeCourseTest data={test} isLoading={loadingTest} /></Activity>}
+            <PurchaseCourseDialog type={courseBasic?.data?.course_type} />
+            {activeTab === "live-classes" && <Activity><SinlgeCourseLiveClass data={test} isLoading={loadingTest} /></Activity>}
             <PurchaseCourseDialog type={courseBasic?.data?.course_type} />
         </>
     )

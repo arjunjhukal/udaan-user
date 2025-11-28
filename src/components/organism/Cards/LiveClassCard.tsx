@@ -1,10 +1,14 @@
 import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
-import { Clock, Devices, Video } from "iconsax-reactjs";
-import type { TestProps } from "../../../types";
+import { Clock, Devices, NotificationBing } from "iconsax-reactjs";
+import { getTime } from "../../../utils/formatDate";
+import { getStatus } from "../../../utils/getStatus";
+import type { LiveClassProps } from "../../pages/CourseManagement/liveClasses/allLiveClass/AllLiveClassList";
 
-export default function LiveClassCard({ test }: { test: TestProps }) {
+export default function LiveClassCard({ data }: { data: LiveClassProps }) {
     const theme = useTheme();
-    console.log(test)
+    console.log(data);
+
+    const status = getStatus(data.start_datetime);
     return (
         <Box
             className="test__card rounded-md p-4 w-full"
@@ -29,7 +33,7 @@ export default function LiveClassCard({ test }: { test: TestProps }) {
                                     fontWeight={400}
                                     color="text.dark"
                                 >
-                                    Test 1
+                                    {data.name}
                                 </Typography>
                                 <Typography
                                     variant="textSm"
@@ -42,13 +46,13 @@ export default function LiveClassCard({ test }: { test: TestProps }) {
                         </div>
                     </div>
                     <Typography
-                        color="text.lightest"
-                        bgcolor={"warning.main"}
+                        color="text.middle"
+                        bgcolor={"primary.50"}
                         variant="textSm"
                         p={"2px 8px"}
                         borderRadius={0.5}
                     >
-                        Live
+                        {status}
                     </Typography>
                 </Box>
             </div>
@@ -59,7 +63,7 @@ export default function LiveClassCard({ test }: { test: TestProps }) {
                     color="text.secondary"
                     className="inline-flex gap-0.5 items-center"
                 >
-                    <span><Clock size={20} color={theme.palette.text.dark} /></span> 10:00 AM - 11:30 AM
+                    <span><Clock size={18} color={theme.palette.text.dark} /></span> {getTime(data.start_datetime)} - {getTime(data.end_datetime)}
                 </Typography>
                 <Typography
                     variant="textSm"
@@ -71,18 +75,24 @@ export default function LiveClassCard({ test }: { test: TestProps }) {
             </Box>
 
             <Button
-                variant="contained"
+                variant={status === "upcoming" ? "text" : "contained"}
                 size="small"
-                color="primary"
-                sx={{
-                    fontSize: "16px",
-                    fontWeight: 600
-                }}
+                color={status === "upcoming" ? "inherit" : "primary"}
                 className="mt-4"
                 fullWidth
-                startIcon={<Video size={20} />}
+                sx={{
+                    backgroundColor: status === "upcoming" ? "button.light" : "button.main",
+                    fontWeight: 600,
+                    fontSize: "16px",
+                }}
+                startIcon={
+                    status === "upcoming" ? (
+                        <NotificationBing size={24} />
+                    ) : null
+                }
             >
-                Join Class
+                {status === "upcoming" && "Remind Me"}
+                {status === "today" && "Start Test"}
             </Button>
         </Box>
     );
