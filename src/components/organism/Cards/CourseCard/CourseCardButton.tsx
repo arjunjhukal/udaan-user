@@ -1,7 +1,7 @@
 import { Button, Typography } from '@mui/material';
 import type { CourseTypeProps } from '../../../../types/course';
 
-export default function CourseCardButton({ courseType, sellingPrice, markedPrice }: { courseType: CourseTypeProps, sellingPrice?: string, markedPrice?: string }) {
+export default function CourseCardButton({ courseType, sellingPrice, markedPrice, to }: { courseType: CourseTypeProps, sellingPrice?: string, markedPrice?: string, to: string }) {
 
     const renderPrice = () => {
         switch (courseType) {
@@ -33,13 +33,13 @@ export default function CourseCardButton({ courseType, sellingPrice, markedPrice
     const renderButton = () => {
         if (courseType === "free") {
             return (
-                <Button href="/" variant="contained" className='primary__btn'>
+                <Button href={to} variant="contained" className='primary__btn'>
                     Start Learning
                 </Button>
             );
         }
         return (
-            <Button href="/" variant="contained" className='primary__btn'>
+            <Button href={to} variant="contained" className='primary__btn'>
                 Enroll Now
             </Button>
         );

@@ -5,6 +5,8 @@ import type { MediaList } from "../types/media";
 import type { TestList } from "../types/question";
 import { buildQueryParams } from "../utils/buildQueryParams";
 import { baseQuery } from "./baseQuery";
+import type { GlobalResponse } from "../types/user";
+import type { PurchaseProps } from "../types/purchase";
 
 export const courseApi = createApi({
     reducerPath: "courseApi",
@@ -14,7 +16,6 @@ export const courseApi = createApi({
 
         getAllCourse: builder.query<CourseList, QueryParams & { categoryFilter?: CategoryFilterParams }>({
             query: ({ pageIndex, pageSize, search, categoryFilter }) => {
-                // const params = new URLSearchParams();
                 const queryString = buildQueryParams({
                     page: pageIndex,
                     page_size: pageSize,
@@ -92,6 +93,14 @@ export const courseApi = createApi({
                     method: "GET"
                 })
             }
+        }),
+
+        purchaseCourse: builder.mutation<GlobalResponse , {body:PurchaseProps;id:number}>({
+            query: ({body,id}) => ({
+                url: `course/${id}/purchase`,
+                method: "POST",
+                body
+            })
         })
     })
 })
@@ -102,5 +111,6 @@ export const {
     useGetCourseOverviewByIdQuery,
     useGetCourseCurriculumByIdQuery,
     useGetCourseMediaByTypeQuery,
-    useGetCourseTestQuery
+    useGetCourseTestQuery,
+    usePurchaseCourseMutation
 } = courseApi;

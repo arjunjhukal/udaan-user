@@ -43,7 +43,7 @@ export default function CourseCard({ course }: { course: CourseProps }) {
                     <CourseCardButton courseType={course?.course_type}
                         sellingPrice={course?.sale_price}
                         markedPrice={course?.marked_price}
-
+                        to={PATH.COURSE_MANAGEMENT.COURSES.VIEW_COURSE.ROOT(course.id)}
                     />
                 </div>
             </Box>
