@@ -8,6 +8,7 @@ import PurchaseCourseDialog from "../../../../organism/Dialog/PurchaseCourseDial
 import ReadingDialog from "../../../../organism/Dialog/ReadingDialog";
 import CourseMediaListing from "./courseMediaListing";
 import SinlgeCourseCurriculum from "./curriculum";
+import SinlgeCourseLiveClass from "./liveClass";
 import SinlgeCourseOverview from "./overview";
 import SinlgeCourseTest from "./test";
 
