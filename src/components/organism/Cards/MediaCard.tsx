@@ -42,6 +42,7 @@ export default function MediaCard({ media, type, havePurchased }: { media: Media
     const { id } = useParams();
     const config = mediaUiConfig[type || "temp_notes"];
 
+    console.log("is course purchase", havePurchased);
     let bgColor = theme.palette.warning.light;
 
     switch (config.variant) {

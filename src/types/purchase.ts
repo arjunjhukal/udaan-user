@@ -6,7 +6,7 @@ export interface PaymentOption {
     image: string;
 }
 
-export type PaymentMethods = "esewa" | "khalti"
+export type PaymentMethods = "esewa" | "khalti" | "free"
 
 export interface PurchaseFormValues {
     paymentOption: PaymentMethods;
@@ -21,7 +21,7 @@ export interface PurchaseProps {
     transaction_status: "success" | "failed" | "pending";
     transaction_id: string;
     reference_id: string;
-    // is_trial: boolean;
+    is_trial: boolean;
     // course_type: "subscription" | "expiry" | "free";
     // subscription_id: string | null;
 }

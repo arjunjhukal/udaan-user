@@ -24,12 +24,20 @@ export default function SingleCourse() {
     const { data: test, isLoading: loadingTest } = useGetCourseTestQuery({ id: Number(id) }, { skip: !id });
 
     React.useEffect(() => {
-        if (data?.data) {
-            setHavePurchased(data?.data?.user?.has_purchased)
-        }
-    }, [data]);
+        if (courseBasic?.data?.user) {
+            const user = courseBasic.data.user;
 
-    console.log(data)
+            const status = user.has_purchased || user.is_free_trial_valid;
+
+            setHavePurchased(status);
+        }
+    }, [courseBasic]);
+
+    console.log("purchased status", {
+        has_purchased: courseBasic?.data?.user?.has_purchased,
+        is_free_trial_valid: courseBasic?.data?.user?.is_free_trial_valid
+    })
+
     return (
         <>
             <CourseBanner data={courseBasic?.data && courseBasic.data} isLoading={loadingBasic} />
