@@ -122,6 +122,16 @@ export const courseApi = createApi({
                     ]
                     : [{ type: "Course" as const, id: "LIST" }],
         }),
+        bookmakrCourse: builder.mutation<GlobalResponse, { id: number }>({
+            query: ({ id }) => ({
+                url: `/course/${id}/bookmark`,
+                method: "POST",
+            }),
+            invalidatesTags: (_result, _error, { id }) => [
+                { type: "Course" as const, id },
+                { type: "Course" as const, id: "LIST" },
+            ],
+        }),
     }),
 });
 
@@ -133,5 +143,6 @@ export const {
     useGetCourseMediaByTypeQuery,
     useGetCourseTestQuery,
     usePurchaseCourseMutation,
-    useGetUserPurchasedCourseQuery
+    useGetUserPurchasedCourseQuery,
+    useBookmakrCourseMutation
 } = courseApi;
