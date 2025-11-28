@@ -2,28 +2,28 @@ import { createApi } from "@reduxjs/toolkit/query/react";
 import type { CategoryFilterParams, QueryParams } from "../types";
 import type { CourseList, CourseProps, courseTabType, CurriculumList } from "../types/course";
 import type { MediaList } from "../types/media";
+import type { PurchaseProps } from "../types/purchase";
 import type { TestList } from "../types/question";
+import type { GlobalResponse } from "../types/user";
 import { buildQueryParams } from "../utils/buildQueryParams";
 import { baseQuery } from "./baseQuery";
 
 export const courseApi = createApi({
     reducerPath: "courseApi",
-    baseQuery: baseQuery,
+    baseQuery,
     tagTypes: ["Course", "Curriculum", "Media"],
     endpoints: (builder) => ({
-
         getAllCourse: builder.query<CourseList, QueryParams & { categoryFilter?: CategoryFilterParams }>({
             query: ({ pageIndex, pageSize, search, categoryFilter }) => {
-                // const params = new URLSearchParams();
                 const queryString = buildQueryParams({
                     page: pageIndex,
                     page_size: pageSize,
-                    search: search,
+                    search,
                     mega_categories: categoryFilter?.mega_category,
                     categories: categoryFilter?.category,
                     sub_categories: categoryFilter?.sub_category,
                     positions: categoryFilter?.positions,
-                })
+                });
                 return {
                     url: `/course?${queryString}`,
                     method: "GET",
@@ -33,9 +33,9 @@ export const courseApi = createApi({
                 result?.data?.data
                     ? [
                         ...result.data.data.map((course) => ({ type: "Course" as const, id: course.id })),
-                        { type: "Course", id: "LIST" },
+                        { type: "Course" as const, id: "LIST" },
                     ]
-                    : [{ type: "Course", id: "LIST" }],
+                    : [{ type: "Course" as const, id: "LIST" }],
         }),
 
         getCourseById: builder.query<{ data: CourseProps }, { id: number }>({
@@ -43,7 +43,7 @@ export const courseApi = createApi({
                 url: `/course/${id}`,
                 method: "GET",
             }),
-            providesTags: (_result, _error, { id }) => [{ type: "Course", id }],
+            providesTags: (_result, _error, { id }) => [{ type: "Course" as const, id }],
         }),
 
         getCourseOverviewById: builder.query<{ data: CourseProps }, { id: number }>({
@@ -51,7 +51,7 @@ export const courseApi = createApi({
                 url: `/course/${id}/overview`,
                 method: "GET",
             }),
-            providesTags: (_result, _error, { id }) => [{ type: "Course", id }],
+            providesTags: (_result, _error, { id }) => [{ type: "Course" as const, id }],
         }),
 
         getCourseCurriculumById: builder.query<CurriculumList, { id: number }>({
@@ -59,42 +59,46 @@ export const courseApi = createApi({
                 url: `/course/${id}/curriculum/`,
                 method: "GET",
             }),
-            providesTags: (_result, _error, { id }) => [{ type: "Curriculum", id }],
+            providesTags: (_result, _error, { id }) => [{ type: "Curriculum" as const, id }],
         }),
 
         getCourseMediaByType: builder.query<MediaList, { id: number | null; type: courseTabType }>({
-            query: ({ id, type }) => {
-                const queryString = buildQueryParams({ type });
-
-                return {
-                    url: `/course/${id}/media?${queryString}`,
-                    method: "GET",
-                };
-            },
+            query: ({ id, type }) => ({
+                url: `/course/${id}/media?${buildQueryParams({ type })}`,
+                method: "GET",
+            }),
             providesTags: (result) =>
                 result?.data?.data
                     ? [
-                        ...result.data.data.map((curriculum) => ({ type: "Media" as const, id: curriculum.id })),
-                        { type: "Media", id: "LIST" },
+                        ...result.data.data.map((media) => ({ type: "Media" as const, id: media.id })),
+                        { type: "Media" as const, id: "LIST" },
                     ]
-                    : [{ type: "Media", id: "LIST" }],
+                    : [{ type: "Media" as const, id: "LIST" }],
         }),
 
         getCourseTest: builder.query<TestList, QueryParams & { id: number }>({
-            query: ({ id, pageIndex, pageSize, search }) => {
-                const queryString = buildQueryParams({
-                    page: pageIndex,
-                    page_size: pageSize,
-                    search: search,
-                })
-                return ({
-                    url: `/course/${id}/test?${queryString}`,
-                    method: "GET"
-                })
-            }
-        })
-    })
-})
+            query: ({ id, pageIndex, pageSize, search }) => ({
+                url: `/course/${id}/test?${buildQueryParams({ page: pageIndex, page_size: pageSize, search })}`,
+                method: "GET",
+            }),
+            providesTags: (_result, _error, { id }) => [{ type: "Course" as const, id }],
+        }),
+
+        purchaseCourse: builder.mutation<GlobalResponse, { body: PurchaseProps; id: number }>({
+            query: ({ body, id }) => ({
+                url: `/course/${id}/purchase`,
+                method: "POST",
+                body,
+            }),
+            invalidatesTags: (_result, _error, { id }) => [
+                { type: "Course" as const, id },          // refetch this course
+                { type: "Course" as const, id: "LIST" },  // refetch course list
+                { type: "Curriculum" as const, id: "LIST" }, // refetch all curriculum
+                { type: "Media" as const, id: "LIST" },   // refetch all media
+            ],
+        }),
+    }),
+});
 
 export const {
     useGetAllCourseQuery,
@@ -102,5 +106,6 @@ export const {
     useGetCourseOverviewByIdQuery,
     useGetCourseCurriculumByIdQuery,
     useGetCourseMediaByTypeQuery,
-    useGetCourseTestQuery
+    useGetCourseTestQuery,
+    usePurchaseCourseMutation,
 } = courseApi;

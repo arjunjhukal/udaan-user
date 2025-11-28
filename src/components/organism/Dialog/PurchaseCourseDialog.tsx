@@ -1,7 +1,6 @@
 import { Box, Button, Dialog, DialogContent, IconButton, Typography, useTheme } from "@mui/material";
 import { CloseCircle } from "iconsax-reactjs";
 import { useNavigate } from "react-router-dom";
-import { PATH } from "../../../routes/PATH";
 import { resetPurchase } from "../../../slice/purchaseSlice";
 import { useAppDispatch, useAppSelector } from "../../../store/hook";
 import type { AppDispatch } from "../../../store/store";
@@ -21,7 +20,7 @@ const renderButton = (
                     fullWidth
                     className="primary__btn"
                     onClick={() => {
-                        navigate(PATH.PURCHASE.PURCHASE_COURSE.ROOT(Number(purchase.courseId)));
+                        navigate("purchase");
                         dispatch(resetPurchase())
                     }}
                 >
@@ -37,7 +36,7 @@ const renderButton = (
                     fullWidth
                     className="primary__btn"
                     onClick={() => {
-                        navigate(PATH.PURCHASE.PURCHASE_COURSE.ROOT(Number(purchase.courseId)));
+                        navigate("/purchase");
                         dispatch(resetPurchase())
                     }}
                 >
@@ -54,7 +53,7 @@ const renderButton = (
                     className="primary__btn"
                     onClick={
                         () => {
-                            navigate(PATH.PURCHASE.PURCHASE_COURSE.ROOT(Number(purchase.courseId)));
+                            navigate("/purchase");
                             dispatch(resetPurchase())
                         }
                     }  >

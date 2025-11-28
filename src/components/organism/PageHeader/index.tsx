@@ -94,7 +94,7 @@ export default function PageHeader(props: Props) {
             ))}
         </Stack>
         {description ? (
-          <Typography variant="textSm">{description}</Typography>
+          <Typography variant="textSm" color="text.middle">{description}</Typography>
         ) : (
           ""
         )}

@@ -1,4 +1,8 @@
 import { Button, Typography } from "@mui/material";
+import { useParams } from "react-router-dom";
+import { usePurchaseCourseMutation } from "../../../services/courseApi";
+import { showToast } from "../../../slice/toastSlice";
+import { useAppDispatch, useAppSelector } from "../../../store/hook";
 import type { CourseExpiry, CourseSubscription, CourseTypeProps } from '../../../types/course';
 
 interface Props {
@@ -8,17 +12,80 @@ interface Props {
 }
 
 export default function BannerCourseTypeModule({ courseType, courseExpiry, courseSubscription }: Props) {
-
+    const dispatch = useAppDispatch();
+    const { id } = useParams();
+    const [purchaseCourse, isLoading] = usePurchaseCourseMutation();
+    const user = useAppSelector((state) => state.auth.user);
     console.log(courseSubscription);
     const renderButtons = () => {
         if (courseType === "free") {
-            return <Button variant="contained" className="black__btn" fullWidth>Start Learning</Button>;
+            return <Button variant="contained" className="black__btn" fullWidth onClick={async () => {
+                try {
+
+                    const response = await purchaseCourse({
+                        body: {
+                            payment_method: "free",
+                            transaction_amount: "0",
+                            transaction_status: "success",
+                            transaction_id: `TXN-FREE-${user?.id}-${id}`,
+                            reference_id: `RFF-FREE-${user?.id}-${id}`,
+                            is_trial: false,
+                        },
+                        id: Number(id)
+                    });
+                    dispatch(
+                        showToast({
+                            message: response?.data?.message || "Enrolled Successfully",
+                            severity: "success"
+                        })
+                    )
+                }
+                catch (e: any) {
+                    dispatch(
+                        showToast({
+                            message: e?.data?.message || "Something went wrong. Try again Later.",
+                            severity: "error"
+                        })
+                    )
+                }
+            }}>{!isLoading ? "Assigning Course" : "Start Learning"}</Button>;
         }
         return (
             <div className="actions flex flex-col gap-2">
                 {courseType === "subscription" && <Button variant="contained" className="black__btn" fullWidth>View Subscription</Button>}
-                {courseType === "expiry" && <Button variant="contained" className="black__btn" fullWidth>Enroll Now</Button>}
-                <Button variant="contained" fullWidth className="white__btn">Free Trial</Button>
+                {courseType === "expiry" && <Button variant="contained" className="black__btn" fullWidth>Purchase Now</Button>}
+                <Button variant="contained" fullWidth className="white__btn"
+                    onClick={async () => {
+                        try {
+
+                            const response = await purchaseCourse({
+                                body: {
+                                    payment_method: "free",
+                                    transaction_amount: "0",
+                                    transaction_status: "success",
+                                    transaction_id: `TXN-FREE-${user?.id}-${id}`,
+                                    reference_id: `RFF-FREE-${user?.id}-${id}`,
+                                    is_trial: true,
+                                },
+                                id: Number(id)
+                            });
+                            dispatch(
+                                showToast({
+                                    message: response?.data?.message || "Enrolled Successfully",
+                                    severity: "success"
+                                })
+                            )
+                        }
+                        catch (e: any) {
+                            dispatch(
+                                showToast({
+                                    message: e?.data?.message || "Something went wrong. Try again Later.",
+                                    severity: "error"
+                                })
+                            )
+                        }
+                    }}
+                >{!isLoading ? "Assigning Course" : "Free Trial"}</Button>
             </div>
         );
     };

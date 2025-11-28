@@ -23,27 +23,36 @@ export const PATH = {
             VIEW_COURSE: {
                 ROOT: (id?: number) => (id ? `/courses/${id}` : "/courses/:id"),
             },
+            PURCHASE: {
+                ROOT: (id?: number) => (id ? `/courses/${id}/purchase` : "/courses/:id/purchase"),
+                SUCCESS: {
+                    ROOT: "/courses/:id/purchase/success"
+                },
+                FAILURE: {
+                    ROOT: "/courses/:id/purchase/failure"
+                }
+            }
         },
         LIVE_CLASSES: {
             ROOT: "/live-classes",
             VIEW_LIVE_CLASS: {
-                ROOT: (id?: number) => (id ? `/courses/${id}` : "/courses/:id"),
+                ROOT: (id?: number) => (id ? `/live-classes/${id}` : "/live-classes/:id"),
             },
+            PURCHASE: {
+                ROOT: (id?: number) => (id ? `/live-classes/${id}/purchase` : "/live-classes/:id/purchase")
+            }
         },
         TEST: {
             ROOT: "/test",
             VIEW_TEST: {
-                ROOT: (id?: number) => (id ? `/courses/${id}` : "/courses/:id"),
+                ROOT: (id?: number) => (id ? `/test/${id}` : "/test/:id"),
             },
+            PURCHASE: {
+                ROOT: (id?: number) => (id ? `/test/${id}/purchase` : "/test/:id/purchase")
+            }
         },
     },
     MY_COURSE: {
         ROOT: "/my-course"
     },
-    PURCHASE: {
-        ROOT: "/purchase",
-        PURCHASE_COURSE: {
-            ROOT: (id?: number) => (id ? `/purchase/${id}` : "/purchase/:id"),
-        },
-    }
 };

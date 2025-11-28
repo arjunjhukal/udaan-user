@@ -7,6 +7,7 @@ import { I18nextProvider, initReactI18next } from "react-i18next";
 import { Provider } from "react-redux";
 import "./App.css";
 import Toast from "./components/organism/Toast/index.tsx";
+import Loading from "./Loading.tsx";
 import GlobalRoutes from "./routes/Routes.tsx";
 import { store } from "./store/store.ts";
 import UdaanThemeProvider from "./ThemeProvider.tsx";
@@ -36,7 +37,7 @@ createRoot(document.getElementById("root")!).render(
     <Provider store={store}>
       {/* <BrowserRouter> */}
       <I18nextProvider i18n={i18n}>
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<Loading />}>
           <UdaanThemeProvider>
             {/* <ScreenProtection> */}
             <GlobalRoutes />
