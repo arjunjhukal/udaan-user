@@ -48,7 +48,6 @@ const extractYouTubeVideoId = (url: string): string | null => {
 
         let videoId = null;
 
-
         if (url.includes('youtube.com/watch')) {
             const urlParams = new URLSearchParams(url.split('?')[1]);
             videoId = urlParams.get('v');
