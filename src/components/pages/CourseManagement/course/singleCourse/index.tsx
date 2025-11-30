@@ -14,7 +14,7 @@ import SinlgeCourseTest from "./test";
 export default function SingleCourse() {
     const { id } = useParams();
 
-    const [activeTab, setActiveTab] = useState("overview");
+    const [activeTab, setActiveTab] = useState("curriculum");
     const [havePurchesed, setHavePurchased] = useState(false);
     const [qp, setQp] = useState({
         pageIndex: 1,

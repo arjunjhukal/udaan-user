@@ -76,7 +76,7 @@ const isYouTubeVideo = (url: string): boolean => {
     return url.includes('youtube.com') || url.includes('youtu.be');
 };
 
-export default function MediaCard({ media, type, havePurchased, relatedVideos }: { media: MediaProps; type?: CurriculumMediaType; havePurchased: boolean; relatedVideos: string[] }) {
+export default function MediaCard({ media, type, havePurchased, relatedVideos }: { media: MediaProps; type?: CurriculumMediaType; havePurchased: boolean; relatedVideos?: string[] }) {
     const theme = useTheme();
     const dispatch = useAppDispatch();
     const { id } = useParams();
