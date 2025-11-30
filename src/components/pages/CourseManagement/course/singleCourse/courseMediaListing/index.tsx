@@ -47,6 +47,7 @@ interface Props {
 export default function CourseMediaListing({ type, data, isLoading, havePurchased }: Props) {
     const config = mediaConfigs[type];
     const medias = data?.data?.data || [];
+
     if (!isLoading && !medias.length) {
         return <EmptyList
             image={config.image}
@@ -69,8 +70,8 @@ export default function CourseMediaListing({ type, data, isLoading, havePurchase
                         </div>
                     ))
                 ) :
-                    medias.map((media) => (
-                        <MediaCard media={media} key={media.id} type={type} havePurchased={havePurchased} />
+                    medias.map((media, index) => (
+                        <MediaCard media={media} key={media.id} type={type} havePurchased={havePurchased} relatedVideos={medias.slice(index, 5).map((media) => media.url)} />
                     ))
                 }
             </div>

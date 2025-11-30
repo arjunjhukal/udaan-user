@@ -11,6 +11,7 @@ interface ReadingScreenProps {
     open: boolean;
     type?: CurriculumMediaType;
     isYouTube?: boolean; // Flag to indicate if it's a YouTube video
+    relatedVideos?: string[];
 }
 
 const initialState: ReadingScreenProps = {
@@ -23,6 +24,7 @@ const initialState: ReadingScreenProps = {
     open: false,
     type: undefined,
     isYouTube: false,
+    relatedVideos: undefined
 };
 
 export const readingScreen = createSlice({

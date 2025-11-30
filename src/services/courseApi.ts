@@ -62,11 +62,16 @@ export const courseApi = createApi({
             providesTags: (_result, _error, { id }) => [{ type: "Curriculum" as const, id }],
         }),
 
-        getCourseMediaByType: builder.query<MediaList, { id: number | null; type: courseTabType }>({
-            query: ({ id, type }) => ({
-                url: `/course/${id}/media?${buildQueryParams({ type })}`,
-                method: "GET",
-            }),
+        getCourseMediaByType: builder.query<MediaList, { id: number | null; type: courseTabType; qp: QueryParams }>({
+            query: ({ id, type, qp }) => {
+                return ({
+                    url: `/course/${id}/media?${buildQueryParams({
+                        type, page: qp.pageIndex,
+                        page_size: qp.pageSize,
+                    })}`,
+                    method: "GET",
+                })
+            },
             providesTags: (result) =>
                 result?.data?.data
                     ? [
@@ -97,6 +102,26 @@ export const courseApi = createApi({
                 { type: "Media" as const, id: "LIST" },   // refetch all media
             ],
         }),
+        getUserPurchasedCourse: builder.query<CourseList, QueryParams>({
+            query: ({ pageIndex, pageSize, search, }) => {
+                const queryString = buildQueryParams({
+                    page: pageIndex,
+                    page_size: pageSize,
+                    search,
+                });
+                return {
+                    url: `/my-course?${queryString}`,
+                    method: "GET",
+                };
+            },
+            providesTags: (result) =>
+                result?.data?.data
+                    ? [
+                        ...result.data.data.map((course) => ({ type: "Course" as const, id: course.id })),
+                        { type: "Course" as const, id: "LIST" },
+                    ]
+                    : [{ type: "Course" as const, id: "LIST" }],
+        }),
     }),
 });
 
@@ -108,4 +133,5 @@ export const {
     useGetCourseMediaByTypeQuery,
     useGetCourseTestQuery,
     usePurchaseCourseMutation,
+    useGetUserPurchasedCourseQuery
 } = courseApi;

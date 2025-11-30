@@ -1,8 +1,25 @@
-import { Box, Typography, useTheme } from "@mui/material";
+import { Box, Divider, LinearProgress, linearProgressClasses, styled, Typography, useTheme } from "@mui/material";
 import type { CourseProps } from "../../../types/course";
 import { renderHtml } from "../../../utils/renderHtml";
 import BannerCourseTypeModule from "./BannerCourseTypeModule";
 
+const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
+    height: 10,
+    borderRadius: 5,
+    [`&.${linearProgressClasses.colorPrimary}`]: {
+        backgroundColor: theme.palette.grey[200],
+        ...theme.applyStyles('dark', {
+            backgroundColor: theme.palette.grey[800],
+        }),
+    },
+    [`& .${linearProgressClasses.bar}`]: {
+        borderRadius: 5,
+        backgroundColor: '#1a90ff',
+        ...theme.applyStyles('dark', {
+            backgroundColor: '#308fe8',
+        }),
+    },
+}));
 export default function CourseBanner({ data, isLoading, havePurchased }: { data?: CourseProps; isLoading: boolean, havePurchased: boolean }) {
     const theme = useTheme();
 
@@ -54,12 +71,28 @@ export default function CourseBanner({ data, isLoading, havePurchased }: { data?
                 </div>
 
                 <div className="col-span-6">
-                    {havePurchased ? <h1>Course is Purchased</h1> : <BannerCourseTypeModule
-                        courseType={course?.course_type}
-                        courseExpiry={course?.course_expiry}
-                        courseSubscription={course?.subscriptions || []}
+                    {havePurchased ?
+                        <Box className="rounded-md p-4 bg-[rgba(255,255,255,0.12)] flex flex-col gap-4" sx={{
+                            color: theme.palette.primary.white
+                        }}>
+                            <Typography variant="textLg">Progress</Typography>
+                            <Divider />
+                            <Typography variant="textSm">Started from</Typography>
+                            <div className="flex justify-between items-center">
+                                <Typography variant="textXs">Progress</Typography>
+                                <Typography variant="textBase" fontWeight={500}>0%</Typography>
+                            </div>
+                            <BorderLinearProgress variant="determinate" value={10} />
+                            <div className="flex justify-between items-center">
+                                <Typography variant="textXs">Nov 20</Typography>
+                                <Typography variant="textBase" >-</Typography>
+                            </div>
+                        </Box> : <BannerCourseTypeModule
+                            courseType={course?.course_type}
+                            courseExpiry={course?.course_expiry}
+                            courseSubscription={course?.subscriptions || []}
 
-                    />}
+                        />}
                 </div>
             </div>
         </Box>

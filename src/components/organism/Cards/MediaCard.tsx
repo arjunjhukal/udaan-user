@@ -42,27 +42,23 @@ const extractYouTubeVideoId = (url: string): string | null => {
     if (!url) return null;
 
     try {
-        // Check if it's a YouTube URL
         if (!url.includes('youtube.com') && !url.includes('youtu.be')) {
             return null;
         }
 
         let videoId = null;
 
-        // Format: https://www.youtube.com/watch?v=VIDEO_ID
+
         if (url.includes('youtube.com/watch')) {
             const urlParams = new URLSearchParams(url.split('?')[1]);
             videoId = urlParams.get('v');
         }
-        // Format: https://youtu.be/VIDEO_ID
         else if (url.includes('youtu.be/')) {
             videoId = url.split('youtu.be/')[1].split('?')[0].split('/')[0];
         }
-        // Format: https://www.youtube.com/embed/VIDEO_ID
         else if (url.includes('youtube.com/embed/')) {
             videoId = url.split('youtube.com/embed/')[1].split('?')[0].split('/')[0];
         }
-        // Format: https://www.youtube.com/v/VIDEO_ID
         else if (url.includes('youtube.com/v/')) {
             videoId = url.split('youtube.com/v/')[1].split('?')[0].split('/')[0];
         }
@@ -80,7 +76,7 @@ const isYouTubeVideo = (url: string): boolean => {
     return url.includes('youtube.com') || url.includes('youtu.be');
 };
 
-export default function MediaCard({ media, type, havePurchased }: { media: MediaProps; type?: CurriculumMediaType; havePurchased: boolean }) {
+export default function MediaCard({ media, type, havePurchased, relatedVideos }: { media: MediaProps; type?: CurriculumMediaType; havePurchased: boolean; relatedVideos: string[] }) {
     const theme = useTheme();
     const dispatch = useAppDispatch();
     const { id } = useParams();
@@ -109,6 +105,7 @@ export default function MediaCard({ media, type, havePurchased }: { media: Media
                 open: true,
                 type: type,
                 title: media.file_name,
+                relatedVideos: relatedVideos
             };
 
             switch (type) {
@@ -120,12 +117,10 @@ export default function MediaCard({ media, type, havePurchased }: { media: Media
                             payload.isYouTube = true;
                         } else {
                             console.error('Failed to extract YouTube video ID from:', media.url);
-                            // Fallback to using the full URL
                             payload.videoUrl = media.url;
                             payload.isYouTube = false;
                         }
                     } else {
-                        // Regular video file
                         payload.videoUrl = media.url;
                         payload.isYouTube = false;
                     }

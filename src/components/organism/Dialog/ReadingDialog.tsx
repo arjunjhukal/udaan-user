@@ -1,8 +1,8 @@
-import { Button, CircularProgress, Dialog, DialogContent, useTheme } from '@mui/material';
+import { Box, Button, CircularProgress, Dialog, DialogContent, Typography, useTheme } from '@mui/material';
 import Plyr, { type APITypes, type PlyrProps } from "plyr-react";
 import "plyr-react/plyr.css";
 import { useEffect, useRef, useState } from 'react';
-import { resetReadingScreen } from '../../../slice/ReadingScreenSlice';
+import { resetReadingScreen, setReadingScreen } from '../../../slice/ReadingScreenSlice';
 import { useAppDispatch, useAppSelector } from '../../../store/hook';
 
 // Define proper types for Plyr ref
@@ -13,7 +13,7 @@ interface PlyrInstance {
 export default function ReadingDialog() {
     const theme = useTheme();
     const dispatch = useAppDispatch();
-    const { open, type, videoId, videoUrl, audioUrl, pdfUrl, title, isYouTube } = useAppSelector(
+    const { open, type, videoId, videoUrl, audioUrl, pdfUrl, title, isYouTube, relatedVideos } = useAppSelector(
         state => state.readScreen
     );
 
@@ -251,11 +251,13 @@ export default function ReadingDialog() {
         return null;
     }
 
+    console.log(relatedVideos);
+
     return (
         <Dialog
             open={open}
             onClose={handleClose}
-            maxWidth="md"
+            maxWidth="lg"
             fullWidth
             sx={{
                 "& .MuiPaper-root": {
@@ -271,7 +273,74 @@ export default function ReadingDialog() {
                     </h2>
                 </div>
 
-                {renderContent()}
+                <div className="grid grid-cols-12 gap-4">
+                    <div className="col-span-9">
+                        {renderContent()}
+                    </div>
+                    <div className="col-span-3">
+                        <Typography variant='textBase' className='block! mb-3!' sx={{ fontWeight: 600 }}>
+                            Up Next
+                        </Typography>
+                        <Box className="flex flex-col gap-3" sx={{
+                            maxHeight: `480px`,
+                            overflowY: "auto",
+                        }}>
+                            {relatedVideos && relatedVideos.length > 0 ? (
+                                relatedVideos.map((videoUrl, index) => {
+
+                                    const getYouTubeId = (url: string) => {
+                                        const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([^?&"'>]+)/);
+                                        return match ? match[1] : null;
+                                    };
+
+                                    const vidId = getYouTubeId(videoUrl);
+                                    const thumbnailUrl = vidId ? `https://img.youtube.com/vi/${vidId}/mqdefault.jpg` : '';
+
+                                    return (
+                                        <div
+                                            key={index}
+                                            onClick={() => {
+                                                dispatch(
+                                                    setReadingScreen({
+                                                        isYouTube: true,
+                                                        videoId: vidId,
+                                                    })
+                                                )
+                                            }}
+                                            className='cursor-pointer'
+                                        >
+                                            <div style={{
+                                                position: 'relative',
+                                                paddingBottom: '56.25%',
+                                                background: '#000'
+                                            }}>
+                                                {thumbnailUrl && (
+                                                    <img
+                                                        src={thumbnailUrl}
+                                                        alt={`Video ${index + 1}`}
+                                                        style={{
+                                                            position: 'absolute',
+                                                            top: 0,
+                                                            left: 0,
+                                                            width: '100%',
+                                                            height: '100%',
+                                                            objectFit: 'cover'
+                                                        }}
+                                                    />
+                                                )}
+                                            </div>
+                                        </div>
+                                    );
+                                })
+                            ) : (
+                                <Typography variant="textSm" color="text.middle">
+                                    No related videos available
+                                </Typography>
+                            )}
+                        </Box>
+                    </div>
+
+                </div>
 
                 <div style={{
                     display: 'flex',

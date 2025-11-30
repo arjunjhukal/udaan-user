@@ -7,6 +7,7 @@ import VerifyOTP from "../components/pages/auth/verifyOtp";
 import CourseRoot from "../components/pages/CourseManagement/course";
 import AllCourses from "../components/pages/CourseManagement/course/allCourse";
 import SingleCourse from "../components/pages/CourseManagement/course/singleCourse";
+import MyCourseRoot from "../components/pages/CourseManagement/myCourse";
 import TestManagementRoot from "../components/pages/CourseManagement/test";
 import AllTests from "../components/pages/CourseManagement/test/allTest";
 import AuthLayout from "../components/pages/layout/AuthLayout";
@@ -75,9 +76,12 @@ const router = createBrowserRouter([
         children: [
           { path: PATH.COURSE_MANAGEMENT.COURSES.PURCHASE.ROOT(), element: <PurchaseLayout /> },
           { path: PATH.COURSE_MANAGEMENT.COURSES.PURCHASE.SUCCESS.ROOT, element: <PaymentSuccessPage /> },
-          // { path: PATH.COURSE_MANAGEMENT.COURSES.PURCHASE.FAILURE.ROOT, element: <PaymentFailurePage /> },
           { path: PATH.COURSE_MANAGEMENT.LIVE_CLASSES.PURCHASE.ROOT(), element: <PurchaseLayout /> },
         ],
+      },
+      {
+        path: PATH.MY_COURSE.ROOT,
+        element: <MyCourseRoot />,
       }
     ],
   },
