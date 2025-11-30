@@ -31,6 +31,9 @@ export const PATH = {
                 FAILURE: {
                     ROOT: "/courses/:id/purchase/failure"
                 }
+            },
+            PLANS: {
+                ROOT: `/courses/:id/plans`
             }
         },
         LIVE_CLASSES: {

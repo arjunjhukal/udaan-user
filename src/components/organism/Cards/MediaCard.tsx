@@ -1,6 +1,7 @@
 import { Box, Divider, Typography, useTheme } from '@mui/material';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { setPurchase } from '../../../slice/purchaseSlice';
+import { setReadingScreen } from '../../../slice/ReadingScreenSlice';
 import { useAppDispatch } from '../../../store/hook';
 import type { CurriculumMediaType } from '../../../types/course';
 import type { MediaProps } from '../../../types/media';
@@ -29,16 +30,59 @@ const mediaUiConfig: any = {
         variant: "error",
         icon: (
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M22 8L16 12L22 16V8Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                <path d="M14 6H4C2.89543 6 2 6.89543 2 8V16C2 17.1046 2.89543 18 4 18H14C15.1046 18 16 17.1046 16 16V8C16 6.89543 15.1046 6 14 6Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M22 8L16 12L22 16V8Z" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M14 6H4C2.89543 6 2 6.89543 2 8V16C2 17.1046 2.89543 18 4 18H14C15.1046 18 16 17.1046 16 16V8C16 6.89543 15.1046 6 14 6Z" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
         )
     }
 }
+
+// Helper function to extract YouTube video ID from URL
+const extractYouTubeVideoId = (url: string): string | null => {
+    if (!url) return null;
+
+    try {
+        // Check if it's a YouTube URL
+        if (!url.includes('youtube.com') && !url.includes('youtu.be')) {
+            return null;
+        }
+
+        let videoId = null;
+
+        // Format: https://www.youtube.com/watch?v=VIDEO_ID
+        if (url.includes('youtube.com/watch')) {
+            const urlParams = new URLSearchParams(url.split('?')[1]);
+            videoId = urlParams.get('v');
+        }
+        // Format: https://youtu.be/VIDEO_ID
+        else if (url.includes('youtu.be/')) {
+            videoId = url.split('youtu.be/')[1].split('?')[0].split('/')[0];
+        }
+        // Format: https://www.youtube.com/embed/VIDEO_ID
+        else if (url.includes('youtube.com/embed/')) {
+            videoId = url.split('youtube.com/embed/')[1].split('?')[0].split('/')[0];
+        }
+        // Format: https://www.youtube.com/v/VIDEO_ID
+        else if (url.includes('youtube.com/v/')) {
+            videoId = url.split('youtube.com/v/')[1].split('?')[0].split('/')[0];
+        }
+
+        return videoId;
+    } catch (error) {
+        console.error('Error parsing YouTube URL:', error);
+        return null;
+    }
+};
+
+// Helper function to check if URL is a YouTube video
+const isYouTubeVideo = (url: string): boolean => {
+    if (!url) return false;
+    return url.includes('youtube.com') || url.includes('youtu.be');
+};
+
 export default function MediaCard({ media, type, havePurchased }: { media: MediaProps; type?: CurriculumMediaType; havePurchased: boolean }) {
     const theme = useTheme();
     const dispatch = useAppDispatch();
-    const navigate = useNavigate();
     const { id } = useParams();
     const config = mediaUiConfig[type || "temp_notes"];
 
@@ -61,15 +105,49 @@ export default function MediaCard({ media, type, havePurchased }: { media: Media
 
     const handleMediaClick = () => {
         if (havePurchased) {
-            navigate(media.url)
-        }
-        else {
+            const payload: any = {
+                open: true,
+                type: type,
+                title: media.file_name,
+            };
+
+            switch (type) {
+                case 'temp_video':
+                    if (isYouTubeVideo(media.url)) {
+                        const youtubeId = extractYouTubeVideoId(media.url);
+                        if (youtubeId) {
+                            payload.videoId = youtubeId;
+                            payload.isYouTube = true;
+                        } else {
+                            console.error('Failed to extract YouTube video ID from:', media.url);
+                            // Fallback to using the full URL
+                            payload.videoUrl = media.url;
+                            payload.isYouTube = false;
+                        }
+                    } else {
+                        // Regular video file
+                        payload.videoUrl = media.url;
+                        payload.isYouTube = false;
+                    }
+                    break;
+                case 'temp_audios':
+                    payload.audioUrl = media.url;
+                    break;
+                case 'temp_notes':
+                    payload.pdfUrl = media.url;
+                    break;
+                default:
+                    break;
+            }
+
+            dispatch(setReadingScreen(payload));
+        } else {
             dispatch(
                 setPurchase({
                     courseId: Number(id),
                     open: true
                 })
-            )
+            );
         }
     }
 

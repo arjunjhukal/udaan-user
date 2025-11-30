@@ -35,19 +35,16 @@ i18n
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <Provider store={store}>
-      {/* <BrowserRouter> */}
       <I18nextProvider i18n={i18n}>
         <Suspense fallback={<Loading />}>
           <UdaanThemeProvider>
             {/* <ScreenProtection> */}
             <GlobalRoutes />
             <Toast />
-
             {/* </ScreenProtection> */}
           </UdaanThemeProvider>
         </Suspense>
       </I18nextProvider>
-      {/* </BrowserRouter> */}
     </Provider>
   </StrictMode>,
 );

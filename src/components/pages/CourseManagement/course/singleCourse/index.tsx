@@ -4,9 +4,9 @@ import { useGetCourseByIdQuery, useGetCourseCurriculumByIdQuery, useGetCourseMed
 import TabController from "../../../../molecules/TabController";
 import CourseBanner from "../../../../organism/CourseBanner";
 import PurchaseCourseDialog from "../../../../organism/Dialog/PurchaseCourseDialog";
+import ReadingDialog from "../../../../organism/Dialog/ReadingDialog";
 import CourseMediaListing from "./courseMediaListing";
 import SinlgeCourseCurriculum from "./curriculum";
-import SinlgeCourseLiveClass from "./liveClass";
 import SinlgeCourseOverview from "./overview";
 import SinlgeCourseTest from "./test";
 
@@ -42,7 +42,7 @@ export default function SingleCourse() {
 
     return (
         <>
-            <CourseBanner data={courseBasic?.data && courseBasic.data} isLoading={loadingBasic} />
+            <CourseBanner data={courseBasic?.data && courseBasic.data} isLoading={loadingBasic} havePurchased={havePurchesed} />
             <div className="mt-8">
                 <TabController
                     options={[
@@ -91,8 +91,7 @@ export default function SingleCourse() {
             {activeTab === "videos" && <Activity><CourseMediaListing havePurchased={havePurchesed} data={videos} isLoading={loadingVideos} type="temp_video" /></Activity>}
             {activeTab === "tests" && <Activity><SinlgeCourseTest data={test} isLoading={loadingTest} /></Activity>}
             <PurchaseCourseDialog type={courseBasic?.data?.course_type} />
-            {activeTab === "live-classes" && <Activity><SinlgeCourseLiveClass data={test} isLoading={loadingTest} /></Activity>}
-            <PurchaseCourseDialog type={courseBasic?.data?.course_type} />
+            <ReadingDialog />
         </>
     )
 }

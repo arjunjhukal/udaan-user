@@ -3,7 +3,7 @@ import type { CourseProps } from "../../../types/course";
 import { renderHtml } from "../../../utils/renderHtml";
 import BannerCourseTypeModule from "./BannerCourseTypeModule";
 
-export default function CourseBanner({ data, isLoading }: { data?: CourseProps; isLoading: boolean }) {
+export default function CourseBanner({ data, isLoading, havePurchased }: { data?: CourseProps; isLoading: boolean, havePurchased: boolean }) {
     const theme = useTheme();
 
     console.log(isLoading);
@@ -54,11 +54,12 @@ export default function CourseBanner({ data, isLoading }: { data?: CourseProps; 
                 </div>
 
                 <div className="col-span-6">
-                    <BannerCourseTypeModule
+                    {havePurchased ? <h1>Course is Purchased</h1> : <BannerCourseTypeModule
                         courseType={course?.course_type}
                         courseExpiry={course?.course_expiry}
                         courseSubscription={course?.subscriptions || []}
-                    />
+
+                    />}
                 </div>
             </div>
         </Box>

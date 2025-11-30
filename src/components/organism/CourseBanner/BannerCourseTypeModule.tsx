@@ -1,6 +1,8 @@
 import { Button, Typography } from "@mui/material";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { PATH } from "../../../routes/PATH";
 import { usePurchaseCourseMutation } from "../../../services/courseApi";
+import { setPurchase } from "../../../slice/purchaseSlice";
 import { showToast } from "../../../slice/toastSlice";
 import { useAppDispatch, useAppSelector } from "../../../store/hook";
 import type { CourseExpiry, CourseSubscription, CourseTypeProps } from '../../../types/course';
@@ -13,6 +15,7 @@ interface Props {
 
 export default function BannerCourseTypeModule({ courseType, courseExpiry, courseSubscription }: Props) {
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
     const { id } = useParams();
     const [purchaseCourse, isLoading] = usePurchaseCourseMutation();
     const user = useAppSelector((state) => state.auth.user);
@@ -52,12 +55,18 @@ export default function BannerCourseTypeModule({ courseType, courseExpiry, cours
         }
         return (
             <div className="actions flex flex-col gap-2">
-                {courseType === "subscription" && <Button variant="contained" className="black__btn" fullWidth>View Subscription</Button>}
-                {courseType === "expiry" && <Button variant="contained" className="black__btn" fullWidth>Purchase Now</Button>}
+                {courseType === "subscription" && <Button variant="contained" className="black__btn" fullWidth onClick={() => {
+                    navigate(PATH.COURSE_MANAGEMENT.COURSES.PLANS.ROOT)
+                }}>View Subscription</Button>}
+                {courseType === "expiry" && <Button variant="contained" className="black__btn" fullWidth onClick={() => dispatch(
+                    setPurchase({
+                        courseId: Number(id),
+                        open: true
+                    })
+                )}>Purchase Now</Button>}
                 <Button variant="contained" fullWidth className="white__btn"
                     onClick={async () => {
                         try {
-
                             const response = await purchaseCourse({
                                 body: {
                                     payment_method: "free",
