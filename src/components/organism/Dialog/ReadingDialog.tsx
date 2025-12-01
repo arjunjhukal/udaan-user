@@ -261,7 +261,7 @@ export default function ReadingDialog() {
             fullWidth
             sx={{
                 "& .MuiPaper-root": {
-                    background: theme.palette.primary.white,
+                    background: theme.palette.primary.contrastText,
                     borderRadius: '16px'
                 },
             }}

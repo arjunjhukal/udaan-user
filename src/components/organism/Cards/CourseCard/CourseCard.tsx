@@ -17,7 +17,9 @@ export default function CourseCard({ course }: { course: CourseProps }) {
             }}>
                 <img src={course.thumbnail_url || "/logo.svg"} alt={course.name} className='w-full h-full object-cover aspect-347/128' />
             </Box>
-            <Box className="course__content h-full p-3 bg-slate-50 flex flex-col gap-2 justify-between">
+            <Box className="course__content h-full p-3  flex flex-col gap-2 justify-between" sx={{
+                background: theme.palette.gray.gray1
+            }}>
                 <div className="top__content">
                     <div className="over__title flex justify-between items-center">
                         <Typography variant='textSm' className='py-0.5 px-2 rounded-md' sx={{

@@ -2,12 +2,11 @@ import {
     AppBar,
     Box,
     IconButton,
-    OutlinedInput,
     Stack,
     Toolbar,
-    useTheme,
+    useTheme
 } from "@mui/material";
-import { HamburgerMenu, Notification, SearchNormal, Sms } from "iconsax-reactjs";
+import { HamburgerMenu, Notification, Sms } from "iconsax-reactjs";
 import ProfileMenu from "./Profile";
 import SettingMenu from "./Setting";
 const drawerWidth = 356;
@@ -47,19 +46,20 @@ export default function CustomAppbar({
                     sx={{
                         flexDirection: "row",
                         alignItems: "center",
-                        justifyContent: "space-between",
+                        justifyContent: "end",
                         width: "100%",
                     }}
                 >
-                    <OutlinedInput
+                    {/* <OutlinedInput
                         placeholder="Search"
                         name="search"
                         id="search"
-                        startAdornment={<SearchNormal />}
+                        startAdornment={<SearchNormal color="text.middle" />}
                         sx={{
                             gap: "8px",
                         }}
-                    />
+
+                    /> */}
 
                     <Box className="flex gap-4">
                         <IconButton

@@ -78,7 +78,7 @@ export default function PurchaseCourseDialog({ type }: { type?: CourseTypeProps 
             open={purchase.open}
             sx={{
                 "& .Muipaper-root": {
-                    background: theme.palette.primary.white,
+                    background: theme.palette.primary.contrastText,
                 },
             }}
         >

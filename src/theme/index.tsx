@@ -71,21 +71,8 @@ declare module "@mui/material/styles" {
       placeholder: string;
       name: string;
     };
-    brand: {
-      logo: string;
-      main: string;
-      light: string;
-      hover: string;
-    }
   }
   interface PaletteOptions {
-
-    brand: {
-      logo?: string;
-      main?: string;
-      light?: string;
-      hover?: string;
-    }
     button?: {
       main?: string;
       gray?: string;
@@ -328,32 +315,32 @@ const commonThemeOptions: ThemeOptions = {
           boxShadow: "none",
           "&.black__btn": {
             backgroundColor: theme.palette.primary.black,
-            color: theme.palette.primary.white,
+            color: theme.palette.primary.contrastText,
             "&:hover": {
               backgroundColor: theme.palette.primary.hover,
             },
           },
-          "&.primary__btn": {
-            backgroundColor: theme.palette.brand.main,
-            color: theme.palette.primary.white,
-            "&:hover": {
-              backgroundColor: theme.palette.brand.hover,
-            },
-          },
-          "&.secondary__btn": {
-            backgroundColor: "#F1F5F9",
-            color: theme.palette.brand.main,
-            "&:hover": {
-              backgroundColor: theme.palette.brand.main,
-              color: theme.palette.primary.white,
-            },
-          },
+          // "&.primary__btn": {
+          //   backgroundColor: theme.palette.primary.main,
+          //   color: theme.palette.primary.contrastText,
+          //   "&:hover": {
+          //     backgroundColor: theme.palette.primary.hover,
+          //   },
+          // },
+          // "&.secondary__btn": {
+          //   backgroundColor: "#F1F5F9",
+          //   color: theme.palette.primary.main,
+          //   "&:hover": {
+          //     backgroundColor: theme.palette.primary.main,
+          //     color: theme.palette.primary.contrastText,
+          //   },
+          // },
           "&.white__btn": {
-            backgroundColor: theme.palette.primary.white,
-            color: theme.palette.brand.main,
+            backgroundColor: theme.palette.primary.contrastText,
+            color: theme.palette.primary.main,
             "&:hover": {
-              backgroundColor: theme.palette.brand.main,
-              color: theme.palette.primary.white,
+              backgroundColor: theme.palette.primary.main,
+              color: theme.palette.primary.contrastText,
             },
           },
         }),
@@ -611,12 +598,13 @@ const commonThemeOptions: ThemeOptions = {
         root: ({ theme }) => ({
           border: `1px solid ${theme.palette.seperator.dark}`,
           borderRadius: "4px",
-          background: "white",
+          background: theme.palette.primary.contrastText,
           width: 34,
           height: 34,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
+
           "&.Mui-selected": {
             background: theme.palette.primary.main,
             color: theme.palette.primary.contrastText,

@@ -36,7 +36,7 @@ export default function TabController<T extends string>({
                     <Typography
                         variant='subtitle2'
                         color='text.middle'
-                        className='px-6 py-2.5 rounded-md cursor-pointer text-nowrap'
+                        className='px-6 py-2 rounded-md cursor-pointer text-nowrap'
                     >
                         {tab.label}
                     </Typography>

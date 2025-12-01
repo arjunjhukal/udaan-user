@@ -150,7 +150,7 @@ const SubjectSidebar = ({
                         border: `1px solid ${theme.palette.textField.border}`
                     }}>
                         <Box
-                            style={{ background: theme.palette.brand.main }}
+                            style={{ background: theme.palette.primary.main }}
                             className="rounded-md py-4 px-5 flex justify-between items-center cursor-pointer"
                             onClick={() => onSubjectToggle(Number(subject.id))}
                         >
@@ -315,7 +315,7 @@ const UnitItem = ({ unit, isOpen, openLessonIds, openChildLessonIds, onUnitToggl
     return (
         <div className="accordion__item">
             <Box
-                style={{ background: theme.palette.brand.main }}
+                style={{ background: theme.palette.primary.main }}
                 className="rounded-md py-4 px-5 flex justify-between items-center cursor-pointer"
                 onClick={() => onUnitToggle(Number(unit.id))}
             >

@@ -28,7 +28,7 @@ export default function CourseBanner({ data, isLoading, havePurchased }: { data?
     const course = data || null;
     return (
         <Box className="rounded-4xl py-11.5  px-16" sx={{
-            background: `url(/banner-bg.svg) no-repeat center/cover, ${theme.palette.brand.light}`
+            background: `url(/banner-bg.svg) no-repeat center/cover, ${theme.palette.primary.main}`
         }}>
             <div className="lg:grid grid-cols-20 gap-6">
 
@@ -47,7 +47,7 @@ export default function CourseBanner({ data, isLoading, havePurchased }: { data?
                                 {course?.mega_categories.slice(0, 2).map((category) => (
                                     <Typography variant="textSm" key={category} className="py-0.5 px-2 rounded-md max-w-fit" sx={{
                                         background: theme.palette.primary.contrastText,
-                                        color: theme.palette.brand.main
+                                        color: theme.palette.primary.main
                                     }}>{category}</Typography>
                                 ))}
                             </div>
@@ -73,7 +73,7 @@ export default function CourseBanner({ data, isLoading, havePurchased }: { data?
                 <div className="col-span-6">
                     {havePurchased ?
                         <Box className="rounded-md p-4 bg-[rgba(255,255,255,0.12)] flex flex-col gap-4" sx={{
-                            color: theme.palette.primary.white
+                            color: theme.palette.primary.contrastText
                         }}>
                             <Typography variant="textLg">Progress</Typography>
                             <Divider />

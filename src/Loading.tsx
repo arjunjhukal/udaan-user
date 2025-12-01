@@ -154,7 +154,7 @@ export default function Loading() {
                 <Toolbar sx={{ height: 100 }} />
                 <Box
                     sx={{
-                        background: (theme) => theme.palette.primary.white,
+                        background: (theme) => theme.palette.primary.contrastText,
                         height: 'calc(100vh - 165px)',
                         borderRadius: '16px',
                         overflow: 'auto',

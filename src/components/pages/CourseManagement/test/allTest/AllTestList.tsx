@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import { useEffect, useState } from "react";
 import type { TestProps } from "../../../../../types/question";
-import Paginations from "../../../../molecules/Paginations";
+import TablePagination from "../../../../molecules/Pagination";
 import TestCard from "../../../../organism/Cards/TestCard";
 import TableFilter from "../../../../organism/TableFilter";
 
@@ -109,7 +109,7 @@ export default function AllTestLists() {
             <TestCard key={index} test={test} />
           ))}
         </div>
-        <Paginations qp={qp} setQp={setQp} totalPages={10} />
+        <TablePagination qp={qp} setQp={setQp} totalPages={10} />
       </Box>
     </>
   );

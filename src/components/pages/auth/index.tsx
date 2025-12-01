@@ -15,7 +15,7 @@ export default function AuthRoot() {
             }}>
             <Box
                 sx={{
-                    background: theme.palette.primary.white,
+                    background: theme.palette.primary.contrastText,
                     padding: "56px",
                     borderRadius: "24px",
                     minWidth: {

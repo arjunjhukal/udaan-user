@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Paginations from "../../../../molecules/Paginations";
+import TablePagination from "../../../../molecules/Pagination";
 import LiveClassCard from "../../../../organism/Cards/LiveClassCard";
 import PageHeader from "../../../../organism/PageHeader";
 import TableFilter from "../../../../organism/TableFilter";
@@ -121,7 +121,7 @@ export default function AllLiveClassList() {
         }
       </div>
 
-      <Paginations qp={qp} setQp={setQp} totalPages={10} />
+      <TablePagination qp={qp} setQp={setQp} totalPages={10} />
     </>
   );
 }
