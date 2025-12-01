@@ -81,7 +81,7 @@ export const lightPalette = {
     name: "#111827",
   },
   background: {
-    default: "#ffffff",
+    default: "#f5f5f5",
     paper: "#F9FAFB",
     sidebar: "#171F29",
   },

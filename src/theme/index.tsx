@@ -49,6 +49,7 @@ declare module "@mui/material/styles" {
       black: string;
       dark: string;
       light: string;
+      lightest: string;
     };
     seperator: {
       main: string;
@@ -92,6 +93,7 @@ declare module "@mui/material/styles" {
       black?: string;
       dark?: string;
       light?: string;
+      lightest?: string;
     };
     seperator?: {
       main?: string;
@@ -628,12 +630,7 @@ const commonThemeOptions: ThemeOptions = {
     },
     MuiAutocomplete: {
       styleOverrides: {
-        // popper: {
-        //     "& .MuiAutocomplete-paper": {
-        //         padding: "8px 12px",
-        //         borderRadius: "8px",
-        //     },
-        // },
+
         option: ({ theme }) => ({
           ...theme.typography.textLg,
           padding: "8px 12px",
@@ -647,6 +644,16 @@ const commonThemeOptions: ThemeOptions = {
         }),
       },
     },
+    MuiToolbar: {
+      styleOverrides: {
+        root: ({ theme }) => ({
+          padding: 0,
+          [theme.breakpoints.up("sm")]: {
+            minHeight: 48,
+          }
+        })
+      }
+    }
   },
 };
 

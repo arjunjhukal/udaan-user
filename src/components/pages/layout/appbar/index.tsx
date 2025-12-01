@@ -27,7 +27,7 @@ export default function CustomAppbar({
                 borderBottom: (theme) => `1px solid ${theme.palette.divider}`,
                 borderRadius: 0,
                 padding: " 20px 24px",
-                backgroundColor: (theme) => theme.palette.background.default,
+                backgroundColor: (theme) => theme.palette.primary.contrastText,
             }}
             color="default"
             elevation={0}
@@ -64,7 +64,7 @@ export default function CustomAppbar({
                     <Box className="flex gap-4">
                         <IconButton
                             sx={{
-                                background: theme.palette.seperator.dark,
+                                background: theme.palette.icon.lightest,
                                 minWidth: "44px",
                             }}
                         >
@@ -72,7 +72,7 @@ export default function CustomAppbar({
                         </IconButton>
                         <IconButton
                             sx={{
-                                background: theme.palette.seperator.dark,
+                                background: theme.palette.icon.lightest,
                                 minWidth: "44px",
                             }}
                         >
