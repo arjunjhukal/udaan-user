@@ -1,7 +1,9 @@
-
+import CancelIcon from "@mui/icons-material/Cancel";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import CloseIcon from "@mui/icons-material/Close";
+import WarningIcon from "@mui/icons-material/Warning";
 import { Box, IconButton, Stack, Typography, useTheme } from "@mui/material";
 import Snackbar from "@mui/material/Snackbar";
-import { CalendarCircle, ChartSuccess, CloseCircle, Warning2 } from "iconsax-reactjs";
 import { hideToast } from "../../../slice/toastSlice";
 import { useAppDispatch, useAppSelector } from "../../../store/hook";
 export default function Toast() {
@@ -52,14 +54,14 @@ export default function Toast() {
 				}}>
 				<Stack justifyContent={"space-between"}>
 					<Stack className="gap-3!" alignItems="center">
-						{severity === "success" && <ChartSuccess color="success" />}
-						{severity === "warning" && <Warning2 color="warning" />}
-						{severity === "error" && <CalendarCircle color="error" />}
+						{severity === "success" && <CheckCircleIcon color="success" />}
+						{severity === "warning" && <WarningIcon color="warning" />}
+						{severity === "error" && <CancelIcon color="error" />}
 						<Box>
 							<Typography
 								variant="textLg"
 								color="text.primary"
-								className="capitalize font-medium">
+								className="capitalize block">
 								{severity}
 							</Typography>
 							<Typography variant="subtitle2" color="text.secondary">
@@ -67,8 +69,8 @@ export default function Toast() {
 							</Typography>
 						</Box>
 					</Stack>
-					<IconButton onClick={handleClose}>
-						<CloseCircle />
+					<IconButton onClick={handleClose} className="min-w-8 h-8 aspect-square">
+						<CloseIcon />
 					</IconButton>
 				</Stack>
 			</Box>

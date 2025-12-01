@@ -67,6 +67,7 @@ export interface CourseProps {
         is_free_trial_valid: false,
         has_purchased: false
     },
+    is_bookmarked?: boolean;
 }
 
 export interface CourseList extends GlobalResponse {

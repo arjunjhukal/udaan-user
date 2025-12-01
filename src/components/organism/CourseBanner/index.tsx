@@ -1,6 +1,7 @@
 import { Box, Divider, LinearProgress, linearProgressClasses, styled, Typography, useTheme } from "@mui/material";
 import type { CourseProps } from "../../../types/course";
 import { renderHtml } from "../../../utils/renderHtml";
+import MyProgress from "../../atom/MyProgress";
 import BannerCourseTypeModule from "./BannerCourseTypeModule";
 
 const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
@@ -82,7 +83,8 @@ export default function CourseBanner({ data, isLoading, havePurchased }: { data?
                                 <Typography variant="textXs">Progress</Typography>
                                 <Typography variant="textBase" fontWeight={500}>0%</Typography>
                             </div>
-                            <BorderLinearProgress variant="determinate" value={10} />
+                            {/* <BorderLinearProgress variant="determinate" color="success" value={10} /> */}
+                            <MyProgress />
                             <div className="flex justify-between items-center">
                                 <Typography variant="textXs">Nov 20</Typography>
                                 <Typography variant="textBase" >-</Typography>
