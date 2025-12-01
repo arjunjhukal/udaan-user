@@ -7,7 +7,6 @@ import type { AppDispatch } from "../../../store/store";
 import type { CourseTypeProps } from "../../../types/course";
 const renderButton = (
     type: CourseTypeProps,
-    purchase: any,
     navigate: (url: string) => void,
     dispatch: AppDispatch
 ) => {
@@ -119,7 +118,7 @@ export default function PurchaseCourseDialog({ type }: { type?: CourseTypeProps 
                 </Typography>
 
                 <div className="action__group flex gap-4 mt-8">
-                    {type && renderButton(type, purchase, navigate, dispatch)}
+                    {type && renderButton(type,  navigate, dispatch)}
                     <Button
                         variant="contained"
                         size="small"

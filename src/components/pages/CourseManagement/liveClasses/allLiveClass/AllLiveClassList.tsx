@@ -68,13 +68,13 @@ export default function AllLiveClassList() {
     pageSize: 8,
   });
 
-  const [activeTab, setActiveTab] = useState("Ongoing Classes");
+  // const [activeTab, setActiveTab] = useState("Ongoing Classes");
 
-  const menuItems = [
-    "Ongoing Classes",
-    "Upcoming Classes",
-    "Post Classes"
-  ];
+  // const menuItems = [
+  //   "Ongoing Classes",
+  //   "Upcoming Classes",
+  //   "Post Classes"
+  // ];
 
   useEffect(() => {
     const filteredData = liveClass.filter((item) =>
