@@ -6,7 +6,7 @@ import { useAppDispatch } from '../../../store/hook';
 import type { CurriculumMediaType } from '../../../types/course';
 import type { MediaProps } from '../../../types/media';
 import { convertToMb } from '../../../utils/convertToMb';
-
+import { extractYouTubeVideoId, isYouTubeVideo } from '../../../utils/extractYoutubeVideoId';
 
 const mediaUiConfig: any = {
     temp_audios: {
@@ -35,53 +35,24 @@ const mediaUiConfig: any = {
             </svg>
         )
     }
-}
-
-// Helper function to extract YouTube video ID from URL
-const extractYouTubeVideoId = (url: string): string | null => {
-    if (!url) return null;
-
-    try {
-        if (!url.includes('youtube.com') && !url.includes('youtu.be')) {
-            return null;
-        }
-
-        let videoId = null;
-
-        if (url.includes('youtube.com/watch')) {
-            const urlParams = new URLSearchParams(url.split('?')[1]);
-            videoId = urlParams.get('v');
-        }
-        else if (url.includes('youtu.be/')) {
-            videoId = url.split('youtu.be/')[1].split('?')[0].split('/')[0];
-        }
-        else if (url.includes('youtube.com/embed/')) {
-            videoId = url.split('youtube.com/embed/')[1].split('?')[0].split('/')[0];
-        }
-        else if (url.includes('youtube.com/v/')) {
-            videoId = url.split('youtube.com/v/')[1].split('?')[0].split('/')[0];
-        }
-
-        return videoId;
-    } catch (error) {
-        console.error('Error parsing YouTube URL:', error);
-        return null;
-    }
 };
 
-// Helper function to check if URL is a YouTube video
-const isYouTubeVideo = (url: string): boolean => {
-    if (!url) return false;
-    return url.includes('youtube.com') || url.includes('youtu.be');
-};
-
-export default function MediaCard({ media, type, havePurchased, relatedVideos }: { media: MediaProps; type?: CurriculumMediaType; havePurchased: boolean; relatedVideos?: string[] }) {
+export default function MediaCard({
+    media,
+    type,
+    havePurchased,
+    relatedVideos
+}: {
+    media: MediaProps;
+    type?: CurriculumMediaType;
+    havePurchased: boolean;
+    relatedVideos?: MediaProps[]
+}) {
     const theme = useTheme();
     const dispatch = useAppDispatch();
     const { id } = useParams();
     const config = mediaUiConfig[type || "temp_notes"];
 
-    console.log("is course purchase", havePurchased);
     let bgColor = theme.palette.warning.light;
 
     switch (config.variant) {
@@ -109,27 +80,26 @@ export default function MediaCard({ media, type, havePurchased, relatedVideos }:
 
             switch (type) {
                 case 'temp_video':
-                    if (isYouTubeVideo(media.url)) {
+                    const isYoutube = isYouTubeVideo(media.url);
+                    payload.isYouTube = isYoutube;
+
+                    if (isYoutube) {
                         const youtubeId = extractYouTubeVideoId(media.url);
-                        if (youtubeId) {
-                            payload.videoId = youtubeId;
-                            payload.isYouTube = true;
-                        } else {
-                            console.error('Failed to extract YouTube video ID from:', media.url);
-                            payload.videoUrl = media.url;
-                            payload.isYouTube = false;
-                        }
-                    } else {
-                        payload.videoUrl = media.url;
-                        payload.isYouTube = false;
+                        payload.videoId = youtubeId;
                     }
+
+                    // Always set the video object regardless of YouTube or not
+                    payload.video = media;
                     break;
+
                 case 'temp_audios':
-                    payload.audioUrl = media.url;
+                    payload.audio = media;
                     break;
+
                 case 'temp_notes':
-                    payload.pdfUrl = media.url;
+                    payload.pdf = media;
                     break;
+
                 default:
                     break;
             }
@@ -143,12 +113,14 @@ export default function MediaCard({ media, type, havePurchased, relatedVideos }:
                 })
             );
         }
-    }
+    };
 
     return (
-        <Box sx={{ border: `1px solid ${theme.palette.textField.border}` }} className="p-3 rounded-md flex items-center gap-3 cursor-pointer" onClick={handleMediaClick}>
-
-            {/* ICON BOX WITH DYNAMIC COLOR */}
+        <Box
+            sx={{ border: `1px solid ${theme.palette.textField.border}` }}
+            className="p-3 rounded-md flex items-center gap-3 cursor-pointer"
+            onClick={handleMediaClick}
+        >
             <Box
                 className="min-w-12.5 h-12.5 rounded-md flex items-center justify-center"
                 sx={{ background: bgColor }}

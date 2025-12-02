@@ -4,8 +4,9 @@ import "plyr-react/plyr.css";
 import { useEffect, useRef, useState } from 'react';
 import { resetReadingScreen, setReadingScreen } from '../../../slice/ReadingScreenSlice';
 import { useAppDispatch, useAppSelector } from '../../../store/hook';
+import type { MediaProps } from '../../../types/media';
+import { extractYouTubeVideoId, getYouTubeThumbnail } from '../../../utils/extractYoutubeVideoId';
 
-// Define proper types for Plyr ref
 interface PlyrInstance {
     plyr?: APITypes;
 }
@@ -13,7 +14,7 @@ interface PlyrInstance {
 export default function ReadingDialog() {
     const theme = useTheme();
     const dispatch = useAppDispatch();
-    const { open, type, videoId, videoUrl, audioUrl, pdfUrl, title, isYouTube, relatedVideos } = useAppSelector(
+    const { open, type, video, audio, pdf, title, isYouTube, videoId, relatedVideos } = useAppSelector(
         state => state.readScreen
     );
 
@@ -21,8 +22,12 @@ export default function ReadingDialog() {
     const containerRef = useRef<HTMLDivElement | null>(null);
     const [isLoading, setIsLoading] = useState(true);
 
+    // Get current media - video.id is the DB id, videoId from props is the YouTube ID
+    const videoUrl = video?.url || null;
+    const audioUrl = audio?.url || null;
+    const pdfUrl = pdf?.url || null;
+
     const handleClose = () => {
-        // Clean up before closing
         if (playerRef.current?.plyr) {
             try {
                 (playerRef.current.plyr as any).destroy?.();
@@ -33,7 +38,6 @@ export default function ReadingDialog() {
         dispatch(resetReadingScreen());
     };
 
-    // Apply YouTube security measures
     const applyYouTubeSecurityMeasures = () => {
         if (!containerRef.current) return;
 
@@ -118,19 +122,16 @@ export default function ReadingDialog() {
                 }
             };
         } else if (open) {
-            // For non-YouTube content, remove loading state immediately
             setIsLoading(false);
         }
     }, [open, isYouTube]);
 
-    // Reset loading state when dialog opens
     useEffect(() => {
         if (open) {
             setIsLoading(true);
         }
     }, [open]);
 
-    // Cleanup on unmount
     useEffect(() => {
         return () => {
             if (playerRef.current?.plyr) {
@@ -143,27 +144,38 @@ export default function ReadingDialog() {
         };
     }, []);
 
+    const handleRelatedVideoClick = (relatedVideo: MediaProps) => {
+        const isYoutube = relatedVideo.url.includes('youtube.com') || relatedVideo.url.includes('youtu.be');
+        const vidId = isYoutube ? extractYouTubeVideoId(relatedVideo.url) : null;
+
+        dispatch(
+            setReadingScreen({
+                isYouTube: isYoutube,
+                videoId: vidId || undefined,
+                video: relatedVideo,
+                title: relatedVideo.file_name
+            })
+        );
+    };
+
     const renderContent = () => {
         switch (type) {
             case 'temp_video':
                 if (isYouTube && videoId) {
-                    // Show spinner while video is loading
                     if (isLoading || !videoId) {
                         return (
                             <div style={{
                                 display: 'flex',
                                 justifyContent: 'center',
                                 alignItems: 'center',
-                                minHeight: '400px',
+                                minHeight: '100%',
                                 backgroundColor: '#000',
-                                borderRadius: '8px'
                             }}>
                                 <CircularProgress size={60} />
                             </div>
                         );
                     }
 
-                    // Render YouTube video with Plyr
                     const plyrSource: PlyrProps['source'] = {
                         type: "video",
                         sources: [
@@ -210,10 +222,7 @@ export default function ReadingDialog() {
                     };
 
                     return (
-                        <div
-                            ref={containerRef}
-
-                        >
+                        <div ref={containerRef}>
                             <Plyr
                                 ref={playerRef as any}
                                 source={plyrSource}
@@ -222,7 +231,6 @@ export default function ReadingDialog() {
                         </div>
                     );
                 } else if (videoUrl) {
-                    // Render regular video
                     return <video controls src={videoUrl} style={{ width: '100%' }} />;
                 }
                 return <p>No video available</p>;
@@ -236,7 +244,11 @@ export default function ReadingDialog() {
 
             case 'temp_notes':
                 return pdfUrl ? (
-                    <iframe src={pdfUrl} style={{ width: '100%', height: '600px', border: 'none' }} />
+                    <iframe
+                        src={`${pdfUrl}#toolbar=0&navpanes=0&scrollbar=0`}
+                        style={{ width: '100%', height: '600px', border: 'none' }}
+                    />
+
                 ) : (
                     <p>No PDF available</p>
                 );
@@ -246,12 +258,9 @@ export default function ReadingDialog() {
         }
     };
 
-    // Only render dialog content when open is true
     if (!open) {
         return null;
     }
-
-    console.log(relatedVideos);
 
     return (
         <Dialog
@@ -282,64 +291,77 @@ export default function ReadingDialog() {
                             Up Next
                         </Typography>
                         <Box className="flex flex-col gap-3" sx={{
-                            maxHeight: `480px`,
+                            maxHeight: `440px`,
                             overflowY: "auto",
                         }}>
-                            {relatedVideos && relatedVideos.length > 0 ? (
-                                relatedVideos.map((videoUrl, index) => {
+                            {relatedVideos && relatedVideos.length > 0 ? (() => {
 
-                                    const getYouTubeId = (url: string) => {
-                                        const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([^?&"'>]+)/);
-                                        return match ? match[1] : null;
-                                    };
+                                const currentIndex = relatedVideos.findIndex(v => v.id === video?.id);
+                                const nextVideos = relatedVideos.slice(currentIndex + 1, currentIndex + 6);
 
-                                    const vidId = getYouTubeId(videoUrl);
-                                    const thumbnailUrl = vidId ? `https://img.youtube.com/vi/${vidId}/mqdefault.jpg` : '';
+                                return nextVideos.length > 0 ? (
+                                    nextVideos.map((relatedVideo) => {
+                                        const vidId = extractYouTubeVideoId(relatedVideo.url);
+                                        const thumbnailUrl = vidId ? getYouTubeThumbnail(vidId) : '';
 
-                                    return (
-                                        <div
-                                            key={index}
-                                            onClick={() => {
-                                                dispatch(
-                                                    setReadingScreen({
-                                                        isYouTube: true,
-                                                        videoId: vidId,
-                                                    })
-                                                )
-                                            }}
-                                            className='cursor-pointer'
-                                        >
-                                            <div style={{
-                                                position: 'relative',
-                                                paddingBottom: '56.25%',
-                                                background: '#000'
-                                            }}>
-                                                {thumbnailUrl && (
-                                                    <img
-                                                        src={thumbnailUrl}
-                                                        alt={`Video ${index + 1}`}
-                                                        style={{
+                                        return (
+                                            <div
+                                                key={relatedVideo.id}
+                                                onClick={() => handleRelatedVideoClick(relatedVideo)}
+                                                className='cursor-pointer'
+                                            >
+                                                <div style={{
+                                                    position: 'relative',
+                                                    paddingBottom: '56.25%',
+                                                    background: '#000',
+                                                    borderRadius: '8px',
+                                                    overflow: 'hidden'
+                                                }}>
+                                                    {thumbnailUrl ? (
+                                                        <img
+                                                            src={thumbnailUrl}
+                                                            alt={relatedVideo.file_name}
+                                                            style={{
+                                                                position: 'absolute',
+                                                                top: 0,
+                                                                left: 0,
+                                                                width: '100%',
+                                                                height: '100%',
+                                                                objectFit: 'cover'
+                                                            }}
+                                                        />
+                                                    ) : (
+                                                        <div style={{
                                                             position: 'absolute',
-                                                            top: 0,
-                                                            left: 0,
-                                                            width: '100%',
-                                                            height: '100%',
-                                                            objectFit: 'cover'
-                                                        }}
-                                                    />
-                                                )}
+                                                            top: '50%',
+                                                            left: '50%',
+                                                            transform: 'translate(-50%, -50%)',
+                                                            color: '#fff'
+                                                        }}>
+                                                            No thumbnail
+                                                        </div>
+                                                    )}
+                                                </div>
+                                                <Typography variant='textBase' className='font-medium mt-1!'>
+                                                    {relatedVideo.file_name}
+                                                </Typography>
                                             </div>
-                                        </div>
-                                    );
-                                })
-                            ) : (
+                                        );
+                                    })
+                                ) : (
+                                    <Typography variant="textSm" color="text.middle">
+                                        No related videos available
+                                    </Typography>
+                                );
+
+                            })() : (
                                 <Typography variant="textSm" color="text.middle">
                                     No related videos available
                                 </Typography>
                             )}
+
                         </Box>
                     </div>
-
                 </div>
 
                 <div style={{

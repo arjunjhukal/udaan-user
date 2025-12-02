@@ -70,8 +70,8 @@ export default function CourseMediaListing({ type, data, isLoading, havePurchase
                         </div>
                     ))
                 ) :
-                    medias.map((media, index) => (
-                        <MediaCard media={media} key={media.id} type={type} havePurchased={havePurchased} relatedVideos={medias.slice(index, 5).map((media) => media.url)} />
+                    medias.map((media, _index) => (
+                        <MediaCard media={media} key={media.id} type={type} havePurchased={havePurchased} relatedVideos={medias} />
                     ))
                 }
             </div>
