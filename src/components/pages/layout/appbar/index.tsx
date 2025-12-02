@@ -68,7 +68,7 @@ export default function CustomAppbar({
                                 minWidth: "44px",
                             }}
                         >
-                            <Notification />
+                            <Notification variant="Bold" color={theme.palette.seperator.darkest} />
                         </IconButton>
                         <IconButton
                             sx={{
@@ -76,7 +76,7 @@ export default function CustomAppbar({
                                 minWidth: "44px",
                             }}
                         >
-                            <Sms />
+                            <Sms variant="Bold" color={theme.palette.seperator.darkest} />
                         </IconButton>
 
                         <SettingMenu />

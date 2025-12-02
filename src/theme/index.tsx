@@ -345,6 +345,14 @@ const commonThemeOptions: ThemeOptions = {
               color: theme.palette.primary.contrastText,
             },
           },
+          "&.cancel__btn": {
+            backgroundColor: theme.palette.button.lightest,
+            color: theme.palette.primary.main,
+            "&:hover": {
+              backgroundColor: theme.palette.primary.main,
+              color: theme.palette.primary.contrastText,
+            },
+          },
         }),
       },
     },

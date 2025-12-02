@@ -370,8 +370,8 @@ export default function ReadingDialog() {
                     gap: '16px',
                     marginTop: '24px'
                 }}>
-                    <Button variant='contained' onClick={handleClose} className='secondary__btn'>
-                        Close
+                    <Button variant='contained' onClick={handleClose} className='cancel__btn'>
+                        Cancel
                     </Button>
                     <Button variant='contained' className='primary__btn'>
                         Mark as Completed

@@ -76,7 +76,7 @@ export default function SettingMenu() {
                     "&:hover": { backgroundColor: theme.palette.action.hover },
                 }}
             >
-                <Setting2 size={24} color={theme.palette.text.middle} />
+                <Setting2  variant="Bold" color={theme.palette.seperator.darkest} />
             </Box>
 
             {/* Popper */}

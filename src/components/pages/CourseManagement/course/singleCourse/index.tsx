@@ -16,7 +16,15 @@ export default function SingleCourse() {
 
     const [activeTab, setActiveTab] = useState("curriculum");
     const [havePurchesed, setHavePurchased] = useState(false);
-    const [qp, setQp] = useState({
+    const [qpNotes, setQpNotes] = useState({
+        pageIndex: 1,
+        pageSize: 12
+    })
+    const [qpAudios, setQpAudios] = useState({
+        pageIndex: 1,
+        pageSize: 12
+    })
+    const [qpVideos, setQpVideos] = useState({
         pageIndex: 1,
         pageSize: 12
     })
@@ -25,9 +33,9 @@ export default function SingleCourse() {
 
     const { data, isLoading: loadingOverview } = useGetCourseOverviewByIdQuery({ id: Number(id) });
     const { data: curriculum, isLoading: loadingCurriculum } = useGetCourseCurriculumByIdQuery({ id: Number(id) }, { skip: !id });
-    const { data: notes, isLoading: loadingNotes } = useGetCourseMediaByTypeQuery({ id: Number(id), type: "notes", qp }, { skip: !id });
-    const { data: audios, isLoading: loadingAudios } = useGetCourseMediaByTypeQuery({ id: Number(id), type: "audios", qp }, { skip: !id });
-    const { data: videos, isLoading: loadingVideos } = useGetCourseMediaByTypeQuery({ id: Number(id), type: "videos", qp }, { skip: !id });
+    const { data: notes, isLoading: loadingNotes } = useGetCourseMediaByTypeQuery({ id: Number(id), type: "notes", qp: qpNotes }, { skip: !id });
+    const { data: audios, isLoading: loadingAudios } = useGetCourseMediaByTypeQuery({ id: Number(id), type: "audios", qp: qpAudios }, { skip: !id });
+    const { data: videos, isLoading: loadingVideos } = useGetCourseMediaByTypeQuery({ id: Number(id), type: "videos", qp: qpVideos }, { skip: !id });
     const { data: test, isLoading: loadingTest } = useGetCourseTestQuery({ id: Number(id) }, { skip: !id });
 
 
@@ -87,10 +95,7 @@ export default function SingleCourse() {
                     ]}
                     setActiveTab={(newValue) => {
                         setActiveTab(newValue);
-                        setQp({
-                            pageIndex: 1,
-                            pageSize: 10
-                        })
+
                     }}
                     currentActive={activeTab}
                 />
@@ -100,15 +105,15 @@ export default function SingleCourse() {
             {activeTab === "curriculum" && <Activity><SinlgeCourseCurriculum havePurchased={havePurchesed} data={curriculum?.data?.data} isLoading={loadingCurriculum} /></Activity>}
             {activeTab === "notes" && <Activity>
                 <CourseMediaListing havePurchased={havePurchesed} data={notes} isLoading={loadingNotes} type="temp_notes" />
-                <TablePagination qp={qp} setQp={setQp} totalPages={notes?.data?.pagination?.total_pages || 0} />
+                <TablePagination qp={qpNotes} setQp={setQpNotes} totalPages={notes?.data?.pagination?.total_pages || 0} />
             </Activity>}
             {activeTab === "audios" && <Activity>
                 <CourseMediaListing havePurchased={havePurchesed} data={audios} isLoading={loadingAudios} type="temp_audios" />
-                <TablePagination qp={qp} setQp={setQp} totalPages={audios?.data?.pagination?.total_pages || 0} />
+                <TablePagination qp={qpAudios} setQp={setQpAudios} totalPages={audios?.data?.pagination?.total_pages || 0} />
             </Activity>}
             {activeTab === "videos" && <Activity>
                 <CourseMediaListing havePurchased={havePurchesed} data={videos} isLoading={loadingVideos} type="temp_video" />
-                <TablePagination qp={qp} setQp={setQp} totalPages={videos?.data?.pagination?.total_pages || 0} />
+                <TablePagination qp={qpVideos} setQp={setQpVideos} totalPages={videos?.data?.pagination?.total_pages || 0} />
             </Activity>}
             {activeTab === "tests" && <Activity><SinlgeCourseTest data={test} isLoading={loadingTest} /></Activity>}
             <PurchaseCourseDialog type={courseBasic?.data?.course_type} />
