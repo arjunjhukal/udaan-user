@@ -5,6 +5,7 @@ import { courseApi } from '../services/courseApi';
 import authReducer from "../slice/authSlice";
 import purchaseSlice from '../slice/purchaseSlice';
 import readingScreenReducer from '../slice/ReadingScreenSlice';
+import sessionReducer from "../slice/sessionSlice";
 import themeReducer from "../slice/themeSlice";
 import toastReducer from "../slice/toastSlice";
 export const store = configureStore({
@@ -14,6 +15,7 @@ export const store = configureStore({
         toast: toastReducer,
         readScreen: readingScreenReducer,
         purchase: purchaseSlice,
+        session: sessionReducer,
         [authApi.reducerPath]: authApi.reducer,
         [courseApi.reducerPath]: courseApi.reducer,
         [categoryApi.reducerPath]: categoryApi.reducer,
