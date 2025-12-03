@@ -38,7 +38,7 @@ export default function RegisterForm() {
                         severity: "success",
                     }),
                 );
-                navigate(PATH.AUTH.LOGIN.ROOT)
+                navigate(PATH.AUTH.VERIFY_OTP.ROOT)
             } catch (e: any) {
                 dispatch(
                     showToast({

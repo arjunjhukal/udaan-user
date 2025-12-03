@@ -10,35 +10,25 @@ const SessionExpiredPopup = () => {
         (state: RootState) => state.session
     );
 
+    console.log("message", message)
+
     const handleYesItsMe = () => {
-        localStorage.removeItem("access_token");
-        localStorage.removeItem("refresh_token");
-        localStorage.removeItem("user");
-
         dispatch(logout());
-
-        // Hide the popup
         dispatch(hideSessionExpired());
-
-        // Redirect to login page
         window.location.href = "/login";
     };
 
-    const handleClose = () => {
-        dispatch(hideSessionExpired());
-    };
+
 
     if (!showSessionExpiredPopup) return null;
 
     return (
         <>
-            {/* Backdrop */}
             <div
                 className="fixed inset-0 bg-black bg-opacity-50 z-9998 transition-opacity"
-                onClick={handleClose}
+                onClick={handleYesItsMe}
             />
 
-            {/* Modal */}
             <div className="fixed inset-0 z-9999 flex items-center justify-center p-4 pointer-events-none">
                 <div
                     className="bg-white rounded-xl shadow-2xl max-w-md w-full p-6 pointer-events-auto transform transition-all"
@@ -117,7 +107,7 @@ const SessionExpiredPopup = () => {
                         </button>
 
                         <button
-                            onClick={handleClose}
+                            onClick={handleYesItsMe}
                             className="w-full bg-gray-200 hover:bg-gray-300 active:bg-gray-400 text-gray-800 font-semibold py-3 px-4 rounded-lg transition-colors duration-200"
                         >
                             Close

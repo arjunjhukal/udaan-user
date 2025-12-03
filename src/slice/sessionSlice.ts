@@ -1,4 +1,4 @@
-// store/slices/sessionSlice.ts
+// slice/sessionSlice.ts
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 interface SessionState {
@@ -16,6 +16,7 @@ const sessionSlice = createSlice({
     initialState,
     reducers: {
         showSessionExpired: (state, action: PayloadAction<string>) => {
+
             state.showSessionExpiredPopup = true;
             state.message = action.payload;
         },
