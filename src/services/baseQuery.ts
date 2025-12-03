@@ -23,14 +23,28 @@ import type {
 	FetchBaseQueryError,
 } from "@reduxjs/toolkit/query";
 import { fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { v4 as uuidv4 } from "uuid";
 import { showSessionExpired } from "../slice/sessionSlice";
 import type { RootState } from "../store/store";
+
+
+const getDeviceId = () => {
+	let deviceId = localStorage.getItem("device_id");
+	if (!deviceId) {
+		deviceId = uuidv4();
+		localStorage.setItem("device_id", deviceId);
+	}
+	return deviceId;
+};
 
 const baseQueryConfig = fetchBaseQuery({
 	baseUrl: (import.meta.env.VITE_API_BASE_URL || "") + "/api/v1",
 	credentials: "include",
 	prepareHeaders: (headers, { getState }) => {
 		const accessToken = (getState() as RootState).auth?.token;
+
+		headers.set("X-Device-Id", getDeviceId());
+		headers.set("X-Device-Type", "web");
 
 		if (accessToken) {
 			headers.set("Authorization", `Bearer ${accessToken?.access_token}`);
