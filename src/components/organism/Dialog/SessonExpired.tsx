@@ -15,7 +15,7 @@ const SessionExpiredPopup = () => {
     const handleYesItsMe = () => {
         dispatch(logout());
         dispatch(hideSessionExpired());
-        window.location.href = "/login";
+        window.location.href = "/auth/login";
     };
 
 
