@@ -1,16 +1,21 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 interface Props {
-    image: string;
+    image?: string;
     title: string;
     description: string;
+    cta?: {
+        label: string;
+        url: string;
+    }
 }
-export const EmptyList = ({ image, title, description }: Props) => {
+export const EmptyList = ({ image, title, description, cta }: Props) => {
     return (
         <Box className="flex items-center justify-center p-13">
             <Box className="flex flex-col items-center">
                 <img src={image || "/empty-list-placeholder.svg"} alt="" className="h-[115px] w-[149px] object-contain" />
                 <Typography variant="text2Xl" fontWeight={600} color="brand.main" mt={1}>{title}</Typography>
                 <Typography variant="textBase" fontWeight={400} color="text.middle" mt={"2px"}>{description}</Typography>
+                {cta ? <Button component="a" href={cta?.url} variant="contained" color="primary" className="mt-5!">{cta?.label}</Button> : ""}
             </Box>
         </Box>
     )

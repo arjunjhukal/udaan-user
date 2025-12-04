@@ -36,14 +36,14 @@ export interface QuestionList extends GlobalResponse {
 export interface TestProps {
     id?: number;
     name: string;
-    type?: string;
+    test_type?: string;
     duration: {
         hours: number;
         minutes: number;
     };
     description: string;
-    full_marks: number;
-    pass_marks: number;
+    full_mark: number;
+    pass_mark: number;
     start_datetime: string;
     end_datetime: string;
     course_ids: number[];
@@ -52,20 +52,21 @@ export interface TestProps {
     questions?: number;
     status?: null;
     no_of_students?: number;
+    total_questions?: number;
 }
 
 
 
 export const TestInitialState: TestProps = {
     name: "",
-    type: "",
+    test_type: "",
     duration: {
         hours: 0,
         minutes: 0
     },
     description: "",
-    full_marks: 100,
-    pass_marks: 40,
+    full_mark: 100,
+    pass_mark: 40,
     start_datetime: "",
     end_datetime: "",
     course_ids: [],

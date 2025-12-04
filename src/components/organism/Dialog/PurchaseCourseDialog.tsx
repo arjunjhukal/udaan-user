@@ -1,6 +1,7 @@
 import { Box, Button, Dialog, DialogContent, IconButton, Typography, useTheme } from "@mui/material";
 import { CloseCircle } from "iconsax-reactjs";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { PATH } from "../../../routes/PATH";
 import { resetPurchase } from "../../../slice/purchaseSlice";
 import { useAppDispatch, useAppSelector } from "../../../store/hook";
 import type { AppDispatch } from "../../../store/store";
@@ -10,6 +11,7 @@ const renderButton = (
     navigate: (url: string) => void,
     dispatch: AppDispatch
 ) => {
+    const { id } = useParams();
     switch (type) {
         case "expiry":
             return (
@@ -19,7 +21,7 @@ const renderButton = (
                     fullWidth
                     className="primary__btn"
                     onClick={() => {
-                        navigate("purchase");
+                        navigate(PATH.COURSE_MANAGEMENT.COURSES.PURCHASE.ROOT(Number(id)));
                         dispatch(resetPurchase())
                     }}
                 >
@@ -35,7 +37,7 @@ const renderButton = (
                     fullWidth
                     className="primary__btn"
                     onClick={() => {
-                        navigate("/purchase");
+                        navigate(PATH.COURSE_MANAGEMENT.COURSES.PLANS.ROOT);
                         dispatch(resetPurchase())
                     }}
                 >
@@ -65,8 +67,8 @@ const renderButton = (
 export default function PurchaseCourseDialog({ type }: { type?: CourseTypeProps }) {
     const theme = useTheme();
     const dispatch = useAppDispatch();
-    const navigate = useNavigate();                // ✔ Hook here
-    const purchase = useAppSelector((state) => state.purchase); // ✔ Hook here
+    const navigate = useNavigate();
+    const purchase = useAppSelector((state) => state.purchase);
 
     const handlePurchaseClose = () => {
         dispatch(resetPurchase());
@@ -118,7 +120,7 @@ export default function PurchaseCourseDialog({ type }: { type?: CourseTypeProps 
                 </Typography>
 
                 <div className="action__group flex gap-4 mt-8">
-                    {type && renderButton(type,  navigate, dispatch)}
+                    {type && renderButton(type, navigate, dispatch)}
                     <Button
                         variant="contained"
                         size="small"

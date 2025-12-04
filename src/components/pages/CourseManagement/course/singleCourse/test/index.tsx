@@ -1,126 +1,22 @@
 import type { TestList } from "../../../../../../types/question";
 
 import { Box } from "@mui/material";
-import { useEffect, useState } from "react";
-import type { TestProps } from "../../../../../../types";
-import TablePagination from "../../../../../molecules/Pagination";
 import TestCard from "../../../../../organism/Cards/TestCard";
-import TableFilter from "../../../../../organism/TableFilter";
 
 interface Props {
     data?: TestList;
     isLoading: boolean;
 }
-
-const test: TestProps[] = [
-    {
-        id: 1,
-        name: "Test 1",
-        type: "Subjective Exam",
-        duration: {
-            hours: 1,
-            minutes: 30,
-        },
-        description: "This is a test description",
-        full_marks: 100,
-        pass_marks: 80,
-        start_datetime: "2025-11-28T10:00:00Z",
-        end_datetime: "2023-08-01T12:00:00Z",
-        questions: 3,
-        course_ids: [1, 2],
-        question_ids: [1, 2, 3],
-    },
-    {
-        id: 2,
-        name: "Test 2",
-        type: "Subjective Exam",
-        duration: {
-            hours: 2,
-            minutes: 0,
-        },
-        description: "This is another test description",
-        full_marks: 150,
-        pass_marks: 120,
-        start_datetime: "2022-11-30T14:00:00Z",
-        end_datetime: "2023-08-02T16:00:00Z",
-        questions: 10,
-        course_ids: [1, 2],
-        question_ids: [4, 5, 6],
-    },
-    {
-        id: 3,
-        name: "Test 3",
-        type: "Subjective Exam",
-        duration: {
-            hours: 1,
-            minutes: 45,
-        },
-        description: "This is yet another test description",
-        full_marks: 200,
-        pass_marks: 180,
-        start_datetime: "2025-11-28T09:00:00Z",
-        end_datetime: "2023-08-03T11:00:00Z",
-        questions: 5,
-        course_ids: [1, 2],
-        question_ids: [7, 8, 9],
-    },
-    {
-        id: 4,
-        name: "Test 4",
-        type: "Subjective Exam",
-        duration: {
-            hours: 1,
-            minutes: 30,
-        },
-        description: "This is a test description",
-        full_marks: 100,
-        pass_marks: 80,
-        start_datetime: "2024-11-20T10:00:00Z",
-        end_datetime: "2023-08-01T12:00:00Z",
-        questions: 30,
-        course_ids: [1, 2],
-        question_ids: [1, 2, 3],
-    },
-];
-
 export default function SinlgeCourseTest({ data, isLoading }: Props) {
-    const [testData, setTestData] = useState(test);
-    const [search, setSearch] = useState<string>("");
-    const [qp, setQp] = useState({
-        pageIndex: 1,
-        pageSize: 8,
-    });
-
     console.log(isLoading);
-    console.log(data);
-
-
-    useEffect(() => {
-        const filteredData = test.filter((item) =>
-            item.name.toLowerCase().includes(search.toLowerCase())
-        );
-        setTestData(filteredData);
-    }, [search]);
-
-    const onFilter = () => { };
-
     return (
         <>
-            {/* <PageHeader
-        breadcrumb={[
-          {
-            title: "Test",
-          },
-        ]}
-      /> */}
             <Box mt={1}>
-                <TableFilter search={search} setSearch={setSearch} onFilter={onFilter} />
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {testData.map((test, index) => (
+                    {data?.data?.data?.map((test, index) => (
                         <TestCard key={index} test={test} />
                     ))}
                 </div>
-                <TablePagination qp={qp} setQp={setQp} totalPages={10} />
             </Box>
         </>
     );

@@ -1,23 +1,10 @@
 import { useEffect, useState } from "react";
+import type { LiveClassProps } from "../../../../../types/liveClass";
 import TablePagination from "../../../../molecules/Pagination";
 import LiveClassCard from "../../../../organism/Cards/LiveClassCard";
 import PageHeader from "../../../../organism/PageHeader";
 import TableFilter from "../../../../organism/TableFilter";
 
-
-export interface LiveClassProps {
-  id: number;
-  name: string;
-  duration: {
-    hours: number,
-    minutes: number,
-  },
-  teacher: string;
-  description: string;
-  start_datetime: string;
-  end_datetime: string;
-  activeStudents: number;
-}
 
 const liveClass: LiveClassProps[] = [{
   id: 1,

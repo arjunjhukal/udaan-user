@@ -1,15 +1,12 @@
 export const getStatus = (
-    testDateString: string
-): "upcoming" | "today" | "past" => {
-    const testDate = new Date(testDateString);
+    startDateString: string,
+    endDateString: string
+): "upcoming" | "ongoing" | "past" => {
     const now = new Date();
+    const start = new Date(startDateString);
+    const end = new Date(endDateString);
 
-    const isSameDay =
-        testDate.getFullYear() === now.getFullYear() &&
-        testDate.getMonth() === now.getMonth() &&
-        testDate.getDate() === now.getDate();
-
-    if (testDate > now) return "upcoming";
-    else if (isSameDay) return "today";
-    else return "today";
+    if (now < start) return "upcoming";
+    if (now >= start && now <= end) return "ongoing";
+    return "past";
 };

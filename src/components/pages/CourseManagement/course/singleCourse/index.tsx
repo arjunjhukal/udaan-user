@@ -1,6 +1,6 @@
 import React, { Activity, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useGetCourseByIdQuery, useGetCourseCurriculumByIdQuery, useGetCourseMediaByTypeQuery, useGetCourseOverviewByIdQuery, useGetCourseTestQuery } from "../../../../../services/courseApi";
+import { useGetCourseByIdQuery, useGetCourseCurriculumByIdQuery, useGetCourseLiveClassQuery, useGetCourseMediaByTypeQuery, useGetCourseOverviewByIdQuery, useGetCourseTestQuery } from "../../../../../services/courseApi";
 import TablePagination from "../../../../molecules/Pagination";
 import TabController from "../../../../molecules/TabController";
 import CourseBanner from "../../../../organism/CourseBanner";
@@ -8,6 +8,7 @@ import PurchaseCourseDialog from "../../../../organism/Dialog/PurchaseCourseDial
 import ReadingDialog from "../../../../organism/Dialog/ReadingDialog";
 import CourseMediaListing from "./courseMediaListing";
 import SinlgeCourseCurriculum from "./curriculum";
+import SinlgeCourseLiveClass from "./liveClass";
 import SinlgeCourseOverview from "./overview";
 import SinlgeCourseTest from "./test";
 
@@ -29,6 +30,20 @@ export default function SingleCourse() {
         pageSize: 12
     })
 
+    const [qpTest, setQpTest] = useState({
+        pageIndex: 1,
+        pageSize: 12
+    })
+    const [qpLiveClass, setQpLiveClass] = useState({
+        pageIndex: 1,
+        pageSize: 12
+    })
+
+
+    // const [searchTest, setSearchTest] = useState("");
+    // const [searchLiveClass, setSearchLiveClass] = useState("");
+
+
     const { data: courseBasic, isLoading: loadingBasic } = useGetCourseByIdQuery({ id: Number(id) });
 
     const { data, isLoading: loadingOverview } = useGetCourseOverviewByIdQuery({ id: Number(id) });
@@ -36,8 +51,8 @@ export default function SingleCourse() {
     const { data: notes, isLoading: loadingNotes } = useGetCourseMediaByTypeQuery({ id: Number(id), type: "notes", qp: qpNotes }, { skip: !id });
     const { data: audios, isLoading: loadingAudios } = useGetCourseMediaByTypeQuery({ id: Number(id), type: "audios", qp: qpAudios }, { skip: !id });
     const { data: videos, isLoading: loadingVideos } = useGetCourseMediaByTypeQuery({ id: Number(id), type: "videos", qp: qpVideos }, { skip: !id });
-    const { data: test, isLoading: loadingTest } = useGetCourseTestQuery({ id: Number(id) }, { skip: !id });
-
+    const { data: test, isLoading: loadingTest } = useGetCourseTestQuery({ id: Number(id), ...qpTest }, { skip: !id });
+    const { data: liveClasses, isLoading: loadingLiveClass } = useGetCourseLiveClassQuery({ id: Number(id), ...qpLiveClass }, { skip: !id })
 
     React.useEffect(() => {
         if (courseBasic?.data?.user) {
@@ -86,7 +101,7 @@ export default function SingleCourse() {
                         },
                         {
                             label: "Live Classes",
-                            value: "live-classes"
+                            value: "live_classes"
                         },
                         {
                             label: "Reviews",
@@ -115,7 +130,15 @@ export default function SingleCourse() {
                 <CourseMediaListing havePurchased={havePurchesed} data={videos} isLoading={loadingVideos} type="temp_video" />
                 <TablePagination qp={qpVideos} setQp={setQpVideos} totalPages={videos?.data?.pagination?.total_pages || 0} />
             </Activity>}
-            {activeTab === "tests" && <Activity><SinlgeCourseTest data={test} isLoading={loadingTest} /></Activity>}
+            {activeTab === "tests" &&
+                <Activity >
+                    <SinlgeCourseTest data={test} isLoading={loadingTest} />
+                    <TablePagination qp={qpTest} setQp={setQpTest} totalPages={test?.data?.pagination?.total_pages || 0} />
+                </Activity >}
+            {activeTab === "live_classes" && <Activity>
+                <SinlgeCourseLiveClass data={liveClasses} isLoading={loadingLiveClass} />
+                <TablePagination qp={qpLiveClass} setQp={setQpLiveClass} totalPages={test?.data?.pagination?.total_pages || 0} />
+            </Activity>}
             <PurchaseCourseDialog type={courseBasic?.data?.course_type} />
             <ReadingDialog />
         </>

@@ -1,14 +1,14 @@
 import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
 import { Clock, Devices, NotificationBing } from "iconsax-reactjs";
+import type { LiveClassProps } from "../../../types/liveClass";
 import { getTime } from "../../../utils/formatDate";
 import { getStatus } from "../../../utils/getStatus";
-import type { LiveClassProps } from "../../pages/CourseManagement/liveClasses/allLiveClass/AllLiveClassList";
 
 export default function LiveClassCard({ data }: { data: LiveClassProps }) {
     const theme = useTheme();
     console.log(data);
 
-    const status = getStatus(data.start_datetime);
+    const status = getStatus(data.start_time, data.end_time);
     return (
         <Box
             className="test__card rounded-md p-4 w-full"
@@ -40,14 +40,14 @@ export default function LiveClassCard({ data }: { data: LiveClassProps }) {
                                     fontWeight={400}
                                     color="text.secondary"
                                 >
-                                    Prof. Saugat Maharjan
+                                    {data?.teachers?.map((teacher) => teacher.name)}
                                 </Typography>
                             </div>
                         </div>
                     </div>
                     <Typography
                         color="text.middle"
-                        bgcolor={"primary.50"}
+                        className={` status ${status}`}
                         variant="textSm"
                         p={"2px 8px"}
                         borderRadius={0.5}
@@ -58,19 +58,17 @@ export default function LiveClassCard({ data }: { data: LiveClassProps }) {
             </div>
             <Box className="flex justify-between items-center my-3.5">
                 <Typography
-                    variant="textBase"
-                    fontWeight={500}
+                    variant="textSm"
                     color="text.secondary"
                     className="inline-flex gap-0.5 items-center"
                 >
-                    <span><Clock size={18} color={theme.palette.text.dark} /></span> {getTime(data.start_datetime)} - {getTime(data.end_datetime)}
+                    <span><Clock size={18} color={theme.palette.text.dark} /></span> {getTime(data.start_time)} - {getTime(data.end_time)}
                 </Typography>
                 <Typography
                     variant="textSm"
-                    fontWeight={500}
                     color="text.secondary"
                 >
-                    45 students active
+                    {data?.active_students} students active
                 </Typography>
             </Box>
 
@@ -90,9 +88,14 @@ export default function LiveClassCard({ data }: { data: LiveClassProps }) {
                         <NotificationBing size={24} />
                     ) : null
                 }
+                LinkComponent={"a"}
+                href={data?.join_url}
+                target="_blank"
             >
                 {status === "upcoming" && "Remind Me"}
-                {status === "today" && "Start Test"}
+                {status === "ongoing" && "Join Live"}
+                {status === "past" && "Class Already Ended"}
+
             </Button>
         </Box>
     );

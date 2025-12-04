@@ -7,6 +7,7 @@ import type { TestList } from "../types/question";
 import type { GlobalResponse } from "../types/user";
 import { buildQueryParams } from "../utils/buildQueryParams";
 import { baseQuery } from "./baseQuery";
+import type { LiveClassList } from "../types/liveClass";
 
 export const courseApi = createApi({
     reducerPath: "courseApi",
@@ -88,7 +89,13 @@ export const courseApi = createApi({
             }),
             providesTags: (_result, _error, { id }) => [{ type: "Course" as const, id }],
         }),
-
+        getCourseLiveClass: builder.query<LiveClassList, QueryParams & { id: number }>({
+            query: ({ id, pageIndex, pageSize, search }) => ({
+                url: `/course/${id}/live?${buildQueryParams({ page: pageIndex, page_size: pageSize, search })}`,
+                method: "GET",
+            }),
+            providesTags: (_result, _error, { id }) => [{ type: "Course" as const, id }],
+        }),
         purchaseCourse: builder.mutation<GlobalResponse, { body: PurchaseProps; id: number }>({
             query: ({ body, id }) => ({
                 url: `/course/${id}/purchase`,
@@ -142,6 +149,7 @@ export const {
     useGetCourseCurriculumByIdQuery,
     useGetCourseMediaByTypeQuery,
     useGetCourseTestQuery,
+    useGetCourseLiveClassQuery,
     usePurchaseCourseMutation,
     useGetUserPurchasedCourseQuery,
     useBookmakrCourseMutation

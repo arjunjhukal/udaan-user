@@ -298,6 +298,14 @@ const commonThemeOptions: ThemeOptions = {
             borderTop: `1px solid ${theme.palette.divider}`,
             margin: '2rem 0',
           },
+        },
+        ".status": {
+          padding: "4px 8px",
+          borderRadius: "4px",
+          "&.ongoing": {
+            backgroundColor: theme.palette.success.main,
+            color: theme.palette.primary.contrastText
+          }
         }
       }),
     },
