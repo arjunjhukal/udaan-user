@@ -10,7 +10,6 @@ export default function AllLiveClassList() {
 
 
 
-  const onFilter = () => { };
 
   return (
     <>
