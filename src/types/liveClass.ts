@@ -3,17 +3,15 @@ import type { Pagination } from ".";
 export interface LiveClassProps {
     id: number;
     name: string;
-    name_np: string | null;
     agenda: string;
-    agenda_np: string | null;
     zoom_uuid: string;
     duration: number;
-    schedule_date: string; // ISO 8601 datetime string
-    end_date: string; // ISO 8601 datetime string
+    schedule_date: string;
+    end_date: string;
     is_recurring: boolean;
     recurring_type: number;
     repeat_interval: number;
-    weekly_days: number[]; // Array of day numbers (0-6)
+    weekly_days: number[];
     monthly_day: number | null;
     start_url: string;
     join_url: string;

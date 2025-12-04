@@ -1,10 +1,10 @@
-import type { TestList } from "../../../../../../types/question";
+import type { LiveClassList } from "../../../../../../types/liveClass";
 
 import LiveClassCard from "../../../../../organism/Cards/LiveClassCard";
 import PageHeader from "../../../../../organism/PageHeader";
 
 interface Props {
-    data?: TestList;
+    data?: LiveClassList;
     isLoading: boolean;
 }
 
