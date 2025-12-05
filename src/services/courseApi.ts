@@ -1,13 +1,13 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import type { CategoryFilterParams, QueryParams } from "../types";
 import type { CourseList, CourseProps, courseTabType, CurriculumList } from "../types/course";
+import type { LiveClassList } from "../types/liveClass";
 import type { MediaList } from "../types/media";
 import type { PurchaseProps } from "../types/purchase";
 import type { TestList } from "../types/question";
 import type { GlobalResponse } from "../types/user";
 import { buildQueryParams } from "../utils/buildQueryParams";
 import { baseQuery } from "./baseQuery";
-import type { LiveClassList } from "../types/liveClass";
 
 export const courseApi = createApi({
     reducerPath: "courseApi",
@@ -62,7 +62,6 @@ export const courseApi = createApi({
             }),
             providesTags: (_result, _error, { id }) => [{ type: "Curriculum" as const, id }],
         }),
-
         getCourseMediaByType: builder.query<MediaList, { id: number | null; type: courseTabType; qp: QueryParams }>({
             query: ({ id, type, qp }) => {
                 return ({
@@ -81,7 +80,6 @@ export const courseApi = createApi({
                     ]
                     : [{ type: "Media" as const, id: "LIST" }],
         }),
-
         getCourseTest: builder.query<TestList, QueryParams & { id: number }>({
             query: ({ id, pageIndex, pageSize, search }) => ({
                 url: `/course/${id}/test?${buildQueryParams({ page: pageIndex, page_size: pageSize, search })}`,

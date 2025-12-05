@@ -17,6 +17,7 @@ export const lightPalette = {
     main: "#303188",
     hover: "#1D1D52",
     light: "#E9E9F7",
+    lightest: "#0EA5E9",
     black: "#111827",
     contrastText: "#FFFFFF",
   },

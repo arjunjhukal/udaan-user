@@ -78,3 +78,36 @@ export interface TestList {
         pagination: Pagination
     }
 }
+
+export interface SingleMcqResponse extends GlobalResponse {
+    data: QuestionProps[];
+    overview: {
+        name: string;
+        time: number;
+    }
+}
+export interface Answers {
+    question_id: number | null;
+    option_id: number | null;
+
+}
+
+export interface McqSubmissionPayload {
+    answers: Answers[]
+    time_taken: number;
+}
+export interface McqSubmissionData {
+    score: number;
+    correct: number;
+    incorrect: number;
+    time_taken: string;
+    attempted: number;
+    total_questions: number;
+    percentage: number;
+    test_type: "mcq" | string;
+    test_name: string;
+}
+
+export interface McqSubmissionResponse extends GlobalResponse {
+    data: McqSubmissionData;
+}

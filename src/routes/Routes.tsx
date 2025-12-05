@@ -8,14 +8,17 @@ import CourseRoot from "../components/pages/CourseManagement/course";
 import AllCourses from "../components/pages/CourseManagement/course/allCourse";
 import SingleCourse from "../components/pages/CourseManagement/course/singleCourse";
 import MyCourseRoot from "../components/pages/CourseManagement/myCourse";
-import TestManagementRoot from "../components/pages/CourseManagement/test";
-import AllTests from "../components/pages/CourseManagement/test/allTest";
+
 import AuthLayout from "../components/pages/layout/AuthLayout";
 import NotFound from "../components/pages/layout/NotFound";
 import SingleFormAuthLayout from "../components/pages/layout/SingleFormAuthLayout";
 import PurchaseRoot from "../components/pages/Purchase";
 import PurchaseLayout from "../components/pages/Purchase/PurchaseLayout";
 import PaymentSuccessPage from "../components/pages/Purchase/success";
+import TestManagementRoot from "../components/pages/TestManagement";
+import AllTestRoot from "../components/pages/TestManagement/allTest";
+import ReviewTestRoot from "../components/pages/TestManagement/reviewTest";
+import SingleTestRoot from "../components/pages/TestManagement/singleTest";
 import { PATH } from "./PATH";
 import Private from "./Private";
 
@@ -59,17 +62,20 @@ const router = createBrowserRouter([
         element: <App />,
       },
       {
-        element: <TestManagementRoot />,
-        children: [
-          { path: PATH.COURSE_MANAGEMENT.TEST.ROOT, element: <AllTests /> },
-        ],
-      },
-      {
         element: <CourseRoot />,
         children: [
           { path: PATH.COURSE_MANAGEMENT.COURSES.ROOT, element: <AllCourses /> },
           { path: PATH.COURSE_MANAGEMENT.COURSES.VIEW_COURSE.ROOT(), element: <SingleCourse /> },
+          { path: PATH.COURSE_MANAGEMENT.COURSES.VIEW_TEST.ROOT({}), element: <SingleTestRoot /> },
+          { path: PATH.COURSE_MANAGEMENT.COURSES.VIEW_TEST.REVIEW_TEST.ROOT({}), element: <ReviewTestRoot /> },
         ],
+      },
+      {
+        element: <TestManagementRoot />,
+        children: [
+          { path: PATH.TEST.ROOT, element: <AllTestRoot /> },
+
+        ]
       },
       {
         element: <PurchaseRoot />,

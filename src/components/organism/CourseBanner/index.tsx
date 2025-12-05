@@ -51,6 +51,33 @@ export default function CourseBanner({ data, isLoading, havePurchased }: { data?
                                 </svg>
                                 <Typography variant="textLg" color="white">{course?.subjects} Subjects</Typography>
                             </li> : ""}
+                            {course?.no_of_notes ? <li className="flex items-center gap-2">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <g clip-path="url(#clip0_10023_127925)">
+                                        <path d="M10.7328 5.84697L14.7102 6.90671M9.88017 9.01097L11.8689 9.54084M9.97909 14.9719L10.7746 15.1838C13.0245 15.7833 14.1495 16.083 15.0358 15.5742C15.9221 15.0654 16.2235 13.9468 16.8264 11.7095L17.679 8.5455C18.2819 6.30821 18.5833 5.18957 18.0716 4.3083C17.5599 3.42703 16.4349 3.1273 14.185 2.52782L13.3895 2.31587C11.1395 1.71639 10.0145 1.41665 9.12826 1.92545C8.24199 2.43425 7.94056 3.5529 7.33768 5.79018L6.48508 8.95418C5.8822 11.1915 5.58076 12.3101 6.09245 13.1914C6.60413 14.0726 7.72912 14.3724 9.97909 14.9719Z" stroke="white" stroke-width="1.5" stroke-linecap="round" />
+                                        <path d="M10.0013 17.4549L9.20768 17.671C6.96299 18.2823 5.84065 18.5879 4.95646 18.0691C4.07228 17.5503 3.77154 16.4097 3.17008 14.1286L2.31948 10.9025C1.71802 8.62135 1.41729 7.48076 1.92777 6.58221C2.36936 5.80493 3.33464 5.83323 4.58464 5.83314" stroke="white" stroke-width="1.5" stroke-linecap="round" />
+                                    </g>
+                                    <defs>
+                                        <clipPath id="clip0_10023_127925">
+                                            <rect width="20" height="20" fill="white" />
+                                        </clipPath>
+                                    </defs>
+                                </svg>
+                                <Typography variant="textLg" color="white">{course?.no_of_notes} Notes</Typography>
+                            </li> : ""}
+                            {course?.no_of_audios ? <li className="flex items-center gap-2">
+                                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M9 13.5C9 15.1569 7.65685 16.5 6 16.5C4.34315 16.5 3 15.1569 3 13.5C3 11.8431 4.34315 10.5 6 10.5C7.65685 10.5 9 11.8431 9 13.5ZM9 13.5V1.5L14.25 4.5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                                <Typography variant="textLg" color="white">{course?.no_of_audios} Audios</Typography>
+                            </li> : ""}
+                            {course?.no_of_videos ? <li className="flex items-center gap-2">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M18.3346 6.66667L13.3346 10L18.3346 13.3333V6.66667Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M11.668 5H3.33464C2.41416 5 1.66797 5.74619 1.66797 6.66667V13.3333C1.66797 14.2538 2.41416 15 3.33464 15H11.668C12.5884 15 13.3346 14.2538 13.3346 13.3333V6.66667C13.3346 5.74619 12.5884 5 11.668 5Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                                <Typography variant="textLg" color="white">{course?.no_of_videos} Videos</Typography>
+                            </li> : ""}
                         </ul>
                     </div>
                 </div>
@@ -67,7 +94,7 @@ export default function CourseBanner({ data, isLoading, havePurchased }: { data?
                                 <Typography variant="textXs">Progress</Typography>
                                 <Typography variant="textBase" fontWeight={500}>0%</Typography>
                             </div>
-                            {/* <BorderLinearProgress variant="determinate" color="success" value={10} /> */}
+
                             <MyProgress />
                             <div className="flex justify-between items-center">
                                 <Typography variant="textXs">Nov 20</Typography>

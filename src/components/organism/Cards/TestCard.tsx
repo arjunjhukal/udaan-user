@@ -1,6 +1,6 @@
 import { Box, Button, Divider, Typography, useTheme } from "@mui/material";
 import { NotificationBing } from "iconsax-reactjs";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { PATH } from "../../../routes/PATH";
 import type { TestProps } from "../../../types/question";
 import { formatDate } from "../../../utils/formatDate";
@@ -11,7 +11,7 @@ export default function TestCard({ test }: { test: TestProps }) {
   const navigate = useNavigate();
 
   const status = getStatus(test.start_datetime, test.end_datetime);
-
+  const { id } = useParams();
   return (
     <Box
       className="test__card rounded-md p-4 flex flex-col justify-between"
@@ -122,7 +122,10 @@ export default function TestCard({ test }: { test: TestProps }) {
           startIcon={status === "upcoming" ? <NotificationBing size={24} /> : null}
           disabled={status === "past"}
           onClick={() =>
-            navigate(PATH.COURSE_MANAGEMENT.TEST.VIEW_TEST.ROOT(Number(test.id)))
+            navigate(PATH.COURSE_MANAGEMENT.COURSES.VIEW_TEST.ROOT({
+              courseId: Number(id),
+              testId: Number(test.id)
+            }))
           }
         >
           {status === "upcoming" && "Remind Me"}

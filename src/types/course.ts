@@ -68,6 +68,10 @@ export interface CourseProps {
         has_purchased: false
     },
     is_bookmarked?: boolean;
+    no_of_notes: number;
+    no_of_audios: number;
+    no_of_videos: number;
+    no_of_tests: number;
 }
 
 export interface CourseList extends GlobalResponse {
