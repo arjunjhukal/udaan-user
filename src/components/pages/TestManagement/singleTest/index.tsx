@@ -15,11 +15,7 @@ import QuestionView from "./QuestionView";
 
 export default function SingleTestRoot() {
 
-    const LS_KEYS = {
-        TIME: "test_time_left",
-        ATTEMPTED: "test_attempted_questions",
-        INDEX: "test_current_question_index"
-    };
+
 
     const theme = useTheme();
     const navigate = useNavigate();
@@ -43,7 +39,7 @@ export default function SingleTestRoot() {
     const [isTimerPaused, setIsTimerPaused] = useState(false);
     const initialTimeRef = useRef<number | undefined>(undefined);
 
-    const { data, isLoading } = useGetTestByIdQuery(
+    const { data } = useGetTestByIdQuery(
         { courseId: Number(courseId), testId: Number(testId) },
         { skip: !courseId || !testId }
     );
