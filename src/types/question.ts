@@ -111,3 +111,22 @@ export interface McqSubmissionData {
 export interface McqSubmissionResponse extends GlobalResponse {
     data: McqSubmissionData;
 }
+
+
+export interface McqReportAnswerItem {
+    question: string;
+    your_answer_id: number | null;
+    options: OptionProps[];
+}
+export interface McqReportData {
+    test_name: string;
+    total_questions: number;
+    timer: string;
+    start_date: string;
+    start_time: string;
+    end_time: string;
+
+    correct_answers: McqReportAnswerItem[];
+    incorrect_answers: McqReportAnswerItem[];
+    skipped_answers: McqReportAnswerItem[];
+}

@@ -1,5 +1,5 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
-import type { McqSubmissionPayload, McqSubmissionResponse, SingleMcqResponse } from "../types/question";
+import type { McqReportData, McqSubmissionPayload, McqSubmissionResponse, SingleMcqResponse } from "../types/question";
 import { baseQuery } from "./baseQuery";
 
 export const testApi = createApi({
@@ -21,7 +21,7 @@ export const testApi = createApi({
                 body
             })
         }),
-        reviewTestResult: builder.query<McqSubmissionResponse, { courseId: number; testId: number }>({
+        reviewTestResult: builder.query<{ data: McqReportData }, { courseId: number; testId: number }>({
             query: ({ courseId, testId }) => ({
                 url: `/course/${courseId}/test/${testId}/review`,
                 method: "GET",

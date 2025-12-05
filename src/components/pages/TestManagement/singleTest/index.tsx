@@ -15,8 +15,6 @@ import QuestionView from "./QuestionView";
 
 export default function SingleTestRoot() {
 
-
-
     const theme = useTheme();
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
