@@ -111,7 +111,7 @@ export default function PrimaryMenu() {
             className={isActive(PATH.COURSE_MANAGEMENT.COURSES.ROOT) ? "active" : ""}
           >
             <ListItemIcon>
-              <SearchNormal size={20}/>
+              <SearchNormal size={20} />
             </ListItemIcon>
             <ListItemText primary={t("menus.test")} />
           </ListItemButton>

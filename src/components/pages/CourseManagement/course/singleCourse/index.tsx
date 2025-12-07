@@ -1,7 +1,7 @@
 import React, { Activity, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useGetCourseByIdQuery, useGetCourseCurriculumByIdQuery, useGetCourseLiveClassQuery, useGetCourseMediaByTypeQuery, useGetCourseOverviewByIdQuery, useGetCourseTestQuery } from "../../../../../services/courseApi";
-import TablePagination from "../../../../molecules/Pagination";
+import type { QueryParams } from "../../../../../types";
 import TabController from "../../../../molecules/TabController";
 import CourseBanner from "../../../../organism/CourseBanner";
 import PurchaseCourseDialog from "../../../../organism/Dialog/PurchaseCourseDialog";
@@ -17,24 +17,24 @@ export default function SingleCourse() {
 
     const [activeTab, setActiveTab] = useState("curriculum");
     const [havePurchesed, setHavePurchased] = useState(false);
-    const [qpNotes, setQpNotes] = useState({
+    const [qpNotes, setQpNotes] = useState<QueryParams>({
         pageIndex: 1,
         pageSize: 12
     })
-    const [qpAudios, setQpAudios] = useState({
+    const [qpAudios, setQpAudios] = useState<QueryParams>({
         pageIndex: 1,
         pageSize: 12
     })
-    const [qpVideos, setQpVideos] = useState({
+    const [qpVideos, setQpVideos] = useState<QueryParams>({
         pageIndex: 1,
         pageSize: 12
     })
 
-    const [qpTest, setQpTest] = useState({
+    const [qpTest, setQpTest] = useState<QueryParams>({
         pageIndex: 1,
         pageSize: 12
     })
-    const [qpLiveClass, setQpLiveClass] = useState({
+    const [qpLiveClass, setQpLiveClass] = useState<QueryParams>({
         pageIndex: 1,
         pageSize: 12
     })
@@ -103,10 +103,6 @@ export default function SingleCourse() {
                             label: "Live Classes",
                             value: "live_classes"
                         },
-                        {
-                            label: "Reviews",
-                            value: "reviews"
-                        },
                     ]}
                     setActiveTab={(newValue) => {
                         setActiveTab(newValue);
@@ -119,25 +115,20 @@ export default function SingleCourse() {
             {activeTab === "overview" && <Activity><SinlgeCourseOverview data={data?.data && data.data} isLoading={loadingOverview} /></Activity>}
             {activeTab === "curriculum" && <Activity><SinlgeCourseCurriculum havePurchased={havePurchesed} data={curriculum?.data?.data} isLoading={loadingCurriculum} /></Activity>}
             {activeTab === "notes" && <Activity>
-                <CourseMediaListing havePurchased={havePurchesed} data={notes} isLoading={loadingNotes} type="temp_notes" />
-                <TablePagination qp={qpNotes} setQp={setQpNotes} totalPages={notes?.data?.pagination?.total_pages || 0} />
+                <CourseMediaListing havePurchased={havePurchesed} data={notes} isLoading={loadingNotes} type="temp_notes" qp={qpNotes} setQp={setQpNotes} totalPages={notes?.data?.pagination?.total_pages || 0} />
             </Activity>}
             {activeTab === "audios" && <Activity>
-                <CourseMediaListing havePurchased={havePurchesed} data={audios} isLoading={loadingAudios} type="temp_audios" />
-                <TablePagination qp={qpAudios} setQp={setQpAudios} totalPages={audios?.data?.pagination?.total_pages || 0} />
+                <CourseMediaListing havePurchased={havePurchesed} data={audios} isLoading={loadingAudios} type="temp_audios" qp={qpAudios} setQp={setQpAudios} totalPages={audios?.data?.pagination?.total_pages || 0} />
             </Activity>}
             {activeTab === "videos" && <Activity>
-                <CourseMediaListing havePurchased={havePurchesed} data={videos} isLoading={loadingVideos} type="temp_video" />
-                <TablePagination qp={qpVideos} setQp={setQpVideos} totalPages={videos?.data?.pagination?.total_pages || 0} />
+                <CourseMediaListing havePurchased={havePurchesed} data={videos} isLoading={loadingVideos} type="temp_video" qp={qpVideos} setQp={setQpVideos} totalPages={videos?.data?.pagination?.total_pages || 0} />
             </Activity>}
             {activeTab === "tests" &&
                 <Activity >
-                    <SinlgeCourseTest data={test} isLoading={loadingTest} />
-                    <TablePagination qp={qpTest} setQp={setQpTest} totalPages={test?.data?.pagination?.total_pages || 0} />
+                    <SinlgeCourseTest data={test} isLoading={loadingTest} qp={qpTest} setQp={setQpTest} totalPages={test?.data?.pagination?.total_pages || 0} />
                 </Activity >}
             {activeTab === "live_classes" && <Activity>
-                <SinlgeCourseLiveClass data={liveClasses} isLoading={loadingLiveClass} />
-                <TablePagination qp={qpLiveClass} setQp={setQpLiveClass} totalPages={test?.data?.pagination?.total_pages || 0} />
+                <SinlgeCourseLiveClass data={liveClasses} isLoading={loadingLiveClass} qp={qpLiveClass} setQp={setQpLiveClass} totalPages={test?.data?.pagination?.total_pages || 0} />
             </Activity>}
             <PurchaseCourseDialog type={courseBasic?.data?.course_type} />
             <ReadingDialog />

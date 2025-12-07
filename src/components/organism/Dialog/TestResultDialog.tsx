@@ -67,13 +67,14 @@ export default function TestResultDialog({ open, result, onReview, onClose, onBa
                 </div>
 
                 {/* Test Title */}
-                <Typography variant="h5" fontWeight={700} className="mt-2">
+                <Typography variant="h4" fontWeight={600} className="mt-2">
                     {result?.test_name}
                 </Typography>
 
                 <Typography
                     className="text-center mt-2 mb-4 px-4"
-                    color="text.secondary"
+                    color="text.middle"
+                    variant="subtitle1"
                 >
                     {result ? getScoreMessage(result.score) : ""}
                 </Typography>
@@ -88,10 +89,10 @@ export default function TestResultDialog({ open, result, onReview, onClose, onBa
                             background: theme.palette.success.light,
                         }}
                     >
-                        <Typography color="success.main" fontWeight={600}>
+                        <Typography color="success.main" variant="subtitle2">
                             Correct answers
                         </Typography>
-                        <Typography fontWeight={700} color="success.main">
+                        <Typography variant="body2" fontWeight={600} color="success.main">
                             {result?.correct}/{result?.total_questions}
                         </Typography>
                     </Box>
@@ -104,10 +105,10 @@ export default function TestResultDialog({ open, result, onReview, onClose, onBa
                             background: theme.palette.error.light,
                         }}
                     >
-                        <Typography color="error.main" fontWeight={600}>
+                        <Typography color="error.main" variant="subtitle2">
                             Incorrect answers
                         </Typography>
-                        <Typography fontWeight={700} color="error.main">
+                        <Typography variant="body2" fontWeight={600} color="error.main">
                             {result?.incorrect}/{result?.total_questions}
                         </Typography>
                     </Box>
@@ -120,10 +121,10 @@ export default function TestResultDialog({ open, result, onReview, onClose, onBa
                             background: theme.palette.warning.light,
                         }}
                     >
-                        <Typography color="warning.main" fontWeight={600}>
+                        <Typography color="warning.main" variant="subtitle2">
                             Total Time Taken
                         </Typography>
-                        <Typography fontWeight={700} color="warning.main">
+                        <Typography variant="body2" fontWeight={600} color="warning.main">
                             {result?.time_taken}
                         </Typography>
                     </Box>
@@ -136,10 +137,10 @@ export default function TestResultDialog({ open, result, onReview, onClose, onBa
                             background: theme.palette.primary.light,
                         }}
                     >
-                        <Typography color="primary.main" fontWeight={600}>
+                        <Typography color="primary.main" variant="subtitle2">
                             Questions Attempted
                         </Typography>
-                        <Typography fontWeight={700} color="primary.main">
+                        <Typography variant="body2" fontWeight={600} color="primary.main">
                             {result?.attempted}/{result?.total_questions}
                         </Typography>
                     </Box>

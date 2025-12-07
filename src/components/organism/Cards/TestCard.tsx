@@ -120,7 +120,7 @@ export default function TestCard({ test }: { test: TestProps }) {
             fontSize: "14px",
           }}
           startIcon={status === "upcoming" ? <NotificationBing size={24} /> : null}
-          disabled={status === "past"}
+          disabled={status === "ended"}
           onClick={() =>
             navigate(PATH.COURSE_MANAGEMENT.COURSES.VIEW_TEST.ROOT({
               courseId: Number(id),
@@ -130,7 +130,7 @@ export default function TestCard({ test }: { test: TestProps }) {
         >
           {status === "upcoming" && "Remind Me"}
           {status === "ongoing" && "Start Test"}
-          {status === "past" && "Test Ended Already"}
+          {status === "ended" && "Test Ended Already"}
         </Button>
       </div>
     </Box>

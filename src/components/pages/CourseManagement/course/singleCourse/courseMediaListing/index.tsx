@@ -1,9 +1,11 @@
 
 import { Box, Skeleton } from "@mui/material";
 
+import type { QueryParams } from "../../../../../../types";
 import type { CurriculumMediaType } from "../../../../../../types/course";
 import type { MediaList } from "../../../../../../types/media";
 import { EmptyList } from "../../../../../molecules/EmptyList";
+import TablePagination from "../../../../../molecules/Pagination";
 import MediaCard from "../../../../../organism/Cards/MediaCard";
 
 
@@ -42,9 +44,13 @@ interface Props {
     data?: MediaList;
     isLoading: boolean
     havePurchased: boolean;
+    qp: QueryParams;
+    setQp: (qp: QueryParams) => void;
+    totalPages: number;
+
 }
 
-export default function CourseMediaListing({ type, data, isLoading, havePurchased }: Props) {
+export default function CourseMediaListing({ type, data, isLoading, havePurchased, qp, setQp, totalPages }: Props) {
     const config = mediaConfigs[type];
     const medias = data?.data?.data || [];
 
@@ -75,6 +81,7 @@ export default function CourseMediaListing({ type, data, isLoading, havePurchase
                     ))
                 }
             </div>
+            {totalPages > 1 ? <TablePagination qp={qp} setQp={setQp} totalPages={totalPages} /> : ""}
         </>
     );
 }

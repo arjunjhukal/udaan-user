@@ -72,6 +72,7 @@ export interface CourseProps {
     no_of_audios: number;
     no_of_videos: number;
     no_of_tests: number;
+    progress: number;
 }
 
 export interface CourseList extends GlobalResponse {

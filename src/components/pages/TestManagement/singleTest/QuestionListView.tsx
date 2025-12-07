@@ -66,6 +66,7 @@ export default function QuestionListView({
             <div className="flex justify-between items-center">
                 <Typography
                     color="text.dark"
+                    variant="subtitle1"
                     sx={{
                         position: "relative",
                         display: "inline-block",

@@ -92,10 +92,10 @@ export default function CourseBanner({ data, isLoading, havePurchased }: { data?
                             <Typography variant="subtitle2">Started from</Typography>
                             <div className="flex justify-between items-center">
                                 <Typography variant="caption">Progress</Typography>
-                                <Typography variant="subtitle1" fontWeight={500}>0%</Typography>
+                                <Typography variant="subtitle1" fontWeight={500}>{data?.progress}%</Typography>
                             </div>
 
-                            <MyProgress />
+                            <MyProgress progress={data?.progress || 0} />
                             <div className="flex justify-between items-center">
                                 <Typography variant="caption">Nov 20</Typography>
                                 <Typography variant="subtitle1" >-</Typography>

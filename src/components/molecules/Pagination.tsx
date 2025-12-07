@@ -1,13 +1,11 @@
 
 import { Box, MenuItem, Pagination, Select, Typography, useTheme } from '@mui/material';
 import { ArrowLeft2, ArrowRight2 } from 'iconsax-reactjs';
+import type { QueryParams } from '../../types';
 
 interface TablePaginationProps {
-    qp: {
-        pageIndex: number;
-        pageSize: number;
-    };
-    setQp: (qp: { pageIndex: number; pageSize: number; }) => void;
+    qp: QueryParams;
+    setQp: (qp: QueryParams) => void;
     totalPages: number;
     totalRecords?: number;
 }
@@ -22,7 +20,6 @@ export default function TablePagination({
     const pageSizeOptions = [8, 10, 20, 50, 100];
 
     const handlePageChange = (_event: React.ChangeEvent<unknown>, page: number) => {
-
         setQp({ ...qp, pageIndex: page });
     };
 
@@ -42,14 +39,14 @@ export default function TablePagination({
     };
 
     const goToPreviousPage = () => {
-        if (qp.pageIndex > 1) {
-            setQp({ ...qp, pageIndex: qp.pageIndex - 1 });
+        if (qp?.pageIndex > 1) {
+            setQp({ ...qp, pageIndex: qp?.pageIndex - 1 });
         }
     };
 
     const goToNextPage = () => {
-        if (qp.pageIndex < totalPages) {
-            setQp({ ...qp, pageIndex: qp.pageIndex + 1 });
+        if (qp?.pageIndex < totalPages) {
+            setQp({ ...qp, pageIndex: qp?.pageIndex + 1 });
         }
     };
 

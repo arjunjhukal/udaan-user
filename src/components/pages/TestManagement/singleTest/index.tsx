@@ -14,7 +14,6 @@ import QuestionListView from "./QuestionListView";
 import QuestionView from "./QuestionView";
 
 export default function SingleTestRoot() {
-
     const theme = useTheme();
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
@@ -43,7 +42,7 @@ export default function SingleTestRoot() {
     );
     const [submitMcq, { isLoading: submitting }] = useSubmitMcqMutation();
 
-    // Initialize timer when data loads
+
     useEffect(() => {
         if (data?.overview?.time !== undefined) {
             initialTimeRef.current = data.overview.time;
@@ -74,6 +73,7 @@ export default function SingleTestRoot() {
     useEffect(() => {
         if (timeLeft === 0 && !isTimerPaused) {
             setIsTimerPaused(true);
+            handleSubmitMcq();
             setSubmitModal({
                 open: true,
                 type: "timer"
@@ -125,9 +125,7 @@ export default function SingleTestRoot() {
                     severity: "success"
                 })
             );
-            handleCloseSubmitModal();
             setResult(response?.data || null);
-            setOpenResultModal(true);
 
         } catch (e: any) {
             dispatch(
@@ -196,7 +194,7 @@ export default function SingleTestRoot() {
                             }}
                             onClick={() => setModal((prev) => ({ ...prev, open: true }))}
                         >
-                            <Typography color="text.middle">Back to Test</Typography>
+                            <Typography color="text.middle" variant="subtitle1">Back to Test</Typography>
                         </Button>
                         <Typography variant="h4" className="block mt-4! font-medium">
                             {data?.overview?.name}
@@ -205,12 +203,14 @@ export default function SingleTestRoot() {
                     <Button
                         variant="contained"
                         color="primary"
-                        onClick={() => setSubmitModal({
-                            open: true,
-                            type: "submit"
-                        })}
+                        onClick={() => {
+                            setSubmitModal({
+                                open: true,
+                                type: "submit"
+                            })
+                        }}
                     >
-                        Submit
+                        {submitting ? "Submitting" : "Submit"}
                     </Button>
                 </div>
             </div>
@@ -251,7 +251,15 @@ export default function SingleTestRoot() {
             <TestSubmissionDialog
                 open={submitModal.open}
                 handleClose={handleCloseSubmitModal}
-                onSubmit={handleSubmitMcq}
+                onSubmit={() => {
+                    if (submitModal.type === "timer") {
+                        setOpenResultModal(true);
+                    } else {
+                        handleSubmitMcq();
+                        setOpenResultModal(true);
+                    }
+                }}
+
                 type={submitModal.type as SubmissionType}
                 loading={submitting}
             />

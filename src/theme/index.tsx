@@ -299,8 +299,14 @@ const commonThemeOptions: ThemeOptions = {
         ".status": {
           padding: "4px 8px",
           borderRadius: "4px",
+          fontWeight: 400,
+          textTransform: "capitalize",
           "&.ongoing": {
             backgroundColor: theme.palette.success.main,
+            color: theme.palette.primary.contrastText
+          },
+          "&.ended": {
+            backgroundColor: theme.palette.error.main,
             color: theme.palette.primary.contrastText
           }
         }
@@ -443,6 +449,7 @@ const commonThemeOptions: ThemeOptions = {
             whiteSpace: "nowrap",
             overflow: "hidden",
             textOverflow: "ellipsis",
+            ...theme.typography.subtitle1
           },
 
           "&.menu__item.action__item": {
@@ -516,9 +523,9 @@ const commonThemeOptions: ThemeOptions = {
     },
     MuiTypography: {
       styleOverrides: {
-        root: () => ({
+        root: {
           marginBottom: "0 !important",
-        }),
+        },
       },
     },
     MuiListItemIcon: {

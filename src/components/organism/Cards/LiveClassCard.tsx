@@ -80,7 +80,7 @@ export default function LiveClassCard({ data }: { data: LiveClassProps }) {
                 fullWidth
                 sx={{
                     backgroundColor: status === "upcoming" ? "button.light" : "button.main",
-                    fontWeight: 600,
+                    fontWeight: 500,
                     fontSize: "16px",
                 }}
                 startIcon={
@@ -91,10 +91,12 @@ export default function LiveClassCard({ data }: { data: LiveClassProps }) {
                 LinkComponent={"a"}
                 href={data?.join_url}
                 target="_blank"
+                disabled={status === "ended"}
+
             >
                 {status === "upcoming" && "Remind Me"}
                 {status === "ongoing" && "Join Live"}
-                {status === "past" && "Class Already Ended"}
+                {status === "ended" && "Class Already Ended"}
 
             </Button>
         </Box>

@@ -13,6 +13,6 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
     },
 }));
 
-export default function MyProgress() {
-    return <BorderLinearProgress variant="determinate" value={10} />;
+export default function MyProgress({ progress }: { progress: number }) {
+    return <BorderLinearProgress variant="determinate" value={progress || 0} />;
 }

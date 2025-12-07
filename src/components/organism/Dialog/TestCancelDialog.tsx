@@ -16,7 +16,7 @@ export default function TestCancelDialog({ open, handleClose, onSubmit, }: Props
                     </Box>
 
                     <div className="content flex flex-col gap-2">
-                        <Typography variant='h2' fontWeight={600}>Are You Sure You Want to Leave This Quiz?</Typography>
+                        <Typography variant='h4' fontWeight={600}>Are You Sure You Want to Leave This Quiz?</Typography>
                         <Typography variant='subtitle1' color='text.middle' >Your submitted answers will be evaluated, while unanswered questions will not be considered for marking.</Typography>
                     </div>
                     <div className="footer__action flex justify-between items-center gap-4">
