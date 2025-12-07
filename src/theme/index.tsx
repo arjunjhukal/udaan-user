@@ -173,15 +173,63 @@ declare module "@mui/material/Typography" {
 const commonThemeOptions: ThemeOptions = {
   typography: {
     fontFamily: '"Noto Sans", sans-serif',
-    textXs: { fontSize: "12px", lineHeight: "16px" },
-    textSm: { fontSize: "14px", lineHeight: "20px" },
-    textBase: { fontSize: "16px", lineHeight: "24px" },
-    textLg: { fontSize: "18px", lineHeight: "28px" },
-    textXl: { fontSize: "20px", lineHeight: "32px" },
-    text2Xl: { fontSize: "24px", lineHeight: "38px" },
-    text3Xl: { fontSize: "30px", lineHeight: "48px" },
-    text4Xl: { fontSize: "40px", lineHeight: "60px" },
-    text5Xl: { fontSize: "48px", lineHeight: "72px" },
+    // textXs: { fontSize: "12px", lineHeight: "16px" },
+    // textSm: { fontSize: "14px", lineHeight: "20px" },
+    // textBase: { fontSize: "16px", lineHeight: "24px" },
+    // textLg: { fontSize: "18px", lineHeight: "28px" },
+    // textXl: { fontSize: "20px", lineHeight: "32px" },
+    // text2Xl: { fontSize: "24px", lineHeight: "38px" },
+    // text3Xl: { fontSize: "30px", lineHeight: "48px" },
+    // text4Xl: { fontSize: "40px", lineHeight: "60px" },
+    // text5Xl: { fontSize: "48px", lineHeight: "72px" },
+    h1: {
+      fontSize: "64px",
+      lineHeight: "90px"
+    },
+    h2: {
+      fontSize: "48px",
+      lineHeight: "67px"
+    },
+    h3: {
+      fontSize: "32px",
+      lineHeight: "45px"
+    },
+    h4: {
+      fontSize: "24px",
+      lineHeight: "34px"
+    },
+    h5: {
+      fontSize: "20px",
+      lineHeight: "28px"
+    },
+    h6: {
+      fontSize: "18px",
+      lineHeight: "25px"
+    },
+    body1: {
+      fontSize: "20px",
+      lineHeight: "28px"
+    },
+    body2: {
+      fontSize: "18px",
+      lineHeight: "26px"
+    },
+    subtitle1: {
+      fontSize: "16px",
+      lineHeight: "24px"
+    },
+    subtitle2: {
+      fontSize: "14px",
+      lineHeight: "19px"
+    },
+    caption: {
+      fontSize: "12px",
+      lineHeight: "16px"
+    },
+    overline: {
+      fontSize: "8px",
+      lineHeight: "11px"
+    }
   },
   shape: {
     borderRadius: 8,
