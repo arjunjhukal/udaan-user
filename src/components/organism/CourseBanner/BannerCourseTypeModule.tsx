@@ -104,7 +104,7 @@ export default function BannerCourseTypeModule({ courseType, courseExpiry, cours
             case "free":
                 return (
                     <div className="free__course flex flex-col gap-4">
-                        <Typography color="white" variant="textLg" fontWeight={500}>Course Includes</Typography>
+                        <Typography color="white" variant="body2" fontWeight={500}>Course Includes</Typography>
                         <ul className="list-disc pl-5 text-white">
                             <li>Allow students to access quality learning materials.</li>
                             <li>Encourage new users to explore the platform.</li>
@@ -118,15 +118,15 @@ export default function BannerCourseTypeModule({ courseType, courseExpiry, cours
 
                 return (
                     <div className="expiry flex flex-col gap-4">
-                        <Typography color="white" variant="textLg" fontWeight={500}>Expiry Course</Typography>
+                        <Typography color="white" variant="body2" fontWeight={500}>Expiry Course</Typography>
                         <div className="grid grid-cols-3 gap-2">
                             <div>
-                                <Typography variant="textXs" color="white">Starts from</Typography>
-                                <Typography variant="textSm" color="white" className="block" fontWeight={600}>{courseExpiry?.start_date}</Typography>
+                                <Typography variant="caption" color="white">Starts from</Typography>
+                                <Typography variant="subtitle2" color="white" className="block" fontWeight={600}>{courseExpiry?.start_date}</Typography>
                             </div>
                             <div>
-                                <Typography variant="textXs" color="white">Ends On</Typography>
-                                <Typography variant="textSm" color="white" className="block" fontWeight={600}>{courseExpiry?.end_date}</Typography>
+                                <Typography variant="caption" color="white">Ends On</Typography>
+                                <Typography variant="subtitle2" color="white" className="block" fontWeight={600}>{courseExpiry?.end_date}</Typography>
                             </div>
 
                         </div>
@@ -137,7 +137,7 @@ export default function BannerCourseTypeModule({ courseType, courseExpiry, cours
             case "subscription":
                 return (
                     <div className="subscription__course flex flex-col gap-4">
-                        <Typography color="white" variant="textLg" fontWeight={500}>Subscription Plans</Typography>
+                        <Typography color="white" variant="body2" fontWeight={500}>Subscription Plans</Typography>
                         {courseSubscription?.map((plan, index) => (
                             <div key={index} className="grid grid-cols-2 gap-2">
                                 <Typography color="white">{plan.name}</Typography>

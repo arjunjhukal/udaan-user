@@ -198,7 +198,7 @@ export default function SingleTestRoot() {
                         >
                             <Typography color="text.middle">Back to Test</Typography>
                         </Button>
-                        <Typography variant="text2Xl" className="block mt-4! font-medium">
+                        <Typography variant="h4" className="block mt-4! font-medium">
                             {data?.overview?.name}
                         </Typography>
                     </div>

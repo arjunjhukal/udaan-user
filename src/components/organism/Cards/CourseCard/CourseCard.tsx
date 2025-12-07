@@ -46,7 +46,7 @@ export default function CourseCard({ course }: { course: CourseProps }) {
             }}>
                 <div className="top__content">
                     <div className="over__title flex justify-between items-center">
-                        <Typography variant='textSm' className='py-0.5 px-2 rounded-md' sx={{
+                        <Typography variant='subtitle2' className='py-0.5 px-2 rounded-md' sx={{
                             background: theme.palette.primary.light,
                             color: theme.palette.primary.main
                         }}>{course?.mega_categories && course?.mega_categories[0]}</Typography>
@@ -57,7 +57,7 @@ export default function CourseCard({ course }: { course: CourseProps }) {
                         </IconButton>
                     </div>
                     <Link to={PATH.COURSE_MANAGEMENT.COURSES.VIEW_COURSE.ROOT(course.id)} className=' leading-1.5 mt-2.5 mb-3.5 block'>
-                        <Typography variant='textBase' fontWeight={500}>{course.name}</Typography>
+                        <Typography variant='subtitle1' fontWeight={500}>{course.name}</Typography>
                     </Link>
                     <CourseFeature subject={course?.subjects}
                         startFrom={course?.course_expiry?.start_date}

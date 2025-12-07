@@ -29,14 +29,14 @@ export default function LiveClassCard({ data }: { data: LiveClassProps }) {
                             </IconButton>
                             <div className="flex flex-col gap-0.5">
                                 <Typography
-                                    variant="textBase"
+                                    variant="subtitle1"
                                     fontWeight={400}
                                     color="text.dark"
                                 >
                                     {data.name}
                                 </Typography>
                                 <Typography
-                                    variant="textSm"
+                                    variant="subtitle2"
                                     fontWeight={400}
                                     color="text.secondary"
                                 >
@@ -48,7 +48,7 @@ export default function LiveClassCard({ data }: { data: LiveClassProps }) {
                     <Typography
                         color="text.middle"
                         className={` status ${status}`}
-                        variant="textSm"
+                        variant="subtitle2"
                         p={"2px 8px"}
                         borderRadius={0.5}
                     >
@@ -58,14 +58,14 @@ export default function LiveClassCard({ data }: { data: LiveClassProps }) {
             </div>
             <Box className="flex justify-between items-center my-3.5">
                 <Typography
-                    variant="textSm"
+                    variant="subtitle2"
                     color="text.secondary"
                     className="inline-flex gap-0.5 items-center"
                 >
                     <span><Clock size={18} color={theme.palette.text.dark} /></span> {getTime(data.start_time)} - {getTime(data.end_time)}
                 </Typography>
                 <Typography
-                    variant="textSm"
+                    variant="subtitle2"
                     color="text.secondary"
                 >
                     {data?.active_students} students active

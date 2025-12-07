@@ -59,7 +59,7 @@ export default function Toast() {
 						{severity === "error" && <CancelIcon color="error" />}
 						<Box>
 							<Typography
-								variant="textLg"
+								variant="body2"
 								color="text.primary"
 								className="capitalize block">
 								{severity}

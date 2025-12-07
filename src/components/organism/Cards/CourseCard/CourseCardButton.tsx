@@ -15,8 +15,8 @@ export default function CourseCardButton({ courseType, sellingPrice, markedPrice
             case "expiry":
                 return (
                     <div className="expiry__price flex gap-1 items-end">
-                        {markedPrice ? <Typography variant='textXs' color='text.middle' className='text-nowrap'><del>NPR. {markedPrice}</del></Typography> : ""}
-                        {sellingPrice ? <Typography variant='textBase' fontWeight={600} className='text-nowrap'>NPR. {sellingPrice}</Typography> : ""}
+                        {markedPrice ? <Typography variant='caption' color='text.middle' className='text-nowrap'><del>NPR. {markedPrice}</del></Typography> : ""}
+                        {sellingPrice ? <Typography variant='subtitle1' fontWeight={600} className='text-nowrap'>NPR. {sellingPrice}</Typography> : ""}
                     </div>
                 );
 
@@ -24,7 +24,7 @@ export default function CourseCardButton({ courseType, sellingPrice, markedPrice
                 return (
                     <div className="subscription__price">
                         <Typography className='text-[8px]!' color='text.middle'>Starting from</Typography>
-                        {sellingPrice ? <Typography variant='textBase' fontWeight={600}>NPR. {sellingPrice}</Typography> : ""}
+                        {sellingPrice ? <Typography variant='subtitle1' fontWeight={600}>NPR. {sellingPrice}</Typography> : ""}
                     </div>
                 );
         }

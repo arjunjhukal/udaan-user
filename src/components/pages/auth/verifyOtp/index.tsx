@@ -283,7 +283,7 @@ export default function VerifyOTP() {
                 )}
 
                 <Typography
-                    variant="textSm"
+                    variant="subtitle2"
                     textAlign="end"
                     color="text.secondary"
                     sx={{ mb: 2 }}

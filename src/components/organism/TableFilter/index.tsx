@@ -34,7 +34,7 @@ export default function TableFilter({ search, setSearch, onFilter, layout, categ
           sx={{
             gap: "8px"
           }}
-        /> : <Typography variant="textLg" fontWeight={500} color="text.dark">{title}</Typography>}
+        /> : <Typography variant="body2" fontWeight={500} color="text.dark">{title}</Typography>}
 
       </div>
       <div className="col-span-6">
@@ -56,7 +56,7 @@ export default function TableFilter({ search, setSearch, onFilter, layout, categ
           {onFilter ? <Button startIcon={<Filter size={16} />} sx={{
             border: `1px solid ${theme.palette.seperator.dark}`
           }} className="py-2.5! px-3.5! rounded-md!">
-            <Typography variant="textSm" color="text.dark">Filter</Typography>
+            <Typography variant="subtitle2" color="text.dark">Filter</Typography>
           </Button> : ""}
           {layout ? <Stack >
             <IconButton sx={{

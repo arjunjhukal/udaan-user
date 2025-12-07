@@ -287,7 +287,7 @@ export default function ReadingDialog() {
                         {renderContent()}
                     </div>
                     <div className="col-span-3">
-                        <Typography variant='textBase' className='block! mb-3!' sx={{ fontWeight: 600 }}>
+                        <Typography variant='subtitle1' className='block! mb-3!' sx={{ fontWeight: 600 }}>
                             Up Next
                         </Typography>
                         <Box className="flex flex-col gap-3" sx={{
@@ -342,20 +342,20 @@ export default function ReadingDialog() {
                                                         </div>
                                                     )}
                                                 </div>
-                                                <Typography variant='textBase' className='font-medium mt-1!'>
+                                                <Typography variant='subtitle1' className='font-medium mt-1!'>
                                                     {relatedVideo.file_name}
                                                 </Typography>
                                             </div>
                                         );
                                     })
                                 ) : (
-                                    <Typography variant="textSm" color="text.middle">
+                                    <Typography variant="subtitle2" color="text.middle">
                                         No related videos available
                                     </Typography>
                                 );
 
                             })() : (
-                                <Typography variant="textSm" color="text.middle">
+                                <Typography variant="subtitle2" color="text.middle">
                                     No related videos available
                                 </Typography>
                             )}

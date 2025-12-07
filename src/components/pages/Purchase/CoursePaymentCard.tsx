@@ -15,22 +15,22 @@ export default function CoursePaymentCard({ price, vat, total, isLoading }: Prop
             sx={{ background: theme.palette.primary.light }}
             className="rounded-md py-6 px-8"
         >
-            <Typography variant="textLg" className="font-semibold mb-2!">
+            <Typography variant="body2" className="font-semibold mb-2!">
                 Order Summary
             </Typography>
 
             <div className="flex flex-col gap-2 5">
 
                 <div className="grid grid-cols-2">
-                    <Typography variant="textBase" color="text.middle">Course Price:</Typography>
-                    <Typography variant="textBase" color="text.dark" className="text-end font-medium">
+                    <Typography variant="subtitle1" color="text.middle">Course Price:</Typography>
+                    <Typography variant="subtitle1" color="text.dark" className="text-end font-medium">
                         NRs. {price.toLocaleString()}
                     </Typography>
                 </div>
 
                 <div className="grid grid-cols-2">
-                    <Typography variant="textBase" color="text.middle">VAT (13%):</Typography>
-                    <Typography variant="textBase" color="text.dark" className="text-end font-medium">
+                    <Typography variant="subtitle1" color="text.middle">VAT (13%):</Typography>
+                    <Typography variant="subtitle1" color="text.dark" className="text-end font-medium">
                         + NRs. {vat.toLocaleString()}
                     </Typography>
                 </div>
@@ -38,8 +38,8 @@ export default function CoursePaymentCard({ price, vat, total, isLoading }: Prop
                 <Divider sx={{ borderColor: theme.palette.text.light }} />
 
                 <div className="grid grid-cols-2">
-                    <Typography variant="textBase" color="text.middle">Total</Typography>
-                    <Typography variant="textBase" color="text.dark" className="text-end font-medium">
+                    <Typography variant="subtitle1" color="text.middle">Total</Typography>
+                    <Typography variant="subtitle1" color="text.dark" className="text-end font-medium">
                         NRs. {total.toLocaleString()}
                     </Typography>
                 </div>

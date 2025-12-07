@@ -24,8 +24,8 @@ export default function TestSubmissionDialog({ open, handleClose, onSubmit, type
                     </Box>
 
                     <div className="content flex flex-col gap-2">
-                        <Typography variant='text4Xl' fontWeight={600}>{type === "timer" ? "Your timer’s up!" : "Submit Test"}</Typography>
-                        <Typography variant='textBase' color='text.middle' >{type === "timer" ? "The 1.5-hours time limit for your 1st quiz has ended. " : "Are you sure you want to submit quiz? Cause you still have few more mins left."}</Typography>
+                        <Typography variant='h2' fontWeight={600}>{type === "timer" ? "Your timer’s up!" : "Submit Test"}</Typography>
+                        <Typography variant='subtitle1' color='text.middle' >{type === "timer" ? "The 1.5-hours time limit for your 1st quiz has ended. " : "Are you sure you want to submit quiz? Cause you still have few more mins left."}</Typography>
                     </div>
                     <div className="footer__action flex justify-between items-center gap-4">
                         <Button fullWidth variant="contained" color='primary' onClick={onSubmit}>{loading ? "Submitting" : "Submit"} Test</Button>

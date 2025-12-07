@@ -87,8 +87,8 @@ export default function ReviewTestRoot() {
                             }}
                         >
                             <Icon variant="Linear" />
-                            <Typography variant="textSm" color="text.middle">{item.label}</Typography>
-                            <Typography variant="textSm" color="text.dark">{item.value}</Typography>
+                            <Typography variant="subtitle2" color="text.middle">{item.label}</Typography>
+                            <Typography variant="subtitle2" color="text.dark">{item.value}</Typography>
                         </li>
                     );
                 })}

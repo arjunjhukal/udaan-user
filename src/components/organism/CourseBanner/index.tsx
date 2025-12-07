@@ -30,14 +30,14 @@ export default function CourseBanner({ data, isLoading, havePurchased }: { data?
                         {course?.mega_categories?.length ? (
                             <div className="flex gap-2 flex-wrap">
                                 {course?.mega_categories.slice(0, 2).map((category) => (
-                                    <Typography variant="textSm" key={category} className="py-0.5 px-2 rounded-md max-w-fit" sx={{
+                                    <Typography variant="subtitle2" key={category} className="py-0.5 px-2 rounded-md max-w-fit" sx={{
                                         background: theme.palette.primary.contrastText,
                                         color: theme.palette.primary.main
                                     }}>{category}</Typography>
                                 ))}
                             </div>
                         ) : ""}
-                        <Typography variant="text2Xl" color="white" fontWeight={500} >{course?.name}</Typography>
+                        <Typography variant="h4" color="white" fontWeight={500} >{course?.name}</Typography>
                         {course?.description ? <Box className="general__content__box" sx={{
                             color: theme.palette.primary.contrastText
                         }}>
@@ -49,7 +49,7 @@ export default function CourseBanner({ data, isLoading, havePurchased }: { data?
                                     <path d="M9.08301 3.25L9.08301 14.9167" stroke="white" stroke-width="1.5" stroke-linecap="round" />
                                     <path d="M4.06713 0.987863C6.85146 1.518 8.51093 2.62693 9.08333 3.26357C9.65574 2.62693 11.3152 1.518 14.0995 0.987863C15.5101 0.719295 16.2154 0.58501 16.816 1.0997C17.4167 1.6144 17.4167 2.45019 17.4167 4.12176V10.1291C17.4167 11.6576 17.4167 12.4218 17.0312 12.8989C16.6457 13.376 15.797 13.5376 14.0995 13.8608C12.5864 14.1489 11.4055 14.6079 10.5507 15.0692C9.70968 15.5231 9.28916 15.75 9.08333 15.75C8.8775 15.75 8.45698 15.5231 7.61598 15.0692C6.7612 14.6079 5.58027 14.1489 4.06713 13.8608C2.36971 13.5376 1.521 13.376 1.1355 12.8989C0.75 12.4218 0.75 11.6576 0.75 10.1291V4.12176C0.75 2.45019 0.75 1.6144 1.35065 1.0997C1.95131 0.58501 2.65658 0.719295 4.06713 0.987863Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                                 </svg>
-                                <Typography variant="textLg" color="white">{course?.subjects} Subjects</Typography>
+                                <Typography variant="body2" color="white">{course?.subjects} Subjects</Typography>
                             </li> : ""}
                             {course?.no_of_notes ? <li className="flex items-center gap-2">
                                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -63,20 +63,20 @@ export default function CourseBanner({ data, isLoading, havePurchased }: { data?
                                         </clipPath>
                                     </defs>
                                 </svg>
-                                <Typography variant="textLg" color="white">{course?.no_of_notes} Notes</Typography>
+                                <Typography variant="body2" color="white">{course?.no_of_notes} Notes</Typography>
                             </li> : ""}
                             {course?.no_of_audios ? <li className="flex items-center gap-2">
                                 <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M9 13.5C9 15.1569 7.65685 16.5 6 16.5C4.34315 16.5 3 15.1569 3 13.5C3 11.8431 4.34315 10.5 6 10.5C7.65685 10.5 9 11.8431 9 13.5ZM9 13.5V1.5L14.25 4.5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                                 </svg>
-                                <Typography variant="textLg" color="white">{course?.no_of_audios} Audios</Typography>
+                                <Typography variant="body2" color="white">{course?.no_of_audios} Audios</Typography>
                             </li> : ""}
                             {course?.no_of_videos ? <li className="flex items-center gap-2">
                                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M18.3346 6.66667L13.3346 10L18.3346 13.3333V6.66667Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                                     <path d="M11.668 5H3.33464C2.41416 5 1.66797 5.74619 1.66797 6.66667V13.3333C1.66797 14.2538 2.41416 15 3.33464 15H11.668C12.5884 15 13.3346 14.2538 13.3346 13.3333V6.66667C13.3346 5.74619 12.5884 5 11.668 5Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                                 </svg>
-                                <Typography variant="textLg" color="white">{course?.no_of_videos} Videos</Typography>
+                                <Typography variant="body2" color="white">{course?.no_of_videos} Videos</Typography>
                             </li> : ""}
                         </ul>
                     </div>
@@ -87,18 +87,18 @@ export default function CourseBanner({ data, isLoading, havePurchased }: { data?
                         <Box className="rounded-md p-4 bg-[rgba(255,255,255,0.12)] flex flex-col gap-4" sx={{
                             color: theme.palette.primary.contrastText
                         }}>
-                            <Typography variant="textLg">Progress</Typography>
+                            <Typography variant="body2">Progress</Typography>
                             <Divider />
-                            <Typography variant="textSm">Started from</Typography>
+                            <Typography variant="subtitle2">Started from</Typography>
                             <div className="flex justify-between items-center">
-                                <Typography variant="textXs">Progress</Typography>
-                                <Typography variant="textBase" fontWeight={500}>0%</Typography>
+                                <Typography variant="caption">Progress</Typography>
+                                <Typography variant="subtitle1" fontWeight={500}>0%</Typography>
                             </div>
 
                             <MyProgress />
                             <div className="flex justify-between items-center">
-                                <Typography variant="textXs">Nov 20</Typography>
-                                <Typography variant="textBase" >-</Typography>
+                                <Typography variant="caption">Nov 20</Typography>
+                                <Typography variant="subtitle1" >-</Typography>
                             </div>
                         </Box> : <BannerCourseTypeModule
                             courseType={course?.course_type}

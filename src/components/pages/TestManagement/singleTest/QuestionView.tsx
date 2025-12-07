@@ -32,7 +32,7 @@ export default function QuestionView({ currentQuestion, setAttendedQuestion, att
         <div className="question__wrapper">
             <div className="question flex flex-col gap-3">
                 <Typography
-                    variant="textSm"
+                    variant="subtitle2"
                     sx={{
                         background: theme.palette.primary.light,
                         color: theme.palette.primary.main
@@ -47,7 +47,7 @@ export default function QuestionView({ currentQuestion, setAttendedQuestion, att
             </div>
             <Divider className="my-4!" />
             <Typography
-                variant="textSm"
+                variant="subtitle2"
                 sx={{
                     background: theme.palette.success.light,
                     color: theme.palette.success.main

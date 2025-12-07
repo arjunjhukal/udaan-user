@@ -67,7 +67,7 @@ export default function TestResultDialog({ open, result, onReview, onClose, onBa
                 </div>
 
                 {/* Test Title */}
-                <Typography variant="textXl" fontWeight={700} className="mt-2">
+                <Typography variant="h5" fontWeight={700} className="mt-2">
                     {result?.test_name}
                 </Typography>
 

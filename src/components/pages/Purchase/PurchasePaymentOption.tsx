@@ -34,7 +34,7 @@ export default function PurchasePaymentOption({ options, selected, onSelect }: P
                             }}
                         >
                             <img src={option.image} alt={option.label} />
-                            <Typography variant="textSm" fontWeight={500}>
+                            <Typography variant="subtitle2" fontWeight={500}>
                                 {option.label}
                             </Typography>
                         </Box>

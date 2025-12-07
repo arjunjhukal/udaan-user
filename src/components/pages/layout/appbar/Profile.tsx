@@ -72,7 +72,7 @@ export default function ProfileMenu() {
                             background: theme.palette.seperator.dark,
                         }}
                     >
-                        <Typography variant="textBase" color="text.dark">
+                            <Typography variant="subtitle1" color="text.dark">
                             {user?.name ? user?.name.charAt(0).toUpperCase() : ""}
                         </Typography>
                     </Box>

@@ -70,7 +70,7 @@ export default function TablePagination({
         >
             {/* Page Size Selector */}
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                <Typography variant="textSm" color='text.dark'>Show</Typography>
+                <Typography variant="subtitle2" color='text.dark'>Show</Typography>
                 <Select
                     value={qp.pageSize}
                     onChange={handlePageSizeChange}
@@ -83,7 +83,7 @@ export default function TablePagination({
                         </MenuItem>
                     ))}
                 </Select>
-                <Typography variant="textSm" color='text.dark'>
+                <Typography variant="subtitle2" color='text.dark'>
                     per page {totalRecords ? `of ${totalRecords}` : ''}
                 </Typography>
             </Box>

@@ -23,7 +23,7 @@ export default function TestCard({ test }: { test: TestProps }) {
         {/* Top Section */}
         <div className="test__card__top flex gap-3">
           <Box className="w-full flex justify-between items-start gap-4">
-            <Typography variant="textBase" fontWeight={600} color="text.dark">
+            <Typography variant="subtitle1" fontWeight={600} color="text.dark">
               {test.name}
             </Typography>
 
@@ -41,16 +41,16 @@ export default function TestCard({ test }: { test: TestProps }) {
 
         {/* Content Section */}
         <div className="test__card__content">
-          <Typography variant="textSm" fontWeight={500} color="text.secondary" className="flex">
+          <Typography variant="subtitle2" fontWeight={500} color="text.secondary" className="flex">
             Exam Type:
-            <Typography variant="textSm" fontWeight={500} color="text.dark" ml={1}>
+            <Typography variant="subtitle2" fontWeight={500} color="text.dark" ml={1}>
               {test.test_type}
             </Typography>
           </Typography>
 
-          <Typography variant="textSm" color="text.secondary" className="flex" mt={1}>
+          <Typography variant="subtitle2" color="text.secondary" className="flex" mt={1}>
             Date:
-            <Typography variant="textSm" fontWeight={600} color="text.dark" ml={1}>
+            <Typography variant="subtitle2" fontWeight={600} color="text.dark" ml={1}>
               {formatDate(test.start_datetime)}
             </Typography>
           </Typography>
@@ -68,17 +68,17 @@ export default function TestCard({ test }: { test: TestProps }) {
           my="12px"
         >
           <Box className="flex justify-between items-center gap-2">
-            <Typography variant="textSm" color="text.secondary" className="inline-flex">
+            <Typography variant="subtitle2" color="text.secondary" className="inline-flex">
               Questions:
-              <Typography variant="textSm" fontWeight={500} color="text.dark" ml={1}>
+              <Typography variant="subtitle2" fontWeight={500} color="text.dark" ml={1}>
                 {test.total_questions}
               </Typography>
             </Typography>
 
-            <Typography variant="textSm" color="text.secondary" className="inline-flex">
+            <Typography variant="subtitle2" color="text.secondary" className="inline-flex">
               Duration:
               <Typography
-                variant="textSm"
+                variant="subtitle2"
                 fontWeight={500}
                 color="text.dark"
                 ml={1}
@@ -92,16 +92,16 @@ export default function TestCard({ test }: { test: TestProps }) {
           <Divider className="my-2!" />
 
           <Box className="flex justify-between items-center gap-2">
-            <Typography variant="textSm" color="text.secondary" className="inline-flex">
+            <Typography variant="subtitle2" color="text.secondary" className="inline-flex">
               Full marks:
-              <Typography variant="textSm" fontWeight={500} color="text.dark" ml={1}>
+              <Typography variant="subtitle2" fontWeight={500} color="text.dark" ml={1}>
                 {test.full_mark}
               </Typography>
             </Typography>
 
-            <Typography variant="textSm" color="text.secondary" className="inline-flex">
+            <Typography variant="subtitle2" color="text.secondary" className="inline-flex">
               Pass marks:
-              <Typography variant="textSm" fontWeight={500} color="text.dark" ml={1}>
+              <Typography variant="subtitle2" fontWeight={500} color="text.dark" ml={1}>
                 {test.pass_mark}
               </Typography>
             </Typography>

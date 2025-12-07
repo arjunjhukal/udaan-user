@@ -9,8 +9,8 @@ export default function InstructorCard({ teacher }: { teacher: Teacher }) {
         }}>
             <img src={teacher.profile || "/logo.svg"} alt="" className='w-16 h-16 rounded-md' />
             <div className="content">
-                {teacher?.name && <Typography variant='textBase' color='text.dark' fontWeight={500}>{teacher?.name}</Typography>}
-                {teacher?.designation && <Typography variant='textSm' color='text.middle' className='block'>{teacher.designation}</Typography>}
+                {teacher?.name && <Typography variant='subtitle1' color='text.dark' fontWeight={500}>{teacher?.name}</Typography>}
+                {teacher?.designation && <Typography variant='subtitle2' color='text.middle' className='block'>{teacher.designation}</Typography>}
             </div>
         </Box>
     )

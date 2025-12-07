@@ -4,30 +4,6 @@ import { darkPalette } from "./palette/darkPalette";
 import { lightPalette } from "./palette/lightPalette";
 
 declare module "@mui/material/styles" {
-  interface TypographyVariants {
-    textXs: React.CSSProperties;
-    textSm: React.CSSProperties;
-    textBase: React.CSSProperties;
-    textLg: React.CSSProperties;
-    textXl: React.CSSProperties;
-    text2Xl: React.CSSProperties;
-    text3Xl: React.CSSProperties;
-    text4Xl: React.CSSProperties;
-    text5Xl: React.CSSProperties;
-  }
-
-  // Allow using them in `createTheme`
-  interface TypographyVariantsOptions {
-    textXs?: React.CSSProperties;
-    textSm?: React.CSSProperties;
-    textBase?: React.CSSProperties;
-    textLg?: React.CSSProperties;
-    textXl?: React.CSSProperties;
-    text2Xl?: React.CSSProperties;
-    text3Xl?: React.CSSProperties;
-    text4Xl?: React.CSSProperties;
-    text5Xl?: React.CSSProperties;
-  }
 
   interface Palette {
     button: {
@@ -141,33 +117,6 @@ declare module "@mui/material/styles" {
   }
 }
 
-declare module "@mui/material/Typography" {
-  interface TypographyPropsVariantOverrides {
-    textXs: true;
-    textSm: true;
-    textBase: true;
-    textLg: true;
-    textXl: true;
-    text2Xl: true;
-    text3Xl: true;
-    text4Xl: true;
-    text5Xl: true;
-
-    // OPTIONAL: disable built-in variants you don’t need
-    body1?: false;
-    body2?: false;
-    h1?: false;
-    h2?: false;
-    h3?: false;
-    h4?: false;
-    h5?: false;
-    h6?: false;
-    subtitle1?: false;
-    caption?: false;
-    overline?: false;
-    button?: false;
-  }
-}
 
 // Common theme options
 const commonThemeOptions: ThemeOptions = {
@@ -175,7 +124,7 @@ const commonThemeOptions: ThemeOptions = {
     fontFamily: '"Noto Sans", sans-serif',
     // textXs: { fontSize: "12px", lineHeight: "16px" },
     // textSm: { fontSize: "14px", lineHeight: "20px" },
-    // textBase: { fontSize: "16px", lineHeight: "24px" },
+    // subtitle1: { fontSize: "16px", lineHeight: "24px" },
     // textLg: { fontSize: "18px", lineHeight: "28px" },
     // textXl: { fontSize: "20px", lineHeight: "32px" },
     // text2Xl: { fontSize: "24px", lineHeight: "38px" },
@@ -242,7 +191,7 @@ const commonThemeOptions: ThemeOptions = {
             display: "flex",
             gap: "16px",
             li: {
-              ...theme.typography.textSm,
+              ...theme.typography.subtitle2,
               color: theme.palette.text.dark,
               display: "flex",
               alignItems: "center",
@@ -266,7 +215,7 @@ const commonThemeOptions: ThemeOptions = {
           },
           p: {
             marginBottom: "8px",
-            ...theme.typography.textSm,
+            ...theme.typography.subtitle2,
           },
         },
         ".live__class__form": {
@@ -276,29 +225,29 @@ const commonThemeOptions: ThemeOptions = {
         },
         ".general__content__box": {
           '& h2': {
-            ...theme.typography.text3Xl,
+            ...theme.typography.h3,
             fontWeight: 700,
             margin: '1.5rem 0 1rem 0',
           },
           '& h3': {
-            ...theme.typography.text2Xl,
+            ...theme.typography.h4,
             fontWeight: 600,
             margin: '1.25rem 0 0.75rem 0',
           },
           '& h4': {
-            ...theme.typography.textXl,
+            ...theme.typography.h5,
             fontWeight: 600,
             margin: '1rem 0 0.5rem 0',
           },
           '& p': {
-            ...theme.typography.textBase,
+            ...theme.typography.subtitle1,
             margin: '0.75rem 0',
           },
           '& ul': {
             paddingLeft: '1.5rem',
             margin: '0.75rem 0',
             '& li': {
-              ...theme.typography.textBase,
+              ...theme.typography.subtitle1,
               margin: '0.25rem 0',
             },
           },
@@ -306,7 +255,7 @@ const commonThemeOptions: ThemeOptions = {
             paddingLeft: '1.5rem',
             margin: '0.75rem 0',
             '& li': {
-              ...theme.typography.textBase,
+              ...theme.typography.subtitle1,
               margin: '0.25rem 0',
             },
           },
@@ -450,7 +399,7 @@ const commonThemeOptions: ThemeOptions = {
     MuiOutlinedInput: {
       styleOverrides: {
         root: ({ theme }) => ({
-          ...theme.typography.textBase,
+          ...theme.typography.subtitle1,
           padding: "10px 16px",
           borderRadius: "8px",
           fontWeight: "500",
@@ -696,7 +645,7 @@ const commonThemeOptions: ThemeOptions = {
       styleOverrides: {
 
         option: ({ theme }) => ({
-          ...theme.typography.textLg,
+          ...theme.typography.body2,
           padding: "8px 12px",
           color: theme.palette.text.primary,
           '&[aria-selected="true"]': {

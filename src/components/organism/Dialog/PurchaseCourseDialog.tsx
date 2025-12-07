@@ -107,12 +107,12 @@ export default function PurchaseCourseDialog({ type }: { type?: CourseTypeProps 
                     <img src="/no-money.svg" alt="" className="object-contain" />
                 </Box>
 
-                <Typography variant="text3Xl" fontWeight={600}>
+                <Typography variant="h3" fontWeight={600}>
                     {purchase.title}
                 </Typography>
 
                 <Typography
-                    variant="textBase"
+                    variant="subtitle1"
                     color="text.middle"
                     className="block mt-4"
                 >

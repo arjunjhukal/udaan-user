@@ -68,7 +68,7 @@ export default function PageHeader(props: Props) {
                 >
                   {item?.icon ? item?.icon : ""}
                   {item?.title ? (
-                    <Typography variant="text3Xl" fontWeight={600}>{item?.title}</Typography>
+                    <Typography variant="h3" fontWeight={600}>{item?.title}</Typography>
                   ) : (
                     ""
                   )}
@@ -94,7 +94,7 @@ export default function PageHeader(props: Props) {
             ))}
         </Stack>
         {description ? (
-          <Typography variant="textSm" color="text.middle">{description}</Typography>
+          <Typography variant="subtitle2" color="text.middle">{description}</Typography>
         ) : (
           ""
         )}
