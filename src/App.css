@@ -12,3 +12,11 @@ button.plyr__control.plyr__control--overlaid svg {
     width: 40px !important;
     height: 40px !important;
 }
+
+.option_image img {
+    max-width: 100%;
+    width: 100%;
+    aspect-ratio: 423/296 !important;
+    border-radius: 8px !important;
+    object-fit: contain;
+}

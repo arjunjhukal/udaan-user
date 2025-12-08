@@ -15,6 +15,7 @@ export interface QuestionProps {
     options: OptionProps[],
     megacategory_id: number | null;
     question_type: QuestionTypeProps
+    has_image_in_option?: boolean;
 }
 
 export const QuestionInitialState: QuestionProps = {

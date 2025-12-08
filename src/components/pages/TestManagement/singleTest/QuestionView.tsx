@@ -1,5 +1,6 @@
 import { Box, Divider, FormControlLabel, Radio, RadioGroup, Typography, useTheme } from "@mui/material";
 import type { Answers, QuestionProps } from "../../../../types/question";
+import { renderHtml } from "../../../../utils/renderHtml";
 
 interface Props {
     currentQuestion: QuestionProps | null;
@@ -41,8 +42,8 @@ export default function QuestionView({ currentQuestion, setAttendedQuestion, att
                 >
                     Question:
                 </Typography>
-                <Typography >
-                    {currentQuestion?.question}
+                <Typography className={currentQuestion?.has_image_in_option ? "max-w-[50%]" : ""}>
+                    {renderHtml(currentQuestion?.question || "")}
                 </Typography>
             </div>
             <Divider className="my-4!" />
@@ -80,11 +81,11 @@ export default function QuestionView({ currentQuestion, setAttendedQuestion, att
                                 >
                                     <FormControlLabel
                                         value={option.id}
-                                        className="items-center! gap-1 w-full"
+                                        className={`${currentQuestion?.has_image_in_option ? "flex-col! items-start! p-2" : "items-center!"} w-full `}
                                         control={<Radio color="primary" />}
                                         label={
-                                            <div className="general__content__box">
-                                                <Typography color="text.dark" className="mt-0!">{option.option}</Typography>
+                                            <div className="general__content__box option_image">
+                                                <Typography color="text.dark" className="mt-0!">{renderHtml(option.option)}</Typography>
                                             </div>
                                         }
                                     />
