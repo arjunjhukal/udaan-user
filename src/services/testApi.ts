@@ -22,21 +22,50 @@ export const testApi = createApi({
                 body
             })
         }),
-        submitSubjective: builder.mutation<GlobalResponse & {
+        uploadSubjectiveAnswers: builder.mutation<GlobalResponse & {
             data: {
-                question_id: number;
-                answer_image_url: string[]
-            }
+                media_id: number;
+                media_url: string
+            }[]
+        }, { courseId: number; testId: number, questionId: number, body: FormData }>({
+            query: ({ courseId, testId, questionId, body }) => ({
+                url: `/course/${courseId}/test/${testId}/subjective/${questionId}/media`,
+                method: "POST",
+                body: body
+            })
+        }),
+        getSubjectiveAnswer: builder.query<GlobalResponse & {
+            data: {
+                media_id: number;
+                media_url: string
+            }[]
         }, { courseId: number; testId: number, questionId: number }>({
             query: ({ courseId, testId, questionId }) => ({
-                url: `/course/${courseId}/test/${testId}/subjective/${questionId}`,
-                method: "POST",
+                url: `/course/${courseId}/test/${testId}/subjective/${questionId}/media`,
+                method: "GET",
+            })
+        }),
+        deleteSubjectiveAnswers: builder.mutation<GlobalResponse & {
+            data: {
+                media_id: number;
+                media_url: string
+            }[]
+        }, { courseId: number; testId: number, questionId: number, mediaId: number }>({
+            query: ({ courseId, testId, questionId, mediaId }) => ({
+                url: `/course/${courseId}/test/${testId}/subjective/${questionId}/media/${mediaId}`,
+                method: "DELETE",
             })
         }),
         reviewTestResult: builder.query<{ data: McqReportData }, { courseId: number; testId: number }>({
             query: ({ courseId, testId }) => ({
                 url: `/course/${courseId}/test/${testId}/review`,
                 method: "GET",
+            })
+        }),
+        submitSubjectiveFinal: builder.mutation<GlobalResponse, { courseId: number; testId: number, questionId: number }>({
+            query: ({ courseId, testId, questionId }) => ({
+                url: `/course/${courseId}/test/${testId}/subjective/${questionId}/submit`,
+                method: "POST",
             })
         })
     })
@@ -46,5 +75,8 @@ export const {
     useGetTestByIdQuery,
     useSubmitMcqMutation,
     useReviewTestResultQuery,
-    useSubmitSubjectiveMutation
+    useUploadSubjectiveAnswersMutation,
+    useDeleteSubjectiveAnswersMutation,
+    useGetSubjectiveAnswerQuery,
+    useSubmitSubjectiveFinalMutation
 } = testApi;

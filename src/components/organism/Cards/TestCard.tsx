@@ -131,10 +131,22 @@ export default function TestCard({ test }: { test: TestProps }) {
             }))
           }
         >
-          {status === "upcoming" && "Remind Me"}
-          {status === "ongoing" && "Start Test"}
-          {status === "ended" && "Test Ended Already"}
+          {
+            !test?.has_taken_test
+              ? (
+                status === "upcoming" && "Remind Me"
+              ) || (
+                status === "ongoing" && "Start Test"
+              ) || (
+                status === "ended" && "Test Ended Already"
+              )
+              : "Retake Test"
+          }
+
         </Button>
+        {test?.has_taken_test ? <Button variant="outlined" color="primary" fullWidth sx={{
+          mt: 1
+        }}>View Result</Button> : ""}
       </div>
     </Box>
   );

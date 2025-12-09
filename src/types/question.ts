@@ -54,6 +54,7 @@ export interface TestProps {
     status?: null;
     no_of_students?: number;
     total_questions?: number;
+    has_taken_test?: boolean;
 }
 
 

@@ -8,7 +8,7 @@ export default function CourseCardButton({ courseType, sellingPrice, markedPrice
             case "free":
                 return (
                     <div className="free__price">
-                        <Typography className='text-[10px]!' color='text.middle'>This course is free. You can learn anytime you want.</Typography>
+                        <span className='text-[10px]! leading-3.5'>This course is free. You can learn anytime you want.</span>
                     </div>
                 );
 

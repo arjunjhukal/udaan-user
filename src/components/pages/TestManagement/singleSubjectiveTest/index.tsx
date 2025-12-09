@@ -3,10 +3,11 @@ import { ArrowLeft, Timer1 } from "iconsax-reactjs";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { PATH } from "../../../../routes/PATH";
-import { useGetTestByIdQuery, useSubmitSubjectiveMutation } from "../../../../services/testApi";
+import { useDeleteSubjectiveAnswersMutation, useGetSubjectiveAnswerQuery, useGetTestByIdQuery, useSubmitSubjectiveFinalMutation, useUploadSubjectiveAnswersMutation } from "../../../../services/testApi";
 import { showToast } from "../../../../slice/toastSlice";
 import { useAppDispatch } from "../../../../store/hook";
 import type { QuestionProps } from "../../../../types/question";
+import { renderHtml } from "../../../../utils/renderHtml";
 import FileDragDrop from "../../../molecules/FileDragDrop";
 import TestCancelDialog from "../../../organism/Dialog/TestCancelDialog";
 import type { SubmissionType } from "../../../organism/Dialog/TestSubmissionDialog";
@@ -32,25 +33,78 @@ export default function SingleSubjectiveTest() {
     const [isTimerPaused, setIsTimerPaused] = useState(false);
     const initialTimeRef = useRef<number | undefined>(undefined);
 
+    const storageKey = `test_${courseId}_${testId}`;
+
     const { data } = useGetTestByIdQuery(
         { courseId: Number(courseId), testId: Number(testId) },
         { skip: !courseId || !testId }
     );
-    const [submitAnswer, { isLoading: submitting }] = useSubmitSubjectiveMutation();
+
+    const { data: subjectiveAnswer, refetch: refetchAnswer } = useGetSubjectiveAnswerQuery(
+        {
+            courseId: Number(courseId),
+            testId: Number(testId),
+            questionId: Number(currentQuestion?.id),
+        },
+        { skip: !currentQuestion?.id }
+    );
+
+    const [uploadMedia, { isLoading: uploading }] = useUploadSubjectiveAnswersMutation();
+    const [deleteMedia, { isLoading: deleting }] = useDeleteSubjectiveAnswersMutation();
+    const [submitSubjective, { isLoading: updatingFinal }] = useSubmitSubjectiveFinalMutation();
 
     useEffect(() => {
-        if (data?.overview?.time !== undefined) {
-            initialTimeRef.current = data.overview.time;
-            setTimeLeft(data.overview.time);
+        const savedData = localStorage.getItem(storageKey);
+        if (savedData) {
+            try {
+                const parsed = JSON.parse(savedData);
+                if (parsed.timeLeft !== undefined) {
+                    setTimeLeft(parsed.timeLeft);
+                }
+                if (parsed.currentQuestionIndex !== undefined) {
+                    setCurrentQuestionIndex(parsed.currentQuestionIndex);
+                }
+            } catch (e) {
+                console.error("Failed to parse saved data", e);
+            }
         }
-    }, [data?.overview?.time]);
+    }, [storageKey]);
+
+    // Save only timer and current question index to localStorage
+    useEffect(() => {
+        const dataToSave = {
+            timeLeft,
+            currentQuestionIndex,
+        };
+        localStorage.setItem(storageKey, JSON.stringify(dataToSave));
+    }, [timeLeft, currentQuestionIndex, storageKey]);
+
+    useEffect(() => {
+        if (data?.overview?.time !== undefined && initialTimeRef.current === undefined) {
+            initialTimeRef.current = data.overview.time;
+            // Only set initial time if not loaded from localStorage
+            const savedData = localStorage.getItem(storageKey);
+            if (!savedData || !JSON.parse(savedData).timeLeft) {
+                setTimeLeft(data.overview.time);
+            }
+        }
+    }, [data?.overview?.time, storageKey]);
 
     useEffect(() => {
         if (data?.data?.length) {
-            setCurrentQuestion(data.data[0]);
-            setCurrentQuestionIndex(0);
+            const savedData = localStorage.getItem(storageKey);
+            if (savedData) {
+                const parsed = JSON.parse(savedData);
+                if (parsed.currentQuestionIndex !== undefined && data.data[parsed.currentQuestionIndex]) {
+                    setCurrentQuestion(data.data[parsed.currentQuestionIndex]);
+                } else {
+                    setCurrentQuestion(data.data[0]);
+                }
+            } else {
+                setCurrentQuestion(data.data[0]);
+            }
         }
-    }, [data]);
+    }, [data, storageKey]);
 
     useEffect(() => {
         if (timeLeft === undefined || timeLeft <= 0 || isTimerPaused) return;
@@ -75,8 +129,6 @@ export default function SingleSubjectiveTest() {
         }
     }, [timeLeft, isTimerPaused]);
 
-
-
     const handlePreviousQuestion = () => {
         if (data?.data && currentQuestionIndex > 0) {
             const newIndex = currentQuestionIndex - 1;
@@ -97,39 +149,103 @@ export default function SingleSubjectiveTest() {
     const isLastQuestion = currentQuestionIndex === (data?.data?.length || 0) - 1;
 
     const handleCloseModal = () => {
-        setModal({ open: false, type: "timer" })
-    }
+        setModal({ open: false, type: "timer" });
+    };
 
     const handleCloseSubmitModal = () => {
         setSubmitModal({ open: false, type: "timer" });
     };
 
-    const handleSubmitSubjective = async () => {
-        try {
-            setIsTimerPaused(true);
+    const handleFileUpload = async (files: File[]) => {
+        if (!files.length || !currentQuestion) return;
 
-            const response = await submitAnswer({
+        try {
+            const formData = new FormData();
+            files.forEach((file, index) => {
+                formData.append(`answer_image[${index}]`, file);
+            });
+
+            const response = await uploadMedia({
                 courseId: Number(courseId),
                 testId: Number(testId),
-                questionId: Number(0),
+                questionId: Number(currentQuestion.id),
+                body: formData,
             }).unwrap();
+
+            // Refetch to get updated answer list
+            refetchAnswer();
 
             dispatch(
                 showToast({
-                    message: response?.message || "Mcq Submitted Successfully",
-                    severity: "success"
+                    message: response?.message || "Files uploaded successfully",
+                    severity: "success",
                 })
             );
+        } catch (e: any) {
+            dispatch(
+                showToast({
+                    message: e?.data?.message || "Unable to upload files.",
+                    severity: "error",
+                })
+            );
+        }
+    };
 
+    const handleFileRemoval = async (id: number) => {
+        if (!currentQuestion) return;
+        try {
+            const response = await deleteMedia({
+                courseId: Number(courseId),
+                testId: Number(testId),
+                questionId: Number(currentQuestion.id),
+                mediaId: id,
+            }).unwrap();
+
+            // Refetch to get updated answer list
+            refetchAnswer();
+
+            dispatch(
+                showToast({
+                    message: response?.message || "Files removed successfully",
+                    severity: "success",
+                })
+            );
+        } catch (e: any) {
+            dispatch(
+                showToast({
+                    message: e?.data?.message || "Unable to remove files.",
+                    severity: "error",
+                })
+            );
+        }
+    };
+
+    const handleSubmitSubjective = async () => {
+        try {
+            setIsTimerPaused(true);
+            const response = await submitSubjective({
+                courseId: Number(courseId),
+                testId: Number(testId),
+                questionId: Number(currentQuestion?.id)
+            });
+            console.log(response);
+            dispatch(
+                showToast({
+                    message: "Test Submitted Successfully.",
+                    severity: "success",
+                })
+            );
+            localStorage.removeItem(storageKey);
+            navigate(PATH.TEST.ROOT);
         } catch (e: any) {
             dispatch(
                 showToast({
                     message: e?.data?.message || "Unable to submit test.",
-                    severity: "error"
+                    severity: "error",
                 })
             );
         }
-    }
+    };
 
     const formatTime = (ms: number | undefined) => {
         if (ms === undefined) return "--:--";
@@ -144,7 +260,6 @@ export default function SingleSubjectiveTest() {
             ? timeLeft / initialTimeRef.current
             : 1;
     }, [timeLeft]);
-
 
     const timerColors = useMemo(() => {
         if (percentageLeft > 0.1) {
@@ -164,7 +279,11 @@ export default function SingleSubjectiveTest() {
         };
     }, [percentageLeft, theme.palette.success.light, theme.palette.success.main]);
 
-    console.log("render")
+    // Get current question's uploaded files from API
+    const currentQuestionFiles = useMemo(() => {
+        return subjectiveAnswer?.data || [];
+    }, [subjectiveAnswer?.data]);
+
     return (
         <div className="single__subject__test__root">
             <div className="test__header">
@@ -173,11 +292,13 @@ export default function SingleSubjectiveTest() {
                         variant="text"
                         startIcon={<ArrowLeft />}
                         sx={{
-                            color: theme.palette.text.middle
+                            color: theme.palette.text.middle,
                         }}
                         onClick={() => setModal((prev) => ({ ...prev, open: true }))}
                     >
-                        <Typography color="text.middle" variant="subtitle1">Back to Test</Typography>
+                        <Typography color="text.middle" variant="subtitle1">
+                            Back to Test
+                        </Typography>
                     </Button>
                     <Typography variant="h4" className="block mt-4! font-medium">
                         {data?.overview?.name}
@@ -224,20 +345,58 @@ export default function SingleSubjectiveTest() {
                     </Typography>
                 )}
             </Box>
-            <FileDragDrop onFileChange={() => { }} />
-            <div className="footer__action flex justify-between items-center mt-8">
+            <div className="question__view mt-5.5">
+                <div className="question flex flex-col gap-3">
+                    <Typography
+                        variant="subtitle2"
+                        sx={{
+                            background: theme.palette.primary.light,
+                            color: theme.palette.primary.main,
+                        }}
+                        className="py-1.5 px-4.5 rounded-4xl font-bold max-w-fit"
+                    >
+                        Question:
+                    </Typography>
+                    <Typography className={currentQuestion?.has_image_in_option ? "max-w-[50%]" : ""}>
+                        {renderHtml(currentQuestion?.question || "")}
+                    </Typography>
+                </div>
+                <Divider className="my-4!" />
+                <Typography
+                    variant="subtitle2"
+                    sx={{
+                        background: theme.palette.success.light,
+                        color: theme.palette.success.main,
+                    }}
+                    className="py-1.5 px-4.5 rounded-4xl font-bold max-w-fit mb-3! block"
+                >
+                    Answers:
+                </Typography>
+                <FileDragDrop
+                    onFileChange={handleFileUpload}
+                    onFileRemoval={handleFileRemoval}
+                    initialFiles={currentQuestionFiles}
+                    multiple={true}
+                />
+            </div>
+            <div className="footer__action flex justify-between items-center sticky bottom-0 my-8">
                 <Button
                     color="primary"
                     variant="outlined"
                     onClick={handlePreviousQuestion}
-                    disabled={isFirstQuestion}
+                    disabled={isFirstQuestion || uploading || deleting}
                 >
                     Previous
                 </Button>
                 <Button
                     color="primary"
                     variant="contained"
-                    onClick={isLastQuestion ? () => setSubmitModal((_prev) => ({ open: true, type: "submit" })) : handleNextQuestion}
+                    onClick={
+                        isLastQuestion
+                            ? () => setSubmitModal((_prev) => ({ open: true, type: "submit" }))
+                            : handleNextQuestion
+                    }
+                    disabled={uploading || deleting}
                 >
                     {isLastQuestion ? "Submit" : "Next"}
                 </Button>
@@ -247,19 +406,22 @@ export default function SingleSubjectiveTest() {
                 handleClose={handleCloseSubmitModal}
                 onSubmit={() => {
                     if (submitModal.type === "timer") {
-
+                        handleSubmitSubjective();
                     } else {
                         handleSubmitSubjective();
                     }
                 }}
                 type={submitModal.type as SubmissionType}
-                loading={submitting}
+                loading={uploading || deleting}
             />
             <TestCancelDialog
                 open={modal.open}
                 handleClose={handleCloseModal}
-                onSubmit={() => navigate(PATH.TEST.ROOT)}
+                onSubmit={() => {
+                    localStorage.removeItem(storageKey);
+                    navigate(PATH.TEST.ROOT);
+                }}
             />
         </div>
-    )
+    );
 }
