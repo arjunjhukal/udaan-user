@@ -13,6 +13,7 @@ import AuthLayout from "../components/pages/layout/AuthLayout";
 import NotFound from "../components/pages/layout/NotFound";
 import SingleFormAuthLayout from "../components/pages/layout/SingleFormAuthLayout";
 import PurchaseRoot from "../components/pages/Purchase";
+import PurchaseFailure from "../components/pages/Purchase/failure";
 import PurchaseLayout from "../components/pages/Purchase/PurchaseLayout";
 import PaymentSuccessPage from "../components/pages/Purchase/success";
 import TestManagementRoot from "../components/pages/TestManagement";
@@ -84,6 +85,7 @@ const router = createBrowserRouter([
         children: [
           { path: PATH.COURSE_MANAGEMENT.COURSES.PURCHASE.ROOT(), element: <PurchaseLayout /> },
           { path: PATH.COURSE_MANAGEMENT.COURSES.PURCHASE.SUCCESS.ROOT, element: <PaymentSuccessPage /> },
+          { path: PATH.COURSE_MANAGEMENT.COURSES.PURCHASE.FAILURE.ROOT, element: <PurchaseFailure /> },
           { path: PATH.COURSE_MANAGEMENT.LIVE_CLASSES.PURCHASE.ROOT(), element: <PurchaseLayout /> },
         ],
       },

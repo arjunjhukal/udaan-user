@@ -1,5 +1,6 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import type {
+	GlobalResponse,
 	LoginUserProps,
 	RegisterUserProps,
 	UserResponse,
@@ -24,7 +25,7 @@ export const authApi = createApi({
 				body,
 			}),
 		}),
-		resendOtp: builder.mutation<UserResponse, { phone: string }>({
+		resendOtp: builder.mutation<GlobalResponse & { data: { otp: string } }, { phone: string }>({
 			query: ({ phone }) => ({
 				url: "/auth/resend-otp",
 				method: "POST",

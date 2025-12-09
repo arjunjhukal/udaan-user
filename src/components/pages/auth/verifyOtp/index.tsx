@@ -174,7 +174,7 @@ export default function VerifyOTP() {
 
             dispatch(
                 showToast({
-                    message: response.message || "OTP sent successfully.",
+                    message: response.data.otp || "OTP sent successfully.",
                     severity: "success"
                 })
             );
