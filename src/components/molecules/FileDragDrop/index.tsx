@@ -1,6 +1,8 @@
 import { Box, FormHelperText, IconButton, InputLabel, Stack, Typography, useTheme } from "@mui/material";
 import { useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
+import { showToast } from "../../../slice/toastSlice";
+import { useAppDispatch } from "../../../store/hook";
 
 interface FileDragDropProps {
     onFileChange: (files: File[]) => void;
@@ -25,6 +27,7 @@ export default function FileDragDrop({
 }: FileDragDropProps) {
     const theme = useTheme();
 
+    const dispatch = useAppDispatch();
     const [files, setFiles] = useState<
         { file: File | null; preview: string; media_id?: number }[]
     >([]);
@@ -48,9 +51,21 @@ export default function FileDragDrop({
             if (rejectedFiles?.length) {
                 const err = rejectedFiles[0]?.errors[0]?.code;
                 if (err === "file-too-large") {
-                    alert(`File must be under ${maxSize}MB`);
+                    // alert(`File must be under ${maxSize}MB`);
+                    dispatch(
+                        showToast({
+                            message: `File must be under ${maxSize}MB`,
+                            severity: "error"
+                        })
+                    )
                 } else if (err === "file-invalid-type") {
-                    alert("Only images are allowed");
+                    // alert("");
+                    dispatch(
+                        showToast({
+                            message: `Only images are allowed`,
+                            severity: "error"
+                        })
+                    )
                 }
                 return;
             }
