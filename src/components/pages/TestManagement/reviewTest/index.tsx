@@ -43,7 +43,7 @@ export default function ReviewTestRoot() {
                 sx={{ border: `1px solid ${borderColor}`, backgroundColor: bgColor }}
             >
                 {Icon && <Icon variant="Bold" color={isCorrect ? theme.palette.success.main : theme.palette.error.main} />}
-                <Typography>{option.option}</Typography>
+                <Typography variant="body2">{option.option}</Typography>
             </Box>
         );
     };
@@ -51,7 +51,7 @@ export default function ReviewTestRoot() {
     const renderQuestions = (questions: any[], type: "correct" | "incorrect" | "skipped") => {
         return questions.map((q) => (
             <div className="question__box" key={q.question}>
-                <Typography className="mb-4!">{q.question}</Typography>
+                <Typography className="mb-4!" variant="h6">{q.question}</Typography>
                 <div className="flex flex-col gap-4 md:grid md:grid-cols-2">
                     {q.options.map((option: any) => {
                         if (type === "correct") {

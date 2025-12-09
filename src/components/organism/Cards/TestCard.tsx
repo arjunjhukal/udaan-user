@@ -146,7 +146,12 @@ export default function TestCard({ test }: { test: TestProps }) {
         </Button>
         {test?.has_taken_test ? <Button variant="outlined" color="primary" fullWidth sx={{
           mt: 1
-        }}>View Result</Button> : ""}
+        }}
+          onClick={() => navigate(PATH.COURSE_MANAGEMENT.COURSES.VIEW_TEST.REVIEW_TEST.ROOT({
+            courseId: Number(id),
+            testId: Number(test.id)
+          }))}
+        >View Result</Button> : ""}
       </div>
     </Box>
   );

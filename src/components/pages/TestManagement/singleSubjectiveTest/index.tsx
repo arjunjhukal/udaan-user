@@ -51,7 +51,7 @@ export default function SingleSubjectiveTest() {
 
     const [uploadMedia, { isLoading: uploading }] = useUploadSubjectiveAnswersMutation();
     const [deleteMedia, { isLoading: deleting }] = useDeleteSubjectiveAnswersMutation();
-    const [submitSubjective, { isLoading: updatingFinal }] = useSubmitSubjectiveFinalMutation();
+    const [submitSubjective] = useSubmitSubjectiveFinalMutation();
 
     useEffect(() => {
         const savedData = localStorage.getItem(storageKey);
@@ -286,7 +286,7 @@ export default function SingleSubjectiveTest() {
 
     return (
         <div className="single__subject__test__root">
-            <div className="test__header">
+            <div className="test__header flex items-center justify-between">
                 <div className="title">
                     <Button
                         variant="text"
