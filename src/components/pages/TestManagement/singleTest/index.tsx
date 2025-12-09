@@ -1,5 +1,5 @@
 
-import { Button, Divider, Typography, useTheme } from "@mui/material";
+import { Button, Divider, Typography } from "@mui/material";
 import { ArrowLeft } from "iconsax-reactjs";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -15,7 +15,7 @@ import QuestionListView from "./QuestionListView";
 import QuestionView from "./QuestionView";
 
 export default function SingleTestRoot() {
-    const theme = useTheme();
+
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const { courseId, testId } = useParams();
