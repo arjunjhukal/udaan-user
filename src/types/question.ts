@@ -85,12 +85,16 @@ export interface SingleMcqResponse extends GlobalResponse {
     overview: {
         name: string;
         time: number;
+        test_type: QuestionTypeProps
     }
 }
 export interface Answers {
     question_id: number | null;
     option_id: number | null;
-
+}
+export interface SubjectiveAnswers {
+    question_id: number | null;
+    answer_id: number[];
 }
 
 export interface McqSubmissionPayload {

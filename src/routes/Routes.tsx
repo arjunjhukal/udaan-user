@@ -18,6 +18,7 @@ import PaymentSuccessPage from "../components/pages/Purchase/success";
 import TestManagementRoot from "../components/pages/TestManagement";
 import AllTestRoot from "../components/pages/TestManagement/allTest";
 import ReviewTestRoot from "../components/pages/TestManagement/reviewTest";
+import SingleSubjectiveTest from "../components/pages/TestManagement/singleSubjectiveTest";
 import SingleTestRoot from "../components/pages/TestManagement/singleTest";
 import { PATH } from "./PATH";
 import Private from "./Private";
@@ -67,6 +68,7 @@ const router = createBrowserRouter([
           { path: PATH.COURSE_MANAGEMENT.COURSES.ROOT, element: <AllCourses /> },
           { path: PATH.COURSE_MANAGEMENT.COURSES.VIEW_COURSE.ROOT(), element: <SingleCourse /> },
           { path: PATH.COURSE_MANAGEMENT.COURSES.VIEW_TEST.ROOT({}), element: <SingleTestRoot /> },
+          { path: PATH.COURSE_MANAGEMENT.COURSES.VIEW_TEST.SUBJECTIVE_TEST.ROOT({}), element: <SingleSubjectiveTest /> },
           { path: PATH.COURSE_MANAGEMENT.COURSES.VIEW_TEST.REVIEW_TEST.ROOT({}), element: <ReviewTestRoot /> },
         ],
       },

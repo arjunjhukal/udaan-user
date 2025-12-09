@@ -45,6 +45,12 @@ export const PATH = {
                         courseId && testId
                             ? `/courses/${courseId}/test/${testId}/review`
                             : `/courses/:courseId/test/:testId/review`
+                },
+                SUBJECTIVE_TEST: {
+                    ROOT: ({ courseId, testId }: { courseId?: number; testId?: number }) =>
+                        courseId && testId
+                            ? `/courses/${courseId}/test/${testId}/subjective`
+                            : `/courses/:courseId/test/:testId/subjective`,
                 }
             },
         },

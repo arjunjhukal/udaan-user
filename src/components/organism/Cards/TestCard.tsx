@@ -121,8 +121,11 @@ export default function TestCard({ test }: { test: TestProps }) {
           }}
           startIcon={status === "upcoming" ? <NotificationBing size={24} /> : null}
           disabled={status === "ended"}
-          onClick={() =>
+          onClick={() => test.test_type === "mcq" ?
             navigate(PATH.COURSE_MANAGEMENT.COURSES.VIEW_TEST.ROOT({
+              courseId: Number(id),
+              testId: Number(test.id)
+            })) : navigate(PATH.COURSE_MANAGEMENT.COURSES.VIEW_TEST.SUBJECTIVE_TEST.ROOT({
               courseId: Number(id),
               testId: Number(test.id)
             }))

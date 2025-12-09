@@ -1,5 +1,6 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import type { McqReportData, McqSubmissionPayload, McqSubmissionResponse, SingleMcqResponse } from "../types/question";
+import type { GlobalResponse } from "../types/user";
 import { baseQuery } from "./baseQuery";
 
 export const testApi = createApi({
@@ -21,6 +22,17 @@ export const testApi = createApi({
                 body
             })
         }),
+        submitSubjective: builder.mutation<GlobalResponse & {
+            data: {
+                question_id: number;
+                answer_image_url: string[]
+            }
+        }, { courseId: number; testId: number, questionId: number }>({
+            query: ({ courseId, testId, questionId }) => ({
+                url: `/course/${courseId}/test/${testId}/subjective/${questionId}`,
+                method: "POST",
+            })
+        }),
         reviewTestResult: builder.query<{ data: McqReportData }, { courseId: number; testId: number }>({
             query: ({ courseId, testId }) => ({
                 url: `/course/${courseId}/test/${testId}/review`,
@@ -33,5 +45,6 @@ export const testApi = createApi({
 export const {
     useGetTestByIdQuery,
     useSubmitMcqMutation,
-    useReviewTestResultQuery
+    useReviewTestResultQuery,
+    useSubmitSubjectiveMutation
 } = testApi;

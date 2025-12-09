@@ -82,7 +82,7 @@ export default function PrimaryMenu() {
         }} className="w-full" />
       </div>
 
-      <List>
+      {/* <List>
         <ListItem disablePadding className="menu__item">
           <ListItemButton
             onClick={() => navigate(PATH.COURSE_MANAGEMENT.LIVE_CLASSES.ROOT)}
@@ -116,7 +116,7 @@ export default function PrimaryMenu() {
             <ListItemText primary={t("menus.test")} />
           </ListItemButton>
         </ListItem>
-      </List>
+      </List> */}
 
     </Box>
   );
