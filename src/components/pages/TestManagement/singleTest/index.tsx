@@ -91,8 +91,8 @@ export default function SingleTestRoot() {
         if (savedResult) {
             const parsedResult = JSON.parse(savedResult);
             setResult(parsedResult);
-            setOpenResultModal(true);   // ✅ Auto open result popup
-            setIsTimerPaused(true);    // ✅ Freeze timer if restored
+            setOpenResultModal(true);
+            setIsTimerPaused(true);
         }
     }, [courseId, testId, RESULT_KEY]);
 
@@ -127,6 +127,7 @@ export default function SingleTestRoot() {
             setIsTimerPaused(true);
             handleSubmitMcq();
             setSubmitModal({ open: true, type: "timer" });
+            localStorage.removeItem(STORAGE_KEY)
         }
     }, [timeLeft]);
 
@@ -267,6 +268,7 @@ export default function SingleTestRoot() {
                         testId: Number(testId)
                     }))
                 }
+                onBack={() => navigate(PATH.COURSE_MANAGEMENT.COURSES.VIEW_COURSE.ROOT(Number(courseId)))}
             />
         </div>
     );

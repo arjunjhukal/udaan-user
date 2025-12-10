@@ -3,6 +3,7 @@ import { authApi } from '../services/authApi';
 import { categoryApi } from '../services/categoryApi';
 import { courseApi } from '../services/courseApi';
 import { mediaApi } from '../services/mediaApi';
+import { notificationApi } from '../services/notification';
 import { testApi } from '../services/testApi';
 import authReducer from "../slice/authSlice";
 import purchaseSlice from '../slice/purchaseSlice';
@@ -23,6 +24,7 @@ export const store = configureStore({
         [categoryApi.reducerPath]: categoryApi.reducer,
         [testApi.reducerPath]: testApi.reducer,
         [mediaApi.reducerPath]: mediaApi.reducer,
+        [notificationApi.reducerPath]: notificationApi.reducer,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware().concat(authApi.middleware)
@@ -30,6 +32,7 @@ export const store = configureStore({
             .concat(categoryApi.middleware)
             .concat(testApi.middleware)
             .concat(mediaApi.middleware)
+            .concat(notificationApi.middleware)
 })
 
 export type RootState = ReturnType<typeof store.getState>

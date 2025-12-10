@@ -6,7 +6,8 @@ import {
     Toolbar,
     useTheme
 } from "@mui/material";
-import { HamburgerMenu, Notification, Sms } from "iconsax-reactjs";
+import { HamburgerMenu, Sms } from "iconsax-reactjs";
+import NotificationModal from "./Notification";
 import ProfileMenu from "./Profile";
 import SettingMenu from "./Setting";
 const drawerWidth = 356;
@@ -50,26 +51,16 @@ export default function CustomAppbar({
                         width: "100%",
                     }}
                 >
-                    {/* <OutlinedInput
-                        placeholder="Search"
-                        name="search"
-                        id="search"
-                        startAdornment={<SearchNormal color="text.middle" />}
-                        sx={{
-                            gap: "8px",
-                        }}
-
-                    /> */}
-
                     <Box className="flex gap-4">
-                        <IconButton
+                        {/* <IconButton
                             sx={{
                                 background: theme.palette.seperator.dark,
                                 minWidth: "44px",
                             }}
                         >
                             <Notification variant="Bold" color={theme.palette.seperator.darkest} />
-                        </IconButton>
+                        </IconButton> */}
+                        <NotificationModal />
                         <IconButton
                             sx={{
                                 background: theme.palette.seperator.dark,
