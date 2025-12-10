@@ -10,21 +10,21 @@ const ScreenProtection: React.FC<Props> = ({ children }) => {
         // Disable right-click
         const handleContextMenu = (e: MouseEvent) => {
             e.preventDefault();
-            alert('Right-click is disabled!');
+            // alert('Right-click is disabled!');
         };
 
         // Disable certain keyboard shortcuts
         const handleKeyDown = (e: KeyboardEvent) => {
             // Prevent Print Screen
             if (e.key === 'PrintScreen') {
-                alert('Screenshots are disabled!');
+                // alert('Screenshots are disabled!');
                 navigator.clipboard.writeText(''); // Clear clipboard
                 e.preventDefault();
             }
             // Prevent Ctrl+Shift+I (DevTools), Ctrl+U (View Source), Ctrl+S (Save)
             if ((e.ctrlKey || e.metaKey) && ['u', 's', 'i', 'p'].includes(e.key.toLowerCase())) {
                 e.preventDefault();
-                alert('This action is disabled!');
+                // alert('This action is disabled!');
             }
         };
 
