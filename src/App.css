@@ -20,3 +20,13 @@ button.plyr__control.plyr__control--overlaid svg {
     border-radius: 8px !important;
     object-fit: contain;
 }
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+}

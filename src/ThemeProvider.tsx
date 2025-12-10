@@ -1,9 +1,9 @@
 import { CssBaseline, ThemeProvider } from '@mui/material';
-import React from 'react'
+import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { ThemeMode } from './slice/themeSlice';
 import { useAppSelector } from './store/hook';
 import type { RootState } from './store/store';
-import { ThemeMode } from './slice/themeSlice';
 import { createAppTheme } from './theme';
 
 export default function UdaanThemeProvider({ children }: { children: React.ReactNode }) {
@@ -22,12 +22,10 @@ export default function UdaanThemeProvider({ children }: { children: React.React
         return createAppTheme(themeMode as "light" | "dark");
     }, [mode]);
 
-    // Whenever Redux language changes, update i18next too
     React.useEffect(() => {
         i18n.changeLanguage(lang);
     }, [lang, i18n]);
 
-    // Handle AUTO mode - listen to system preference changes
     React.useEffect(() => {
         if (mode === ThemeMode.AUTO) {
             const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");

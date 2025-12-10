@@ -72,7 +72,7 @@ export default function ProfileMenu() {
                             background: theme.palette.seperator.dark,
                         }}
                     >
-                            <Typography variant="subtitle1" color="text.dark">
+                        <Typography variant="subtitle1" color="text.dark">
                             {user?.name ? user?.name.charAt(0).toUpperCase() : ""}
                         </Typography>
                     </Box>
@@ -133,7 +133,7 @@ export default function ProfileMenu() {
                                     </ListItem>
 
                                     {/* Logout */}
-                                    <ListItem className="menu__item action__item">
+                                    <ListItem className="menu__item action__item delete__item">
                                         <ListItemButton
                                             sx={{ m: 0, border: "none" }}
                                             onClick={() => handleMenuClick(onLogout)}

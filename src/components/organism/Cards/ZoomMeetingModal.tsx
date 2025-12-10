@@ -10,6 +10,7 @@ import {
 import ZoomMtgEmbedded from "@zoom/meetingsdk/embedded";
 import { CloseCircle } from "iconsax-reactjs";
 import { useEffect, useRef, useState } from "react";
+import { useAppSelector } from "../../../store/hook";
 import type { LiveClassProps } from "../../../types/liveClass";
 
 interface ZoomMeetingModalProps {
@@ -28,6 +29,9 @@ export default function ZoomMeetingModal({
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [isMeetingJoined, setIsMeetingJoined] = useState(false);
+
+    // Get token at the component level
+    const token = useAppSelector((state) => state.auth.token);
 
     useEffect(() => {
         if (open && !isMeetingJoined) {
@@ -49,6 +53,9 @@ export default function ZoomMeetingModal({
             const meetingNumber = extractMeetingNumber(meetingData.start_url);
             const password = extractPassword(meetingData.start_url);
 
+            console.log("Meeting Number:", meetingNumber);
+            console.log("Password:", password ? "***" : "No password");
+
             if (!meetingNumber) {
                 throw new Error("Invalid meeting URL");
             }
@@ -57,6 +64,9 @@ export default function ZoomMeetingModal({
             const userName = getUserName();
             const userEmail = getUserEmail();
 
+            console.log("User Name:", userName);
+            console.log("User Email:", userEmail);
+
             // Get SDK Key from environment
             const sdkKey = import.meta.env.VITE_ZOOM_MEETING_SDK_SECRET;
 
@@ -64,8 +74,17 @@ export default function ZoomMeetingModal({
                 throw new Error("Zoom SDK Key not configured");
             }
 
+            console.log("SDK Key:", sdkKey ? "Present" : "Missing");
+
             // Generate signature from backend
             const signature = await generateSignature(meetingNumber, 0);
+
+            console.log("Signature received:", signature ? "Present" : "Missing");
+            console.log("Signature type:", typeof signature);
+
+            if (!signature || typeof signature !== 'string') {
+                throw new Error("Invalid signature received from server");
+            }
 
             // Create client if not exists
             if (!clientRef.current) {
@@ -86,9 +105,9 @@ export default function ZoomMeetingModal({
                     sdkKey: sdkKey,
                     signature: signature,
                     meetingNumber: meetingNumber,
-                    password: password,
+                    password: password || "",
                     userName: userName,
-                    userEmail: userEmail,
+                    userEmail: userEmail || "",
                     tk: "", // registrant token (if registration required)
                     zak: "", // ZAK token (if starting meeting as host)
                 });
@@ -158,24 +177,37 @@ export default function ZoomMeetingModal({
         role: number
     ): Promise<string> => {
         try {
-            const response = await fetch("/api/zoom/signature", {
+            console.log("Generating signature for meeting:", meetingNumber);
+            console.log("Token available:", token ? "Yes" : "No");
+
+            const response = await fetch(`https://app.makuralms.site/api/v1/zoom/signature`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
+                    "authorization": `Bearer ${token?.access_token}`
                 },
                 body: JSON.stringify({
-                    meetingNumber,
+                    meeting_id: Number(meetingNumber),
                     role,
                 }),
             });
 
+            console.log("Response status:", response.status);
+
             if (!response.ok) {
-                const errorData = await response.json();
+                const errorData = await response.json().catch(() => ({ error: "Unknown error" }));
+                console.error("Signature API error:", errorData);
                 throw new Error(errorData.error || "Failed to generate signature");
             }
 
             const data = await response.json();
-            return data.signature;
+            console.log("Signature response data:", data.data.signature);
+
+            if (!data.data.signature) {
+                throw new Error("No signature in response");
+            }
+
+            return data.data.signature;
         } catch (err: any) {
             console.error("Error generating signature:", err);
             throw new Error("Unable to connect to meeting service. Please check your connection.");

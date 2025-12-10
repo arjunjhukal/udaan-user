@@ -240,7 +240,7 @@ export default function VerifyOTP() {
                             inputRef={(el) => {
                                 inputRefs.current[index] = el;
                             }}
-                            type="text"
+                            type="number"
                             inputMode="numeric"
                             inputProps={{
                                 maxLength: 1,
@@ -259,6 +259,7 @@ export default function VerifyOTP() {
                             sx={{
                                 width: { xs: 45, sm: 56 },
                                 height: { xs: 50, sm: 60 },
+                                p: { xs: 0, md: "10px 16px" },
                                 "& input": {
                                     height: "100%",
                                 },

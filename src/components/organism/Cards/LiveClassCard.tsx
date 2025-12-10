@@ -1,6 +1,8 @@
 import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
 import { Clock, Devices, NotificationBing } from "iconsax-reactjs";
 import { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { PATH } from "../../../routes/PATH";
 import type { LiveClassProps } from "../../../types/liveClass";
 import { getTime } from "../../../utils/formatDate";
 import { getStatus } from "../../../utils/getStatus";
@@ -8,14 +10,17 @@ import ZoomMeetingModal from "./ZoomMeetingModal";
 
 export default function LiveClassCard({ data }: { data: LiveClassProps }) {
     const theme = useTheme();
+    const { id } = useParams();
+    const navigate = useNavigate();
     const [isZoomModalOpen, setIsZoomModalOpen] = useState(false);
 
     const status = getStatus(data.start_time, data.end_time);
 
     const handleJoinClass = () => {
-        if (status === "ongoing") {
-            setIsZoomModalOpen(true);
-        }
+        // if (status === "ongoing") {
+        //     setIsZoomModalOpen(true);
+        // }
+        navigate(PATH.COURSE_MANAGEMENT.COURSES.JOIN_LIVE.ROOT(Number(id), Number(data?.id)))
     };
     return (
         <>
@@ -97,7 +102,7 @@ export default function LiveClassCard({ data }: { data: LiveClassProps }) {
                             <NotificationBing size={24} />
                         ) : null
                     }
-                    onClick={handleJoinClass}
+                    onClick={status === "ongoing" ? handleJoinClass : () => { }}
                     disabled={status === "ended"}
 
                 >

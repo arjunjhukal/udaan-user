@@ -1,7 +1,7 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import type { CategoryFilterParams, QueryParams } from "../types";
 import type { CourseList, CourseProps, courseTabType, CurriculumList } from "../types/course";
-import type { LiveClassList } from "../types/liveClass";
+import type { LiveClassList, LiveClassProps } from "../types/liveClass";
 import type { MediaList } from "../types/media";
 import type { PurchaseProps } from "../types/purchase";
 import type { TestList } from "../types/question";
@@ -94,6 +94,12 @@ export const courseApi = createApi({
             }),
             providesTags: (_result, _error, { id }) => [{ type: "Course" as const, id }],
         }),
+        getSingleLiveClass: builder.query<{ data: LiveClassProps }, { courseId: number, liveId: Number }>({
+            query: ({ courseId, liveId }) => ({
+                url: `/course/${courseId}/live/${liveId}`,
+                method: "GET"
+            })
+        }),
         purchaseCourse: builder.mutation<GlobalResponse, { body: PurchaseProps; id: number }>({
             query: ({ body, id }) => ({
                 url: `/course/${id}/purchase`,
@@ -137,6 +143,15 @@ export const courseApi = createApi({
                 { type: "Course" as const, id: "LIST" },
             ],
         }),
+        getMeetingSignature: builder.mutation<{ data: { signature: string } }, { meeting_id: number, role: number }>({
+            query: ({ meeting_id, role }) => ({
+                url: `/zoom/signature`,
+                method: "POST",
+                body: {
+                    meeting_id, role
+                }
+            })
+        })
     }),
 });
 
@@ -150,5 +165,7 @@ export const {
     useGetCourseLiveClassQuery,
     usePurchaseCourseMutation,
     useGetUserPurchasedCourseQuery,
-    useBookmakrCourseMutation
+    useBookmakrCourseMutation,
+    useGetSingleLiveClassQuery,
+    useGetMeetingSignatureMutation
 } = courseApi;

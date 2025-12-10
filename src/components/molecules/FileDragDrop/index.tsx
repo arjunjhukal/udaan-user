@@ -32,7 +32,7 @@ export default function FileDragDrop({
         { file: File | null; preview: string; media_id?: number }[]
     >([]);
 
-    // ✅ Load edit-mode images with IDs
+
     useEffect(() => {
         if (initialFiles.length) {
             const mapped = initialFiles.map((item) => ({
@@ -87,11 +87,9 @@ export default function FileDragDrop({
     const removeImage = (index: number) => {
         const fileToRemove = files[index];
 
-        // If file has media_id, call onFileRemoval with the ID
         if (fileToRemove.media_id) {
             onFileRemoval(fileToRemove.media_id);
         } else {
-            // For newly uploaded files (not yet saved), just remove from local state
             const updated = [...files];
             updated.splice(index, 1);
             setFiles(updated);

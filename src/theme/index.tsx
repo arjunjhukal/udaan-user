@@ -478,6 +478,22 @@ const commonThemeOptions: ThemeOptions = {
               },
             },
           },
+          "&.delete__item": {
+            "&:hover": {
+              ".MuiListItemButton-root": {
+                color: theme.palette.primary.contrastText,
+                backgroundColor: theme.palette.error.main,
+
+                "svg path": {
+                  stroke: theme.palette.primary.contrastText,
+                },
+                ".MuiListItemText, .MuiListItemText *": {
+                  color: theme.palette.primary.contrastText,
+                  fill: theme.palette.primary.contrastText,
+                },
+              },
+            },
+          },
 
           "&.active__tab__controller": {
             ".MuiTypography-root": {
