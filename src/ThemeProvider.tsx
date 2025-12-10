@@ -13,12 +13,16 @@ export default function UdaanThemeProvider({ children }: { children: React.React
     );
     // Create theme based on current mode
     const theme = React.useMemo(() => {
+        // const themeMode =
+        //     mode === ThemeMode.AUTO
+        //         ? window.matchMedia("(prefers-color-scheme: dark)").matches
+        //             ? "dark"
+        //             : "light"
+        //         : mode;
         const themeMode =
-            mode === ThemeMode.AUTO
-                ? window.matchMedia("(prefers-color-scheme: dark)").matches
-                    ? "dark"
-                    : "light"
-                : mode;
+            mode === ThemeMode.DARK
+                ? "dark"
+                : "light";
         return createAppTheme(themeMode as "light" | "dark");
     }, [mode]);
 
@@ -27,15 +31,15 @@ export default function UdaanThemeProvider({ children }: { children: React.React
     }, [lang, i18n]);
 
     React.useEffect(() => {
-        if (mode === ThemeMode.AUTO) {
-            const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-            const handleChange = () => {
-                window.dispatchEvent(new Event("theme-change"));
-            };
+        // if (mode === ThemeMode.AUTO) {
+        //     const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+        //     const handleChange = () => {
+        //         window.dispatchEvent(new Event("theme-change"));
+        //     };
 
-            mediaQuery.addEventListener("change", handleChange);
-            return () => mediaQuery.removeEventListener("change", handleChange);
-        }
+        //     mediaQuery.addEventListener("change", handleChange);
+        //     return () => mediaQuery.removeEventListener("change", handleChange);
+        // }
     }, [mode]);
     return (
         <ThemeProvider theme={theme}>
