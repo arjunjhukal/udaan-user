@@ -477,6 +477,11 @@ export default function SingleLiveClassRoot() {
 
     const meetingData = liveClassData?.data;
 
+    if (!courseId || !liveId) {
+        // Return null so nothing renders
+        return null;
+    }
+
     useEffect(() => {
         if (meetingData && meetingStatus === "loading") {
             checkMeetingStatus();
