@@ -16,7 +16,7 @@ import { useGetAllNotificationsQuery } from "../../../../services/notification";
 export default function NotificationModal() {
     const theme = useTheme();
     const [open, setOpen] = useState(false);
-    const [qp, setQp] = useState({
+    const [qp, _setQp] = useState({
         pageIndex: 1,
         pageSize: 10,
     })
