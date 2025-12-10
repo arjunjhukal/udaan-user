@@ -63,7 +63,7 @@ export const testApi = createApi({
             })
         }),
         submitSubjectiveFinal: builder.mutation<GlobalResponse, { courseId: number; testId: number, questionId: number }>({
-            query: ({ courseId, testId, questionId }) => ({
+            query: ({ courseId, testId }) => ({
                 url: `/course/${courseId}/test/${testId}/subjective/submit`,
                 method: "POST",
             })
