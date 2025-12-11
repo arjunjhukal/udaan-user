@@ -71,3 +71,14 @@ export default defineConfig([
   },
 ])
 ```
+
+## For Deployment Over Vercel
+
+```
+1. Merge your current branch into `dev` for development deployment,  
+   then push using: git push deploy
+
+2. Merge your current branch into `prod` for production deployment,  
+   then push using: git push deploy
+
+```
