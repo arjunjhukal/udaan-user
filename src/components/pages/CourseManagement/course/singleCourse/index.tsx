@@ -72,7 +72,7 @@ export default function SingleCourse() {
     return (
         <>
             <CourseBanner data={courseBasic?.data && courseBasic.data} isLoading={loadingBasic} havePurchased={havePurchesed} />
-            <div className="mt-8">
+            <div className="my-8">
                 <TabController
                     options={[
                         {

@@ -2,19 +2,14 @@ import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import * as React from "react";
 
-import { useTheme } from "@mui/material";
+import { useMediaQuery, useTheme } from "@mui/material";
 import Toolbar from "@mui/material/Toolbar";
 import { Link } from "react-router-dom";
 import CustomAppbar from "../appbar";
 import PrimaryMenu from "./PrimaryMenu";
 
-const drawerWidth = 356;
 
 interface Props {
-    /**
-     * Injected by the documentation to work in an iframe.
-     * Remove this when copying and pasting into your project.
-     */
     window?: () => Window;
     children: React.ReactNode;
 }
@@ -43,7 +38,10 @@ export default function ResponsiveDrawer(props: Props) {
         <div>
             <Toolbar
                 sx={{
-                    padding: "32px 32px 56px",
+                    padding: {
+                        xs: "16px 16px 32px",
+                        md: "32px 32px 56px",
+                    },
                     justifyContent: "center",
                 }}>
                 <Link to={"/"}>
@@ -58,12 +56,14 @@ export default function ResponsiveDrawer(props: Props) {
     const container =
         window !== undefined ? () => window().document.body : undefined;
 
+    const isLargeScreen = useMediaQuery("(min-width:1440px)");
+    const drawerWidth = isLargeScreen ? 356 : 320;
     return (
         <Box sx={{ display: "flex" }}>
             <CustomAppbar handleDrawerToggle={handleDrawerToggle} />
             <Box
                 component="nav"
-                sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+                sx={{ width: { lg: drawerWidth }, flexShrink: { md: 0 } }}
                 aria-label="mailbox folders">
                 {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
                 <Drawer
@@ -73,15 +73,16 @@ export default function ResponsiveDrawer(props: Props) {
                     onTransitionEnd={handleDrawerTransitionEnd}
                     onClose={handleDrawerClose}
                     sx={{
-                        display: { xs: "block", sm: "none" },
+                        display: { sm: "block", lg: "none" },
                         "& .MuiDrawer-paper": {
                             boxSizing: "border-box",
                             width: drawerWidth,
+                            backgroundColor: (theme) => theme.palette.background.sidebar,
                         },
                     }}
                     slotProps={{
                         root: {
-                            keepMounted: true, // Better open performance on mobile.
+                            keepMounted: true,
                         },
                     }}>
                     {drawer}
@@ -89,7 +90,7 @@ export default function ResponsiveDrawer(props: Props) {
                 <Drawer
                     variant="permanent"
                     sx={{
-                        display: { xs: "none", sm: "block" },
+                        display: { xs: "none", lg: "block" },
                         "& .MuiDrawer-paper": {
                             boxSizing: "border-box",
                             width: drawerWidth,
@@ -104,10 +105,10 @@ export default function ResponsiveDrawer(props: Props) {
                 component="main"
                 sx={{
                     flexGrow: 1,
-                    width: { sm: `calc(100% - ${drawerWidth}px)`, padding: "32px 24px" },
+                    width: { lg: `calc(100% - ${drawerWidth}px)`, padding: "32px 24px" },
                 }}>
                 <Toolbar sx={{ height: 100 }} />
-                <Box className="content px-8 pt-8 rounded-2xl overflow-y-auto flex flex-col" sx={{
+                <Box className="content px-8 py-8 rounded-2xl overflow-y-auto flex flex-col" sx={{
                     background: theme.palette.primary.contrastText,
                     height: "calc(100vh - 165px)"
 

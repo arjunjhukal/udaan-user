@@ -40,6 +40,7 @@ export default function NotificationModal() {
                 sx={{
                     background: theme.palette.seperator.dark,
                     minWidth: "44px",
+                    aspectRatio: "1/1",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
