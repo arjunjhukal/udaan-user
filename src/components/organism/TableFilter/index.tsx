@@ -13,7 +13,7 @@ interface TableFilterProps {
   categoryLayout?: boolean;
   title?: string;
 }
-export default function TableFilter({ search, setSearch, onFilter, layout, categoryLayout, title, setLayout }: TableFilterProps) {
+export default function TableFilter({ search, setSearch, onFilter, layout, setLayout }: TableFilterProps) {
   const theme = useTheme();
 
   return (
