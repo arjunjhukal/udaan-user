@@ -12,13 +12,12 @@ export default function CourseBanner({ data, isLoading, havePurchased }: { data?
 
     const course = data || null;
     return (
-        <Box className="rounded-4xl py-11.5  px-16" sx={{
+        <Box className="rounded-4xl px-6 py-8 lg:py-11.5  lg:px-16" sx={{
             background: `url(/banner-bg.svg) no-repeat center/cover, ${theme.palette.primary.main}`
         }}>
-            <div className="lg:grid grid-cols-20 gap-6">
-
-                <div className="col-span-4">
-                    <Box className="thumbnail aspect-264/210 rounded-2xl flex items-center" sx={{
+            <div className="flex flex-col lg:grid grid-cols-20 gap-6">
+                <div className="col-span-4 hidden lg:block">
+                    <Box className=" thumbnail aspect-264/210 rounded-2xl lg:flex items-center" sx={{
                         background: theme.palette.primary.contrastText
                     }}>
                         <img src={course?.thumbnail_url || "/logo.svg"} alt="" className="w-full h-full object-contain" />

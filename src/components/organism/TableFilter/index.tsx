@@ -1,4 +1,4 @@
-import { Box, Button, IconButton, OutlinedInput, Stack, Typography, useTheme } from "@mui/material";
+import { Box, Button, OutlinedInput, Typography, useTheme } from "@mui/material";
 import { FilterSquare, SearchNormal } from "iconsax-reactjs";
 import type { Dispatch, SetStateAction } from "react";
 
@@ -17,9 +17,10 @@ export default function TableFilter({ search, setSearch, onFilter, layout, setLa
   const theme = useTheme();
 
   return (
-    <Box className={`md:grid md:grid-cols-12  items-center `}    >
+    <Box className={`flex gap-2 md:grid md:grid-cols-12 justify-between  items-center `}    >
       <div className="col-span-6">
         <OutlinedInput
+          fullWidth
           placeholder="Search"
           name="search"
           id="search"
@@ -31,14 +32,25 @@ export default function TableFilter({ search, setSearch, onFilter, layout, setLa
           }}
         />
       </div>
-      <div className="col-span-6">
-        <div className="flex justify-end items-center gap-3 filter__right">
-          {onFilter ? <Button startIcon={<FilterSquare variant="Bold" color={theme.palette.text.dark} />} sx={{
-            border: `1px solid ${theme.palette.seperator.dark}`
-          }} className="py-2.5! px-3.5! rounded-md! text-center justify-center!">
-            <Typography variant="subtitle2" color="text.dark" >Filter</Typography>
-          </Button> : ""}
-          {layout ? <Stack >
+      <div className="col-span-6 ">
+        <div className=" filter__right max-w-fit ml-auto">
+          {onFilter ?
+            <Button
+              fullWidth
+              startIcon={<FilterSquare variant="Bold"
+                color={theme.palette.text.dark} />}
+              sx={{
+                border: `1px solid ${theme.palette.seperator.dark}`,
+                "& .MuiButton-startIcon": {
+                  mr: {
+                    xs: 0
+                  }
+                }
+              }}
+              className="py-2.5! px-3.5! rounded-md! text-center justify-center! gap-2! items-center!">
+              <Typography variant="subtitle2" color="text.dark" className="hidden! md:flex!">Filter</Typography>
+            </Button> : ""}
+          {/* {layout ? <Stack >
             <IconButton sx={{
               border: `1px solid ${theme.palette.seperator.dark}`,
               borderRadius: "8px 0 0 8px",
@@ -65,7 +77,7 @@ export default function TableFilter({ search, setSearch, onFilter, layout, setLa
                 <path d="M10.5 19.77V15.73C10.5 14.14 9.86 13.5 8.27 13.5H4.23C2.64 13.5 2 14.14 2 15.73V19.77C2 21.36 2.64 22 4.23 22H8.27C9.86 22 10.5 21.36 10.5 19.77Z" stroke="#9CA3B0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
               </svg>
             </IconButton>
-          </Stack> : ""}
+          </Stack> : ""} */}
         </div>
       </div>
     </Box>

@@ -122,63 +122,123 @@ declare module "@mui/material/styles" {
 const commonThemeOptions: ThemeOptions = {
   typography: {
     fontFamily: '"Noto Sans", sans-serif',
-    // textXs: { fontSize: "12px", lineHeight: "16px" },
-    // textSm: { fontSize: "14px", lineHeight: "20px" },
-    // subtitle1: { fontSize: "16px", lineHeight: "24px" },
-    // textLg: { fontSize: "18px", lineHeight: "28px" },
-    // textXl: { fontSize: "20px", lineHeight: "32px" },
-    // text2Xl: { fontSize: "24px", lineHeight: "38px" },
-    // text3Xl: { fontSize: "30px", lineHeight: "48px" },
-    // text4Xl: { fontSize: "40px", lineHeight: "60px" },
-    // text5Xl: { fontSize: "48px", lineHeight: "72px" },
+
     h1: {
-      fontSize: "64px",
-      lineHeight: "90px"
+      fontSize: "48px", // base (xs)
+      lineHeight: "67px",
+      [`@media (min-width:600px)`]: { // sm
+        fontSize: "56px",
+        lineHeight: "80px",
+      },
+      [`@media (min-width:1200px)`]: { // xl
+        fontSize: "64px",
+        lineHeight: "90px",
+      },
     },
+
     h2: {
-      fontSize: "48px",
-      lineHeight: "67px"
+      fontSize: "36px",
+      lineHeight: "50px",
+      [`@media (min-width:600px)`]: {
+        fontSize: "42px",
+        lineHeight: "60px",
+      },
+      [`@media (min-width:1200px)`]: {
+        fontSize: "48px",
+        lineHeight: "67px",
+      },
     },
+
     h3: {
-      fontSize: "32px",
-      lineHeight: "45px"
-    },
-    h4: {
       fontSize: "24px",
-      lineHeight: "34px"
+      lineHeight: "34px",
+      [`@media (min-width:600px)`]: {
+        fontSize: "28px",
+        lineHeight: "40px",
+      },
+      [`@media (min-width:1200px)`]: {
+        fontSize: "32px",
+        lineHeight: "45px",
+      },
     },
-    h5: {
-      fontSize: "20px",
-      lineHeight: "28px"
-    },
-    h6: {
-      fontSize: "18px",
-      lineHeight: "25px"
-    },
+
     body1: {
-      fontSize: "20px",
-      lineHeight: "28px"
-    },
-    body2: {
-      fontSize: "18px",
-      lineHeight: "26px"
-    },
-    subtitle1: {
       fontSize: "16px",
-      lineHeight: "24px"
+      lineHeight: "24px",
+      [`@media (min-width:600px)`]: {
+        fontSize: "18px",
+        lineHeight: "26px",
+      },
+      [`@media (min-width:1200px)`]: {
+        fontSize: "20px",
+        lineHeight: "28px",
+      },
     },
-    subtitle2: {
+
+    body2: {
       fontSize: "14px",
-      lineHeight: "19px"
+      lineHeight: "20px",
+      [`@media (min-width:600px)`]: {
+        fontSize: "16px",
+        lineHeight: "22px",
+      },
+      [`@media (min-width:1200px)`]: {
+        fontSize: "18px",
+        lineHeight: "26px",
+      },
     },
-    caption: {
+
+    subtitle1: {
+      fontSize: "14px",
+      lineHeight: "20px",
+      [`@media (min-width:600px)`]: {
+        fontSize: "15px",
+        lineHeight: "22px",
+      },
+      [`@media (min-width:1200px)`]: {
+        fontSize: "16px",
+        lineHeight: "24px",
+      },
+    },
+
+    subtitle2: {
       fontSize: "12px",
-      lineHeight: "16px"
+      lineHeight: "16px",
+      [`@media (min-width:600px)`]: {
+        fontSize: "13px",
+        lineHeight: "18px",
+      },
+      [`@media (min-width:1200px)`]: {
+        fontSize: "14px",
+        lineHeight: "19px",
+      },
     },
+
+    caption: {
+      fontSize: "10px",
+      lineHeight: "14px",
+      [`@media (min-width:600px)`]: {
+        fontSize: "11px",
+        lineHeight: "15px",
+      },
+      [`@media (min-width:1200px)`]: {
+        fontSize: "12px",
+        lineHeight: "16px",
+      },
+    },
+
     overline: {
-      fontSize: "8px",
-      lineHeight: "11px"
-    }
+      fontSize: "6px",
+      lineHeight: "9px",
+      [`@media (min-width:600px)`]: {
+        fontSize: "7px",
+        lineHeight: "10px",
+      },
+      [`@media (min-width:1200px)`]: {
+        fontSize: "8px",
+        lineHeight: "11px",
+      },
+    },
   },
   shape: {
     borderRadius: 8,

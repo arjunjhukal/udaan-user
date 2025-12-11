@@ -1,11 +1,11 @@
 import { Box, Skeleton, useTheme } from "@mui/material";
 import { useState } from "react";
+import { PATH } from "../../../../routes/PATH";
 import { useGetUserPurchasedCourseQuery } from "../../../../services/courseApi";
 import { EmptyList } from "../../../molecules/EmptyList";
 import TablePagination from "../../../molecules/Pagination";
 import CourseCard from "../../../organism/Cards/CourseCard/CourseCard";
 import PageHeader from "../../../organism/PageHeader";
-import { PATH } from "../../../../routes/PATH";
 
 export default function MyCourseRoot() {
     const [qp, setQp] = useState({
@@ -30,11 +30,11 @@ export default function MyCourseRoot() {
                 <EmptyList
                     title="No Course Purchased Yet !"
                     description="You are not enrolled in any course yet." cta={{
-                        label:"Explore Course",
-                        url:PATH.COURSE_MANAGEMENT.COURSES.ROOT
-                    }}/> :
+                        label: "Explore Course",
+                        url: PATH.COURSE_MANAGEMENT.COURSES.ROOT
+                    }} /> :
 
-                <div className="flex flex-col gap-4 lg:gap-3 sm:grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+                <div className="flex flex-col gap-4 lg:gap-3 sm:grid sm:grid-cols-2 xl:grid-cols-3 3xl:grid-cols-4">
                     {isLoading ? Array.from({ length: 8 }).map((_, index) => (
                         <Box
                             className="course__card rounded-md overflow-hidden relative h-full flex flex-col"
@@ -85,11 +85,11 @@ export default function MyCourseRoot() {
                     }
                 </div>
             }
-            <TablePagination
+            {pagination && pagination?.total_pages > 1 ? <TablePagination
                 qp={qp}
                 setQp={setQp}
                 totalPages={pagination?.total_pages || 0}
-            />
+            /> : ""}
         </>
     )
 }

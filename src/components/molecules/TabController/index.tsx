@@ -76,12 +76,12 @@ export default function TabController<T extends string | number>({
                     onClick={handleToggle}
                     fullWidth
                     sx={{ background: theme.palette.tab.background }}
-                    className="justify-between!"
+                    className="justify-between! py-3.5! px-4!"
                 >
                     <Typography variant="subtitle2" color="text.middle">
                         {activeLabel}
                     </Typography>
-                    <ArrowDown2 size={18} />
+                    <ArrowDown2 size={12} />
                 </Button>
 
                 <Popper

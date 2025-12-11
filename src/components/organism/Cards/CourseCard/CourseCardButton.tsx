@@ -8,7 +8,7 @@ export default function CourseCardButton({ courseType, sellingPrice, markedPrice
             case "free":
                 return (
                     <div className="free__price">
-                        <span className='text-[10px]! leading-3.5'>This course is free. You can learn anytime you want.</span>
+                        <span className='text-[12px]! lg:text-[10px]! block leading-3.5'>This course is free. You can learn anytime you want.</span>
                     </div>
                 );
 
@@ -33,25 +33,25 @@ export default function CourseCardButton({ courseType, sellingPrice, markedPrice
     const renderButton = () => {
         if (courseType === "free") {
             return (
-                <Button href={to} variant="contained" className='primary__btn'>
+                <Button href={to} fullWidth variant="contained" color='primary'>
                     Start Learning
                 </Button>
             );
         }
         return (
-            <Button href={to} variant="contained" className='primary__btn'>
+            <Button href={to} fullWidth variant="contained" color='primary'>
                 Enroll Now
             </Button>
         );
     };
 
     return (
-        <div className="grid grid-cols-2 items-center">
+        <div className="flex flex-wrap items-center gap-2">
             <div className="pricing__box">
                 {renderPrice()}
             </div>
 
-            <div className="button__wrapper text-right">
+            <div className="button__wrapper text-right w-full">
                 {renderButton()}
             </div>
         </div>
