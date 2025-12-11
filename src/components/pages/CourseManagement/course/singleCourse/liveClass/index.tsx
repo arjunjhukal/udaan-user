@@ -15,8 +15,7 @@ interface Props {
 
 
 
-export default function SinlgeCourseLiveClass({ data, isLoading, totalPages, qp, setQp }: Props) {
-    console.log(isLoading);
+export default function SinlgeCourseLiveClass({ data, totalPages, qp, setQp }: Props) {
     return (
         <>
             <PageHeader

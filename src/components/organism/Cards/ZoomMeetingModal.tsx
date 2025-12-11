@@ -53,8 +53,7 @@ export default function ZoomMeetingModal({
             const meetingNumber = extractMeetingNumber(meetingData.start_url);
             const password = extractPassword(meetingData.start_url);
 
-            console.log("Meeting Number:", meetingNumber);
-            console.log("Password:", password ? "***" : "No password");
+
 
             if (!meetingNumber) {
                 throw new Error("Invalid meeting URL");
@@ -64,8 +63,7 @@ export default function ZoomMeetingModal({
             const userName = getUserName();
             const userEmail = getUserEmail();
 
-            console.log("User Name:", userName);
-            console.log("User Email:", userEmail);
+
 
             // Get SDK Key from environment
             const sdkKey = import.meta.env.VITE_ZOOM_MEETING_SDK_SECRET;
@@ -74,13 +72,11 @@ export default function ZoomMeetingModal({
                 throw new Error("Zoom SDK Key not configured");
             }
 
-            console.log("SDK Key:", sdkKey ? "Present" : "Missing");
 
             // Generate signature from backend
             const signature = await generateSignature(meetingNumber, 0);
 
-            console.log("Signature received:", signature ? "Present" : "Missing");
-            console.log("Signature type:", typeof signature);
+
 
             if (!signature || typeof signature !== 'string') {
                 throw new Error("Invalid signature received from server");
@@ -177,8 +173,7 @@ export default function ZoomMeetingModal({
         role: number
     ): Promise<string> => {
         try {
-            console.log("Generating signature for meeting:", meetingNumber);
-            console.log("Token available:", token ? "Yes" : "No");
+
 
             const response = await fetch(`https://app.makuralms.site/api/v1/zoom/signature`, {
                 method: "POST",
@@ -192,7 +187,6 @@ export default function ZoomMeetingModal({
                 }),
             });
 
-            console.log("Response status:", response.status);
 
             if (!response.ok) {
                 const errorData = await response.json().catch(() => ({ error: "Unknown error" }));
@@ -201,7 +195,6 @@ export default function ZoomMeetingModal({
             }
 
             const data = await response.json();
-            console.log("Signature response data:", data.data.signature);
 
             if (!data.data.signature) {
                 throw new Error("No signature in response");
