@@ -32,7 +32,7 @@ export default function SingleLiveClassRoot() {
     const [meetingStatus, setMeetingStatus] = useState<MeetingStatus>("initial_loading");
     const [error, setError] = useState<string | null>(null);
     const [meetingUrl, setMeetingUrl] = useState<string | null>(null);
-    const [isSignatureLoading, setIsSignatureLoading] = useState(false);
+    const [_isSignatureLoading, setIsSignatureLoading] = useState(false);
 
     const { data: liveClassData, isLoading: isLoadingLiveClass } = useGetSingleLiveClassQuery({
         courseId: Number(courseId),
