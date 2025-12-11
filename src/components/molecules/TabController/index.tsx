@@ -76,6 +76,7 @@ export default function TabController<T extends string | number>({
                     onClick={handleToggle}
                     fullWidth
                     sx={{ background: theme.palette.tab.background }}
+                    className="justify-between!"
                 >
                     <Typography variant="subtitle2" color="text.middle">
                         {activeLabel}
