@@ -1,4 +1,4 @@
-import { Box, Divider, Typography, useTheme } from "@mui/material";
+import { Box, Typography, useTheme } from "@mui/material";
 import type { CourseProps } from "../../../types/course";
 import { renderHtml } from "../../../utils/renderHtml";
 import MyProgress from "../../atom/MyProgress";
@@ -88,18 +88,18 @@ export default function CourseBanner({ data, isLoading, havePurchased }: { data?
                             color: theme.palette.primary.contrastText
                         }}>
                             <Typography variant="body2">Progress</Typography>
-                            <Divider />
+                            {/* <Divider />
                             <Typography variant="subtitle2">Started from</Typography>
                             <div className="flex justify-between items-center">
                                 <Typography variant="caption">Progress</Typography>
                                 <Typography variant="subtitle1" fontWeight={500}>{data?.progress}%</Typography>
-                            </div>
+                            </div> */}
 
                             <MyProgress progress={data?.progress || 0} />
-                            <div className="flex justify-between items-center">
+                            {/* <div className="flex justify-between items-center">
                                 <Typography variant="caption">Nov 20</Typography>
                                 <Typography variant="subtitle1" >-</Typography>
-                            </div>
+                            </div> */}
                         </Box> : <BannerCourseTypeModule
                             courseType={course?.course_type}
                             courseExpiry={course?.course_expiry}

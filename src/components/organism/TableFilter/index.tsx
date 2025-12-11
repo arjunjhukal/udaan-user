@@ -1,5 +1,5 @@
 import { Box, Button, IconButton, OutlinedInput, Stack, Typography, useTheme } from "@mui/material";
-import { Filter, SearchNormal } from "iconsax-reactjs";
+import { FilterSquare, SearchNormal } from "iconsax-reactjs";
 import type { Dispatch, SetStateAction } from "react";
 
 export type LayoutProps = "table" | "grid"
@@ -16,47 +16,27 @@ interface TableFilterProps {
 export default function TableFilter({ search, setSearch, onFilter, layout, categoryLayout, title, setLayout }: TableFilterProps) {
   const theme = useTheme();
 
-
   return (
-    <Box className={`md:grid md:grid-cols-12  items-center mb-8 ${categoryLayout ? "pb-2 mb-6" : ""}`}
-      sx={{
-        borderBottom: categoryLayout ? `1px solid ${theme.palette.seperator.dark}` : ""
-      }}
-    >
+    <Box className={`md:grid md:grid-cols-12  items-center `}    >
       <div className="col-span-6">
-        {!categoryLayout ? <OutlinedInput
+        <OutlinedInput
           placeholder="Search"
           name="search"
           id="search"
-          startAdornment={<SearchNormal size={16} />}
+          startAdornment={<SearchNormal size={16} color={theme.palette.text.middle} />}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           sx={{
-            gap: "8px"
+            gap: "8px",
           }}
-        /> : <Typography variant="body2" fontWeight={500} color="text.dark">{title}</Typography>}
-
+        />
       </div>
       <div className="col-span-6">
         <div className="flex justify-end items-center gap-3 filter__right">
-
-
-          {categoryLayout ? <OutlinedInput
-            placeholder="Search"
-            name="search"
-            id="search"
-            startAdornment={<SearchNormal size={16} />}
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            sx={{
-              gap: "8px",
-              padding: "8px 16px"
-            }}
-          /> : ""}
-          {onFilter ? <Button startIcon={<Filter size={16} />} sx={{
+          {onFilter ? <Button startIcon={<FilterSquare variant="Bold" color={theme.palette.text.dark} />} sx={{
             border: `1px solid ${theme.palette.seperator.dark}`
-          }} className="py-2.5! px-3.5! rounded-md!">
-            <Typography variant="subtitle2" color="text.dark">Filter</Typography>
+          }} className="py-2.5! px-3.5! rounded-md! text-center justify-center!">
+            <Typography variant="subtitle2" color="text.dark" >Filter</Typography>
           </Button> : ""}
           {layout ? <Stack >
             <IconButton sx={{

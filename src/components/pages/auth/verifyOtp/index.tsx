@@ -29,79 +29,70 @@ export default function VerifyOTP() {
     const [searchParams] = useSearchParams();
     const [phone, setPhone] = useState<string>("");
     const [isCheckingPhone, setIsCheckingPhone] = useState(true);
-
+    const [timer, setTimer] = useState(0);
     const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
     const dispatch = useAppDispatch();
-
-    useEffect(() => {
-        const phoneNumber = searchParams.get("phone");
-
-        if (!phoneNumber) {
-            dispatch(
-                showToast({
-                    message: "Phone number not found. Please login again.",
-                    severity: "error"
-                })
-            );
-            navigate(PATH.AUTH.LOGIN.ROOT, { replace: true });
-            return;
-        }
-
-        setPhone(phoneNumber);
-        setIsCheckingPhone(false);
-    }, [searchParams, navigate, dispatch]);
 
     const [verifyOtp, { isLoading }] = useVerifyOtpMutation();
     const [resendOtp, { isLoading: isSending }] = useResendOtpMutation();
 
+    // Initialize phone number
+    useEffect(() => {
+        const phoneNumber = searchParams.get("phone");
+        if (!phoneNumber) {
+            dispatch(showToast({ message: "Phone number not found. Please login again.", severity: "error" }));
+            navigate(PATH.AUTH.LOGIN.ROOT, { replace: true });
+            return;
+        }
+        setPhone(phoneNumber);
+        setIsCheckingPhone(false);
+    }, [searchParams, navigate, dispatch]);
+
+    // Persistent timer: resume on refresh
+    useEffect(() => {
+        const timerEnd = localStorage.getItem("otpTimerEnd");
+        if (timerEnd) {
+            const remaining = Math.floor((parseInt(timerEnd) - Date.now()) / 1000);
+            if (remaining > 0) setTimer(remaining);
+            else localStorage.removeItem("otpTimerEnd");
+        }
+    }, []);
+
+    // Timer countdown
+    useEffect(() => {
+        if (timer <= 0) return;
+
+        const interval = setInterval(() => {
+            setTimer((prev) => {
+                if (prev <= 1) {
+                    localStorage.removeItem("otpTimerEnd");
+                    clearInterval(interval);
+                    return 0;
+                }
+                return prev - 1;
+            });
+        }, 1000);
+
+        return () => clearInterval(interval);
+    }, [timer]);
+
     // Formik setup
     const formik = useFormik({
-        initialValues: {
-            otp: "",
-        },
+        initialValues: { otp: "" },
         validationSchema,
         onSubmit: async (values) => {
             if (!phone) {
-                dispatch(
-                    showToast({
-                        message: "Phone number not found.",
-                        severity: "error"
-                    })
-                );
+                dispatch(showToast({ message: "Phone number not found.", severity: "error" }));
                 navigate(PATH.AUTH.LOGIN.ROOT, { replace: true });
                 return;
             }
-
             try {
-                const response = await verifyOtp({
-                    phone: phone,
-                    otp: values.otp
-                }).unwrap();
-
-                dispatch(
-                    showToast({
-                        message: response.message || "OTP verified successfully.",
-                        severity: "success"
-                    })
-                );
-
-                dispatch(
-                    setCredentials(
-                        {
-                            token: response?.data?.token,
-                            user: response?.data?.user,
-                        }
-                    )
-                )
+                const response = await verifyOtp({ phone, otp: values.otp }).unwrap();
+                dispatch(showToast({ message: response.message || "OTP verified successfully.", severity: "success" }));
+                dispatch(setCredentials({ token: response?.data?.token, user: response?.data?.user }));
                 navigate(PATH.DASHBOARD.ROOT);
-
             } catch (e: any) {
-                dispatch(
-                    showToast({
-                        message: e?.data?.message || "Invalid OTP. Please try again.",
-                        severity: "error"
-                    })
-                );
+                dispatch(showToast({ message: e?.data?.message || "Invalid OTP. Please try again.", severity: "error" }));
             }
         },
     });
@@ -113,8 +104,6 @@ export default function VerifyOTP() {
     };
 
     const otpArray = getOtpArray(formik.values.otp);
-
-
 
     const handleChange = (value: string, index: number) => {
         if (!/^\d*$/.test(value)) return;
@@ -130,23 +119,15 @@ export default function VerifyOTP() {
         }
     };
 
-    // Fixed: Proper typing for keyboard event
-    const handleKeyDown = (
-        e: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>,
-        index: number
-    ) => {
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>, index: number) => {
         if (e.key === "Backspace" && !otpArray[index] && index > 0) {
             inputRefs.current[index - 1]?.focus();
         }
     };
 
-    // Fixed: Proper typing for clipboard event
-    const handlePaste = (
-        e: React.ClipboardEvent<HTMLDivElement>
-    ) => {
+    const handlePaste = (e: React.ClipboardEvent<HTMLDivElement>) => {
         e.preventDefault();
         const pastedData = e.clipboardData.getData("text").trim();
-
         if (!/^\d+$/.test(pastedData)) return;
 
         const digits = pastedData.slice(0, 6);
@@ -156,54 +137,32 @@ export default function VerifyOTP() {
         inputRefs.current[nextIndex]?.focus();
     };
 
-    // Handle resend OTP
+    const startTimer = (seconds: number) => {
+        const endTime = Date.now() + seconds * 1000;
+        localStorage.setItem("otpTimerEnd", endTime.toString());
+        setTimer(seconds);
+    };
+
     const handleResendOTP = async () => {
         if (!phone) {
-            dispatch(
-                showToast({
-                    message: "Phone number not found.",
-                    severity: "error"
-                })
-            );
+            dispatch(showToast({ message: "Phone number not found.", severity: "error" }));
             navigate(PATH.AUTH.LOGIN.ROOT, { replace: true });
             return;
         }
-
         try {
             const response = await resendOtp({ phone }).unwrap();
-
-            dispatch(
-                showToast({
-                    message: response.data.otp || "OTP sent successfully.",
-                    severity: "success"
-                })
-            );
-
-            // Clear OTP fields and focus first input
+            dispatch(showToast({ message: response.message || "OTP sent successfully.", severity: "success" }));
+            startTimer(90);
             formik.resetForm();
             inputRefs.current[0]?.focus();
-
         } catch (e: any) {
-            dispatch(
-                showToast({
-                    message: e?.data?.message || "Unable to send OTP.",
-                    severity: "error"
-                })
-            );
+            dispatch(showToast({ message: e?.data?.message || "Unable to send OTP.", severity: "error" }));
         }
     };
 
-    // Show loading while checking phone number
     if (isCheckingPhone) {
         return (
-            <Box
-                sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    minHeight: "50vh",
-                }}
-            >
+            <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "50vh" }}>
                 <CircularProgress />
             </Box>
         );
@@ -216,40 +175,21 @@ export default function VerifyOTP() {
                 description="Please enter One time password sent to your registered email address/ phone no. to complete your verification."
             />
 
-            <Typography
-                textAlign="center"
-                className=" mb-4!"
-                sx={{ mb: 3, fontSize: { xs: 14, lg: 16 } }}
-            >
-                We've sent a 6-digit code to{" "}
-                <strong style={{ color: "#1976d2" }}>{phone}</strong>
+            <Typography textAlign="center" className="mb-3!" sx={{ fontSize: { xs: 14, lg: 16 } }}>
+                We've sent a 6-digit code to <strong style={{ color: "#1976d2" }}>{phone}</strong>
             </Typography>
 
             <form onSubmit={formik.handleSubmit}>
-                <Box
-                    sx={{
-                        display: "flex",
-                        justifyContent: "center",
-                        gap: 1.5,
-                        mb: 2,
-                    }}
-                >
+                <Box sx={{ display: "flex", justifyContent: "center", gap: 1.5, mb: 2 }}>
                     {otpArray.map((digit, index) => (
                         <OutlinedInput
                             key={index}
-                            inputRef={(el) => {
-                                inputRefs.current[index] = el;
-                            }}
+                            inputRef={(el) => { inputRefs.current[index] = el; }}
                             type="number"
                             inputMode="numeric"
                             inputProps={{
                                 maxLength: 1,
-                                style: {
-                                    textAlign: "center",
-                                    fontSize: 24,
-                                    fontWeight: 600,
-                                    padding: 0,
-                                },
+                                style: { textAlign: "center", fontSize: 24, fontWeight: 600, padding: 0 },
                             }}
                             value={digit}
                             onChange={(e) => handleChange(e.target.value, index)}
@@ -260,64 +200,43 @@ export default function VerifyOTP() {
                                 width: { xs: 45, sm: 56 },
                                 height: { xs: 50, sm: 60 },
                                 p: { xs: 0, md: "10px 16px" },
-                                "& input": {
-                                    height: "100%",
-                                },
-                                "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                                    borderColor: "#1976d2",
-                                    borderWidth: 2,
-                                },
+                                "& input": { height: "100%" },
+                                "&.Mui-focused .MuiOutlinedInput-notchedOutline": { borderColor: "#1976d2", borderWidth: 2 },
                             }}
                         />
                     ))}
                 </Box>
 
-                {/* Error Message */}
                 {formik.touched.otp && formik.errors.otp && (
-                    <Typography
-                        color="error"
-                        textAlign="center"
-                        sx={{ mb: 2, fontSize: 14 }}
-                    >
+                    <Typography color="error" textAlign="center" sx={{ mb: 2, fontSize: 14 }}>
                         {formik.errors.otp}
                     </Typography>
                 )}
 
-                <Typography
-                    variant="subtitle2"
-                    textAlign="end"
-                    color="text.secondary"
-                    sx={{ mb: 2 }}
-                >
+                <Typography variant="subtitle2" textAlign="end" color="text.secondary" className="my-2!">
                     Didn't get the code?
-                    <Button
-                        variant="text"
-                        color="primary"
-                        onClick={handleResendOTP}
-                        disabled={isSending}
-                        sx={{ textTransform: "none" }}
-                    >
-                        {isSending ? "Sending..." : "Send Again"}
-                    </Button>
+                    {timer > 0 ? (
+                        <strong style={{ marginLeft: 4 }}>Resend in {timer}s</strong>
+                    ) : (
+                        <Button
+                            variant="text"
+                            color="primary"
+                            onClick={handleResendOTP}
+                            disabled={isSending}
+                            sx={{ textTransform: "none", ml: 1 }}
+                        >
+                            {isSending ? "Sending..." : "Send Again"}
+                        </Button>
+                    )}
                 </Typography>
 
-                {/* Verify Button */}
-                <Button
-                    fullWidth
-                    size="large"
-                    type="submit"
-                    variant="contained"
-                    disabled={isLoading || !formik.isValid}
-                    sx={{ mb: 3, py: 1.5 }}
-                >
+                <Button fullWidth size="large" type="submit" variant="contained" disabled={isLoading || !formik.isValid} sx={{ mb: 3, py: 1.5 }}>
                     {isLoading ? (
                         <>
                             <CircularProgress size={20} sx={{ mr: 1 }} color="inherit" />
                             Verifying...
                         </>
-                    ) : (
-                        "Verify OTP"
-                    )}
+                    ) : "Verify OTP"}
                 </Button>
             </form>
         </>

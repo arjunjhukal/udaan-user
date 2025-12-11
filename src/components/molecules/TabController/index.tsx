@@ -1,4 +1,16 @@
-import { List, ListItem, Typography, useTheme } from '@mui/material';
+import {
+    Box,
+    Button,
+    ClickAwayListener,
+    List,
+    ListItem,
+    Paper,
+    Popper,
+    Typography,
+    useTheme
+} from "@mui/material";
+import { ArrowDown2 } from "iconsax-reactjs";
+import { useRef, useState } from "react";
 
 interface TabOption<T> {
     label: string;
@@ -11,37 +23,110 @@ interface TabControllerProps<T> {
     currentActive: T;
 }
 
-export default function TabController<T extends string>({
+export default function TabController<T extends string | number>({
     setActiveTab,
     currentActive,
-    options
+    options = []
 }: TabControllerProps<T>) {
+
     const theme = useTheme();
 
-    const tabOptions = options || [];
+    const anchorRef = useRef<HTMLButtonElement | null>(null);
+    const [open, setOpen] = useState(false);
+
+    const handleToggle = () => setOpen((prev) => !prev);
+    const handleClose = () => setOpen(false);
+
+    const activeLabel =
+        options.find((opt) => opt.value === currentActive)?.label || "";
 
     return (
-        <List
-            sx={{
-                background: theme.palette.tab.background
-            }}
-            className='p-1! rounded-md max-w-fit flex items-center mb-6!'
-        >
-            {tabOptions.map((tab) => (
-                <ListItem
-                    className={currentActive === tab.value ? 'active__tab__controller' : ""}
-                    key={tab.value}
-                    onClick={() => setActiveTab(tab.value)}
-                >
-                    <Typography
-                        variant='subtitle2'
-                        color='text.middle'
-                        className='px-6 py-2 rounded-md cursor-pointer text-nowrap'
+        <>
+            {/* Desktop */}
+            <List
+                sx={{
+                    background: theme.palette.tab.background,
+                    display: { xs: "none", lg: "flex" },
+                }}
+                className="p-1! rounded-md max-w-fit flex items-center"
+            >
+                {options.map((tab) => (
+                    <ListItem
+                        key={tab.value}
+                        onClick={() => setActiveTab(tab.value)}
+                        className={
+                            currentActive === tab.value ? "active__tab__controller" : ""
+                        }
                     >
-                        {tab.label}
+                        <Typography
+                            variant="subtitle2"
+                            color="text.middle"
+                            className="px-6 py-2 rounded-md cursor-pointer text-nowrap"
+                        >
+                            {tab.label}
+                        </Typography>
+                    </ListItem>
+                ))}
+            </List>
+
+            {/* Mobile */}
+            <Box sx={{ display: { xs: "block", lg: "none" } }}>
+                <Button
+                    ref={anchorRef}
+                    onClick={handleToggle}
+                    fullWidth
+                    sx={{ background: theme.palette.tab.background }}
+                    className="justify-between!"
+                >
+                    <Typography variant="subtitle2" color="text.middle">
+                        {activeLabel}
                     </Typography>
-                </ListItem>
-            ))}
-        </List>
+                    <ArrowDown2 size={18} />
+                </Button>
+
+                <Popper
+                    open={open}
+                    anchorEl={anchorRef.current}
+                    placement="bottom-start"
+                    style={{ zIndex: 1200 }}
+                >
+                    <ClickAwayListener onClickAway={handleClose}>
+                        <Paper
+                            sx={{
+                                mt: 1,
+                                background: theme.palette.tab.background,
+                                borderRadius: 2,
+                                overflow: "hidden",
+                                minWidth: anchorRef.current?.offsetWidth,
+                            }}
+                        >
+                            {options.map((tab) => (
+                                <Box
+                                    key={tab.value}
+                                    onClick={() => {
+                                        setActiveTab(tab.value);
+                                        handleClose();
+                                    }}
+                                    sx={{
+                                        px: 2,
+                                        py: 1,
+                                        cursor: "pointer",
+                                        background:
+                                            currentActive === tab.value
+                                                ? theme.palette.action.hover
+                                                : "transparent",
+                                        "&:hover": { background: theme.palette.action.hover },
+                                    }}
+                                >
+                                    <Typography variant="subtitle2" color="text.middle">
+                                        {tab.label}
+                                    </Typography>
+                                </Box>
+                            ))}
+                        </Paper>
+                    </ClickAwayListener>
+                </Popper>
+            </Box>
+        </>
     );
 }

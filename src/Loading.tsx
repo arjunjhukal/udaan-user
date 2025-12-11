@@ -16,6 +16,7 @@ export default function Loading() {
                     backgroundColor: (theme) => theme.palette.background.default,
                     zIndex: 1100,
                 }}
+                className="hidden lg:block!"
             >
                 <Toolbar sx={{ px: 3 }}>
                     <Box sx={{ mr: 2, display: { sm: 'none' } }}>

@@ -2,6 +2,7 @@ import {
     Box,
     ClickAwayListener,
     Grow,
+    IconButton,
     List,
     ListItem,
     ListItemButton,
@@ -52,10 +53,10 @@ export default function ProfileMenu() {
             <Box
                 ref={anchorRef}
                 onClick={handleToggle}
-                className="flex gap-2 items-center p-2 rounded-md cursor-pointer"
+                className=" hidden lg:flex gap-2 items-center p-2 rounded-md cursor-pointer"
                 sx={{
                     border: `1px solid ${theme.palette.seperator.dark}`,
-                    minWidth: "160px",
+                    minWidth: { lg: "160px" },
                     "&:hover": { backgroundColor: theme.palette.action.hover },
                 }}
             >
@@ -78,11 +79,34 @@ export default function ProfileMenu() {
                     </Box>
                 )}
 
-                <Typography variant="subtitle2" color="text.dark">
+                <Typography variant="subtitle2" color="text.dark" className="hidden lg:block">
                     {user?.name}
                 </Typography>
                 <CustomCollapseIcon isOpen={open} />
             </Box>
+            <IconButton
+
+                sx={{
+                    background: theme.palette.seperator.dark,
+                    minWidth: "44px",
+                    aspectRatio: "1/1",
+                    "&:hover": { backgroundColor: theme.palette.action.hover },
+                }}
+                className="lg:hidden!"
+            >
+                {user?.profile_url ? (
+                    <img
+                        src={user.profile_url}
+                        alt={`${user?.name} Profile Picture`}
+                        className="user__profile w-7 h-7 rounded-full"
+                    />
+                ) : (
+
+                    <Typography variant="subtitle1" color="text.middle" fontWeight={600}>
+                        {user?.name ? user?.name.charAt(0).toUpperCase() : ""}
+                    </Typography>
+                )}
+            </IconButton>
 
             <Popper
                 open={open}

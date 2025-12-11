@@ -4,27 +4,29 @@ import {
     IconButton,
     Stack,
     Toolbar,
-    useTheme
+    useMediaQuery
 } from "@mui/material";
-import { HamburgerMenu, Sms } from "iconsax-reactjs";
+import { HamburgerMenu } from "iconsax-reactjs";
 import NotificationModal from "./Notification";
 import ProfileMenu from "./Profile";
 import SettingMenu from "./Setting";
-const drawerWidth = 356;
+// const drawerWidth = 356;
 
 export default function CustomAppbar({
     handleDrawerToggle,
 }: {
     handleDrawerToggle: () => void;
 }) {
-    const theme = useTheme();
+
+    const isLargeScreen = useMediaQuery("(min-width:1440px)");
+    const drawerWidth = isLargeScreen ? 356 : 320;
 
     return (
         <AppBar
             position="fixed"
             sx={{
-                width: { sm: `calc(100% - ${drawerWidth}px)` },
-                ml: { sm: `${drawerWidth}px` },
+                width: { lg: `calc(100% - ${drawerWidth}px)` },
+                ml: { lg: `${drawerWidth}px` },
                 borderBottom: (theme) => `1px solid ${theme.palette.divider}`,
                 borderRadius: 0,
                 padding: " 20px 24px",
@@ -33,13 +35,25 @@ export default function CustomAppbar({
             color="default"
             elevation={0}
         >
-            <Toolbar sx={{ px: 3 }}>
+            <Toolbar sx={{
+                px: {
+                    lg: 3
+                }
+            }}>
                 <IconButton
                     color="inherit"
                     aria-label="open drawer"
                     edge="start"
                     onClick={handleDrawerToggle}
-                    sx={{ mr: 2, display: { sm: "none" }, minHeight: "44px" }}
+                    sx={{
+                        mr: 2,
+                        display: { lg: "none" },
+                        minHeight: "44px",
+                        aspectRatio: "1/1",
+                        background: (theme) => theme.palette.seperator.dark,
+                        "&:hover": { backgroundColor: (theme) => theme.palette.action.hover },
+                    }}
+
                 >
                     <HamburgerMenu />
                 </IconButton>
@@ -52,24 +66,7 @@ export default function CustomAppbar({
                     }}
                 >
                     <Box className="flex gap-4">
-                        {/* <IconButton
-                            sx={{
-                                background: theme.palette.seperator.dark,
-                                minWidth: "44px",
-                            }}
-                        >
-                            <Notification variant="Bold" color={theme.palette.seperator.darkest} />
-                        </IconButton> */}
                         <NotificationModal />
-                        <IconButton
-                            sx={{
-                                background: theme.palette.seperator.dark,
-                                minWidth: "44px",
-                            }}
-                        >
-                            <Sms variant="Bold" color={theme.palette.seperator.darkest} />
-                        </IconButton>
-
                         <SettingMenu />
                         <ProfileMenu />
                     </Box>

@@ -6,9 +6,9 @@ export interface QueryParams {
 
 export interface CategoryFilterParams {
   mega_category: number[];
-  category: number[];
-  sub_category: number[];
-  positions: number[];
+  category?: number[];
+  sub_category?: number[];
+  positions?: number[];
 }
 
 export interface Pagination {
