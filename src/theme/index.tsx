@@ -301,6 +301,8 @@ const commonThemeOptions: ThemeOptions = {
           borderRadius: "4px",
           fontWeight: 400,
           textTransform: "capitalize",
+          maxWidth: "fit-content",
+          height: "unset",
           "&.ongoing": {
             backgroundColor: theme.palette.success.main,
             color: theme.palette.primary.contrastText
