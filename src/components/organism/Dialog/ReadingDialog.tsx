@@ -10,6 +10,53 @@ import { extractYouTubeVideoId, getYouTubeThumbnail } from '../../../utils/extra
 interface PlyrInstance {
     plyr?: APITypes;
 }
+const SpotifyAudioPlayer = ({ audioUrl, imageUrl, title }: { audioUrl: string, imageUrl: string, title: string }) => {
+    return (
+        <div
+            style={{
+                width: "100%",
+                background: "#121212",
+                borderRadius: "12px",
+                padding: "16px",
+                color: "white",
+            }}
+        >
+            {/* Image */}
+            <div style={{ width: "100%", marginBottom: "12px" }}>
+                <img
+                    src={imageUrl}
+                    alt="cover"
+                    style={{
+                        width: "100%",
+                        height: "250px",
+                        objectFit: "cover",
+                        borderRadius: "12px",
+                    }}
+                />
+            </div>
+
+            {/* Title */}
+            {title && (
+                <h3 style={{ margin: "8px 0", fontSize: "18px" }}>{title}</h3>
+            )}
+
+            {/* Audio Player */}
+            {audioUrl ? (
+                <audio
+                    controls
+                    src={audioUrl}
+                    style={{
+                        width: "100%",
+                        borderRadius: "8px",
+                    }}
+                />
+            ) : (
+                <p>No audio available</p>
+            )}
+        </div>
+    );
+};
+
 
 export default function ReadingDialog() {
     const theme = useTheme();
@@ -236,11 +283,14 @@ export default function ReadingDialog() {
                 return <p>No video available</p>;
 
             case 'temp_audios':
-                return audioUrl ? (
-                    <audio controls src={audioUrl} style={{ width: '100%' }} />
-                ) : (
-                    <p>No audio available</p>
+                return (
+                    <SpotifyAudioPlayer
+                        audioUrl={audioUrl || ""}
+                        imageUrl="/logo.svg"
+                        title="Sample Audio"
+                    />
                 );
+
 
             case 'temp_notes':
                 return pdfUrl ? (
