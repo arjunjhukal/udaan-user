@@ -101,10 +101,8 @@ export default function SingleLiveClassRoot() {
 
                 if (meetingData.account_id === 1) {
                     sdkKey = import.meta.env.VITE_ZOOM_MEETING_SDK_SECRET1;
-                } else if (meetingData.account_id === 2) {
-                    sdkKey = import.meta.env.VITE_ZOOM_MEETING_SDK_SECRET2;
                 } else {
-                    sdkKey = import.meta.env.VITE_ZOOM_MEETING_SDK_SECRET;
+                    sdkKey = import.meta.env.VITE_ZOOM_MEETING_SDK_SECRET2;
                 }
 
                 if (!meetingNumber) throw new Error("Invalid Meeting URL in server data.");
@@ -113,7 +111,7 @@ export default function SingleLiveClassRoot() {
                 // Generate Signature
                 const sigRes = await generateSignature({
                     meeting_id: Number(meetingNumber),
-                    account_id:Number(meetingData?.account_id),
+                    account_id: Number(meetingData?.account_id),
                     role: 0,
                 }).unwrap();
 
@@ -129,7 +127,7 @@ export default function SingleLiveClassRoot() {
                     mn: meetingNumber,
                     pwd: password || "",
                     sig: signature,
-                    // key: sdkKey,
+                    key: sdkKey,
                     name: user?.name || "Student",
                     email: user?.email || "",
                     leave: breakerUrl
