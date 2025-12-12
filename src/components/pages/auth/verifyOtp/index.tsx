@@ -63,7 +63,6 @@ export default function VerifyOTP() {
         }
     }, [user, redirectUrl, navigate]);
 
-    // Persistent timer: resume on refresh
     useEffect(() => {
         const timerEnd = localStorage.getItem("otpTimerEnd");
         if (timerEnd) {
