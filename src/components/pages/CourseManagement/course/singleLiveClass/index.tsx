@@ -97,7 +97,15 @@ export default function SingleLiveClassRoot() {
 
                 const meetingNumber = meetingData.start_url.match(/\/j\/(\d+)/)?.[1];
                 const password = new URL(meetingData.start_url).searchParams.get("pwd");
-                const sdkKey = import.meta.env.VITE_ZOOM_MEETING_SDK_SECRET;
+                let sdkKey: string;
+
+                if (meetingData.id === 1) {
+                    sdkKey = import.meta.env.VITE_ZOOM_MEETING_SDK_SECRET1;
+                } else if (meetingData.id === 2) {
+                    sdkKey = import.meta.env.VITE_ZOOM_MEETING_SDK_SECRET2;
+                } else {
+                    sdkKey = import.meta.env.VITE_ZOOM_MEETING_SDK_SECRET;
+                }
 
                 if (!meetingNumber) throw new Error("Invalid Meeting URL in server data.");
                 if (!sdkKey) throw new Error("Zoom SDK Key is not configured.");

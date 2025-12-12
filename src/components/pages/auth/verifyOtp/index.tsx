@@ -13,7 +13,7 @@ import { PATH } from "../../../../routes/PATH";
 import { useResendOtpMutation, useVerifyOtpMutation } from "../../../../services/authApi";
 import { setCredentials } from "../../../../slice/authSlice";
 import { showToast } from "../../../../slice/toastSlice";
-import { useAppDispatch } from "../../../../store/hook";
+import { useAppDispatch, useAppSelector } from "../../../../store/hook";
 import AuthHeader from "../../../molecules/AuthHeader";
 
 // Validation schema
@@ -28,27 +28,41 @@ export default function VerifyOTP() {
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
     const [phone, setPhone] = useState<string>("");
+    const [redirectUrl, setRedirectUrl] = useState<string>("");
     const [isCheckingPhone, setIsCheckingPhone] = useState(true);
     const [timer, setTimer] = useState(0);
     const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
     const dispatch = useAppDispatch();
-
+    const user = useAppSelector((state) => state.auth.user);
     const [verifyOtp, { isLoading }] = useVerifyOtpMutation();
     const [resendOtp, { isLoading: isSending }] = useResendOtpMutation();
 
     // Initialize phone number
     useEffect(() => {
         const phoneNumber = searchParams.get("phone");
+        const redirect_url = searchParams.get("redirect_url");
         if (!phoneNumber) {
             dispatch(showToast({ message: "Phone number not found. Please login again.", severity: "error" }));
             navigate(PATH.AUTH.LOGIN.ROOT, { replace: true });
             return;
         }
+        if (redirect_url) {
+            setRedirectUrl(redirect_url);
+        }
         setPhone(phoneNumber);
         setIsCheckingPhone(false);
     }, [searchParams, navigate, dispatch]);
 
-    // Persistent timer: resume on refresh
+    useEffect(() => {
+        if (user) {
+            if (redirectUrl) {
+                navigate(redirectUrl, { replace: true });
+            } else {
+                navigate(PATH.DASHBOARD.ROOT, { replace: true });
+            }
+        }
+    }, [user, redirectUrl, navigate]);
+
     useEffect(() => {
         const timerEnd = localStorage.getItem("otpTimerEnd");
         if (timerEnd) {
@@ -80,21 +94,54 @@ export default function VerifyOTP() {
     const formik = useFormik({
         initialValues: { otp: "" },
         validationSchema,
+        // onSubmit: async (values) => {
+        //     if (!phone) {
+        //         dispatch(showToast({ message: "Phone number not found.", severity: "error" }));
+        //         navigate(PATH.AUTH.LOGIN.ROOT, { replace: true });
+        //         return;
+        //     }
+        //     try {
+        //         const response = await verifyOtp({ phone, otp: values.otp }).unwrap();
+        //         dispatch(showToast({ message: response.message || "OTP verified successfully.", severity: "success" }));
+        //         dispatch(setCredentials({ token: response?.data?.token, user: response?.data?.user }));
+        //         navigate(PATH.DASHBOARD.ROOT);
+        //     } catch (e: any) {
+        //         dispatch(showToast({ message: e?.data?.message || "Invalid OTP. Please try again.", severity: "error" }));
+        //     }
+        // },
         onSubmit: async (values) => {
             if (!phone) {
                 dispatch(showToast({ message: "Phone number not found.", severity: "error" }));
                 navigate(PATH.AUTH.LOGIN.ROOT, { replace: true });
                 return;
             }
+
             try {
                 const response = await verifyOtp({ phone, otp: values.otp }).unwrap();
-                dispatch(showToast({ message: response.message || "OTP verified successfully.", severity: "success" }));
-                dispatch(setCredentials({ token: response?.data?.token, user: response?.data?.user }));
-                navigate(PATH.DASHBOARD.ROOT);
+
+                dispatch(showToast({
+                    message: response.message || "OTP verified successfully.",
+                    severity: "success",
+                }));
+
+                dispatch(setCredentials({
+                    token: response?.data?.token,
+                    user: response?.data?.user
+                }));
+
+                if (redirectUrl) {
+                    navigate(redirectUrl, { replace: true });
+                } else {
+                    navigate(PATH.DASHBOARD.ROOT);
+                }
             } catch (e: any) {
-                dispatch(showToast({ message: e?.data?.message || "Invalid OTP. Please try again.", severity: "error" }));
+                dispatch(showToast({
+                    message: e?.data?.message || "Invalid OTP. Please try again.",
+                    severity: "error",
+                }));
             }
-        },
+        }
+
     });
 
     const getOtpArray = (otp: string) => {
