@@ -13,7 +13,7 @@ import { PATH } from "../../../../routes/PATH";
 import { useResendOtpMutation, useVerifyOtpMutation } from "../../../../services/authApi";
 import { setCredentials } from "../../../../slice/authSlice";
 import { showToast } from "../../../../slice/toastSlice";
-import { useAppDispatch } from "../../../../store/hook";
+import { useAppDispatch, useAppSelector } from "../../../../store/hook";
 import AuthHeader from "../../../molecules/AuthHeader";
 
 // Validation schema
@@ -33,7 +33,7 @@ export default function VerifyOTP() {
     const [timer, setTimer] = useState(0);
     const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
     const dispatch = useAppDispatch();
-
+    const user = useAppSelector((state) => state.auth.user);
     const [verifyOtp, { isLoading }] = useVerifyOtpMutation();
     const [resendOtp, { isLoading: isSending }] = useResendOtpMutation();
 
@@ -52,6 +52,16 @@ export default function VerifyOTP() {
         setPhone(phoneNumber);
         setIsCheckingPhone(false);
     }, [searchParams, navigate, dispatch]);
+
+    useEffect(() => {
+        if (user) {
+            if (redirectUrl) {
+                navigate(redirectUrl, { replace: true });
+            } else {
+                navigate(PATH.DASHBOARD.ROOT, { replace: true });
+            }
+        }
+    }, [user, redirectUrl, navigate]);
 
     // Persistent timer: resume on refresh
     useEffect(() => {
