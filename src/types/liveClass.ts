@@ -3,6 +3,7 @@ import type { Pagination } from ".";
 export interface LiveClassProps {
     id: number;
     name: string;
+    account_id: number;
     agenda: string;
     description: string;
     zoom_uuid: string;
