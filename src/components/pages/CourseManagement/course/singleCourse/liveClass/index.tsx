@@ -15,7 +15,7 @@ interface Props {
     qp: QueryParams;
     setQp: (qp: QueryParams) => void;
     totalPages: number;
-    havePurchased: boolean;
+    havePurchased?: boolean;
 }
 
 
