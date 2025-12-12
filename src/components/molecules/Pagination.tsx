@@ -19,7 +19,6 @@ export default function TablePagination({
     const theme = useTheme();
     const pageSizeOptions = [8, 10, 20, 50, 100];
     const isXs = useMediaQuery(theme.breakpoints.down("sm"));
-    const isSm = useMediaQuery(theme.breakpoints.between("sm", "md"));
     const handlePageChange = (_event: React.ChangeEvent<unknown>, page: number) => {
         setQp({ ...qp, pageIndex: page });
     };
