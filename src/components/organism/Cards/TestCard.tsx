@@ -1,14 +1,16 @@
 import { Box, Button, Divider, Typography, useTheme } from "@mui/material";
-import { NotificationBing } from "iconsax-reactjs";
 import { useNavigate, useParams } from "react-router-dom";
 import { PATH } from "../../../routes/PATH";
+import { setPurchase } from "../../../slice/purchaseSlice";
+import { useAppDispatch } from "../../../store/hook";
 import type { TestProps } from "../../../types/question";
 import { formatDate } from "../../../utils/formatDate";
 import { getStatus } from "../../../utils/getStatus";
 
-export default function TestCard({ test }: { test: TestProps }) {
+export default function TestCard({ test, havePurchased }: { test: TestProps; havePurchased: boolean }) {
   const theme = useTheme();
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const status = getStatus(test.start_datetime, test.end_datetime);
   const { id } = useParams();
@@ -108,50 +110,89 @@ export default function TestCard({ test }: { test: TestProps }) {
           </Box>
         </Box>
 
-        {/* Button Section */}
-        <Button
-          variant={status === "upcoming" ? "text" : "contained"}
-          color={status === "upcoming" ? "inherit" : "primary"}
-          fullWidth
-          className="mt-4"
-          sx={{
-            backgroundColor: status === "upcoming" ? "button.light" : "button.main",
-            fontWeight: 600,
-            fontSize: "14px",
-          }}
-          startIcon={status === "upcoming" ? <NotificationBing size={24} /> : null}
-          disabled={status === "ended"}
-          onClick={() => test.test_type === "mcq" ?
-            navigate(PATH.COURSE_MANAGEMENT.COURSES.VIEW_TEST.ROOT({
-              courseId: Number(id),
-              testId: Number(test.id)
-            })) : navigate(PATH.COURSE_MANAGEMENT.COURSES.VIEW_TEST.SUBJECTIVE_TEST.ROOT({
-              courseId: Number(id),
-              testId: Number(test.id)
-            }))
-          }
-        >
-          {
-            !test?.has_taken_test
-              ? (
-                status === "upcoming" && "Remind Me"
-              ) || (
-                status === "ongoing" && "Start Test"
-              ) || (
-                status === "ended" && "Test Ended Already"
-              )
-              : "Retake Test"
-          }
 
-        </Button>
-        {test?.has_taken_test ? <Button variant="outlined" color="primary" fullWidth sx={{
-          mt: 1
-        }}
-          onClick={() => navigate(PATH.COURSE_MANAGEMENT.COURSES.VIEW_TEST.REVIEW_TEST.ROOT({
-            courseId: Number(id),
-            testId: Number(test.id)
-          }))}
-        >View Result</Button> : ""}
+
+        {
+          !test.has_taken_test && status === "ended" ? <Button variant="contained" disabled fullWidth>Test Ended Already</Button> : ""
+        }
+        {
+          status === "ongoing" && test.is_graded && (
+            <Button
+              variant="contained"
+              color="primary"
+              fullWidth
+              onClick={() => {
+                if (havePurchased) {
+                  test.test_type === "mcq"
+                    ? navigate(
+                      PATH.COURSE_MANAGEMENT.COURSES.VIEW_TEST.ROOT({
+                        courseId: Number(id),
+                        testId: Number(test.id),
+                      })
+                    )
+                    : navigate(
+                      PATH.COURSE_MANAGEMENT.COURSES.VIEW_TEST.SUBJECTIVE_TEST.ROOT({
+                        courseId: Number(id),
+                        testId: Number(test.id),
+                      })
+                    );
+                } else {
+                  dispatch(
+                    setPurchase({
+                      courseId: Number(id),
+                      open: true,
+                    })
+                  );
+                }
+              }}
+            >
+              {test?.has_taken_test ? "Retake Test" : "Start Test"}
+            </Button>
+          )
+        }
+
+        {
+          test.has_taken_test && havePurchased && (
+            <Button
+              variant="outlined"
+              color="primary"
+              fullWidth
+              sx={{ mt: 1 }}
+              onClick={() =>
+                navigate(
+                  PATH.COURSE_MANAGEMENT.COURSES.VIEW_TEST.REVIEW_TEST.ROOT({
+                    courseId: Number(id),
+                    testId: Number(test.id),
+                  })
+                )
+              }
+            >
+              {test.is_graded ? "View Result" : "Result Pending"}
+            </Button>
+          )
+        }
+
+        {
+          test.has_taken_test ? (
+            <Button
+              variant="outlined"
+              color="primary"
+              fullWidth
+              sx={{ mt: 1 }}
+              onClick={() =>
+                dispatch(
+                  setPurchase({
+                    courseId: Number(id),
+                    open: true,
+                  })
+                )
+              }
+            >
+              View Result
+            </Button>
+          ) : ""
+        }
+
       </div>
     </Box>
   );

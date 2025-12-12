@@ -7,6 +7,7 @@ import type { MediaList } from "../../../../../../types/media";
 import { EmptyList } from "../../../../../molecules/EmptyList";
 import TablePagination from "../../../../../molecules/Pagination";
 import MediaCard from "../../../../../organism/Cards/MediaCard";
+import PageHeader from "../../../../../organism/PageHeader";
 
 
 interface MediaConfig {
@@ -64,6 +65,13 @@ export default function CourseMediaListing({ type, data, isLoading, havePurchase
 
     return (
         <>
+            <PageHeader
+                breadcrumb={[
+                    {
+                        title: type.split("_")[1],
+                    },
+                ]}
+            />
             <div className="flex flex-col gap-4 md:grid grid-cols-2 xl:grid-cols-3 lg:gap-6">
                 {isLoading ? (
                     [...Array(6)].map((_, idx) => (

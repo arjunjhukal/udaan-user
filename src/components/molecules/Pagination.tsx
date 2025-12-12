@@ -1,5 +1,5 @@
 
-import { Box, MenuItem, Pagination, Select, Typography, useTheme } from '@mui/material';
+import { Box, MenuItem, Pagination, Select, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { ArrowLeft2, ArrowRight2 } from 'iconsax-reactjs';
 import type { QueryParams } from '../../types';
 
@@ -18,7 +18,7 @@ export default function TablePagination({
 }: TablePaginationProps) {
     const theme = useTheme();
     const pageSizeOptions = [8, 10, 20, 50, 100];
-
+    const isXs = useMediaQuery(theme.breakpoints.down("sm"));
     const handlePageChange = (_event: React.ChangeEvent<unknown>, page: number) => {
         setQp({ ...qp, pageIndex: page });
     };
@@ -60,7 +60,7 @@ export default function TablePagination({
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center',
-                padding: '16px',
+                padding: '16px 0',
                 flexWrap: 'wrap',
                 gap: 2
             }}
@@ -144,8 +144,8 @@ export default function TablePagination({
                     count={totalPages}
                     page={qp.pageIndex}
                     onChange={handlePageChange}
-                    siblingCount={1}
-                    boundaryCount={1}
+                    siblingCount={isXs ? 0 : 1}
+                    boundaryCount={isXs ? 0 : 1}
                     shape="rounded"
                     showFirstButton={false}
                     showLastButton={false}

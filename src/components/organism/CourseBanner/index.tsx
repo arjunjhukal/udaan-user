@@ -12,13 +12,12 @@ export default function CourseBanner({ data, isLoading, havePurchased }: { data?
 
     const course = data || null;
     return (
-        <Box className="rounded-4xl py-11.5  px-16" sx={{
+        <Box className="rounded-md lg:rounded-4xl p-6 lg:py-11.5  lg:px-16" sx={{
             background: `url(/banner-bg.svg) no-repeat center/cover, ${theme.palette.primary.main}`
         }}>
-            <div className="lg:grid grid-cols-20 gap-6">
-
-                <div className="col-span-4">
-                    <Box className="thumbnail aspect-264/210 rounded-2xl flex items-center" sx={{
+            <div className="flex flex-col lg:grid grid-cols-20 gap-6">
+                <div className="col-span-4 hidden lg:block">
+                    <Box className=" thumbnail aspect-264/210 rounded-2xl lg:flex items-center" sx={{
                         background: theme.palette.primary.contrastText
                     }}>
                         <img src={course?.thumbnail_url || "/logo.svg"} alt="" className="w-full h-full object-contain" />
@@ -43,7 +42,7 @@ export default function CourseBanner({ data, isLoading, havePurchased }: { data?
                         }}>
                             {renderHtml(course?.description || "")}
                         </Box> : ""}
-                        <ul className="features flex gap-8">
+                        <ul className="features flex flex-col gap-2 md:flex-row lg:gap-8">
                             {course?.subjects ? <li className="flex items-center gap-2">
                                 <svg width="19" height="17" viewBox="0 0 19 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M9.08301 3.25L9.08301 14.9167" stroke="white" stroke-width="1.5" stroke-linecap="round" />
@@ -104,7 +103,7 @@ export default function CourseBanner({ data, isLoading, havePurchased }: { data?
                             courseType={course?.course_type}
                             courseExpiry={course?.course_expiry}
                             courseSubscription={course?.subscriptions || []}
-
+                            purchaseStatus={course?.user}
                         />}
                 </div>
             </div>

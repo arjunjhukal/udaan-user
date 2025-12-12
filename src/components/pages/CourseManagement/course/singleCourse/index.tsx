@@ -125,10 +125,10 @@ export default function SingleCourse() {
             </Activity>}
             {activeTab === "tests" &&
                 <Activity >
-                    <SinlgeCourseTest data={test} isLoading={loadingTest} qp={qpTest} setQp={setQpTest} totalPages={test?.data?.pagination?.total_pages || 0} />
+                    <SinlgeCourseTest havePurchased={havePurchesed} data={test} isLoading={loadingTest} qp={qpTest} setQp={setQpTest} totalPages={test?.data?.pagination?.total_pages || 0} />
                 </Activity >}
             {activeTab === "live_classes" && <Activity>
-                <SinlgeCourseLiveClass data={liveClasses} isLoading={loadingLiveClass} qp={qpLiveClass} setQp={setQpLiveClass} totalPages={test?.data?.pagination?.total_pages || 0} />
+                <SinlgeCourseLiveClass havePurchased={havePurchesed} data={liveClasses} isLoading={loadingLiveClass} qp={qpLiveClass} setQp={setQpLiveClass} totalPages={test?.data?.pagination?.total_pages || 0} />
             </Activity>}
             <PurchaseCourseDialog type={courseBasic?.data?.course_type} />
             <ReadingDialog />

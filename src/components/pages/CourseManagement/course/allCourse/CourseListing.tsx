@@ -54,7 +54,7 @@ export default function CourseListing() {
                 />
                 <TableFilter categoryLayout={true} search={search} setSearch={(newVal) => setSearch(newVal)} onFilter={() => { }} />
             </Box>
-            {courses.length ? <div className="flex flex-col gap-4 lg:gap-3 sm:grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+            {courses.length ? <div className="flex flex-col gap-4 lg:gap-3 sm:grid sm:grid-cols-2 xl:grid-cols-3 3xl:grid-cols-4">
                 {isLoading ? Array.from({ length: 8 }).map((_, index) => (
                     <Box
                         className="course__card rounded-md overflow-hidden relative h-full flex flex-col"
