@@ -11,15 +11,35 @@ interface Props {
     courseType?: CourseTypeProps;
     courseExpiry?: CourseExpiry;
     courseSubscription?: CourseSubscription[];
+    purchaseStatus?: {
+        has_taken_freetrial: false,
+        is_free_trial_valid: false,
+        has_purchased: false
+    }
 }
 
-export default function BannerCourseTypeModule({ courseType, courseExpiry, courseSubscription }: Props) {
+
+
+export default function BannerCourseTypeModule({ courseType, courseExpiry, courseSubscription, purchaseStatus }: Props) {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const { id } = useParams();
     const [purchaseCourse, isLoading] = usePurchaseCourseMutation();
     const user = useAppSelector((state) => state.auth.user);
     console.log(courseSubscription);
+
+    const getFreeTrialLabel = () => {
+        if (!purchaseStatus?.has_taken_freetrial) {
+            return "Free Trial"; // not taken yet
+        }
+
+        if (purchaseStatus?.has_taken_freetrial && purchaseStatus?.is_free_trial_valid) {
+            return "Free Trial Ongoing"; // taken + valid
+        }
+
+        return "Free Trial Already Taken"; // taken + not valid
+    };
+
     const renderButtons = () => {
         if (courseType === "free") {
             return <Button variant="contained" className="black__btn" fullWidth onClick={async () => {
@@ -64,7 +84,7 @@ export default function BannerCourseTypeModule({ courseType, courseExpiry, cours
                         open: true
                     })
                 )}>Purchase Now</Button>}
-                <Button variant="contained" fullWidth className="white__btn"
+                <Button variant="contained" fullWidth className={`white__btn ${!purchaseStatus?.is_free_trial_valid ? "opacity-60 pointer-events-none" : ""}`} disabled={!purchaseStatus?.is_free_trial_valid}
                     onClick={async () => {
                         try {
                             const response = await purchaseCourse({
@@ -94,7 +114,7 @@ export default function BannerCourseTypeModule({ courseType, courseExpiry, cours
                             )
                         }
                     }}
-                >{!isLoading ? "Assigning Course" : "Free Trial"}</Button>
+                >{getFreeTrialLabel()}</Button>
             </div>
         );
     };

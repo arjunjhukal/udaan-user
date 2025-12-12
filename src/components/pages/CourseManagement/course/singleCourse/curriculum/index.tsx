@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import type { CurriculumMediaProps, CurriculumProps } from '../../../../../../types/course';
 import CustomCollapseIcon from '../../../../../atom/CustomCollapseIcon';
 import MediaCard from '../../../../../organism/Cards/MediaCard';
+import MobileCurriculum from './MobileCurriculum';
 
 interface Props {
     data?: CurriculumProps[];
@@ -151,10 +152,10 @@ const SubjectSidebar = ({
                     }}>
                         <Box
                             style={{ background: theme.palette.primary.main }}
-                            className="rounded-md py-4 px-5 flex justify-between items-center cursor-pointer"
+                            className="rounded-md px-4 py-2 lg:py-4 lg:px-5 flex justify-between items-center cursor-pointer"
                             onClick={() => onSubjectToggle(Number(subject.id))}
                         >
-                            <span className="font-semibold text-white truncate text-lg">
+                            <span className="font-semibold text-white line-clamp-1 text-lg">
                                 {subject.name}
                             </span>
                             <CustomCollapseIcon isOpen={isOpen} />
@@ -169,7 +170,7 @@ const SubjectSidebar = ({
                                             background: activeChapterId === chapter.id ? theme.palette.primary.light : '',
                                             borderBottom: `1px solid ${activeChapterId === chapter.id ? "transparent" : theme.palette.textField.border}`,
                                         }}
-                                        className="rounded-md py-4 px-5 flex justify-between items-center cursor-pointer"
+                                        className="rounded-md px-4 py-2 lg:py-4 lg:px-5 flex justify-between items-center cursor-pointer"
                                         onClick={() => onChapterSelect(Number(chapter.id))}
                                     >
                                         <span className="text-sm truncate">
@@ -220,7 +221,7 @@ const ChildLesson = ({ childLesson, isOpen, onToggle, havePurchased }: ChildLess
                         dangerouslySetInnerHTML={{ __html: childLesson.description }}
                     />
                     {childLesson?.media?.length ? (
-                        <div className="grid grid-cols-3 gap-4">
+                        <div className="flex flex-col md:grid md:grid-cols-2  xl:grid-cols-3 gap-4">
                             {childLesson.media.map((item: CurriculumMediaProps) => (
                                 <div className="col-span-1" key={item.id}>
                                     <MediaCard havePurchased={havePurchased} type={item.type} media={item} />
@@ -250,7 +251,7 @@ const LessonItem = ({ lesson, isOpen, openChildLessonIds, onToggle, onChildLesso
         <Box className="mb-2">
             <Box
                 style={{ background: theme.palette.primary.light }}
-                className="rounded-md py-4 px-5 flex justify-between items-center cursor-pointer"
+                className="rounded-md px-4 py-2 lg:py-4 lg:px-5 flex justify-between items-center cursor-pointer"
                 onClick={() => onToggle(Number(lesson.id))}
             >
                 <CustomCollapseIcon isOpen={isOpen} />
@@ -270,7 +271,7 @@ const LessonItem = ({ lesson, isOpen, openChildLessonIds, onToggle, onChildLesso
                     />
 
                     {lesson?.media?.length ? (
-                        <div className="grid grid-cols-3 gap-4 mb-4">
+                        <div className="flex flex-col md:grid md:grid-cols-2  xl:grid-cols-3 gap-4 mb-4">
                             {lesson.media.map((item: CurriculumMediaProps) => (
                                 <div className="col-span-1" key={item.id}>
                                     <MediaCard havePurchased={havePurchased} type={item.type} media={item} />
@@ -316,7 +317,7 @@ const UnitItem = ({ unit, isOpen, openLessonIds, openChildLessonIds, onUnitToggl
         <div className="accordion__item">
             <Box
                 style={{ background: theme.palette.primary.main }}
-                className="rounded-md py-4 px-5 flex justify-between items-center cursor-pointer"
+                className="rounded-md px-4 py-2 lg:py-4 lg:px-5 flex justify-between items-center cursor-pointer"
                 onClick={() => onUnitToggle(Number(unit.id))}
             >
                 <CustomCollapseIcon isOpen={isOpen} />
@@ -336,7 +337,7 @@ const UnitItem = ({ unit, isOpen, openLessonIds, openChildLessonIds, onUnitToggl
                     />
 
                     {unit?.media?.length ? (
-                        <div className="grid grid-cols-3 gap-4 mb-4">
+                        <div className="flex flex-col md:grid md:grid-cols-2  xl:grid-cols-3 gap-4 mb-4">
                             {unit.media.map((item: CurriculumMediaProps) => (
                                 <div className="col-span-1" key={item.id}>
                                     <MediaCard havePurchased={havePurchased} type={item.type} media={item} />
@@ -397,7 +398,7 @@ const ChapterContent = ({
                 <ResourceCounter item={activeChapter} />
             </div>
             {activeChapter?.media?.length ? (
-                <div className="grid grid-cols-3 gap-4 mb-4">
+                <div className="flex flex-col md:grid md:grid-cols-2  xl:grid-cols-3 gap-4 mb-4">
                     {activeChapter.media.map((item: CurriculumMediaProps) => (
                         <div className="col-span-1" key={item.id}>
                             <MediaCard havePurchased={havePurchased} type={item.type} media={item} />
@@ -547,36 +548,41 @@ export default function SingleCourseCurriculum({ data, isLoading, havePurchased 
     const hasNoChapters = activeSubject && (!activeSubject.chapters || activeSubject.chapters.length === 0);
 
     return (
-        <div className="grid gap-6 lg:grid-cols-12">
-            <SubjectSidebar
-                subjects={data || []}
-                openSubjectId={openSubjectId}
-                activeChapterId={activeChapterId}
-                onSubjectToggle={toggleSubject}
-                onChapterSelect={handleChapterSelect}
-            />
+        <>
+            <div className="lg:grid gap-6 lg:grid-cols-12 hidden ">
+                <SubjectSidebar
+                    subjects={data || []}
+                    openSubjectId={openSubjectId}
+                    activeChapterId={activeChapterId}
+                    onSubjectToggle={toggleSubject}
+                    onChapterSelect={handleChapterSelect}
+                />
 
-            <div className="lg:col-span-9">
-                {hasNoChapters ? (
-                    <EmptyChaptersState />
-                ) : activeChapter ? (
-                    <ChapterContent
-                        activeSubject={activeSubject}
-                        activeChapter={activeChapter}
-                        openUnitIds={openUnitIds}
-                        openLessonIds={openLessonIds}
-                        openChildLessonIds={openChildLessonIds}
-                        onUnitToggle={toggleUnit}
-                        onLessonToggle={toggleLesson}
-                        onChildLessonToggle={toggleChildLesson}
-                        havePurchased={havePurchased}
-                    />
-                ) : (
-                    <div className="text-center py-12 text-gray-500">
-                        <p>Select a subject and chapter from the sidebar to view curriculum details</p>
-                    </div>
-                )}
+                <div className="lg:col-span-9">
+                    {hasNoChapters ? (
+                        <EmptyChaptersState />
+                    ) : activeChapter ? (
+                        <ChapterContent
+                            activeSubject={activeSubject}
+                            activeChapter={activeChapter}
+                            openUnitIds={openUnitIds}
+                            openLessonIds={openLessonIds}
+                            openChildLessonIds={openChildLessonIds}
+                            onUnitToggle={toggleUnit}
+                            onLessonToggle={toggleLesson}
+                            onChildLessonToggle={toggleChildLesson}
+                            havePurchased={havePurchased}
+                        />
+                    ) : (
+                        <div className="text-center py-12 text-gray-500">
+                            <p>Select a subject and chapter from the sidebar to view curriculum details</p>
+                        </div>
+                    )}
+                </div>
             </div>
-        </div>
+            <div className="lg:hidden">
+                <MobileCurriculum havePurchased={havePurchased} data={data} />
+            </div>
+        </>
     );
 }

@@ -55,25 +55,13 @@ export interface TestProps {
     no_of_students?: number;
     total_questions?: number;
     has_taken_test?: boolean;
+    is_scheduled?:boolean;
+    is_graded?:boolean;
 }
 
 
 
-export const TestInitialState: TestProps = {
-    name: "",
-    test_type: "",
-    duration: {
-        hours: 0,
-        minutes: 0
-    },
-    description: "",
-    full_mark: 100,
-    pass_mark: 40,
-    start_datetime: "",
-    end_datetime: "",
-    course_ids: [],
-    question_ids: []
-};
+
 export interface TestList {
     data: {
         data: TestProps[]

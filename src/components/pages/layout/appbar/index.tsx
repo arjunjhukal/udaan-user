@@ -29,7 +29,7 @@ export default function CustomAppbar({
                 ml: { lg: `${drawerWidth}px` },
                 borderBottom: (theme) => `1px solid ${theme.palette.divider}`,
                 borderRadius: 0,
-                padding: " 20px 24px",
+                padding: { xs: "12px", lg: " 20px 24px" },
                 backgroundColor: (theme) => theme.palette.primary.contrastText,
             }}
             color="default"
@@ -50,6 +50,7 @@ export default function CustomAppbar({
                         display: { lg: "none" },
                         minHeight: "44px",
                         aspectRatio: "1/1",
+                        ml: 0,
                         background: (theme) => theme.palette.seperator.dark,
                         "&:hover": { backgroundColor: (theme) => theme.palette.action.hover },
                     }}

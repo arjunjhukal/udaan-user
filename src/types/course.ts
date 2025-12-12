@@ -131,7 +131,7 @@ export interface CurriculumCommonProps {
     id?: number;
     name: string;
     description: string;
-    media: CurriculumMediaProps;
+    media: CurriculumMediaProps[];
 }
 
 // Hierarchy of curriculum items

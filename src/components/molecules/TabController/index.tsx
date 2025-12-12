@@ -75,13 +75,13 @@ export default function TabController<T extends string | number>({
                     ref={anchorRef}
                     onClick={handleToggle}
                     fullWidth
-                    sx={{ background: theme.palette.tab.background }}
-                    className="justify-between! py-3.5! px-4!"
+                    sx={{ background: theme.palette.primary.main }}
+                    className="justify-between! py-4! px-4!"
                 >
-                    <Typography variant="subtitle2" color="text.middle">
+                    <Typography variant="subtitle2" color="primary.contrastText">
                         {activeLabel}
                     </Typography>
-                    <ArrowDown2 size={12} />
+                    <ArrowDown2 size={16} color={theme.palette.primary.contrastText} />
                 </Button>
 
                 <Popper
@@ -109,7 +109,7 @@ export default function TabController<T extends string | number>({
                                     }}
                                     sx={{
                                         px: 2,
-                                        py: 1,
+                                        py: 2,
                                         cursor: "pointer",
                                         background:
                                             currentActive === tab.value

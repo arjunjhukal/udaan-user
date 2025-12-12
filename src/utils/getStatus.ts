@@ -2,6 +2,9 @@ export const getStatus = (
     startDateString: string,
     endDateString: string
 ): "upcoming" | "ongoing" | "ended" => {
+    if (!startDateString || !endDateString) {
+        return "ongoing";
+    }
     const now = new Date();
     const start = new Date(startDateString);
     const end = new Date(endDateString);
