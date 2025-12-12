@@ -99,9 +99,9 @@ export default function SingleLiveClassRoot() {
                 const password = new URL(meetingData.start_url).searchParams.get("pwd");
                 let sdkKey: string;
 
-                if (meetingData.id === 1) {
+                if (meetingData.account_id === 1) {
                     sdkKey = import.meta.env.VITE_ZOOM_MEETING_SDK_SECRET1;
-                } else if (meetingData.id === 2) {
+                } else if (meetingData.account_id === 2) {
                     sdkKey = import.meta.env.VITE_ZOOM_MEETING_SDK_SECRET2;
                 } else {
                     sdkKey = import.meta.env.VITE_ZOOM_MEETING_SDK_SECRET;
@@ -113,6 +113,7 @@ export default function SingleLiveClassRoot() {
                 // Generate Signature
                 const sigRes = await generateSignature({
                     meeting_id: Number(meetingNumber),
+                    account_id:Number(meetingData?.account_id),
                     role: 0,
                 }).unwrap();
 
