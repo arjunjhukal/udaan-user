@@ -116,7 +116,7 @@ export default function TestCard({ test, havePurchased }: { test: TestProps; hav
           !test.has_taken_test && status === "ended" ? <Button variant="contained" disabled fullWidth>Test Ended Already</Button> : ""
         }
         {
-          status === "ongoing" && test.is_graded && (
+          status === "ongoing" && test.is_graded && !test.is_scheduled && (
             <Button
               variant="contained"
               color="primary"
@@ -171,28 +171,6 @@ export default function TestCard({ test, havePurchased }: { test: TestProps; hav
             </Button>
           )
         }
-
-        {
-          test.has_taken_test ? (
-            <Button
-              variant="outlined"
-              color="primary"
-              fullWidth
-              sx={{ mt: 1 }}
-              onClick={() =>
-                dispatch(
-                  setPurchase({
-                    courseId: Number(id),
-                    open: true,
-                  })
-                )
-              }
-            >
-              View Result
-            </Button>
-          ) : ""
-        }
-
       </div>
     </Box>
   );
