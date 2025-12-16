@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useReviewTestResultQuery } from "../../../../services/testApi";
 import { formatDateCustom } from "../../../../utils/dateFormat";
+import { renderHtml } from "../../../../utils/renderHtml";
 
 export default function ReviewTestRoot() {
     const theme = useTheme();
@@ -43,7 +44,7 @@ export default function ReviewTestRoot() {
                 sx={{ border: `1px solid ${borderColor}`, backgroundColor: bgColor }}
             >
                 {Icon && <Icon variant="Bold" color={isCorrect ? theme.palette.success.main : theme.palette.error.main} />}
-                <Typography variant="body2">{option.option}</Typography>
+                <Typography variant="body2">{renderHtml(option.option)}</Typography>
             </Box>
         );
     };
@@ -51,7 +52,7 @@ export default function ReviewTestRoot() {
     const renderQuestions = (questions: any[], type: "correct" | "incorrect" | "skipped") => {
         return questions.map((q) => (
             <div className="question__box" key={q.question}>
-                <Typography className="mb-4!" variant="h6">{q.question}</Typography>
+                <Typography className="mb-4!" variant="h6">{renderHtml(q.question)}</Typography>
                 <div className="flex flex-col gap-4 md:grid md:grid-cols-2">
                     {q.options.map((option: any) => {
                         if (type === "correct") {
