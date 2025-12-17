@@ -79,7 +79,7 @@ export default function PurchaseLayout() {
                         signature: paymentData?.signature,
                     };
 
-                    console.log("eSewa Payment Params:", esewaParams); // Debug log
+                    console.log("eSewa Payment Params:", esewaParams);
 
                     submitEsewaForm(ESEWA_CONFIG.PAYMENT_URL, esewaParams);
                 } else if (values.paymentOption === "khalti") {
@@ -89,7 +89,7 @@ export default function PurchaseLayout() {
                     }));
                 }
             } catch (e: any) {
-                console.error("Payment Error:", e); // Debug log
+                console.error("Payment Error:", e);
                 dispatch(showToast({
                     message: e?.data?.message || "Unable to proceed for payment. Try Again Later.",
                     severity: "error"
