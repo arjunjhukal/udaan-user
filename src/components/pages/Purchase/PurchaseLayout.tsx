@@ -79,7 +79,6 @@ export default function PurchaseLayout() {
                         signature: paymentData?.signature,
                     };
 
-                    console.log("eSewa Payment Params:", esewaParams);
 
                     submitEsewaForm(ESEWA_CONFIG.PAYMENT_URL, esewaParams);
                 } else if (values.paymentOption === "khalti") {

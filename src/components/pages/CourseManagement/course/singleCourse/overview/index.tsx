@@ -10,8 +10,7 @@ interface Props {
     }
     isLoading: boolean;
 }
-export default function SinlgeCourseOverview({ data, isLoading }: Props) {
-    console.log(isLoading)
+export default function SinlgeCourseOverview({ data }: Props) {
 
     return (
         <>

@@ -23,6 +23,7 @@ interface Props {
 export default function SinlgeCourseLiveClass({ data, totalPages, qp, setQp, isLoading, havePurchased }: Props) {
     const dispatch = useAppDispatch();
     const { id } = useParams();
+    console.log("totalPages", totalPages);
     if (!isLoading && !havePurchased) {
         return <EmptyList
             title="Unlock Live Classes"

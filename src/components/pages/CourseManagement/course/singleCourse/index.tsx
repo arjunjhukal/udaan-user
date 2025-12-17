@@ -64,10 +64,7 @@ export default function SingleCourse() {
         }
     }, [courseBasic]);
 
-    console.log("purchased status", {
-        has_purchased: courseBasic?.data?.user?.has_purchased,
-        is_free_trial_valid: courseBasic?.data?.user?.is_free_trial_valid
-    })
+
 
     return (
         <>
@@ -128,7 +125,7 @@ export default function SingleCourse() {
                     <SinlgeCourseTest havePurchased={havePurchesed} data={test} isLoading={loadingTest} qp={qpTest} setQp={setQpTest} totalPages={test?.data?.pagination?.total_pages || 0} />
                 </Activity >}
             {activeTab === "live_classes" && <Activity>
-                <SinlgeCourseLiveClass havePurchased={havePurchesed} data={liveClasses} isLoading={loadingLiveClass} qp={qpLiveClass} setQp={setQpLiveClass} totalPages={test?.data?.pagination?.total_pages || 0} />
+                <SinlgeCourseLiveClass havePurchased={havePurchesed} data={liveClasses} isLoading={loadingLiveClass} qp={qpLiveClass} setQp={setQpLiveClass} totalPages={liveClasses?.data?.pagination?.total_pages || 0} />
             </Activity>}
             <PurchaseCourseDialog type={courseBasic?.data?.course_type} />
             <ReadingDialog />

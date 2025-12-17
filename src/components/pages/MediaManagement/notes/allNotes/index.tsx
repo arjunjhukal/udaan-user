@@ -1,11 +1,11 @@
-import PageHeader from "../../../organism/PageHeader";
+import PageHeader from "../../../../organism/PageHeader";
 
-export default function AllTestRoot() {
+export default function AllNotes() {
     return (
         <>
             <PageHeader
                 breadcrumb={[{
-                    title: "All Tests"
+                    title: "All Notes"
                 }]}
             />
         </>

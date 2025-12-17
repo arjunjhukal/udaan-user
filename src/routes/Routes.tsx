@@ -7,12 +7,20 @@ import VerifyOTP from "../components/pages/auth/verifyOtp";
 import CourseRoot from "../components/pages/CourseManagement/course";
 import AllCourses from "../components/pages/CourseManagement/course/allCourse";
 import SingleCourse from "../components/pages/CourseManagement/course/singleCourse";
-import MyCourseRoot from "../components/pages/CourseManagement/myCourse";
 
 import SingleLiveClassRoot from "../components/pages/CourseManagement/course/singleLiveClass";
+import LiveClassRoot from "../components/pages/CourseManagement/liveClasses";
+import AllLiveClass from "../components/pages/CourseManagement/liveClasses/allLiveClass";
+import MyCourseRoot from "../components/pages/CourseManagement/myCourse";
 import AuthLayout from "../components/pages/layout/AuthLayout";
 import NotFound from "../components/pages/layout/NotFound";
 import SingleFormAuthLayout from "../components/pages/layout/SingleFormAuthLayout";
+import AudiosRoot from "../components/pages/MediaManagement/audios";
+import AllAudios from "../components/pages/MediaManagement/audios/allAudios";
+import NotesRoot from "../components/pages/MediaManagement/notes";
+import AllNotes from "../components/pages/MediaManagement/notes/allNotes";
+import VideosRoot from "../components/pages/MediaManagement/videos";
+import AllVideos from "../components/pages/MediaManagement/videos/allVideos";
 import PurchaseRoot from "../components/pages/Purchase";
 import PurchaseFailure from "../components/pages/Purchase/failure";
 import PurchaseLayout from "../components/pages/Purchase/PurchaseLayout";
@@ -88,13 +96,49 @@ const router = createBrowserRouter([
           { path: PATH.COURSE_MANAGEMENT.COURSES.PURCHASE.ROOT(), element: <PurchaseLayout /> },
           { path: PATH.COURSE_MANAGEMENT.COURSES.PURCHASE.SUCCESS.ROOT, element: <PaymentSuccessPage /> },
           { path: PATH.COURSE_MANAGEMENT.COURSES.PURCHASE.FAILURE.ROOT, element: <PurchaseFailure /> },
-          { path: PATH.COURSE_MANAGEMENT.LIVE_CLASSES.PURCHASE.ROOT(), element: <PurchaseLayout /> },
+          // { path: PATH.COURSE_MANAGEMENT.LIVE_CLASSES.PURCHASE.ROOT(), element: <PurchaseLayout /> },
         ],
       },
       {
         path: PATH.MY_COURSE.ROOT,
         element: <MyCourseRoot />,
-      }
+      },
+      {
+
+        element: <LiveClassRoot />,
+        children: [{
+          path: PATH.LIVE_CLASSES.ROOT,
+          element: <AllLiveClass />
+        }]
+      },
+      {
+
+        element: <NotesRoot />,
+        children: [
+          { path: PATH.NOTES.ROOT, element: <AllNotes /> }
+        ]
+      },
+      {
+
+        element: <TestManagementRoot />,
+        children: [
+          { path: PATH.TEST.ROOT, element: <AllTestRoot /> }
+        ]
+      },
+      {
+
+        element: <VideosRoot />,
+        children: [
+          { path: PATH.VIDEOS.ROOT, element: <AllVideos /> }
+        ]
+      },
+      {
+
+        element: <AudiosRoot />,
+        children: [
+          { path: PATH.AUDIOS.ROOT, element: <AllAudios /> }
+        ]
+      },
     ],
   },
   {

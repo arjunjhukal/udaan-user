@@ -9,7 +9,7 @@ import {
   Typography,
   useTheme
 } from "@mui/material";
-import { Book, Element4, I24Support, Message2, MessageQuestion, MoreSquare, Notepad2, PenAdd, SearchNormal, UserSquare, VideoPlay } from "iconsax-reactjs";
+import { AudioSquare, Book, Element4, I24Support, Message2, MessageQuestion, MoreSquare, Notepad2, PenAdd, SearchNormal, UserSquare, VideoOctagon, VideoPlay } from "iconsax-reactjs";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import { PATH } from "../../../../routes/PATH";
@@ -80,8 +80,8 @@ export default function PrimaryMenu() {
       <List>
         <ListItem disablePadding className="menu__item">
           <ListItemButton
-            onClick={() => { }}
-            className={isActive(PATH.COURSE_MANAGEMENT.LIVE_CLASSES.ROOT) ? "active" : ""}
+            onClick={() => navigate(PATH.LIVE_CLASSES.ROOT)}
+            className={isActive(PATH.LIVE_CLASSES.ROOT) ? "active" : ""}
           >
             <ListItemIcon>
               <VideoPlay />
@@ -91,8 +91,8 @@ export default function PrimaryMenu() {
         </ListItem>
         <ListItem disablePadding className="menu__item">
           <ListItemButton
-            onClick={() => { }}
-            className={isActive(PATH.MY_COURSE.ROOT) ? "active" : ""}
+            onClick={() => navigate(PATH.NOTES.ROOT)}
+            className={isActive(PATH.NOTES.ROOT) ? "active" : ""}
           >
             <ListItemIcon>
               <Notepad2 />
@@ -102,13 +102,35 @@ export default function PrimaryMenu() {
         </ListItem>
         <ListItem disablePadding className="menu__item">
           <ListItemButton
-            onClick={() => { }}
-            className={isActive(PATH.COURSE_MANAGEMENT.COURSES.ROOT) ? "active" : ""}
+            onClick={() => navigate(PATH.TEST.ROOT)}
+            className={isActive(PATH.TEST.ROOT) ? "active" : ""}
           >
             <ListItemIcon>
               <PenAdd size={20} />
             </ListItemIcon>
             <ListItemText primary={t("menus.test")} />
+          </ListItemButton>
+        </ListItem>
+        <ListItem disablePadding className="menu__item">
+          <ListItemButton
+            onClick={() => navigate(PATH.VIDEOS.ROOT)}
+            className={isActive(PATH.VIDEOS.ROOT) ? "active" : ""}
+          >
+            <ListItemIcon>
+              <VideoOctagon size={20} />
+            </ListItemIcon>
+            <ListItemText primary={t("menus.videos")} />
+          </ListItemButton>
+        </ListItem>
+        <ListItem disablePadding className="menu__item">
+          <ListItemButton
+            onClick={() => navigate(PATH.AUDIOS.ROOT)}
+            className={isActive(PATH.AUDIOS.ROOT) ? "active" : ""}
+          >
+            <ListItemIcon>
+              <AudioSquare size={20} />
+            </ListItemIcon>
+            <ListItemText primary={t("menus.audios")} />
           </ListItemButton>
         </ListItem>
       </List>
@@ -125,7 +147,7 @@ export default function PrimaryMenu() {
         <ListItem disablePadding className="menu__item">
           <ListItemButton
             onClick={() => { }}
-            className={isActive(PATH.COURSE_MANAGEMENT.LIVE_CLASSES.ROOT) ? "active" : ""}
+            className={isActive(PATH.LIVE_CLASSES.ROOT) ? "active" : ""}
           >
             <ListItemIcon>
               <Message2 />
@@ -158,7 +180,7 @@ export default function PrimaryMenu() {
         <ListItem disablePadding className="menu__item">
           <ListItemButton
             onClick={() => { }}
-            className={isActive(PATH.COURSE_MANAGEMENT.LIVE_CLASSES.ROOT) ? "active" : ""}
+            className={isActive(PATH.LIVE_CLASSES.ROOT) ? "active" : ""}
           >
             <ListItemIcon>
               <UserSquare />

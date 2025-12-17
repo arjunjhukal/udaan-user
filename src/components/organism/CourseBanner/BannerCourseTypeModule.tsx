@@ -26,7 +26,6 @@ export default function BannerCourseTypeModule({ courseType, courseExpiry, cours
     const { id } = useParams();
     const [purchaseCourse, isLoading] = usePurchaseCourseMutation();
     const user = useAppSelector((state) => state.auth.user);
-    console.log(courseSubscription);
 
     const getFreeTrialLabel = () => {
         if (!purchaseStatus?.has_taken_freetrial) {

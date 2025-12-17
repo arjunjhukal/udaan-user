@@ -57,24 +57,24 @@ export const PATH = {
                 }
             },
         },
-        LIVE_CLASSES: {
-            ROOT: "/live-classes",
-            VIEW_LIVE_CLASS: {
-                ROOT: (id?: number) => (id ? `/live-classes/${id}` : "/live-classes/:id"),
-            },
-            PURCHASE: {
-                ROOT: (id?: number) => (id ? `/live-classes/${id}/purchase` : "/live-classes/:id/purchase")
-            }
+    },
+    LIVE_CLASSES: {
+        ROOT: "/live-classes",
+        VIEW_LIVE_CLASS: {
+            ROOT: (id?: number) => (id ? `/live-classes/${id}` : "/live-classes/:id"),
         },
     },
     TEST: {
         ROOT: "/test",
-        VIEW_TEST: {
-            ROOT: (id?: number) => (id ? `/test/${id}` : "/test/:id"),
-        },
-        PURCHASE: {
-            ROOT: (id?: number) => (id ? `/test/${id}/purchase` : "/test/:id/purchase")
-        }
+    },
+    VIDEOS: {
+        ROOT: "/videos"
+    },
+    AUDIOS: {
+        ROOT: "/audios"
+    },
+    NOTES: {
+        ROOT: "/notes"
     },
     MY_COURSE: {
         ROOT: "/my-course"

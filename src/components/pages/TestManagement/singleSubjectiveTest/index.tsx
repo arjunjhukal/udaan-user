@@ -226,7 +226,6 @@ export default function SingleSubjectiveTest() {
                 testId: Number(testId),
                 questionId: Number(currentQuestion?.id)
             });
-            console.log(response);
             dispatch(
                 showToast({
                     message: "Test Submitted Successfully.",

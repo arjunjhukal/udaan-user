@@ -10,7 +10,6 @@ const SessionExpiredPopup = () => {
         (state: RootState) => state.session
     );
 
-    console.log("message", message)
 
     const handleYesItsMe = () => {
         dispatch(logout());

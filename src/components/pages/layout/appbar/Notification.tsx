@@ -147,20 +147,6 @@ export default function NotificationModal() {
                                                         <CircularProgress size={20} />
                                                     </Box>
                                                 }
-                                                endMessage={
-                                                    items.length > 0 && (
-                                                        <Typography
-                                                            variant="caption"
-                                                            sx={{
-                                                                display: "block",
-                                                                textAlign: "center",
-                                                                py: 2,
-                                                            }}
-                                                        >
-                                                            No more notifications
-                                                        </Typography>
-                                                    )
-                                                }
                                             >
                                                 <List disablePadding>
                                                     {items.length === 0 ? (

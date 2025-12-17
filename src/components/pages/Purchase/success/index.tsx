@@ -26,7 +26,6 @@ export default function PurchaseSuccess() {
                 }
 
                 const decodedData = JSON.parse(atob(encodedData));
-                console.log('eSewa Response:', decodedData);
 
                 if (decodedData.status !== 'COMPLETE') {
                     throw new Error(`Payment not completed. Status: ${decodedData.status}`);
@@ -43,14 +42,12 @@ export default function PurchaseSuccess() {
                     subscription_id: null
                 };
 
-                console.log('Verifying with backend:', backendPayload);
 
                 const response = await verifyPaymentAPI({
                     body: backendPayload,
                     id: Number(id)
                 }).unwrap();
 
-                console.log('Backend response:', response);
 
                 setVerified(true);
                 dispatch(showToast({
