@@ -9,7 +9,7 @@ import {
   Typography,
   useTheme
 } from "@mui/material";
-import { Book, Element4, SearchNormal } from "iconsax-reactjs";
+import { Book, Element4, I24Support, Message2, MessageQuestion, MoreSquare, Notepad2, PenAdd, SearchNormal, UserSquare, VideoPlay } from "iconsax-reactjs";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import { PATH } from "../../../../routes/PATH";
@@ -22,11 +22,6 @@ export default function PrimaryMenu() {
 
 
   const isActive = (path: string) => location.pathname === path;
-
-
-
-
-
   return (
     <Box sx={{ padding: "0 32px 32px" }}>
       <div className="flex items-center gap-2 overflow-hidden mb-1">
@@ -82,41 +77,118 @@ export default function PrimaryMenu() {
         }} className="w-full" />
       </div>
 
-      {/* <List>
+      <List>
         <ListItem disablePadding className="menu__item">
           <ListItemButton
-            onClick={() => navigate(PATH.COURSE_MANAGEMENT.LIVE_CLASSES.ROOT)}
+            onClick={() => { }}
             className={isActive(PATH.COURSE_MANAGEMENT.LIVE_CLASSES.ROOT) ? "active" : ""}
           >
             <ListItemIcon>
-              <Element4 />
+              <VideoPlay />
             </ListItemIcon>
             <ListItemText primary={t("menus.liveClasses")} />
           </ListItemButton>
         </ListItem>
         <ListItem disablePadding className="menu__item">
           <ListItemButton
-            onClick={() => navigate(PATH.MY_COURSE.ROOT)}
+            onClick={() => { }}
             className={isActive(PATH.MY_COURSE.ROOT) ? "active" : ""}
           >
             <ListItemIcon>
-              <Book />
+              <Notepad2 />
             </ListItemIcon>
             <ListItemText primary={t("menus.notes")} />
           </ListItemButton>
         </ListItem>
         <ListItem disablePadding className="menu__item">
           <ListItemButton
-            onClick={() => navigate(PATH.COURSE_MANAGEMENT.COURSES.ROOT)}
+            onClick={() => { }}
             className={isActive(PATH.COURSE_MANAGEMENT.COURSES.ROOT) ? "active" : ""}
           >
             <ListItemIcon>
-              <SearchNormal size={20} />
+              <PenAdd size={20} />
             </ListItemIcon>
             <ListItemText primary={t("menus.test")} />
           </ListItemButton>
         </ListItem>
-      </List> */}
+      </List>
+      <div className="flex items-center gap-2 overflow-hidden mb-1 mt-8">
+        <Typography variant='caption' mb={1} sx={{
+          color: theme.palette.text.light
+        }}>{t("messages.communication")}</Typography>
+        <Divider sx={{
+          borderColor: "#4B4B4B"
+        }} className="w-full" />
+      </div>
+
+      <List>
+        <ListItem disablePadding className="menu__item">
+          <ListItemButton
+            onClick={() => { }}
+            className={isActive(PATH.COURSE_MANAGEMENT.LIVE_CLASSES.ROOT) ? "active" : ""}
+          >
+            <ListItemIcon>
+              <Message2 />
+            </ListItemIcon>
+            <ListItemText primary={t("menus.messages")} />
+          </ListItemButton>
+        </ListItem>
+        <ListItem disablePadding className="menu__item">
+          <ListItemButton
+            onClick={() => { }}
+            className={isActive(PATH.MY_COURSE.ROOT) ? "active" : ""}
+          >
+            <ListItemIcon>
+              <MoreSquare />
+            </ListItemIcon>
+            <ListItemText primary={t("menus.rooms")} />
+          </ListItemButton>
+        </ListItem>
+      </List>
+      <div className="flex items-center gap-2 overflow-hidden mb-1 mt-8">
+        <Typography variant='caption' mb={1} sx={{
+          color: theme.palette.text.light
+        }}>{t("messages.others")}</Typography>
+        <Divider sx={{
+          borderColor: "#4B4B4B"
+        }} className="w-full" />
+      </div>
+
+      <List>
+        <ListItem disablePadding className="menu__item">
+          <ListItemButton
+            onClick={() => { }}
+            className={isActive(PATH.COURSE_MANAGEMENT.LIVE_CLASSES.ROOT) ? "active" : ""}
+          >
+            <ListItemIcon>
+              <UserSquare />
+            </ListItemIcon>
+            <ListItemText primary={t("menus.alumni")} />
+          </ListItemButton>
+        </ListItem>
+        <ListItem disablePadding className="menu__item">
+          <ListItemButton
+            onClick={() => { }}
+            className={isActive(PATH.MY_COURSE.ROOT) ? "active" : ""}
+          >
+            <ListItemIcon>
+              <MessageQuestion />
+            </ListItemIcon>
+            <ListItemText primary={t("menus.feedback")} />
+          </ListItemButton>
+        </ListItem>
+        <ListItem disablePadding className="menu__item">
+          <ListItemButton
+            onClick={() => { }}
+            className={isActive(PATH.COURSE_MANAGEMENT.COURSES.ROOT) ? "active" : ""}
+          >
+            <ListItemIcon>
+              <I24Support size={20} />
+            </ListItemIcon>
+            <ListItemText primary={t("menus.support")} />
+          </ListItemButton>
+        </ListItem>
+      </List>
 
     </Box>
   );
