@@ -225,10 +225,10 @@ export default function SingleSubjectiveTest() {
                 courseId: Number(courseId),
                 testId: Number(testId),
                 questionId: Number(currentQuestion?.id)
-            });
+            }).unwrap();
             dispatch(
                 showToast({
-                    message: "Test Submitted Successfully.",
+                    message: response.message || "Test Submitted Successfully.",
                     severity: "success",
                 })
             );
