@@ -1,130 +1,129 @@
-import { Button } from '@mui/material';
+import { Button, CircularProgress } from '@mui/material';
 import { TickCircle } from 'iconsax-reactjs';
-import { useNavigate, useParams } from 'react-router-dom';
-
-// const ESEWA_SECRET_KEY = import.meta.env.VITE_ESEWA_SECRET_KEY;
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { usePurchaseCourseMutation } from '../../../../services/courseApi';
+import { showToast } from '../../../../slice/toastSlice';
+import { useAppDispatch } from '../../../../store/hook';
 
 export default function PurchaseSuccess() {
     const navigate = useNavigate();
-    // const dispatch = useAppDispatch();
+    const dispatch = useAppDispatch();
     const { id } = useParams();
-    // const [searchParams] = useSearchParams();
-    // const [verifying, setVerifying] = useState(true);
-    // const [_verified, setVerified] = useState(false);
+    const [searchParams] = useSearchParams();
+    const [verifying, setVerifying] = useState(true);
+    const [verified, setVerified] = useState(false);
 
-    // const [verifyPaymentAPI] = usePurchaseCourseMutation();
+    const [verifyPaymentAPI] = usePurchaseCourseMutation();
 
-    // useEffect(() => {
-    //     const verifyPayment = async () => {
-    //         try {
-    //             // Get the encoded data from query params
-    //             const encodedData = searchParams.get('data');
+    useEffect(() => {
+        const verifyPayment = async () => {
+            try {
+                const encodedData = searchParams.get('data');
 
-    //             if (!encodedData) {
-    //                 dispatch(showToast({
-    //                     message: "Invalid payment response",
-    //                     severity: "error"
-    //                 }));
-    //                 navigate(`/courses/${id}`);
-    //                 return;
-    //             }
+                if (!encodedData) {
+                    throw new Error("Invalid payment response - missing data parameter");
+                }
 
-    //             // Decode base64 response
-    //             const decodedData = JSON.parse(atob(encodedData));
+                const decodedData = JSON.parse(atob(encodedData));
+                console.log('eSewa Response:', decodedData);
 
-    //             console.log('Decoded eSewa Response:', decodedData);
+                if (decodedData.status !== 'COMPLETE') {
+                    throw new Error(`Payment not completed. Status: ${decodedData.status}`);
+                }
 
-    //             // Verify signature
-    //             const message = `transaction_code=${decodedData.transaction_code},status=${decodedData.status},total_amount=${decodedData.total_amount},transaction_uuid=${decodedData.transaction_uuid},product_code=${decodedData.product_code},signed_field_names=${decodedData.signed_field_names}`;
+                const backendPayload = {
+                    payment_method: "esewa" as const,
+                    transaction_amount: decodedData.total_amount,
+                    transaction_status: "success" as const,
+                    transaction_id: decodedData.transaction_uuid,
+                    reference_id: decodedData.transaction_code,
+                    is_trial: false,
+                    course_type: "expiry",
+                    subscription_id: null
+                };
 
-    //             console.log('Signature verification message:', message);
+                console.log('Verifying with backend:', backendPayload);
 
-    //             const hash = CryptoJS.HmacSHA256(message, ESEWA_SECRET_KEY);
-    //             const generatedSignature = CryptoJS.enc.Base64.stringify(hash);
+                const response = await verifyPaymentAPI({
+                    body: backendPayload,
+                    id: Number(id)
+                }).unwrap();
 
-    //             if (generatedSignature !== decodedData.signature) {
-    //                 console.error('Signature mismatch:', {
-    //                     generated: generatedSignature,
-    //                     received: decodedData.signature
-    //                 });
-    //                 dispatch(showToast({
-    //                     message: "Payment verification failed - Invalid signature",
-    //                     severity: "error"
-    //                 }));
-    //                 navigate(`/courses/${id}`);
-    //                 return;
-    //             }
+                console.log('Backend response:', response);
 
-    //             console.log('Signature verified successfully');
+                setVerified(true);
+                dispatch(showToast({
+                    message: response?.message || "Payment successful! You now have access to the course.",
+                    severity: "success"
+                }));
 
-    //             const backendPayload = {
-    //                 payment_method: "esewa" as const,
-    //                 transaction_amount: decodedData.total_amount,
-    //                 transaction_status: (decodedData.status === "COMPLETE" ? "success" : "failed") as "success" | "failed" | "pending",
-    //                 transaction_id: decodedData.transaction_uuid,
-    //                 reference_id: decodedData.transaction_code,
-    //                 is_trial: false,
-    //                 course_type: "expiry",
-    //                 subscription_id: null
-    //             };
+            } catch (error: any) {
+                console.error('Payment verification error:', error);
 
-    //             console.log('Sending to backend:', backendPayload);
+                const errorMessage = error?.data?.message
+                    || error?.message
+                    || "Payment verification failed. Please contact support if amount was deducted.";
 
-    //             const response = await verifyPaymentAPI({
-    //                 body: backendPayload,
-    //                 id: Number(id)
-    //             }).unwrap();
+                dispatch(showToast({
+                    message: errorMessage,
+                    severity: "error"
+                }));
 
-    //             console.log('Backend verification response:', response);
+                setTimeout(() => {
+                    navigate(`/courses/${id}`);
+                }, 2000);
+            } finally {
+                setVerifying(false);
+            }
+        };
 
-    //             setVerified(true);
-    //             dispatch(showToast({
-    //                 message: response?.message || "Payment successful!",
-    //                 severity: "success"
-    //             }));
-    //         } catch (error: any) {
-    //             console.error('Payment verification error:', error);
-    //             dispatch(showToast({
-    //                 message: error?.data?.message || "Payment verification failed",
-    //                 severity: "error"
-    //             }));
-    //             navigate(`/courses/${id}`);
-    //         } finally {
-    //             setVerifying(false);
-    //         }
-    //     };
+        verifyPayment();
+    }, [searchParams, id, navigate, dispatch, verifyPaymentAPI]);
 
-    //     verifyPayment();
-    // }, [searchParams, id, navigate, dispatch, verifyPaymentAPI]);
-
-    // if (verifying) {
-    //     return (
-    //         <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
-    //             <CircularProgress />
-    //             <p>Verifying your payment...</p>
-    //         </div>
-    //     );
-    // }
-
-    return (
-        <div className="flex flex-col items-center justify-center min-h-[60vh] gap-6">
-            <TickCircle size={80} variant="Bold" className="text-green-500" />
-            <h1 className="text-3xl font-bold">Payment Successful!</h1>
-            <p className="text-gray-600">Your course purchase has been completed successfully.</p>
-            <div className="flex gap-4 mt-4">
-                <Button
-                    variant="contained"
-                    onClick={() => navigate(`/courses/${id}`)}
-                >
-                    Go to Course
-                </Button>
-                <Button
-                    variant="outlined"
-                    onClick={() => navigate('/courses')}
-                >
-                    Browse More Courses
-                </Button>
+    if (verifying) {
+        return (
+            <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
+                <CircularProgress size={60} />
+                <h2 className="text-xl font-semibold">Verifying your payment...</h2>
+                <p className="text-gray-600">Please wait while we confirm your transaction</p>
             </div>
-        </div>
-    );
+        );
+    }
+
+    if (verified) {
+        return (
+            <div className="flex flex-col items-center justify-center min-h-[60vh] gap-6 px-4">
+                <TickCircle size={80} variant="Bold" className="text-green-500" />
+
+                <div className="text-center">
+                    <h1 className="text-3xl font-bold mb-2">Payment Successful!</h1>
+                    <p className="text-gray-600">
+                        Your course purchase has been completed successfully.
+                        <br />
+                        You can now access all course materials.
+                    </p>
+                </div>
+
+                <div className="flex flex-col sm:flex-row gap-4 mt-4">
+                    <Button
+                        variant="contained"
+                        size="large"
+                        onClick={() => navigate(`/courses/${id}`)}
+                    >
+                        Start Learning
+                    </Button>
+                    <Button
+                        variant="outlined"
+                        size="large"
+                        onClick={() => navigate('/courses')}
+                    >
+                        Browse More Courses
+                    </Button>
+                </div>
+            </div>
+        );
+    }
+
+    return null;
 }
