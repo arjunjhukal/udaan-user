@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { PATH } from "../../../routes/PATH";
 import type { LiveClassProps } from "../../../types/liveClass";
-import { getTime } from "../../../utils/formatDate";
+import { getTime } from "../../../utils/formatTime";
 import { getStatus } from "../../../utils/getStatus";
 import ZoomMeetingModal from "./ZoomMeetingModal";
 
@@ -27,7 +27,7 @@ export default function LiveClassCard({ data }: { data: LiveClassProps }) {
             <Box
                 className="test__card rounded-md p-4 w-full"
                 sx={{
-                    border: `1px solid ${theme.palette.seperator.dark}`,
+                    border: `1px solid ${theme.palette.separator.dark}`,
                 }}
             >
                 <div className="test__card__top flex gap-3">

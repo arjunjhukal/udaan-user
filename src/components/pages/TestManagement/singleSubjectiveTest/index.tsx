@@ -172,7 +172,6 @@ export default function SingleSubjectiveTest() {
                 body: formData,
             }).unwrap();
 
-            // Refetch to get updated answer list
             refetchAnswer();
 
             dispatch(
@@ -201,7 +200,6 @@ export default function SingleSubjectiveTest() {
                 mediaId: id,
             }).unwrap();
 
-            // Refetch to get updated answer list
             refetchAnswer();
 
             dispatch(

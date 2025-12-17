@@ -143,15 +143,15 @@ export const courseApi = createApi({
                 { type: "Course" as const, id: "LIST" },
             ],
         }),
-        getMeetingSignature: builder.mutation<{ data: { signature: string } }, { meeting_id: number, role: number ,account_id:number}>({
-            query: ({ meeting_id, role ,account_id}) => ({
+        getMeetingSignature: builder.mutation<{ data: { signature: string; zak: string; } }, { meeting_id: number, role: number, account_id: number }>({
+            query: ({ meeting_id, role, account_id }) => ({
                 url: `/zoom/signature`,
                 method: "POST",
                 body: {
-                    meeting_id, role,account_id
+                    meeting_id, role, account_id
                 }
             })
-        })
+        }),
     }),
 });
 

@@ -21,7 +21,7 @@ export default function PageHeader(props: Props) {
     <Box
       className="page__header lg:grid lg:grid-cols-12  pb-2 mb-8 items-center"
       sx={{
-        borderBottom: `1px solid ${theme.palette.seperator.dark}`,
+        borderBottom: `1px solid ${theme.palette.separator.dark}`,
       }}
     >
       <div className="header__content lg:col-span-9">

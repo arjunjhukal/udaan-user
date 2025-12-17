@@ -41,7 +41,7 @@ export const lightPalette = {
     light: "#FEF3C8",
     contrastText: "#FFFFFF",
   },
-  seperator: {
+  separator: {
     main: "#D1D5DB",
     dark: "#E5E7EB",
     darker: "#D1D5DB",

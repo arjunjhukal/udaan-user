@@ -145,21 +145,19 @@ export default function SingleLiveClassRoot() {
             }
         };
 
+
         if (liveClassData) checkStatusAndPrepare();
 
     }, [liveClassData, isLoadingLiveClass, generateSignature, user, courseId]);
 
 
     const handleClose = () => {
-        // Since the meeting is in an iframe, we just navigate away
         navigate(PATH.COURSE_MANAGEMENT.COURSES.VIEW_COURSE.ROOT(Number(courseId)));
     };
 
     const handleRetry = () => {
-        // Reset state and refetch data (which triggers the effect again)
         setMeetingStatus("initial_loading");
         setError(null);
-        // A full application would include a refetch logic here.
     };
 
     // ------------------ JSX for Status Screens ------------------

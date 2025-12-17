@@ -29,7 +29,7 @@ export default function CourseFeature({ subject, startFrom, endAt }: Props) {
 
                         </div> : ""}
                         {endAt ? <>
-                            <Divider sx={{ width: "10px", borderColor: theme.palette.seperator.dark }} />
+                            <Divider sx={{ width: "10px", borderColor: theme.palette.separator.dark }} />
                             <div className="end">
                                 <Typography variant="caption" color="primary">Ends</Typography>
                                 <Typography variant="caption" fontWeight={500} className="block">
@@ -43,7 +43,7 @@ export default function CourseFeature({ subject, startFrom, endAt }: Props) {
                     </div>
                 </div>
             </div> : ""}
-            <Divider sx={{ borderColor: theme.palette.seperator.dark, height: 20 }} orientation="vertical" />
+            <Divider sx={{ borderColor: theme.palette.separator.dark, height: 20 }} orientation="vertical" />
             {subject ? <div className="feature flex gap-2 items-center">
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M8 4L8 13.3333" stroke="#111111" stroke-width="1.5" stroke-linecap="round" />

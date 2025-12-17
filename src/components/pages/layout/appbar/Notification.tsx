@@ -1,45 +1,77 @@
 import {
     Box,
+    Button,
+    CircularProgress,
     ClickAwayListener,
+    Divider,
     Grow,
     List,
     Paper,
     Popper,
-    useTheme
+    Typography,
+    useTheme,
 } from "@mui/material";
-import {
-    Notification
-} from "iconsax-reactjs";
-import React, { useRef, useState } from "react";
-import { useGetAllNotificationsQuery } from "../../../../services/notification";
+import { Notification } from "iconsax-reactjs";
+import React, { useEffect, useRef, useState } from "react";
+import InfiniteScroll from "react-infinite-scroll-component";
+import { useGetAllNotificationsQuery } from "../../../../services/notificationApi";
+import type { NotificationProps } from "../../../../types/notification";
+import NotificationCard from "../../../organism/Cards/NotificationCard";
 
 export default function NotificationModal() {
     const theme = useTheme();
+    const anchorRef = useRef<HTMLDivElement | null>(null);
+
     const [open, setOpen] = useState(false);
-    const [qp, _setQp] = useState({
+    const [qp, setQp] = useState({
         pageIndex: 1,
         pageSize: 10,
-    })
-    const anchorRef = useRef<HTMLDivElement | null>(null);
+    });
+
+    const [items, setItems] = useState<NotificationProps[]>([]);
+
     const handleToggle = () => setOpen((prev) => !prev);
 
     const handleClose = (event: Event | React.SyntheticEvent) => {
-        if (anchorRef.current && anchorRef.current.contains(event.target as HTMLElement)) return;
+        if (anchorRef.current?.contains(event.target as HTMLElement)) return;
         setOpen(false);
     };
 
     const { data, isLoading } = useGetAllNotificationsQuery(qp);
 
-    console.log({ data, isLoading })
+    const notifications = data?.data?.data ?? [];
+    const pagination = data?.data?.pagination;
+
+    useEffect(() => {
+        if (qp.pageIndex === 1) {
+            setItems(notifications);
+        } else {
+            setItems((prev) => [...prev, ...notifications]);
+        }
+    }, [notifications, qp.pageIndex]);
+
+    const fetchMore = () => {
+        if (!pagination) return;
+        if (qp.pageIndex < pagination.total_pages) {
+            setQp((prev) => ({
+                ...prev,
+                pageIndex: prev.pageIndex + 1,
+            }));
+        }
+    };
+
+    const hasMore =
+        pagination ? qp.pageIndex < pagination.total_pages : false;
+
     return (
         <>
-            {/* Settings Button */}
+            {/* Notification Icon */}
             <Box
                 ref={anchorRef}
                 onClick={handleToggle}
                 sx={{
-                    background: theme.palette.seperator.dark,
-                    minWidth: "44px",
+                    background: theme.palette.separator.dark,
+                    minWidth: 44,
                     aspectRatio: "1/1",
                     display: "flex",
                     alignItems: "center",
@@ -49,14 +81,16 @@ export default function NotificationModal() {
                     "&:hover": { backgroundColor: theme.palette.action.hover },
                 }}
             >
-                <Notification variant="Bold" color={theme.palette.seperator.darkest} />
+                <Notification
+                    variant="Bold"
+                    color={theme.palette.separator.darkest}
+                />
             </Box>
 
             {/* Popper */}
             <Popper
                 open={open}
                 anchorEl={anchorRef.current}
-                role={undefined}
                 transition
                 placement="bottom-end"
                 disablePortal
@@ -66,14 +100,101 @@ export default function NotificationModal() {
                     <Grow {...TransitionProps}>
                         <Paper elevation={3}>
                             <ClickAwayListener onClickAway={handleClose}>
-                                <List className="min-w-[521px] p-2!">
+                                <Box className="p-4 w-[520px]">
+                                    {/* Header */}
+                                    <Box className="flex items-center justify-between">
+                                        <Typography variant="h5" fontWeight={600}>
+                                            Notifications
+                                        </Typography>
+                                        <Button variant="text">
+                                            Mark all as read
+                                        </Button>
+                                    </Box>
 
-                                </List>
+                                    <Divider className="my-4!" />
+
+                                    {/* Scrollable Area */}
+                                    <Box
+                                        id="notification-scroll"
+                                        sx={{
+                                            maxHeight: 510,
+                                            overflow: "auto",
+                                        }}
+                                    >
+                                        {isLoading && items.length === 0 ? (
+                                            <Box
+                                                sx={{
+                                                    display: "flex",
+                                                    justifyContent: "center",
+                                                    py: 4,
+                                                }}
+                                            >
+                                                <CircularProgress size={24} />
+                                            </Box>
+                                        ) : (
+                                            <InfiniteScroll
+                                                dataLength={items.length}
+                                                next={fetchMore}
+                                                hasMore={hasMore}
+                                                scrollableTarget="notification-scroll"
+                                                loader={
+                                                    <Box
+                                                        sx={{
+                                                            textAlign: "center",
+                                                            py: 2,
+                                                        }}
+                                                    >
+                                                        <CircularProgress size={20} />
+                                                    </Box>
+                                                }
+                                                endMessage={
+                                                    items.length > 0 && (
+                                                        <Typography
+                                                            variant="caption"
+                                                            sx={{
+                                                                display: "block",
+                                                                textAlign: "center",
+                                                                py: 2,
+                                                            }}
+                                                        >
+                                                            No more notifications
+                                                        </Typography>
+                                                    )
+                                                }
+                                            >
+                                                <List disablePadding>
+                                                    {items.length === 0 ? (
+                                                        <Box
+                                                            sx={{
+                                                                py: 4,
+                                                                textAlign: "center",
+                                                            }}
+                                                        >
+                                                            <Typography
+                                                                variant="body2"
+                                                                color="text.secondary"
+                                                            >
+                                                                No notifications available
+                                                            </Typography>
+                                                        </Box>
+                                                    ) : (
+                                                        items.map((notification) => (
+                                                            <NotificationCard
+                                                                key={notification.id}
+                                                                data={notification}
+                                                            />
+                                                        ))
+                                                    )}
+                                                </List>
+                                            </InfiniteScroll>
+                                        )}
+                                    </Box>
+                                </Box>
                             </ClickAwayListener>
                         </Paper>
                     </Grow>
                 )}
             </Popper>
         </>
-    )
+    );
 }

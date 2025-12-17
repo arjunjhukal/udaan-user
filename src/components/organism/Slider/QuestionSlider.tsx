@@ -113,7 +113,7 @@ export default function QuestionSlider({
                                     ? "#0EA5E9"
                                     : isAttended(question)
                                         ? theme.palette.icon.dark
-                                        : theme.palette.seperator.darkest,
+                                        : theme.palette.separator.darkest,
                                 color: theme.palette.primary.contrastText,
                                 transition: "all 0.3s ease",
                                 "&:hover": {
@@ -121,7 +121,7 @@ export default function QuestionSlider({
                                         ? "#0284C7"
                                         : isAttended(question)
                                             ? theme.palette.icon.dark
-                                            : theme.palette.seperator.dark,
+                                            : theme.palette.separator.dark,
                                 },
                                 pointerEvents: "auto"
                             }}

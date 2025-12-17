@@ -51,7 +51,7 @@ export default function CustomAppbar({
                         minHeight: "44px",
                         aspectRatio: "1/1",
                         ml: 0,
-                        background: (theme) => theme.palette.seperator.dark,
+                        background: (theme) => theme.palette.separator.dark,
                         "&:hover": { backgroundColor: (theme) => theme.palette.action.hover },
                     }}
 

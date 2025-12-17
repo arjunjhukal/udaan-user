@@ -27,7 +27,7 @@ declare module "@mui/material/styles" {
       light: string;
       lightest: string;
     };
-    seperator: {
+    separator: {
       main: string;
       dark: string;
       darker: string;
@@ -71,7 +71,7 @@ declare module "@mui/material/styles" {
       light?: string;
       lightest?: string;
     };
-    seperator?: {
+    separator?: {
       main?: string;
       dark?: string;
       darker?: string;
@@ -595,6 +595,7 @@ const commonThemeOptions: ThemeOptions = {
     MuiListItemText: {
       styleOverrides: {
         root: () => ({
+          fontWeight: 400,
           margin: 0,
         }),
       },
@@ -616,7 +617,7 @@ const commonThemeOptions: ThemeOptions = {
     MuiTableCell: {
       styleOverrides: {
         root: ({ theme }) => ({
-          borderColor: `${theme.palette.seperator.dark}`,
+          borderColor: `${theme.palette.separator.dark}`,
         }),
       },
     },
@@ -696,7 +697,7 @@ const commonThemeOptions: ThemeOptions = {
     MuiPaginationItem: {
       styleOverrides: {
         root: ({ theme }) => ({
-          border: `1px solid ${theme.palette.seperator.dark}`,
+          border: `1px solid ${theme.palette.separator.dark}`,
           borderRadius: "4px",
           background: theme.palette.primary.contrastText,
           width: 34,

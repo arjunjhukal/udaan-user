@@ -13,7 +13,7 @@ interface TableFilterProps {
   categoryLayout?: boolean;
   title?: string;
 }
-export default function TableFilter({ search, setSearch, onFilter}: TableFilterProps) {
+export default function TableFilter({ search, setSearch, onFilter }: TableFilterProps) {
   const theme = useTheme();
 
   return (
@@ -40,7 +40,7 @@ export default function TableFilter({ search, setSearch, onFilter}: TableFilterP
               startIcon={<FilterSquare variant="Bold"
                 color={theme.palette.text.dark} />}
               sx={{
-                border: `1px solid ${theme.palette.seperator.dark}`,
+                border: `1px solid ${theme.palette.separator.dark}`,
                 "& .MuiButton-startIcon": {
                   mr: {
                     xs: 0
@@ -52,7 +52,7 @@ export default function TableFilter({ search, setSearch, onFilter}: TableFilterP
             </Button> : ""}
           {/* {layout ? <Stack >
             <IconButton sx={{
-              border: `1px solid ${theme.palette.seperator.dark}`,
+              border: `1px solid ${theme.palette.separator.dark}`,
               borderRadius: "8px 0 0 8px",
             }} className={`py-2.5! px-3.5! ${layout === "table" ? "active__layout" : ""}`}
               onClick={() => setLayout && setLayout("table")}
@@ -65,7 +65,7 @@ export default function TableFilter({ search, setSearch, onFilter}: TableFilterP
               </svg>
             </IconButton>
             <IconButton sx={{
-              border: `1px solid ${theme.palette.seperator.dark}`,
+              border: `1px solid ${theme.palette.separator.dark}`,
               borderRadius: "0 8px 8px 0",
             }} className={`py-2.5! px-3.5! ${layout === "grid" ? "active__layout" : ""}`}
               onClick={() => setLayout && setLayout("grid")}

@@ -1,6 +1,8 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import type { QueryParams } from "../types";
+import type { NotificationListResponse } from "../types/notification";
 import type { GlobalResponse } from "../types/user";
+import { buildQueryParams } from "../utils/buildQueryParams";
 import { baseQuery } from "./baseQuery";
 
 export const notificationApi = createApi({
@@ -9,12 +11,14 @@ export const notificationApi = createApi({
     tagTypes: ["Notifications"],
 
     endpoints: (builder) => ({
-        getAllNotifications: builder.query<GlobalResponse, QueryParams>({
-            query: (params) => ({
-                url: `/notification`,
-                method: "GET",
-                params,
-            }),
+        getAllNotifications: builder.query<NotificationListResponse, QueryParams>({
+            query: ({ pageIndex, pageSize }) => {
+                const queryParams = buildQueryParams({ page: pageIndex, page_size: pageSize });
+                return {
+                    url: `/notification?${queryParams}`,
+                    method: "GET",
+                }
+            },
             providesTags: [{ type: "Notifications", id: "LIST" }],
         }),
 

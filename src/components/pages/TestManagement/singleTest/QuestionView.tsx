@@ -73,7 +73,7 @@ export default function QuestionView({ currentQuestion, setAttendedQuestion, att
                                         border: `1px solid `,
                                         borderColor: isAttended
                                             ? theme.palette.primary.main
-                                            : theme.palette.seperator.dark,
+                                            : theme.palette.separator.dark,
                                         backgroundColor: isAttended
                                             ? theme.palette.primary.light
                                             : ""

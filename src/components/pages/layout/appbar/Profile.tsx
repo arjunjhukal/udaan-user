@@ -55,7 +55,7 @@ export default function ProfileMenu() {
                 onClick={handleToggle}
                 className=" hidden lg:flex gap-2 items-center p-2 rounded-md cursor-pointer"
                 sx={{
-                    border: `1px solid ${theme.palette.seperator.dark}`,
+                    border: `1px solid ${theme.palette.separator.dark}`,
                     minWidth: { lg: "160px" },
                     "&:hover": { backgroundColor: theme.palette.action.hover },
                 }}
@@ -70,7 +70,7 @@ export default function ProfileMenu() {
                     <Box
                         className="flex items-center w-7 h-7 rounded-full justify-center"
                         sx={{
-                            background: theme.palette.seperator.dark,
+                            background: theme.palette.separator.dark,
                         }}
                     >
                         <Typography variant="subtitle1" color="text.dark">
@@ -87,7 +87,7 @@ export default function ProfileMenu() {
             <IconButton
 
                 sx={{
-                    background: theme.palette.seperator.dark,
+                    background: theme.palette.separator.dark,
                     minWidth: "44px",
                     aspectRatio: "1/1",
                     "&:hover": { backgroundColor: theme.palette.action.hover },

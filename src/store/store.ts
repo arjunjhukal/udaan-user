@@ -3,7 +3,7 @@ import { authApi } from '../services/authApi';
 import { categoryApi } from '../services/categoryApi';
 import { courseApi } from '../services/courseApi';
 import { mediaApi } from '../services/mediaApi';
-import { notificationApi } from '../services/notification';
+import { notificationApi } from '../services/notificationApi';
 import { testApi } from '../services/testApi';
 import authReducer from "../slice/authSlice";
 import purchaseSlice from '../slice/purchaseSlice';

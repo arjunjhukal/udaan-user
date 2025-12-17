@@ -96,7 +96,6 @@ export default function SingleTestRoot() {
         }
     }, [courseId, testId, RESULT_KEY]);
 
-    // ✅ SAVE TO LOCAL STORAGE
     useEffect(() => {
         if (!courseId || !testId || timeLeft === undefined) return;
 
@@ -262,13 +261,18 @@ export default function SingleTestRoot() {
             <TestResultDialog
                 open={openResultModal}
                 result={result}
-                onReview={() =>
+                onReview={() => {
                     navigate(PATH.COURSE_MANAGEMENT.COURSES.VIEW_TEST.REVIEW_TEST.ROOT({
                         courseId: Number(courseId),
                         testId: Number(testId)
-                    }))
+                    }));
+                    localStorage.removeItem(RESULT_KEY);
                 }
-                onBack={() => navigate(PATH.COURSE_MANAGEMENT.COURSES.VIEW_COURSE.ROOT(Number(courseId)))}
+                }
+                onBack={() => {
+                    localStorage.removeItem(RESULT_KEY);
+                    navigate(PATH.COURSE_MANAGEMENT.COURSES.VIEW_COURSE.ROOT(Number(courseId)))
+                }}
             />
         </div>
     );

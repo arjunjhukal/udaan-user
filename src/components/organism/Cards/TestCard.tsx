@@ -4,7 +4,7 @@ import { PATH } from "../../../routes/PATH";
 import { setPurchase } from "../../../slice/purchaseSlice";
 import { useAppDispatch } from "../../../store/hook";
 import type { TestProps } from "../../../types/question";
-import { formatDate } from "../../../utils/formatDate";
+import { formatDateCustom } from "../../../utils/dateFormat";
 import { getStatus } from "../../../utils/getStatus";
 
 export default function TestCard({ test, havePurchased }: { test: TestProps; havePurchased: boolean }) {
@@ -18,7 +18,7 @@ export default function TestCard({ test, havePurchased }: { test: TestProps; hav
     <Box
       className="test__card rounded-md p-4 flex flex-col justify-between"
       sx={{
-        border: `1px solid ${theme.palette.seperator.dark}`,
+        border: `1px solid ${theme.palette.separator.dark}`,
       }}
     >
       <div className="top__wrapper">
@@ -53,7 +53,7 @@ export default function TestCard({ test, havePurchased }: { test: TestProps; hav
           <Typography variant="subtitle2" color="text.secondary" className="flex" mt={1}>
             Date:
             <Typography variant="subtitle2" fontWeight={600} color="text.dark" ml={1}>
-              {formatDate(test.start_datetime)}
+              {formatDateCustom(test.start_datetime, { shortMonth: true })}
             </Typography>
           </Typography>
         </div>

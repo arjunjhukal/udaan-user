@@ -33,7 +33,7 @@ export default function ReviewTestRoot() {
             ? theme.palette.success.main
             : isUserWrong
                 ? theme.palette.error.main
-                : theme.palette.seperator.dark;
+                : theme.palette.separator.dark;
 
         const Icon = isCorrect ? TickCircle : isUserWrong ? CloseCircle : undefined;
 
@@ -83,7 +83,7 @@ export default function ReviewTestRoot() {
                             style={{
                                 borderRight:
                                     index !== items.length - 1
-                                        ? `1px solid ${theme.palette.seperator.dark}`
+                                        ? `1px solid ${theme.palette.separator.dark}`
                                         : "none",
                             }}
                         >
