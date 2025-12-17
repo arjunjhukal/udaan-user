@@ -3,7 +3,7 @@ import type { CategoryFilterParams, QueryParams } from "../types";
 import type { CourseList, CourseProps, courseTabType, CurriculumList } from "../types/course";
 import type { LiveClassList, LiveClassProps } from "../types/liveClass";
 import type { MediaList } from "../types/media";
-import type { PurchaseProps } from "../types/purchase";
+import type { EsewaPaymentPayload, PurchaseProps } from "../types/purchase";
 import type { TestList } from "../types/question";
 import type { GlobalResponse } from "../types/user";
 import { buildQueryParams } from "../utils/buildQueryParams";
@@ -113,6 +113,13 @@ export const courseApi = createApi({
                 { type: "Media" as const, id: "LIST" },   // refetch all media
             ],
         }),
+        purchaseCourseWithEsewa: builder.query<GlobalResponse & { data: EsewaPaymentPayload }, { id: number }>({
+            query: ({ id }) => ({
+                url: `/course/${id}/payment/esewa`,
+                method: "GET",
+            }),
+            providesTags: (_result, _error, { id }) => [{ type: "Course" as const, id }],
+        }),
         getUserPurchasedCourse: builder.query<CourseList, QueryParams>({
             query: ({ pageIndex, pageSize, search, }) => {
                 const queryString = buildQueryParams({
@@ -167,5 +174,7 @@ export const {
     useGetUserPurchasedCourseQuery,
     useBookmakrCourseMutation,
     useGetSingleLiveClassQuery,
-    useGetMeetingSignatureMutation
+    useGetMeetingSignatureMutation,
+    usePurchaseCourseWithEsewaQuery,
+    useLazyPurchaseCourseWithEsewaQuery
 } = courseApi;

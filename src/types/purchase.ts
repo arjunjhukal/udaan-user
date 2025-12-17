@@ -22,6 +22,18 @@ export interface PurchaseProps {
     transaction_id: string;
     reference_id: string;
     is_trial: boolean;
-    // course_type: "subscription" | "expiry" | "free";
-    // subscription_id: string | null;
+
+}
+
+export interface EsewaPaymentPayload {
+    product_code: string;
+    success_url: string;
+    failure_url: string;
+    amount: string;
+    total_amount: string;
+    tax_amount: string;
+    transaction_uuid: string;
+    product_service_charge: number;
+    product_delivery_charge: number;
+    signature: string;
 }
