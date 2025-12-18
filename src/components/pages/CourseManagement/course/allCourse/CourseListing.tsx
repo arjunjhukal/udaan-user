@@ -1,4 +1,4 @@
-import { Box, Skeleton, useTheme } from "@mui/material";
+import { Box, Skeleton } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useGetAllCategoryQuery } from "../../../../../services/categoryApi";
 import { useGetAllCourseQuery } from "../../../../../services/courseApi";
@@ -9,7 +9,6 @@ import CourseCard from "../../../../organism/Cards/CourseCard/CourseCard";
 import TableFilter from "../../../../organism/TableFilter";
 
 export default function CourseListing() {
-    const theme = useTheme();
     const [qp, setQp] = useState({
         pageIndex: 1,
         pageSize: 8,

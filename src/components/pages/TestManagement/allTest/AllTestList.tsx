@@ -48,7 +48,7 @@ export default function AlltestList() {
         }
     }, [myCourses, selectedCourseId]);
 
-    const { data: notes, isLoading: loadingTest, isFetching } = useGetCourseTestQuery(
+    const { data: notes, isLoading: loadingTest } = useGetCourseTestQuery(
         { id: selectedCourseId!, ...qpTest },
         { skip: !selectedCourseId }
     );
