@@ -1,4 +1,5 @@
 import PageHeader from "../../../../organism/PageHeader";
+import AllNoteList from "./AllNoteList";
 
 export default function AllNotes() {
     return (
@@ -8,6 +9,7 @@ export default function AllNotes() {
                     title: "All Notes"
                 }]}
             />
+            <AllNoteList />
         </>
     )
 }

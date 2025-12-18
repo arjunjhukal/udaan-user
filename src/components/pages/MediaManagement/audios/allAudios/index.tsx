@@ -1,4 +1,5 @@
 import PageHeader from "../../../../organism/PageHeader";
+import AllAudioListing from "./AllAudioList";
 
 export default function AllAudios() {
     return (
@@ -8,6 +9,7 @@ export default function AllAudios() {
                     title: "All Audios"
                 }]}
             />
+            <AllAudioListing />
         </>
     )
 }

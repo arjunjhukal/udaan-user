@@ -1,4 +1,5 @@
 import PageHeader from "../../../../organism/PageHeader";
+import AllVideosListing from "./AllVideosListing";
 
 export default function AllVideos() {
     return (
@@ -8,6 +9,7 @@ export default function AllVideos() {
                     title: "All Videos"
                 }]}
             />
+            <AllVideosListing />
         </>
     )
 }

@@ -5,7 +5,6 @@ import type { QueryParams } from "../../../../../types";
 import TabController from "../../../../molecules/TabController";
 import CourseBanner from "../../../../organism/CourseBanner";
 import PurchaseCourseDialog from "../../../../organism/Dialog/PurchaseCourseDialog";
-import ReadingDialog from "../../../../organism/Dialog/ReadingDialog";
 import CourseMediaListing from "./courseMediaListing";
 import SinlgeCourseCurriculum from "./curriculum";
 import SinlgeCourseLiveClass from "./liveClass";
@@ -19,24 +18,29 @@ export default function SingleCourse() {
     const [havePurchesed, setHavePurchased] = useState(false);
     const [qpNotes, setQpNotes] = useState<QueryParams>({
         pageIndex: 1,
-        pageSize: 12
+        pageSize: 12,
+        search: ""
     })
     const [qpAudios, setQpAudios] = useState<QueryParams>({
         pageIndex: 1,
-        pageSize: 12
+        pageSize: 12,
+        search: ""
     })
     const [qpVideos, setQpVideos] = useState<QueryParams>({
         pageIndex: 1,
-        pageSize: 12
+        pageSize: 12,
+        search: ""
     })
 
     const [qpTest, setQpTest] = useState<QueryParams>({
         pageIndex: 1,
-        pageSize: 12
+        pageSize: 12,
+        search: ""
     })
     const [qpLiveClass, setQpLiveClass] = useState<QueryParams>({
         pageIndex: 1,
-        pageSize: 12
+        pageSize: 12,
+        search: ""
     })
 
 
@@ -103,7 +107,6 @@ export default function SingleCourse() {
                     ]}
                     setActiveTab={(newValue) => {
                         setActiveTab(newValue);
-
                     }}
                     currentActive={activeTab}
                 />
@@ -128,7 +131,6 @@ export default function SingleCourse() {
                 <SinlgeCourseLiveClass havePurchased={havePurchesed} data={liveClasses} isLoading={loadingLiveClass} qp={qpLiveClass} setQp={setQpLiveClass} totalPages={liveClasses?.data?.pagination?.total_pages || 0} />
             </Activity>}
             <PurchaseCourseDialog type={courseBasic?.data?.course_type} />
-            <ReadingDialog />
         </>
     )
 }

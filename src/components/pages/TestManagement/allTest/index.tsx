@@ -1,4 +1,5 @@
 import PageHeader from "../../../organism/PageHeader";
+import AllTestList from "./AllTestList";
 
 export default function AllTestRoot() {
     return (
@@ -8,6 +9,7 @@ export default function AllTestRoot() {
                     title: "All Tests"
                 }]}
             />
+            <AllTestList />
         </>
     )
 }

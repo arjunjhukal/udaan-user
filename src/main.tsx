@@ -6,6 +6,7 @@ import { createRoot } from "react-dom/client";
 import { I18nextProvider, initReactI18next } from "react-i18next";
 import { Provider } from "react-redux";
 import "./App.css";
+import ReadingDialog from "./components/organism/Dialog/ReadingDialog.tsx";
 import SessionExpiredPopup from "./components/organism/Dialog/SessonExpired.tsx";
 import Toast from "./components/organism/Toast/index.tsx";
 import Loading from "./Loading.tsx";
@@ -43,6 +44,8 @@ createRoot(document.getElementById("root")!).render(
             <GlobalRoutes />
             <Toast />
             <SessionExpiredPopup />
+            <ReadingDialog />
+
             {/* </ScreenProtection> */}
           </UdaanThemeProvider>
         </Suspense>

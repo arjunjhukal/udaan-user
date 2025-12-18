@@ -12,7 +12,7 @@ export default function TestCard({ test, havePurchased }: { test: TestProps; hav
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const status = getStatus(test.start_datetime, test.end_datetime);
+  const status = getStatus(test?.start_datetime, test?.end_datetime);
   const { id } = useParams();
   return (
     <Box
@@ -26,7 +26,7 @@ export default function TestCard({ test, havePurchased }: { test: TestProps; hav
         <div className="test__card__top flex gap-3">
           <Box className="w-full flex justify-between items-start gap-4">
             <Typography variant="subtitle1" fontWeight={600} color="text.dark">
-              {test.name}
+              {test?.name}
             </Typography>
 
             <Typography
@@ -46,14 +46,14 @@ export default function TestCard({ test, havePurchased }: { test: TestProps; hav
           <Typography variant="subtitle2" fontWeight={500} color="text.secondary" className="flex">
             Exam Type:
             <Typography variant="subtitle2" fontWeight={500} color="text.dark" ml={1}>
-              {test.test_type}
+              {test?.test_type}
             </Typography>
           </Typography>
 
           <Typography variant="subtitle2" color="text.secondary" className="flex" mt={1}>
             Date:
             <Typography variant="subtitle2" fontWeight={600} color="text.dark" ml={1}>
-              {formatDateCustom(test.start_datetime, { shortMonth: true })}
+              {formatDateCustom(test?.start_datetime, { shortMonth: true })}
             </Typography>
           </Typography>
         </div>
@@ -73,7 +73,7 @@ export default function TestCard({ test, havePurchased }: { test: TestProps; hav
             <Typography variant="subtitle2" color="text.secondary" className="inline-flex">
               Questions:
               <Typography variant="subtitle2" fontWeight={500} color="text.dark" ml={1}>
-                {test.total_questions}
+                {test?.total_questions}
               </Typography>
             </Typography>
 
@@ -86,7 +86,7 @@ export default function TestCard({ test, havePurchased }: { test: TestProps; hav
                 ml={1}
                 sx={{ textWrap: "nowrap" }}
               >
-                {test.duration.hours} Hrs {test.duration.minutes} Mins
+                {test?.duration.hours} Hrs {test?.duration.minutes} Mins
               </Typography>
             </Typography>
           </Box>
@@ -97,14 +97,14 @@ export default function TestCard({ test, havePurchased }: { test: TestProps; hav
             <Typography variant="subtitle2" color="text.secondary" className="inline-flex">
               Full marks:
               <Typography variant="subtitle2" fontWeight={500} color="text.dark" ml={1}>
-                {test.full_mark}
+                {test?.full_mark}
               </Typography>
             </Typography>
 
             <Typography variant="subtitle2" color="text.secondary" className="inline-flex">
               Pass marks:
               <Typography variant="subtitle2" fontWeight={500} color="text.dark" ml={1}>
-                {test.pass_mark}
+                {test?.pass_mark}
               </Typography>
             </Typography>
           </Box>
@@ -113,27 +113,27 @@ export default function TestCard({ test, havePurchased }: { test: TestProps; hav
 
 
         {
-          !test.has_taken_test && status === "ended" ? <Button variant="contained" disabled fullWidth>Test Ended Already</Button> : ""
+          !test?.has_taken_test && status === "ended" ? <Button variant="contained" disabled fullWidth>Test Ended Already</Button> : ""
         }
         {
-          status === "ongoing" && test.is_graded && !test.is_scheduled && (
+          status === "ongoing" && test?.is_graded && !test?.is_scheduled && (
             <Button
               variant="contained"
               color="primary"
               fullWidth
               onClick={() => {
                 if (havePurchased) {
-                  test.test_type === "mcq"
+                  test?.test_type === "mcq"
                     ? navigate(
-                      PATH.COURSE_MANAGEMENT.COURSES.VIEW_TEST.ROOT({
+                      PATH.COURSE_MANAGEMENT.COURSES.VIEW_TEST?.ROOT({
                         courseId: Number(id),
-                        testId: Number(test.id),
+                        testId: Number(test?.id),
                       })
                     )
                     : navigate(
-                      PATH.COURSE_MANAGEMENT.COURSES.VIEW_TEST.SUBJECTIVE_TEST.ROOT({
+                      PATH.COURSE_MANAGEMENT.COURSES.VIEW_TEST?.SUBJECTIVE_TEST?.ROOT({
                         courseId: Number(id),
-                        testId: Number(test.id),
+                        testId: Number(test?.id),
                       })
                     );
                 } else {
@@ -152,7 +152,7 @@ export default function TestCard({ test, havePurchased }: { test: TestProps; hav
         }
 
         {
-          test.has_taken_test && havePurchased && (
+          test?.has_taken_test && havePurchased && (
             <Button
               variant="outlined"
               color="primary"
@@ -160,14 +160,14 @@ export default function TestCard({ test, havePurchased }: { test: TestProps; hav
               sx={{ mt: 1 }}
               onClick={() =>
                 navigate(
-                  PATH.COURSE_MANAGEMENT.COURSES.VIEW_TEST.REVIEW_TEST.ROOT({
+                  PATH.COURSE_MANAGEMENT.COURSES.VIEW_TEST?.REVIEW_TEST?.ROOT({
                     courseId: Number(id),
-                    testId: Number(test.id),
+                    testId: Number(test?.id),
                   })
                 )
               }
             >
-              {test.is_graded ? "View Result" : "Result Pending"}
+              {test?.is_graded ? "View Result" : "Result Pending"}
             </Button>
           )
         }

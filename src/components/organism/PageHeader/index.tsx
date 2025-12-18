@@ -68,7 +68,7 @@ export default function PageHeader(props: Props) {
                 >
                   {item?.icon ? item?.icon : ""}
                   {item?.title ? (
-                    <Typography variant="h3" fontWeight={600}>{item?.title}</Typography>
+                    <Typography variant="h3" className="capitalize" fontWeight={600}>{item?.title}</Typography>
                   ) : (
                     ""
                   )}

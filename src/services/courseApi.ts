@@ -68,6 +68,7 @@ export const courseApi = createApi({
                     url: `/course/${id}/media?${buildQueryParams({
                         type, page: qp.pageIndex,
                         page_size: qp.pageSize,
+                        search: qp.search
                     })}`,
                     method: "GET",
                 })
