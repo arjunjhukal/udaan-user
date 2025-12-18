@@ -9,7 +9,7 @@ import {
   Typography,
   useTheme
 } from "@mui/material";
-import { AudioSquare, Book, Element4, I24Support, Message2, MessageQuestion, MoreSquare, Notepad2, PenAdd, SearchNormal, UserSquare, VideoOctagon, VideoPlay } from "iconsax-reactjs";
+import { AudioSquare, Book, Bookmark, Element4, I24Support, Message2, MessageQuestion, MoreSquare, Notepad2, PenAdd, SearchNormal, UserSquare, VideoOctagon, VideoPlay } from "iconsax-reactjs";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import { PATH } from "../../../../routes/PATH";
@@ -64,6 +64,17 @@ export default function PrimaryMenu() {
               <SearchNormal size={20} />
             </ListItemIcon>
             <ListItemText primary={t("menus.exploreCourse")} />
+          </ListItemButton>
+        </ListItem>
+        <ListItem disablePadding className="menu__item">
+          <ListItemButton
+            onClick={() => navigate(PATH.COURSE_MANAGEMENT.COURSES.SAVED_COURSES.ROOT)}
+            className={isActive(PATH.COURSE_MANAGEMENT.COURSES.SAVED_COURSES.ROOT) ? "active" : ""}
+          >
+            <ListItemIcon>
+              <Bookmark size={20} />
+            </ListItemIcon>
+            <ListItemText primary={t("menus.savedCourse")} />
           </ListItemButton>
         </ListItem>
       </List>

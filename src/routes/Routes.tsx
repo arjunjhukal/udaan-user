@@ -8,6 +8,7 @@ import CourseRoot from "../components/pages/CourseManagement/course";
 import AllCourses from "../components/pages/CourseManagement/course/allCourse";
 import SingleCourse from "../components/pages/CourseManagement/course/singleCourse";
 
+import SavedCourse from "../components/pages/CourseManagement/course/savedCourse";
 import SingleLiveClassRoot from "../components/pages/CourseManagement/course/singleLiveClass";
 import LiveClassRoot from "../components/pages/CourseManagement/liveClasses";
 import AllLiveClass from "../components/pages/CourseManagement/liveClasses/allLiveClass";
@@ -81,6 +82,7 @@ const router = createBrowserRouter([
           { path: PATH.COURSE_MANAGEMENT.COURSES.VIEW_TEST.SUBJECTIVE_TEST.ROOT({}), element: <SingleSubjectiveTest /> },
           { path: PATH.COURSE_MANAGEMENT.COURSES.VIEW_TEST.REVIEW_TEST.ROOT({}), element: <ReviewTestRoot /> },
           { path: PATH.COURSE_MANAGEMENT.COURSES.JOIN_LIVE.ROOT(), element: <SingleLiveClassRoot /> },
+          { path: PATH.COURSE_MANAGEMENT.COURSES.SAVED_COURSES.ROOT, element: <SavedCourse /> },
         ],
       },
       {

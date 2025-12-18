@@ -151,6 +151,26 @@ export const courseApi = createApi({
                 { type: "Course" as const, id: "LIST" },
             ],
         }),
+        getAllBookmarkedCourse: builder.query<CourseList, QueryParams>({
+            query: ({ pageIndex, pageSize, search, }) => {
+                const queryString = buildQueryParams({
+                    page: pageIndex,
+                    page_size: pageSize,
+                    search: search,
+                });
+                return {
+                    url: `/course/bookmark?${queryString}`,
+                    method: "GET",
+                };
+            },
+            providesTags: (result) =>
+                result?.data?.data
+                    ? [
+                        ...result.data.data.map((course) => ({ type: "Course" as const, id: course.id })),
+                        { type: "Course" as const, id: "LIST" },
+                    ]
+                    : [{ type: "Course" as const, id: "LIST" }],
+        }),
         getMeetingSignature: builder.mutation<{ data: { signature: string; zak: string; } }, { meeting_id: number, role: number, account_id: number }>({
             query: ({ meeting_id, role, account_id }) => ({
                 url: `/zoom/signature`,
@@ -174,6 +194,7 @@ export const {
     usePurchaseCourseMutation,
     useGetUserPurchasedCourseQuery,
     useBookmakrCourseMutation,
+    useGetAllBookmarkedCourseQuery,
     useGetSingleLiveClassQuery,
     useGetMeetingSignatureMutation,
     usePurchaseCourseWithEsewaQuery,

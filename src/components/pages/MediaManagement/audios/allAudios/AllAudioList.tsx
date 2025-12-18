@@ -152,7 +152,7 @@ export default function AllAudioListing() {
                 <Box
                     id="video__listing__wrapper"
                     sx={{
-                        maxHeight: 480,
+                        maxHeight: "calc(100vh - 460px)",
                         overflow: "auto",
                     }}
                 >

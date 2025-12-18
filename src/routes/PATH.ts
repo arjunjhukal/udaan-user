@@ -56,6 +56,9 @@ export const PATH = {
                             : `/courses/:courseId/test/:testId/subjective`,
                 }
             },
+            SAVED_COURSES:{
+                ROOT:"/courses/saved-courses"
+            }
         },
     },
     LIVE_CLASSES: {

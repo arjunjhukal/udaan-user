@@ -60,7 +60,6 @@ export default function TestCard({ test, havePurchased }: { test: TestProps; hav
       </div>
 
       <div className="bottom__wrapper">
-        {/* Test Stats Section */}
         <Box
           component="div"
           bgcolor={"gray.gray1"}

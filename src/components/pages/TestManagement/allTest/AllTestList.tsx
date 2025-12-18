@@ -48,7 +48,7 @@ export default function AlltestList() {
         }
     }, [myCourses, selectedCourseId]);
 
-    const { data: notes, isLoading: loadingTest } = useGetCourseTestQuery(
+    const { data: notes, isLoading: loadingTest, isFetching } = useGetCourseTestQuery(
         { id: selectedCourseId!, ...qpTest },
         { skip: !selectedCourseId }
     );
@@ -151,7 +151,7 @@ export default function AlltestList() {
                 <Box
                     id="video__listing__wrapper"
                     sx={{
-                        maxHeight: 480,
+                        maxHeight: "calc(100vh - 460px)",
                         overflow: "auto",
                     }}
                 >
@@ -168,8 +168,8 @@ export default function AlltestList() {
                             hasMore={hasMore}
                             scrollableTarget="video__listing__wrapper"
                             loader={
-                                <div className="col-span-1 text-center py-2">
-                                    <div className="inline-block w-6 h-6 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+                                <div className="flex flex-col gap-4 md:grid grid-cols-2 xl:grid-cols-3 lg:gap-6 mt-4 lg:mt-6">
+                                    {Array.from({ length: 3 }).map((_, idx) => <VideoSkeleton key={idx} />)}
                                 </div>
                             }
                         >
@@ -185,8 +185,8 @@ export default function AlltestList() {
                         </InfiniteScroll>
                     ) : (
                         <EmptyList
-                            title="No Notes Found"
-                            description="There are no notes available for the selected course."
+                            title="No Test Found"
+                            description="There are no tests available for the selected course."
                         />
                     )}
                 </Box>

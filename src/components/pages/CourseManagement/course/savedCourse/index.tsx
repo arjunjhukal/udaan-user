@@ -1,59 +1,35 @@
-import { Box, Skeleton, useTheme } from "@mui/material";
-import { useEffect, useState } from "react";
-import { useGetAllCategoryQuery } from "../../../../../services/categoryApi";
-import { useGetAllCourseQuery } from "../../../../../services/courseApi";
+import { Box, Skeleton } from "@mui/material";
+import { useState } from "react";
+import { PATH } from "../../../../../routes/PATH";
+import { useGetAllBookmarkedCourseQuery } from "../../../../../services/courseApi";
 import { EmptyList } from "../../../../molecules/EmptyList";
 import TablePagination from "../../../../molecules/Pagination";
-import TabController from "../../../../molecules/TabController";
 import CourseCard from "../../../../organism/Cards/CourseCard/CourseCard";
-import TableFilter from "../../../../organism/TableFilter";
+import PageHeader from "../../../../organism/PageHeader";
 
-export default function CourseListing() {
-    const theme = useTheme();
+export default function SavedCourse() {
     const [qp, setQp] = useState({
         pageIndex: 1,
         pageSize: 8,
-    })
-    const [activeCategory, setActiveCategory] = useState(0);
-    const [search, setSearch] = useState("");
-    const [options, setOptions] = useState<{ label: string; value: number }[]>([]);
-
-    const { data, isLoading } = useGetAllCourseQuery({
-        ...qp, search,
-        ...(activeCategory !== 0 && {
-            categoryFilter: {
-                mega_category: [activeCategory],
-            },
-        })
     });
-    const { data: categories } = useGetAllCategoryQuery({ pageIndex: 1, pageSize: 10 });
+    // const [search, setSearch] = useState("");
+    const { data, isLoading } = useGetAllBookmarkedCourseQuery({
+        ...qp,
+    });
+
     const courses = data?.data?.data || [];
     const pagination = data?.data?.pagination || null;
 
-
-    useEffect(() => {
-        const list = categories?.data || [];
-
-        const formatted = list.map((category) => ({
-            label: category.name,
-            value: Number(category?.id),
-        }));
-
-        setOptions([{ label: "All", value: 0 }, ...formatted]);
-    }, [categories]);
-
-
-
     return (
         <>
-            <Box className="flex flex-col justify-between gap-4 mb-4 lg:mb-8">
-                <TabController
-                    options={options}
-                    currentActive={activeCategory}
-                    setActiveTab={(val) => setActiveCategory(val)}
-                />
-                <TableFilter categoryLayout={true} search={search} setSearch={(newVal) => setSearch(newVal)} onFilter={() => { }} />
-            </Box>
+            <PageHeader
+                breadcrumb={[{
+                    title: "Saved Courses"
+                }]}
+            />
+            {/* <Box className="flex flex-col justify-between gap-4 mb-4 lg:mb-8">
+                <TableFilter categoryLayout={true} search={search} setSearch={(newVal) => setSearch(newVal)} />
+            </Box> */}
             {/* LOADING */}
             {isLoading ? (
                 <div className="flex flex-col gap-4 lg:gap-3 sm:grid sm:grid-cols-2 xl:grid-cols-3 3xl:grid-cols-4">
@@ -112,7 +88,11 @@ export default function CourseListing() {
             ) : (
                 <EmptyList
                     title="No Course Found"
-                    description="No courses available for the selected category."
+                    description="You have not saved any courses yet."
+                    cta={{
+                        label: "Explore Course",
+                        url: PATH.COURSE_MANAGEMENT.COURSES.ROOT
+                    }}
                 />
             )}
 
