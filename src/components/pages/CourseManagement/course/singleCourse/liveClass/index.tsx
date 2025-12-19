@@ -1,72 +1,92 @@
 import { useParams } from "react-router-dom";
-import { setPurchase } from "../../../../../../slice/purchaseSlice";
 import { useAppDispatch } from "../../../../../../store/hook";
+import { setPurchase } from "../../../../../../slice/purchaseSlice";
 import type { QueryParams } from "../../../../../../types";
 import type { LiveClassList } from "../../../../../../types/liveClass";
+
 import { EmptyList } from "../../../../../molecules/EmptyList";
 import TablePagination from "../../../../../molecules/Pagination";
-
 import LiveClassCard from "../../../../../organism/Cards/LiveClassCard";
 import PageHeader from "../../../../../organism/PageHeader";
 
 interface Props {
-    data?: LiveClassList;
-    isLoading: boolean;
-    qp: QueryParams;
-    setQp: (qp: QueryParams) => void;
-    totalPages: number;
-    havePurchased?: boolean;
+  data?: LiveClassList;
+  isLoading: boolean;
+  qp: QueryParams;
+  setQp: (qp: QueryParams) => void;
+  totalPages: number;
+  havePurchased?: boolean;
 }
 
+export default function SingleCourseLiveClass({
+  data,
+  isLoading,
+  qp,
+  setQp,
+  totalPages,
+  havePurchased = false,
+}: Props) {
+  const dispatch = useAppDispatch();
+  const { id } = useParams();
 
+  const liveClasses = data?.data?.data ?? [];
 
-export default function SinlgeCourseLiveClass({ data, totalPages, qp, setQp, isLoading, havePurchased }: Props) {
-    const dispatch = useAppDispatch();
-    const { id } = useParams();
-    console.log("totalPages", totalPages);
-    if (!isLoading && !havePurchased) {
-        return <EmptyList
-            title="Unlock Live Classes"
-            description="Purchase this course to access all live classes, recordings, and upcoming sessions."
-            cta={{
-                label: "Purchase Course",
-                url: ""
-            }}
-            onClick={() => {
-                dispatch(
-                    setPurchase({
-                        open: true,
-                        courseId: Number(id)
-                    })
-                )
-            }}
-        />
-    }
-    if (!isLoading && !data?.data?.data?.length) {
-        return <EmptyList
-            title="No Live Classes Available"
-            description="There are currently no live classes scheduled for this course. Please check back later!"
-        />
-    }
+  if (isLoading) {
+    return <div className="text-center py-10">Loading live classes...</div>;
+  }
+
+  if (!havePurchased) {
     return (
-        <>
-            <PageHeader
-                breadcrumb={[
-                    {
-                        title: "Live Classes",
-                    },
-                ]}
-            />
-            <div className="flex flex-col gap-6">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 flex-1">
-                    {data?.data?.data?.map((test, index) => (
-                        <LiveClassCard key={index} data={test} />
-                    ))}
-                </div>
-                {totalPages > 1 ? <TablePagination qp={qp} setQp={setQp} totalPages={totalPages} /> : ""}
-            </div>
-        </>
+      <EmptyList
+        title="Unlock Live Classes"
+        description="Purchase this course to access all live classes, recordings, and upcoming sessions."
+        cta={{ label: "Purchase Course" }}
+        onClick={() =>
+          dispatch(
+            setPurchase({
+              open: true,
+              courseId: Number(id),
+            })
+          )
+        }
+      />
     );
+  }
+
+  if (liveClasses.length === 0) {
+    return (
+      <EmptyList
+        title="No Live Classes Available"
+        description="There are currently no live classes scheduled for this course. Please check back later!"
+      />
+    );
+  }
+
+  return (
+    <>
+      <PageHeader
+        breadcrumb={[
+          {
+            title: "Live Classes",
+          },
+        ]}
+      />
+
+      <div className="flex flex-col gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {liveClasses.map((liveClass) => (
+            <LiveClassCard key={liveClass.id} data={liveClass} />
+          ))}
+        </div>
+
+        {totalPages > 1 && (
+          <TablePagination
+            qp={qp}
+            setQp={setQp}
+            totalPages={totalPages}
+          />
+        )}
+      </div>
+    </>
+  );
 }
-
-
