@@ -2,15 +2,16 @@ import { Box, Divider, Tab, Tabs, Typography, useTheme } from "@mui/material";
 import { Book1, Calendar1, Clock, CloseCircle, TickCircle, Timer1 } from "iconsax-reactjs";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import { useReviewTestResultQuery } from "../../../../services/testApi";
-import { formatDateCustom } from "../../../../utils/dateFormat";
+import { useGetTestResultQuery, useReviewTestResultQuery } from "../../../../services/testApi";
+import { formatDateCustom, formatDateTime } from "../../../../utils/dateFormat";
 import { renderHtml } from "../../../../utils/renderHtml";
 import { EmptyList } from "../../../molecules/EmptyList";
+import TestResultSummary from "../../../organism/ResultScreen";
 
 export default function ReviewTestRoot() {
     const theme = useTheme();
     const { courseId, testId } = useParams();
-    const { data } = useReviewTestResultQuery({ courseId: Number(courseId), testId: Number(testId) });
+    const { data, isLoading } = useReviewTestResultQuery({ courseId: Number(courseId), testId: Number(testId) });
     const [tabIndex, setTabIndex] = useState(0);
 
     const handleTabChange = (_: any, newValue: number) => setTabIndex(newValue);
@@ -19,8 +20,8 @@ export default function ReviewTestRoot() {
         { icon: Book1, label: "Total Questions:", value: `${data?.data?.total_questions} Questions` },
         { icon: Timer1, label: "Timer:", value: data?.data?.timer },
         { icon: Calendar1, label: "Start Date:", value: formatDateCustom(data?.data?.start_date || "", { shortMonth: true }) },
-        { icon: Clock, label: "Start Time:", value: data?.data?.start_time },
-        { icon: Clock, label: "End Time:", value: data?.data?.end_time },
+        { icon: Clock, label: "Start Time:", value: formatDateTime(data?.data?.start_time) },
+        { icon: Clock, label: "End Time:", value: formatDateTime(data?.data?.end_time) },
     ];
 
     const renderOption = (option: any, isCorrect: boolean, isUserWrong?: boolean) => {
@@ -51,7 +52,7 @@ export default function ReviewTestRoot() {
     };
 
     const renderQuestions = (questions: any[], type: "correct" | "incorrect" | "skipped") => {
-        if (questions.length === 0) {
+        if (!isLoading && questions.length === 0) {
             return <EmptyList
                 title={`No Question Found in ${type}`}
                 description=""
@@ -75,6 +76,8 @@ export default function ReviewTestRoot() {
             </div>
         ));
     };
+
+    const { data: result } = useGetTestResultQuery({ courseId: Number(courseId), testId: Number(testId) });
 
     return (
         <div className="test__review__root">
@@ -112,18 +115,31 @@ export default function ReviewTestRoot() {
 
             <Divider className="mt-2! mb-6!" />
 
-            {/* Tabs */}
-            <Tabs value={tabIndex} onChange={handleTabChange} aria-label="answer categories">
-                <Tab label={`Correct (${data?.data?.correct_answers?.length || 0})`} />
-                <Tab label={`Incorrect (${data?.data?.incorrect_answers?.length || 0})`} />
-                <Tab label={`Skipped (${data?.data?.skipped_answers?.length || 0})`} />
-            </Tabs>
+            <div className="flex flex-col gap-4 lg:grid lg:grid-cols-12 lg:gap-6">
+                <div className="col-span-7 2xl:col-span-8">
+                    {/* Tabs */}
+                    <Tabs value={tabIndex} onChange={handleTabChange} aria-label="answer categories">
+                        <Tab label={`Correct (${data?.data?.correct_answers?.length || 0})`} />
+                        <Tab label={`Incorrect (${data?.data?.incorrect_answers?.length || 0})`} />
+                        <Tab label={`Skipped (${data?.data?.skipped_answers?.length || 0})`} />
+                    </Tabs>
 
-            <Box className="mt-4 space-y-4">
-                {tabIndex === 0 && renderQuestions(data?.data?.correct_answers || [], "correct")}
-                {tabIndex === 1 && renderQuestions(data?.data?.incorrect_answers || [], "incorrect")}
-                {tabIndex === 2 && renderQuestions(data?.data?.skipped_answers || [], "skipped")}
-            </Box>
+                    <Box className="mt-4 space-y-4">
+                        {tabIndex === 0 && renderQuestions(data?.data?.correct_answers || [], "correct")}
+                        {tabIndex === 1 && renderQuestions(data?.data?.incorrect_answers || [], "incorrect")}
+                        {tabIndex === 2 && renderQuestions(data?.data?.skipped_answers || [], "skipped")}
+                    </Box></div>
+                <div className="col-span-5 2xl:col-span-4">
+                    <TestResultSummary
+                        testName={data?.data?.test_name}
+                        correct={result?.data?.correct || 0}
+                        percentage={result?.data?.percentage || 0}
+                        incorrect={result?.data?.incorrect || 0}
+                        time_taken={result?.data?.time_taken || ""}
+                        total_questions={result?.data?.total_questions || 0}
+                    />
+                </div>
+            </div>
         </div>
     );
 }

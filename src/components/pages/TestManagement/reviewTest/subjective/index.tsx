@@ -3,10 +3,11 @@ import { Box, Divider, Tab, Tabs, Typography, useTheme } from "@mui/material";
 import { Book1, Calendar, Calendar1, Clock, Timer, Timer1, UserEdit, UserTag } from "iconsax-reactjs";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import { useReviewSubjectiveTestResultQuery } from "../../../../../services/testApi";
+import { useGetTestResultQuery, useReviewSubjectiveTestResultQuery } from "../../../../../services/testApi";
 import { formatDateCustom, formatDateTime } from "../../../../../utils/dateFormat";
 import { renderHtml } from "../../../../../utils/renderHtml";
 import { EmptyList } from "../../../../molecules/EmptyList";
+import TestResultSummary from "../../../../organism/ResultScreen";
 export default function ReviewSubjectTestRoot() {
     const theme = useTheme();
     const { courseId, testId } = useParams();
@@ -18,8 +19,8 @@ export default function ReviewSubjectTestRoot() {
         { icon: Book1, label: "Total Questions:", value: `${data?.data?.total_questions} Questions` },
         { icon: Timer1, label: "Timer:", value: data?.data?.timer },
         { icon: Calendar1, label: "Start Date:", value: formatDateCustom(data?.data?.start_date || "", { shortMonth: true }) },
-        { icon: Clock, label: "Start Time:", value: data?.data?.start_time },
-        { icon: Clock, label: "End Time:", value: data?.data?.end_time },
+        { icon: Clock, label: "Start Time:", value: formatDateTime(data?.data?.start_time) },
+        { icon: Clock, label: "End Time:", value: formatDateTime(data?.data?.end_time) },
     ];
 
 
@@ -27,12 +28,15 @@ export default function ReviewSubjectTestRoot() {
         icon: Icon,
         label,
         value,
-        colSpan = 1
+        colSpan = 1,
+        bgColor
     }: {
         icon: React.ReactElement;
         label: string;
         value: string | null | undefined;
         colSpan?: number;
+        bgColor?: string;
+
     }) => {
         if (!value) return null;
 
@@ -46,7 +50,7 @@ export default function ReviewSubjectTestRoot() {
                 <Box
                     className="w-9 h-9 flex items-center justify-center rounded-full flex-shrink-0"
                     sx={{
-                        background: (theme) => theme.palette.primary.light
+                        background: (theme) => bgColor || theme.palette.primary.light
                     }}
                 >
                     {Icon}
@@ -83,7 +87,7 @@ export default function ReviewSubjectTestRoot() {
                             <Typography variant='caption' color='text.middle' className='mt-4! block'>
                                 Answer Image
                             </Typography>
-                            <Box className="answer__image mt-2">
+                            <Box className="answer__image mt-2 mb-6">
                                 <div className="grid grid-cols-3 gap-4">
                                     {q.media_files.map((file: any) => (
                                         <div className="col-span-1" key={file.id}>
@@ -99,7 +103,7 @@ export default function ReviewSubjectTestRoot() {
                         </>
                     ) : ""}
 
-                    <Typography variant='caption' color='text.middle'>
+                    <Typography variant='caption' color='text.middle' >
                         Answer Details
                     </Typography>
 
@@ -108,24 +112,31 @@ export default function ReviewSubjectTestRoot() {
                             icon={<Calendar color={theme.palette.primary.main} />}
                             label="Submitted at:"
                             value={formatDateTime(q?.submitted_at)}
+                            bgColor={theme.palette.primary.light}
                         />
 
                         <DetailItem
                             icon={<Calendar color={theme.palette.success.main} />}
                             label="Marks Obtained:"
                             value={q?.mark_obtained?.toString()}
+                            bgColor={theme.palette.success.light}
+
                         />
 
                         <DetailItem
                             icon={<UserEdit color={theme.palette.warning.main} />}
                             label="Checked by:"
                             value={q?.checked_by}
+                            bgColor={theme.palette.warning.light}
+
                         />
 
                         <DetailItem
                             icon={<Timer color={theme.palette.info.main} />}
                             label="Checked at:"
                             value={formatDateTime(q?.checked_at)}
+                            bgColor={theme.palette.info.light}
+
                         />
 
                         <DetailItem
@@ -133,12 +144,17 @@ export default function ReviewSubjectTestRoot() {
                             label="Teacher's Feedback"
                             value={q?.feedback}
                             colSpan={2}
+                            bgColor={theme.palette.primary.light}
+
                         />
                     </Box>
                 </Box> : ""}
             </div>
         ));
     };
+
+    const { data: result } = useGetTestResultQuery({ courseId: Number(courseId), testId: Number(testId) });
+
 
     return (
         <div className="test__review__root">
@@ -175,16 +191,31 @@ export default function ReviewSubjectTestRoot() {
 
             <Divider className="mt-2! mb-6!" />
 
-            {/* Tabs */}
-            <Tabs value={tabIndex} onChange={handleTabChange} aria-label="answer categories">
-                <Tab label={`Answered (${data?.data?.answered?.length || 0})`} />
-                <Tab label={`Skipped (${data?.data?.skipped?.length || 0})`} />
-            </Tabs>
+            <div className="flex flex-col gap-4 lg:grid lg:grid-cols-12 lg:gap-6">
+                <div className="col-span-7 2xl:col-span-8">
+                    {/* Tabs */}
+                    <Tabs value={tabIndex} onChange={handleTabChange} aria-label="answer categories">
+                        <Tab label={`Answered (${data?.data?.answered?.length || 0})`} />
+                        <Tab label={`Skipped (${data?.data?.skipped?.length || 0})`} />
+                    </Tabs>
 
-            <Box className="mt-4 space-y-4">
-                {tabIndex === 0 && renderQuestions(data?.data?.answered || [], "answered")}
-                {tabIndex === 1 && renderQuestions(data?.data?.skipped || [], "skipped")}
-            </Box>
+                    <Box className="mt-4 space-y-4">
+                        {tabIndex === 0 && renderQuestions(data?.data?.answered || [], "answered")}
+                        {tabIndex === 1 && renderQuestions(data?.data?.skipped || [], "skipped")}
+                    </Box>
+                </div>
+                <div className="col-span-5 2xl:col-span-4">
+                    <TestResultSummary
+                        testName={data?.data?.test_name}
+                        correct={result?.data?.correct || 0}
+                        percentage={result?.data?.percentage || 0}
+                        incorrect={result?.data?.incorrect || 0}
+                        time_taken={result?.data?.time_taken || ""}
+                        total_questions={result?.data?.total_questions || 0}
+                    />
+                </div>
+            </div>
+
         </div>
     );
 }

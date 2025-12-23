@@ -603,7 +603,7 @@ const commonThemeOptions: ThemeOptions = {
     MuiTypography: {
       styleOverrides: {
         root: {
-          marginBottom: "0 !important",
+          marginBottom: "0 ",
         },
       },
     },

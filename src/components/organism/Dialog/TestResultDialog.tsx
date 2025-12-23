@@ -56,7 +56,6 @@ export default function TestResultDialog({ open, result, onReview, onClose, onBa
         return "Congratulations on your excellent score! Your dedication and hard work are truly paying off.";
     };
 
-
     return (
         <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
             <DialogContent className="flex flex-col items-center">

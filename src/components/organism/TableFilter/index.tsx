@@ -16,6 +16,7 @@ interface TableFilterProps {
   myCourses?: CourseProps[];
   selectedCourseId?: number | null;
   setSelectedCourseId?: (id: number | null) => void;
+  onPublish?: () => void;
 }
 
 export default function TableFilter({
@@ -24,7 +25,8 @@ export default function TableFilter({
   onFilter,
   myCourses,
   selectedCourseId,
-  setSelectedCourseId
+  setSelectedCourseId,
+  onPublish,
 }: TableFilterProps) {
   const theme = useTheme();
   const [open, setOpen] = useState(false);

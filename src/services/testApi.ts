@@ -73,6 +73,12 @@ export const testApi = createApi({
                 url: `/course/${courseId}/test/${testId}/subjective/submit`,
                 method: "POST",
             })
+        }),
+        getTestResult: builder.query<GlobalResponse & McqSubmissionResponse, { courseId: number; testId: number }>({
+            query: ({ courseId, testId }) => ({
+                url: `/course/${courseId}/test/${testId}/result`,
+                method: "GET",
+            })
         })
     })
 })
@@ -84,6 +90,7 @@ export const {
     useUploadSubjectiveAnswersMutation,
     useDeleteSubjectiveAnswersMutation,
     useGetSubjectiveAnswerQuery,
+    useReviewSubjectiveTestResultQuery,
     useSubmitSubjectiveFinalMutation,
-    useReviewSubjectiveTestResultQuery
+    useGetTestResultQuery
 } = testApi;
