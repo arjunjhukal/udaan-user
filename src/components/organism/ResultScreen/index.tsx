@@ -124,7 +124,6 @@ export default function TestResultSummary({
             {/* Stats */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full mt-8!">
                 {stats
-                    .filter((s) => s.value)
                     .map((stat) => (
                         <Box
                             key={stat.label}
@@ -142,7 +141,7 @@ export default function TestResultSummary({
                                 fontWeight={600}
                                 color={stat.color.main}
                             >
-                                {stat.value}
+                                {stat.value || "N/A"}
                             </Typography>
                         </Box>
                     ))}

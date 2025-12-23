@@ -115,7 +115,7 @@ export default function TestCard({ test, havePurchased }: { test: TestProps; hav
           !test?.has_taken_test && status === "ended" ? <Button variant="contained" disabled fullWidth>Test Ended Already</Button> : ""
         }
         {
-          status === "ongoing" && test?.is_graded && !test?.is_scheduled && (
+          status === "ongoing" && !test?.is_graded && test?.is_scheduled && (
             <Button
               variant="contained"
               color="primary"

@@ -94,6 +94,7 @@ export interface McqSubmissionData {
     score: number;
     correct: number;
     incorrect: number;
+    skipped: number;
     time_taken: string;
     attempted: number;
     total_questions: number;

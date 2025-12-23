@@ -212,6 +212,8 @@ export default function ReviewSubjectTestRoot() {
                         incorrect={result?.data?.incorrect || 0}
                         time_taken={result?.data?.time_taken || ""}
                         total_questions={result?.data?.total_questions || 0}
+                        attempted={result?.data?.attempted || 0}
+                        skipped={result?.data?.skipped || 0}
                     />
                 </div>
             </div>
