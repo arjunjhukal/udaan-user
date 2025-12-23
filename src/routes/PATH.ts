@@ -47,7 +47,13 @@ export const PATH = {
                     ROOT: ({ courseId, testId }: { courseId?: number; testId?: number }) =>
                         courseId && testId
                             ? `/courses/${courseId}/test/${testId}/review`
-                            : `/courses/:courseId/test/:testId/review`
+                            : `/courses/:courseId/test/:testId/review`,
+                    REVIEW_SUBJECTIVE_TEST: {
+                        ROOT: ({ courseId, testId }: { courseId?: number; testId?: number }) =>
+                            courseId && testId
+                                ? `/courses/${courseId}/test/${testId}/review/subjective`
+                                : `/courses/:courseId/test/:testId/review/subjective`,
+                    }
                 },
                 SUBJECTIVE_TEST: {
                     ROOT: ({ courseId, testId }: { courseId?: number; testId?: number }) =>
@@ -56,8 +62,8 @@ export const PATH = {
                             : `/courses/:courseId/test/:testId/subjective`,
                 }
             },
-            SAVED_COURSES:{
-                ROOT:"/courses/saved-courses"
+            SAVED_COURSES: {
+                ROOT: "/courses/saved-courses"
             }
         },
     },

@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import { useReviewTestResultQuery } from "../../../../services/testApi";
 import { formatDateCustom } from "../../../../utils/dateFormat";
 import { renderHtml } from "../../../../utils/renderHtml";
+import { EmptyList } from "../../../molecules/EmptyList";
 
 export default function ReviewTestRoot() {
     const theme = useTheme();
@@ -50,6 +51,12 @@ export default function ReviewTestRoot() {
     };
 
     const renderQuestions = (questions: any[], type: "correct" | "incorrect" | "skipped") => {
+        if (questions.length === 0) {
+            return <EmptyList
+                title={`No Question Found in ${type}`}
+                description=""
+            />;
+        }
         return questions.map((q) => (
             <div className="question__box" key={q.question}>
                 <Typography className="mb-4!" variant="h6">{renderHtml(q.question)}</Typography>
@@ -74,26 +81,34 @@ export default function ReviewTestRoot() {
             <Typography className="text2Xl mb-4!">{data?.data?.test_name}</Typography>
 
             <ul className="flex items-center gap-4">
-                {items.map((item, index) => {
-                    const Icon = item.icon;
-                    return (
-                        <li
-                            key={index}
-                            className="flex items-center gap-1 pr-4"
-                            style={{
-                                borderRight:
-                                    index !== items.length - 1
-                                        ? `1px solid ${theme.palette.separator.dark}`
-                                        : "none",
-                            }}
-                        >
-                            <Icon variant="Linear" />
-                            <Typography variant="subtitle2" color="text.middle">{item.label}</Typography>
-                            <Typography variant="subtitle2" color="text.dark">{item.value}</Typography>
-                        </li>
-                    );
-                })}
+                {items
+                    .filter(item => item.value !== null && item.value !== undefined && item.value !== "")
+                    .map((item, index, filteredItems) => {
+                        const Icon = item.icon;
+
+                        return (
+                            <li
+                                key={index}
+                                className="flex items-center gap-1 pr-4"
+                                style={{
+                                    borderRight:
+                                        index !== filteredItems.length - 1
+                                            ? `1px solid ${theme.palette.separator.dark}`
+                                            : "none",
+                                }}
+                            >
+                                <Icon variant="Linear" />
+                                <Typography variant="subtitle2" color="text.middle">
+                                    {item.label}
+                                </Typography>
+                                <Typography variant="subtitle2" color="text.dark">
+                                    {item.value}
+                                </Typography>
+                            </li>
+                        );
+                    })}
             </ul>
+
 
             <Divider className="mt-2! mb-6!" />
 

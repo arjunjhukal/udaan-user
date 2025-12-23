@@ -62,6 +62,12 @@ export const testApi = createApi({
                 method: "GET",
             })
         }),
+        reviewSubjectiveTestResult: builder.query<{ data: any }, { courseId: number; testId: number }>({
+            query: ({ courseId, testId }) => ({
+                url: `/course/${courseId}/test/${testId}/review/subjective`,
+                method: "GET",
+            })
+        }),
         submitSubjectiveFinal: builder.mutation<GlobalResponse, { courseId: number; testId: number, questionId: number }>({
             query: ({ courseId, testId }) => ({
                 url: `/course/${courseId}/test/${testId}/subjective/submit`,
@@ -78,5 +84,6 @@ export const {
     useUploadSubjectiveAnswersMutation,
     useDeleteSubjectiveAnswersMutation,
     useGetSubjectiveAnswerQuery,
-    useSubmitSubjectiveFinalMutation
+    useSubmitSubjectiveFinalMutation,
+    useReviewSubjectiveTestResultQuery
 } = testApi;

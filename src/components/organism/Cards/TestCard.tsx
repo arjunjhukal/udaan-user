@@ -157,14 +157,23 @@ export default function TestCard({ test, havePurchased }: { test: TestProps; hav
               color="primary"
               fullWidth
               sx={{ mt: 1 }}
-              onClick={() =>
-                navigate(
-                  PATH.COURSE_MANAGEMENT.COURSES.VIEW_TEST?.REVIEW_TEST?.ROOT({
-                    courseId: Number(id),
-                    testId: Number(test?.id),
-                  })
-                )
-              }
+              onClick={() => {
+                if (test.test_type === "mcq") {
+                  navigate(
+                    PATH.COURSE_MANAGEMENT.COURSES.VIEW_TEST.REVIEW_TEST.ROOT({
+                      courseId: Number(id),
+                      testId: Number(test?.id),
+                    })
+                  );
+                } else {
+                  navigate(
+                    PATH.COURSE_MANAGEMENT.COURSES.VIEW_TEST.REVIEW_TEST.REVIEW_SUBJECTIVE_TEST.ROOT({
+                      courseId: Number(id),
+                      testId: Number(test?.id),
+                    })
+                  );
+                }
+              }}
             >
               {test?.is_graded ? "View Result" : "Result Pending"}
             </Button>
