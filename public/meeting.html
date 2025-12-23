@@ -58,7 +58,7 @@
                 showMeetingHeader: false,
                 disableJoinAudio: true,
                 disableRecord: true,
-                isSupportChat: false,
+                // isSupportChat: false,
                 success: function () {
                     const joinConfig = {
                         meetingNumber: meetingConfig.mn,
@@ -73,7 +73,7 @@
                                 .meeting-info-container__full-screen,
                                 .footer__panel, 
                                 .header-bar__container,
-                                .meeting-header {
+                                .meeting-header,#participant {
                                     display: none !important;
                                 }
                             `;

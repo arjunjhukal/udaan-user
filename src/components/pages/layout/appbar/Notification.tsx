@@ -1,4 +1,5 @@
 import {
+    Badge,
     Box,
     Button,
     CircularProgress,
@@ -14,12 +15,15 @@ import {
 import { Notification } from "iconsax-reactjs";
 import React, { useEffect, useRef, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { useGetAllNotificationsQuery } from "../../../../services/notificationApi";
+import { useGetAllNotificationsQuery, useReadNotificationMutation } from "../../../../services/notificationApi";
+import { showToast } from "../../../../slice/toastSlice";
+import { useAppDispatch } from "../../../../store/hook";
 import type { NotificationProps } from "../../../../types/notification";
 import NotificationCard from "../../../organism/Cards/NotificationCard";
 
 export default function NotificationModal() {
     const theme = useTheme();
+    const dispatch = useAppDispatch();
     const anchorRef = useRef<HTMLDivElement | null>(null);
 
     const [open, setOpen] = useState(false);
@@ -38,6 +42,7 @@ export default function NotificationModal() {
     };
 
     const { data, isLoading } = useGetAllNotificationsQuery(qp);
+    const [readNotification] = useReadNotificationMutation();
 
     const notifications = data?.data?.data ?? [];
     const pagination = data?.data?.pagination;
@@ -63,29 +68,55 @@ export default function NotificationModal() {
     const hasMore =
         pagination ? qp.pageIndex < pagination.total_pages : false;
 
+    const hasUnread =
+        notifications.some((n) => !n.has_seen);
+
+    const handleReadAllNotifications = async () => {
+        try {
+            await readNotification({}).unwrap();
+        }
+        catch (e: any) {
+            dispatch(
+                showToast({
+                    message: e?.data?.message || "Something went wrong",
+                    severity: "error",
+                }));
+        }
+    }
     return (
         <>
-            {/* Notification Icon */}
-            <Box
-                ref={anchorRef}
-                onClick={handleToggle}
-                sx={{
-                    background: theme.palette.separator.dark,
-                    minWidth: 44,
-                    aspectRatio: "1/1",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    cursor: "pointer",
-                    borderRadius: "50%",
-                    "&:hover": { backgroundColor: theme.palette.action.hover },
+            <Badge
+                color="error"
+                variant="dot"
+                overlap="circular"
+                invisible={!hasUnread}
+                anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
                 }}
             >
-                <Notification
-                    variant="Bold"
-                    color={theme.palette.separator.darkest}
-                />
-            </Box>
+                <Box
+                    ref={anchorRef}
+                    onClick={handleToggle}
+                    sx={{
+                        background: theme.palette.separator.dark,
+                        minWidth: 44,
+                        aspectRatio: "1/1",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        cursor: "pointer",
+                        borderRadius: "50%",
+                        "&:hover": { backgroundColor: theme.palette.action.hover },
+                    }}
+                >
+                    <Notification
+                        variant="Bold"
+                        color={theme.palette.separator.darkest}
+                    />
+                </Box>
+            </Badge>
+
 
             {/* Popper */}
             <Popper
@@ -106,7 +137,7 @@ export default function NotificationModal() {
                                         <Typography variant="h5" fontWeight={600}>
                                             Notifications
                                         </Typography>
-                                        <Button variant="text">
+                                        <Button variant="text" onClick={handleReadAllNotifications}>
                                             Mark all as read
                                         </Button>
                                     </Box>
