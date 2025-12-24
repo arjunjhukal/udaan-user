@@ -14,7 +14,7 @@ import themeReducer from "../slice/themeSlice";
 import toastReducer from "../slice/toastSlice";
 export const store = configureStore({
     reducer: {
-        theme: themeReducer,
+        udaan_theme: themeReducer,
         auth: authReducer,
         toast: toastReducer,
         readScreen: readingScreenReducer,

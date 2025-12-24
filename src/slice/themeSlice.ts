@@ -25,7 +25,7 @@ const initialState: DefaultThemeProps = storedTheme
     : {
         fontFamily: "Inter",
         i18n: "en",
-        mode: ThemeMode.DARK,
+        mode: ThemeMode.LIGHT,
         miniDrawer: false,
     };
 
@@ -50,7 +50,7 @@ export const ThemeSlice = createSlice({
         resetTheme: (state) => {
             state.fontFamily = "Inter";
             state.i18n = "en";
-            state.mode = ThemeMode.DARK;
+            state.mode = ThemeMode.LIGHT;
             state.miniDrawer = false;
             localStorage.setItem("themeConfig", JSON.stringify(state));
         },

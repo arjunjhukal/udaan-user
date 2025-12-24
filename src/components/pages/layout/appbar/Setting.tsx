@@ -31,7 +31,7 @@ export default function SettingMenu() {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const { i18n } = useTranslation();
-    const mode = useAppSelector((state) => state.theme.mode);
+    const mode = useAppSelector((state) => state.udaan_theme.mode);
 
     const [open, setOpen] = useState(false);
     const anchorRef = useRef<HTMLDivElement | null>(null);
