@@ -1,11 +1,10 @@
-import { Box, Button, Divider, Typography, useTheme } from "@mui/material";
+import { Box, Divider, Typography, useTheme } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
-import { PATH } from "../../../routes/PATH";
-import { setPurchase } from "../../../slice/purchaseSlice";
 import { useAppDispatch } from "../../../store/hook";
 import type { TestProps } from "../../../types/question";
 import { formatDateCustom } from "../../../utils/dateFormat";
 import { getStatus } from "../../../utils/getStatus";
+import TestActionButton from "./TestActionButton";
 
 export default function TestCard({ test, havePurchased }: { test: TestProps; havePurchased: boolean }) {
   const theme = useTheme();
@@ -110,8 +109,14 @@ export default function TestCard({ test, havePurchased }: { test: TestProps; hav
         </Box>
 
 
+        <TestActionButton
+          test={test}
+          status={status}
+          havePurchased={havePurchased}
+          id={id}
+        />
 
-        {
+        {/* {
           !test?.has_taken_test && status === "ended" ? <Button variant="contained" disabled fullWidth>Test Ended Already</Button> : ""
         }
         {
@@ -178,7 +183,7 @@ export default function TestCard({ test, havePurchased }: { test: TestProps; hav
               {test?.is_graded ? "View Result" : "Result Pending"}
             </Button>
           )
-        }
+        } */}
       </div>
     </Box>
   );
