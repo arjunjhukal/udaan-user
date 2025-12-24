@@ -128,7 +128,7 @@ export default function PurchaseLayout() {
                         price={price}
                         vat={vat}
                         total={total}
-                        isLoading={isLoading}
+                        isLoading={isLoading || isKhaltiLoading}
                     />
                 </div>
             </form>
