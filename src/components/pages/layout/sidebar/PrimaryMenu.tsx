@@ -145,7 +145,7 @@ export default function PrimaryMenu() {
           </ListItemButton>
         </ListItem>
       </List>
-      <div className="flex items-center gap-2 overflow-hidden mb-1 mt-8">
+      {/* <div className="flex items-center gap-2 overflow-hidden mb-1 mt-8">
         <Typography variant='caption' mb={1} sx={{
           color: theme.palette.text.light
         }}>{t("messages.communication")}</Typography>
@@ -221,7 +221,7 @@ export default function PrimaryMenu() {
             <ListItemText primary={t("menus.support")} />
           </ListItemButton>
         </ListItem>
-      </List>
+      </List> */}
 
     </Box>
   );
