@@ -9,7 +9,7 @@ import {
   Typography,
   useTheme
 } from "@mui/material";
-import { AudioSquare, Book, Bookmark, Element4, I24Support, Message2, MessageQuestion, MoreSquare, Notepad2, PenAdd, SearchNormal, UserSquare, VideoOctagon, VideoPlay } from "iconsax-reactjs";
+import { AudioSquare, Book, Bookmark, Element4, Notepad2, PenAdd, SearchNormal, VideoOctagon, VideoPlay } from "iconsax-reactjs";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import { PATH } from "../../../../routes/PATH";
