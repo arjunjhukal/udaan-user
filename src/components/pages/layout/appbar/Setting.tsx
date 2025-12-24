@@ -14,7 +14,6 @@ import {
 } from "@mui/material";
 import React, { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
 import { setMode, ThemeMode } from "../../../../slice/themeSlice";
 import { useAppDispatch, useAppSelector } from "../../../../store/hook";
 
@@ -29,7 +28,7 @@ import {
 export default function SettingMenu() {
     const theme = useTheme();
     const dispatch = useAppDispatch();
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
     const { i18n } = useTranslation();
     const mode = useAppSelector((state) => state.udaan_theme.mode);
 
@@ -57,7 +56,7 @@ export default function SettingMenu() {
         i18n.changeLanguage(newLang);
     };
 
-    const handleSettingsRedirect = () => navigate("/dashboard/settings");
+    // const handleSettingsRedirect = () => navigate("/dashboard/settings");
 
     return (
         <>
