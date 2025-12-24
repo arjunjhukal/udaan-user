@@ -26,10 +26,10 @@ export default function CourseStatus({ status }: { status: CourseTypeProps }) {
 
     return (
         <Typography
-            className='text-center py-1! px-2! rounded-md! text-xs! absolute! top-1.5 left-1.5 font-medium! capitalize'
+            className="text-center py-1! px-2! rounded-md! text-xs! absolute! top-1.5 left-1.5 font-medium! capitalize!"
             sx={getStyles()}
         >
-            {status}
+            {status.charAt(0).toUpperCase() + status.slice(1)}
         </Typography>
     );
 }
