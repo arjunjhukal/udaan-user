@@ -1,6 +1,5 @@
 import { Box, Divider, Typography, useTheme } from "@mui/material";
-import { useNavigate, useParams } from "react-router-dom";
-import { useAppDispatch } from "../../../store/hook";
+import { useParams } from "react-router-dom";
 import type { TestProps } from "../../../types/question";
 import { formatDateCustom } from "../../../utils/dateFormat";
 import { getStatus } from "../../../utils/getStatus";
@@ -8,9 +7,6 @@ import TestActionButton from "./TestActionButton";
 
 export default function TestCard({ test, havePurchased }: { test: TestProps; havePurchased: boolean }) {
   const theme = useTheme();
-  const navigate = useNavigate();
-  const dispatch = useAppDispatch();
-
   const status = getStatus(test?.start_datetime, test?.end_datetime);
   const { id } = useParams();
   return (
