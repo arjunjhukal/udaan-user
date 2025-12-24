@@ -39,7 +39,7 @@ export default function CourseCard({ course }: { course: CourseProps }) {
             <Box className="course__image " sx={{
                 background: theme.palette.primary.contrastText
             }}>
-                <img src={course.thumbnail_url || "/logo.svg"} alt={course.name} className='w-full h-full object-cover aspect-347/128' />
+                <img src={course.thumbnail_url || "/fallback.png"} alt={course.name} className='w-full h-full object-cover aspect-347/128' />
             </Box>
             <Box className="course__content h-full p-3  flex flex-col gap-2 justify-between" sx={{
                 background: theme.palette.gray.gray1
