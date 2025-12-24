@@ -19,14 +19,13 @@ export default function SinlgeCourseOverview({ data }: Props) {
             </div> : ""}
 
             {data?.teachers.length ? <div >
-                <Typography className="mb-4!">Instructors</Typography>
+                <Typography className="my-4!">Instructors</Typography>
                 <div className="grid gap-4 md:gap-6 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5">
                     {
                         data?.teachers.length ? data?.teachers.map((teacher) => (
                             <InstructorCard key={teacher.id} teacher={teacher} />
                         )) : ""
                     }
-
                 </div>
             </div> : ""}
         </>

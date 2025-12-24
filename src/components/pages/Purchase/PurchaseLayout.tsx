@@ -2,7 +2,7 @@ import { Button } from '@mui/material';
 import { useFormik } from 'formik';
 import { ArrowLeft } from 'iconsax-reactjs';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useGetCourseByIdQuery, usePurchaseCourseWithEsewaQuery } from "../../../services/courseApi";
+import { useGetCourseByIdQuery, usePurchaseCourseWithEsewaQuery, usePurchaseWithKhaltiMutation } from "../../../services/courseApi";
 import { showToast } from '../../../slice/toastSlice';
 import { useAppDispatch } from '../../../store/hook';
 import type { PaymentOption, PurchaseFormValues } from "../../../types/purchase";
@@ -44,6 +44,7 @@ export default function PurchaseLayout() {
 
     const { data } = useGetCourseByIdQuery({ id: Number(id) }, { skip: !id });
     const { data: coursePurchaseData, isLoading } = usePurchaseCourseWithEsewaQuery({ id: Number(id) }, { skip: !id });
+    const [payViaKhalti, { isLoading: isKhaltiLoading }] = usePurchaseWithKhaltiMutation();
 
     const price = Number(data?.data?.sale_price) || 0;
     const vat = price * 0.13;
@@ -64,7 +65,6 @@ export default function PurchaseLayout() {
                 if (values.paymentOption === "esewa" && !isLoading && coursePurchaseData) {
                     const paymentData = coursePurchaseData?.data;
 
-                    // eSewa requires specific field names in signed_field_names
                     const esewaParams = {
                         amount: paymentData?.amount,
                         tax_amount: paymentData?.tax_amount,
@@ -78,15 +78,19 @@ export default function PurchaseLayout() {
                         signed_field_names: "total_amount,transaction_uuid,product_code",
                         signature: paymentData?.signature,
                     };
-
-
                     submitEsewaForm(ESEWA_CONFIG.PAYMENT_URL, esewaParams);
                 } else if (values.paymentOption === "khalti") {
-                    dispatch(showToast({
-                        message: "Payment initiated successfully.",
-                        severity: "success"
-                    }));
+                    const response = await payViaKhalti({ id: Number(id), type: values.paymentOption, amount: total }).unwrap();
+                    const paymentUrl = response?.data?.payment_url;
+                    if (paymentUrl) {
+                        window.location.replace(paymentUrl); // replaces current page
+                    }
+                    // dispatch(showToast({
+                    //     message: "Payment initiated successfully.",
+                    //     severity: "success"
+                    // }));
                 }
+
             } catch (e: any) {
                 console.error("Payment Error:", e);
                 dispatch(showToast({

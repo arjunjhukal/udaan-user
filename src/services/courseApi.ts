@@ -121,6 +121,20 @@ export const courseApi = createApi({
             }),
             providesTags: (_result, _error, { id }) => [{ type: "Course" as const, id }],
         }),
+        purchaseWithKhalti: builder.mutation<GlobalResponse & { data: { payment_url: string; pidx: string; order_id: string } }, { id: number, type: string, amount: number }>({
+            query: ({ id, type, amount }) => ({
+                url: `/course/${id}/payment/khalti`,
+                method: "POST",
+                body: {
+                    type,
+                    amount
+                }
+            }),
+            invalidatesTags: (_result, _error, { id }) => [
+                { type: "Course" as const, id },
+                { type: "Course" as const, id: "LIST" },
+            ],
+        }),
         getUserPurchasedCourse: builder.query<CourseList, QueryParams>({
             query: ({ pageIndex, pageSize, search, }) => {
                 const queryString = buildQueryParams({
@@ -198,5 +212,6 @@ export const {
     useGetSingleLiveClassQuery,
     useGetMeetingSignatureMutation,
     usePurchaseCourseWithEsewaQuery,
-    useLazyPurchaseCourseWithEsewaQuery
+    usePurchaseWithKhaltiMutation
+
 } = courseApi;
