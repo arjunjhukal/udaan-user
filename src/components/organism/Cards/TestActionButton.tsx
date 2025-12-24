@@ -99,7 +99,9 @@ const TestActionButton = ({ test, status, havePurchased, id }: any) => {
         );
     }
 
-    return null; // fallback
+    return <Button variant="contained" color="primary" fullWidth onClick={handleStartOrRetake}>
+        Start Test
+    </Button>;
 };
 
 export default TestActionButton;
