@@ -32,6 +32,7 @@ import ReviewTestRoot from "../components/pages/TestManagement/reviewTest";
 import ReviewSubjectTestRoot from "../components/pages/TestManagement/reviewTest/subjective";
 import SingleSubjectiveTest from "../components/pages/TestManagement/singleSubjectiveTest";
 import SingleTestRoot from "../components/pages/TestManagement/singleTest";
+import MyAccount from "../components/pages/UserManagement/MyAccount";
 import { PATH } from "./PATH";
 import Private from "./Private";
 
@@ -137,12 +138,15 @@ const router = createBrowserRouter([
         ]
       },
       {
-
         element: <AudiosRoot />,
         children: [
           { path: PATH.AUDIOS.ROOT, element: <AllAudios /> }
         ]
       },
+      {
+        path: PATH.USER.MY_ACCOUNT.ROOT,
+        element: <MyAccount />
+      }
     ],
   },
   {

@@ -88,4 +88,9 @@ export const PATH = {
     MY_COURSE: {
         ROOT: "/my-course"
     },
+    USER: {
+        MY_ACCOUNT: {
+            ROOT: "/my-account"
+        }
+    }
 };
