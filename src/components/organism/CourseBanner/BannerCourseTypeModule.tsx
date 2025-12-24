@@ -29,11 +29,11 @@ export default function BannerCourseTypeModule({ courseType, courseExpiry, cours
 
     const getFreeTrialLabel = () => {
         if (!purchaseStatus?.has_taken_freetrial) {
-            return "Free Trial"; // not taken yet
+            return "Free Trial"; 
         }
 
         if (purchaseStatus?.has_taken_freetrial && purchaseStatus?.is_free_trial_valid) {
-            return "Free Trial Ongoing"; // taken + valid
+            return "Free Trial Ongoing";
         }
 
         return "Free Trial Already Taken"; // taken + not valid
@@ -83,7 +83,7 @@ export default function BannerCourseTypeModule({ courseType, courseExpiry, cours
                         open: true
                     })
                 )}>Purchase Now</Button>}
-                <Button variant="contained" fullWidth className={`white__btn ${!purchaseStatus?.is_free_trial_valid ? "opacity-60 pointer-events-none" : ""}`} disabled={!purchaseStatus?.is_free_trial_valid}
+                <Button variant="contained" fullWidth className={`white__btn ${!purchaseStatus?.is_free_trial_valid ? "opacity-60 pointer-events-none" : ""}`} disabled={!purchaseStatus?.is_free_trial_valid && purchaseStatus?.has_taken_freetrial}
                     onClick={async () => {
                         try {
                             const response = await purchaseCourse({
