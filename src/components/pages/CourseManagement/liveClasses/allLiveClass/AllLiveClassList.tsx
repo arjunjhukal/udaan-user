@@ -196,7 +196,7 @@ export default function AlltestList() {
             >
               <div className="flex flex-col gap-4 md:grid grid-cols-2 xl:grid-cols-3 lg:gap-6">
                 {allTest.map((test) => (
-                  <LiveClassCard key={test.id} data={test} />
+                  <LiveClassCard key={test.id} data={test} courseId={Number(selectedCourseId)}/>
                 ))}
               </div>
             </InfiniteScroll>
