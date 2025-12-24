@@ -5,7 +5,7 @@ import { formatDateCustom } from "../../../utils/dateFormat";
 import { getStatus } from "../../../utils/getStatus";
 import TestActionButton from "./TestActionButton";
 
-export default function TestCard({ test, havePurchased }: { test: TestProps; havePurchased: boolean }) {
+export default function TestCard({ test, havePurchased, courseId }: { test: TestProps; havePurchased: boolean; courseId?: number }) {
   const theme = useTheme();
   const status = getStatus(test?.start_datetime, test?.end_datetime);
   const { id } = useParams();
@@ -109,7 +109,7 @@ export default function TestCard({ test, havePurchased }: { test: TestProps; hav
           test={test}
           status={status}
           havePurchased={havePurchased}
-          id={id}
+          id={courseId ? courseId : id}
         />
 
         {/* {

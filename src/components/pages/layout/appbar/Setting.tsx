@@ -138,7 +138,7 @@ export default function SettingMenu() {
                                     </ListItem>
 
                                     {/* Settings Redirect */}
-                                    <ListItem className="menu__item action__item">
+                                    {/* <ListItem className="menu__item action__item">
                                         <ListItemButton
                                             sx={{ m: 0, border: "none" }}
                                             onClick={() => handleMenuClick(handleSettingsRedirect)}
@@ -152,7 +152,7 @@ export default function SettingMenu() {
                                                 }
                                             />
                                         </ListItemButton>
-                                    </ListItem>
+                                    </ListItem> */}
                                 </List>
                             </ClickAwayListener>
                         </Paper>

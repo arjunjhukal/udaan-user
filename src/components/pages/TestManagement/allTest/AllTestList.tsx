@@ -179,6 +179,7 @@ export default function AlltestList() {
                                         test={test}
                                         key={test.id}
                                         havePurchased={true}
+                                        courseId={Number(selectedCourseId)}
                                     />
                                 ))}
                             </div>

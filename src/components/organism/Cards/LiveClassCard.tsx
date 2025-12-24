@@ -8,7 +8,7 @@ import { getTime } from "../../../utils/formatTime";
 import { getStatus } from "../../../utils/getStatus";
 import ZoomMeetingModal from "./ZoomMeetingModal";
 
-export default function LiveClassCard({ data }: { data: LiveClassProps }) {
+export default function LiveClassCard({ data, courseId }: { data: LiveClassProps; courseId?: number; }) {
     const theme = useTheme();
     const { id } = useParams();
     const navigate = useNavigate();
@@ -17,10 +17,7 @@ export default function LiveClassCard({ data }: { data: LiveClassProps }) {
     const status = getStatus(data.start_time, data.end_time);
 
     const handleJoinClass = () => {
-        // if (status === "ongoing") {
-        //     setIsZoomModalOpen(true);
-        // }
-        navigate(PATH.COURSE_MANAGEMENT.COURSES.JOIN_LIVE.ROOT(Number(id), Number(data?.id)))
+        navigate(PATH.COURSE_MANAGEMENT.COURSES.JOIN_LIVE.ROOT(Number(courseId ? courseId : id), Number(data?.id)))
     };
     return (
         <>

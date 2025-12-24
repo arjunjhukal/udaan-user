@@ -4,6 +4,7 @@ export interface LiveClassProps {
     id: number;
     name: string;
     account_id: number;
+    course_id: number;
     agenda: string;
     description: string;
     zoom_uuid: string;

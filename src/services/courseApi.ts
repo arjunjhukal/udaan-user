@@ -88,9 +88,9 @@ export const courseApi = createApi({
             }),
             providesTags: (_result, _error, { id }) => [{ type: "Course" as const, id }],
         }),
-        getCourseLiveClass: builder.query<LiveClassList, QueryParams & { id: number }>({
-            query: ({ id, pageIndex, pageSize, search }) => ({
-                url: `/course/${id}/live?${buildQueryParams({ page: pageIndex, page_size: pageSize, search })}`,
+        getCourseLiveClass: builder.query<LiveClassList, QueryParams & { id: number, type: "ongoing" | "upcoming" }>({
+            query: ({ id, pageIndex, pageSize, search, type }) => ({
+                url: `/course/${id}/live?${buildQueryParams({ page: pageIndex, page_size: pageSize, search: search, status: type })}`,
                 method: "GET",
             }),
             providesTags: (_result, _error, { id }) => [{ type: "Course" as const, id }],
