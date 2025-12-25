@@ -13,6 +13,7 @@ import Loading from "./Loading.tsx";
 import GlobalRoutes from "./routes/Routes.tsx";
 import { store } from "./store/store.ts";
 import UdaanThemeProvider from "./ThemeProvider.tsx";
+import ScreenProtection from "./ScreenProtection.tsx";
 i18n
   .use(HttpApi)
   .use(LanguageDetector)
@@ -40,13 +41,13 @@ createRoot(document.getElementById("root")!).render(
       <I18nextProvider i18n={i18n}>
         <Suspense fallback={<Loading />}>
           <UdaanThemeProvider>
-            {/* <ScreenProtection> */}
+            <ScreenProtection>
             <GlobalRoutes />
             <Toast />
             <SessionExpiredPopup />
             <ReadingDialog />
 
-            {/* </ScreenProtection> */}
+            </ScreenProtection>
           </UdaanThemeProvider>
         </Suspense>
       </I18nextProvider>
