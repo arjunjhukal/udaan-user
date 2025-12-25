@@ -55,8 +55,9 @@ export interface TestProps {
     no_of_students?: number;
     total_questions?: number;
     has_taken_test?: boolean;
-    is_scheduled?:boolean;
-    is_graded?:boolean;
+    is_scheduled?: boolean;
+    is_graded?: boolean;
+    has_expired?: boolean;
 }
 
 

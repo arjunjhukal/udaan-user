@@ -24,8 +24,8 @@ export const testApi = createApi({
         }),
         uploadSubjectiveAnswers: builder.mutation<GlobalResponse & {
             data: {
-                media_id: number;
-                media_url: string
+                id: number;
+                url: string
             }[]
         }, { courseId: number; testId: number, questionId: number, body: FormData }>({
             query: ({ courseId, testId, questionId, body }) => ({
@@ -47,8 +47,8 @@ export const testApi = createApi({
         }),
         deleteSubjectiveAnswers: builder.mutation<GlobalResponse & {
             data: {
-                media_id: number;
-                media_url: string
+                id: number;
+                url: string
             }[]
         }, { courseId: number; testId: number, questionId: number, mediaId: number }>({
             query: ({ courseId, testId, questionId, mediaId }) => ({

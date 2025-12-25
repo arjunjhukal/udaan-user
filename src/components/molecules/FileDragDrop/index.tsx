@@ -15,7 +15,7 @@ import { useAppDispatch } from "../../../store/hook";
 interface FileDragDropProps {
     onFileChange: (files: File[]) => void;
     onFileRemoval: (id: number) => void;
-    initialFiles?: { media_id: number; media_url: string }[];
+    initialFiles?: { id: number; url: string }[];
     error?: boolean;
     helperText?: string;
     maxSize?: number;
@@ -117,11 +117,11 @@ export default function FileDragDrop({
                 <Stack gap={1} mt={2}>
                     {initialFiles.map((item) => (
                         <Box
-                            key={item.media_id}
+                            key={item.id}
                             sx={{ position: "relative", width: 80 }}
                         >
                             <img
-                                src={item.media_url}
+                                src={item.url}
                                 style={{
                                     width: 80,
                                     height: 80,
@@ -134,7 +134,7 @@ export default function FileDragDrop({
                                 size="small"
                                 onClick={(e) => {
                                     e.stopPropagation();
-                                    onFileRemoval(item.media_id);
+                                    onFileRemoval(item.id);
                                 }}
                                 sx={{
                                     position: "absolute",

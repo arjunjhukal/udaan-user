@@ -1,10 +1,12 @@
-import { Box, Button } from "@mui/material";
+import { Button, Stack } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { PATH } from "../../../routes/PATH";
 import { setPurchase } from "../../../slice/purchaseSlice";
+import type { TestProps } from "../../../types/question";
+import { formatDateTime } from "../../../utils/dateFormat";
 
-const TestActionButton = ({ test, status, havePurchased, id }: any) => {
+const TestActionButton = ({ test, havePurchased, id }: { test: TestProps, status?: any; havePurchased: boolean; id: number }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -43,60 +45,49 @@ const TestActionButton = ({ test, status, havePurchased, id }: any) => {
         navigate(path);
     };
 
-    if (!havePurchased) {
-        return (
-            <Button variant="contained" color="primary" fullWidth onClick={handleStartOrRetake}>
-                Purchase Test
-            </Button>
-        );
-    }
 
-    if (test.has_expired || status === "ended") {
-        if (test.has_taken_test && test.is_graded) {
+    if (test.has_taken_test) {
+        if (test.is_scheduled) {
             return (
-                <Button variant="contained" color="primary" fullWidth onClick={handleViewResult}>
-                    View Result
+                <Button variant="outlined" color="primary" fullWidth onClick={handleViewResult}>
+                    {test.is_graded ? "View Result" : "Result Pending"}
                 </Button>
-            );
-        } else {
+            )
+        }
+        else {
             return (
-                <Button variant="contained" disabled fullWidth>
-                    Test Ended
-                </Button>
-            );
+                <Stack flexDirection={"column"} gap={1}>
+                    <Button variant="contained" color="primary" fullWidth onClick={handleStartOrRetake}>
+                        Retake Test
+                    </Button>
+                    <Button variant="outlined" color="primary" fullWidth onClick={handleViewResult}>
+                        View Result
+                    </Button>
+                </Stack>
+            )
         }
     }
 
-    // Case: Not scheduled but graded → show both Retake and View Result
-    if (!test.is_scheduled && test.is_graded) {
-        return (
-            <Box display="flex flex-col gap-2" gap={2}>
-                <Button variant="outlined" color="primary" fullWidth onClick={handleStartOrRetake}>
-                    Retake Test
-                </Button>
-                <Button variant="contained" color="primary" fullWidth onClick={handleViewResult}>
-                    View Result
-                </Button>
-            </Box>
-        );
-    }
 
-    // Taken & not graded → Retake Test
-    if (test.has_taken_test && !test.is_graded) {
+    if (test.has_expired && !test.has_taken_test) {
         return (
-            <Button variant="outlined" color="primary" fullWidth onClick={handleStartOrRetake}>
-                View Result
+            <Button variant="contained" color="primary" disabled fullWidth >
+                Test Expired
             </Button>
-        );
+        )
     }
+    if (test.is_scheduled) {
+        const now = Date.now();
+        const startTime = new Date(test.start_datetime).getTime();
+        const hasStarted = now >= startTime;
 
-    // Ongoing and scheduled → Start Test
-    if (status === "ongoing" && test.is_scheduled) {
-        return (
-            <Button variant="contained" color="primary" fullWidth onClick={handleStartOrRetake}>
-                Start Test
-            </Button>
-        );
+        if (!hasStarted) {
+            return (
+                <Button variant="contained" color="primary" disabled fullWidth>
+                    Test Starts at {formatDateTime(test.start_datetime)}
+                </Button>
+            );
+        }
     }
 
     return <Button variant="contained" color="primary" fullWidth onClick={handleStartOrRetake}>
