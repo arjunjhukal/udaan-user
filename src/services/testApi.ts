@@ -36,8 +36,8 @@ export const testApi = createApi({
         }),
         getSubjectiveAnswer: builder.query<GlobalResponse & {
             data: {
-                media_id: number;
-                media_url: string
+                id: number;
+                url: string
             }[]
         }, { courseId: number; testId: number, questionId: number }>({
             query: ({ courseId, testId, questionId }) => ({

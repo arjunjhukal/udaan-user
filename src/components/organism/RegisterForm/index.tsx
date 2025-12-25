@@ -64,7 +64,7 @@ export default function RegisterForm() {
                     error={formik.touched.name && Boolean(formik.errors.name)}
                 />
                 {formik.touched.name && formik.errors.name && (
-                    <FormHelperText >
+                    <FormHelperText error={true}>
                         {formik.errors.name}
                     </FormHelperText>
                 )}
@@ -83,7 +83,7 @@ export default function RegisterForm() {
                     error={formik.touched.email && Boolean(formik.errors.email)}
                 />
                 {formik.touched.email && formik.errors.email && (
-                    <FormHelperText >
+                    <FormHelperText error={true}>
                         {formik.errors.email}
                     </FormHelperText>
                 )}
@@ -102,7 +102,7 @@ export default function RegisterForm() {
                     error={formik.touched.phone && Boolean(formik.errors.phone)}
                 />
                 {formik.touched.phone && formik.errors.phone && (
-                    <FormHelperText >
+                    <FormHelperText error={true}>
                         {formik.errors.phone}
                     </FormHelperText>
                 )}
