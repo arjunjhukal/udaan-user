@@ -109,7 +109,7 @@ export default function TestCard({ test, havePurchased, courseId }: { test: Test
           test={test}
           status={status}
           havePurchased={havePurchased}
-          id={courseId ? courseId : id}
+          id={courseId ? Number(courseId) : Number(id)}
         />
 
         {/* {
