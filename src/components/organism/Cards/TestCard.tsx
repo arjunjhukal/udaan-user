@@ -112,74 +112,7 @@ export default function TestCard({ test, havePurchased, courseId }: { test: Test
           id={courseId ? Number(courseId) : Number(id)}
         />
 
-        {/* {
-          !test?.has_taken_test && status === "ended" ? <Button variant="contained" disabled fullWidth>Test Ended Already</Button> : ""
-        }
-        {
-          status === "ongoing" && !test?.is_graded && test?.is_scheduled && (
-            <Button
-              variant="contained"
-              color="primary"
-              fullWidth
-              onClick={() => {
-                if (havePurchased) {
-                  test?.test_type === "mcq"
-                    ? navigate(
-                      PATH.COURSE_MANAGEMENT.COURSES.VIEW_TEST?.ROOT({
-                        courseId: Number(id),
-                        testId: Number(test?.id),
-                      })
-                    )
-                    : navigate(
-                      PATH.COURSE_MANAGEMENT.COURSES.VIEW_TEST?.SUBJECTIVE_TEST?.ROOT({
-                        courseId: Number(id),
-                        testId: Number(test?.id),
-                      })
-                    );
-                } else {
-                  dispatch(
-                    setPurchase({
-                      courseId: Number(id),
-                      open: true,
-                    })
-                  );
-                }
-              }}
-            >
-              {test?.has_taken_test ? "Retake Test" : "Start Test"}
-            </Button>
-          )
-        }
 
-        {
-          test?.has_taken_test && havePurchased && (
-            <Button
-              variant="outlined"
-              color="primary"
-              fullWidth
-              sx={{ mt: 1 }}
-              onClick={() => {
-                if (test.test_type === "mcq") {
-                  navigate(
-                    PATH.COURSE_MANAGEMENT.COURSES.VIEW_TEST.REVIEW_TEST.ROOT({
-                      courseId: Number(id),
-                      testId: Number(test?.id),
-                    })
-                  );
-                } else {
-                  navigate(
-                    PATH.COURSE_MANAGEMENT.COURSES.VIEW_TEST.REVIEW_TEST.REVIEW_SUBJECTIVE_TEST.ROOT({
-                      courseId: Number(id),
-                      testId: Number(test?.id),
-                    })
-                  );
-                }
-              }}
-            >
-              {test?.is_graded ? "View Result" : "Result Pending"}
-            </Button>
-          )
-        } */}
       </div>
     </Box>
   );
