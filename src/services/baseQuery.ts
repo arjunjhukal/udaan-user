@@ -26,6 +26,7 @@ const baseQueryConfig = fetchBaseQuery({
 		headers.set("X-Device-Id", getDeviceId());
 		headers.set("X-Device-Type", "web");
 
+		console.log(accessToken);
 		if (accessToken) {
 			headers.set("Authorization", `Bearer ${accessToken?.access_token}`);
 		}
