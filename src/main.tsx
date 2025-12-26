@@ -11,9 +11,9 @@ import SessionExpiredPopup from "./components/organism/Dialog/SessonExpired.tsx"
 import Toast from "./components/organism/Toast/index.tsx";
 import Loading from "./Loading.tsx";
 import GlobalRoutes from "./routes/Routes.tsx";
+import ScreenProtection from "./ScreenProtection.tsx";
 import { store } from "./store/store.ts";
 import UdaanThemeProvider from "./ThemeProvider.tsx";
-import ScreenProtection from "./ScreenProtection.tsx";
 i18n
   .use(HttpApi)
   .use(LanguageDetector)
@@ -42,11 +42,10 @@ createRoot(document.getElementById("root")!).render(
         <Suspense fallback={<Loading />}>
           <UdaanThemeProvider>
             <ScreenProtection>
-            <GlobalRoutes />
-            <Toast />
-            <SessionExpiredPopup />
-            <ReadingDialog />
-
+              <GlobalRoutes />
+              <Toast />
+              <SessionExpiredPopup />
+              <ReadingDialog />
             </ScreenProtection>
           </UdaanThemeProvider>
         </Suspense>
