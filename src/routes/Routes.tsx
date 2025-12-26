@@ -8,6 +8,7 @@ import CourseRoot from "../components/pages/CourseManagement/course";
 import AllCourses from "../components/pages/CourseManagement/course/allCourse";
 import SingleCourse from "../components/pages/CourseManagement/course/singleCourse";
 
+import AuthBridge from "../components/pages/auth/bridge";
 import SavedCourse from "../components/pages/CourseManagement/course/savedCourse";
 import SingleLiveClassRoot from "../components/pages/CourseManagement/course/singleLiveClass";
 import LiveClassRoot from "../components/pages/CourseManagement/liveClasses";
@@ -35,6 +36,7 @@ import SingleTestRoot from "../components/pages/TestManagement/singleTest";
 import MyAccount from "../components/pages/UserManagement/MyAccount";
 import { PATH } from "./PATH";
 import Private from "./Private";
+import RootLayout from "./RootLayout";
 
 const router = createBrowserRouter([
   {
@@ -59,6 +61,10 @@ const router = createBrowserRouter([
             path: PATH.AUTH.REGISTER.ROOT,
             element: <Register />,
           },
+          {
+            path: PATH.AUTH.BRIDGE.ROOT,
+            element: <AuthBridge />,
+          },
         ],
       },
     ],
@@ -69,14 +75,21 @@ const router = createBrowserRouter([
       {
         index: true,
         path: "/",
-        element: <App />,
+        element: <RootLayout>
+          <App />
+        </RootLayout>,
       },
       {
         path: PATH.DASHBOARD.ROOT,
-        element: <App />,
+        element: <RootLayout>
+          <App />
+        </RootLayout>,
       },
+      // COURSE INSIDE LAYOUT
       {
-        element: <CourseRoot />,
+        element: <RootLayout>
+          <CourseRoot />
+        </RootLayout>,
         children: [
           { path: PATH.COURSE_MANAGEMENT.COURSES.ROOT, element: <AllCourses /> },
           { path: PATH.COURSE_MANAGEMENT.COURSES.VIEW_COURSE.ROOT(), element: <SingleCourse /> },
@@ -84,19 +97,30 @@ const router = createBrowserRouter([
           { path: PATH.COURSE_MANAGEMENT.COURSES.VIEW_TEST.SUBJECTIVE_TEST.ROOT({}), element: <SingleSubjectiveTest /> },
           { path: PATH.COURSE_MANAGEMENT.COURSES.VIEW_TEST.REVIEW_TEST.ROOT({}), element: <ReviewTestRoot /> },
           { path: PATH.COURSE_MANAGEMENT.COURSES.VIEW_TEST.REVIEW_TEST.REVIEW_SUBJECTIVE_TEST.ROOT({}), element: <ReviewSubjectTestRoot /> },
-          { path: PATH.COURSE_MANAGEMENT.COURSES.JOIN_LIVE.ROOT(), element: <SingleLiveClassRoot /> },
           { path: PATH.COURSE_MANAGEMENT.COURSES.SAVED_COURSES.ROOT, element: <SavedCourse /> },
         ],
       },
+      // COURSE OUTSIDE LAYOUT
       {
-        element: <TestManagementRoot />,
+        element:
+          <CourseRoot />,
+        children: [
+          { path: PATH.COURSE_MANAGEMENT.COURSES.JOIN_LIVE.ROOT(), element: <SingleLiveClassRoot /> },
+        ],
+      },
+      {
+        element: <RootLayout>
+          <TestManagementRoot />
+        </RootLayout>,
         children: [
           { path: PATH.TEST.ROOT, element: <AllTestRoot /> },
 
         ]
       },
       {
-        element: <PurchaseRoot />,
+        element: <RootLayout>
+          <PurchaseRoot />
+        </RootLayout>,
         children: [
           { path: PATH.COURSE_MANAGEMENT.COURSES.PURCHASE.ROOT(), element: <PurchaseLayout /> },
           { path: PATH.COURSE_MANAGEMENT.COURSES.PURCHASE.SUCCESS.ROOT, element: <PaymentSuccessPage /> },
@@ -106,11 +130,15 @@ const router = createBrowserRouter([
       },
       {
         path: PATH.MY_COURSE.ROOT,
-        element: <MyCourseRoot />,
+        element: <RootLayout>
+          <MyCourseRoot />
+        </RootLayout>,
       },
       {
 
-        element: <LiveClassRoot />,
+        element: <RootLayout>
+          <LiveClassRoot />
+        </RootLayout>,
         children: [{
           path: PATH.LIVE_CLASSES.ROOT,
           element: <AllLiveClass />
@@ -118,34 +146,44 @@ const router = createBrowserRouter([
       },
       {
 
-        element: <NotesRoot />,
+        element: <RootLayout>
+          <NotesRoot />
+        </RootLayout>,
         children: [
           { path: PATH.NOTES.ROOT, element: <AllNotes /> }
         ]
       },
       {
 
-        element: <TestManagementRoot />,
+        element: <RootLayout>
+          <TestManagementRoot />
+        </RootLayout>,
         children: [
           { path: PATH.TEST.ROOT, element: <AllTestRoot /> }
         ]
       },
       {
 
-        element: <VideosRoot />,
+        element: <RootLayout>
+          <VideosRoot />
+        </RootLayout>,
         children: [
           { path: PATH.VIDEOS.ROOT, element: <AllVideos /> }
         ]
       },
       {
-        element: <AudiosRoot />,
+        element: <RootLayout>
+          <AudiosRoot />
+        </RootLayout>,
         children: [
           { path: PATH.AUDIOS.ROOT, element: <AllAudios /> }
         ]
       },
       {
         path: PATH.USER.MY_ACCOUNT.ROOT,
-        element: <MyAccount />
+        element: <RootLayout>
+          <MyAccount />
+        </RootLayout>
       }
     ],
   },

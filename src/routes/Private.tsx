@@ -1,6 +1,5 @@
 import React from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
-import ResponsiveDrawer from '../components/pages/layout/sidebar';
 import { useAppSelector } from '../store/hook';
 import { PATH } from './PATH';
 
@@ -13,14 +12,8 @@ export default function Private() {
         }
     }, [user, navigate]);
 
-
     if (!user) return null;
     return (
-
-        <div className='udaan__root'>
-            <ResponsiveDrawer >
-                <Outlet />
-            </ResponsiveDrawer>
-        </div>
+        <Outlet />
     );
 }
