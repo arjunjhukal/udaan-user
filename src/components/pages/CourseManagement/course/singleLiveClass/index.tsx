@@ -352,7 +352,7 @@ export default function SingleLiveClassRoot() {
     // Ready to Join: Render the IFrame (Final state for successful launch)
     return (
         <>
-            <div className="flex items-end justify-between">
+            <div className=" items-end justify-between py-4 hidden lg:flex lg:px-8">
                 <div className="title__wrapper">
                     <Typography variant="h4" fontWeight={600}>{liveClassData?.data?.name}</Typography>
                     {liveClassData?.data?.description ? (<>
@@ -368,13 +368,16 @@ export default function SingleLiveClassRoot() {
                     Fullscreen Zoom
                 </Button>
             </div>
-            <Divider className="mt-2! mb-4!" />
+            <Divider className="mt-2! hidden lg:block" />
 
             <Box
                 ref={zoomContainerRef}
                 sx={{
                     width: "100%",
-                    height: "100vh",
+                    height: {
+                        xs: "100vh",
+                        lg: "calc(100vh - 92px)"
+                    },
                     bgcolor: "black",
                     overflow: "hidden",
                     position: "relative",

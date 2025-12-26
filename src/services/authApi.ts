@@ -1,3 +1,4 @@
+
 import { createApi } from "@reduxjs/toolkit/query/react";
 import type {
 	GlobalResponse,
@@ -32,7 +33,16 @@ export const authApi = createApi({
 				body: { phone },
 			}),
 		}),
+		authBridge: builder.mutation<UserResponse, { one_time_token: string }>({
+			query: ({ one_time_token }) => ({
+				url: `/auth/bridge`,
+				method: "POST",
+				body: {
+					bridge_token: one_time_token
+				}
+			})
+		})
 	}),
 });
 
-export const { useRegisterMutation, useVerifyOtpMutation, useResendOtpMutation } = authApi;
+export const { useRegisterMutation, useVerifyOtpMutation, useResendOtpMutation, useAuthBridgeMutation } = authApi;

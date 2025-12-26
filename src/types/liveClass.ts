@@ -29,12 +29,12 @@ export interface LiveClassProps {
     is_enable_recording: 0 | 1;
     auto_recording: "cloud" | "local" | "none";
     registration_type: number;
-    created_at: string; // ISO 8601 datetime string with microseconds
+    created_at: string;
     active_students: number;
     courses: number[];
-    start_time: string; // ISO 8601 datetime string
-    end_time: string; // ISO 8601 datetime string
-    status: "ongoing" | "scheduled" | "completed" | "cancelled"; // Inferred possible statuses
+    start_time: string;
+    end_time: string;
+    status: "ongoing" | "upcoming" | "ended";
 };
 export interface LiveClassList {
     data: {

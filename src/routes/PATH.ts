@@ -12,6 +12,9 @@ export const PATH = {
         FORGOT_OTP: {
             ROOT: "/auth/forgot-otp",
         },
+        BRIDGE: {
+            ROOT: "/auth/bridge"
+        }
     },
     DASHBOARD: {
         ROOT: "/dashboard",

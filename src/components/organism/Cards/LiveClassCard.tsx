@@ -1,11 +1,10 @@
 import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
-import { Clock, Devices, NotificationBing } from "iconsax-reactjs";
+import { Clock, Devices } from "iconsax-reactjs";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { PATH } from "../../../routes/PATH";
 import type { LiveClassProps } from "../../../types/liveClass";
 import { getTime } from "../../../utils/formatTime";
-import { getStatus } from "../../../utils/getStatus";
 import ZoomMeetingModal from "./ZoomMeetingModal";
 
 export default function LiveClassCard({ data, courseId }: { data: LiveClassProps; courseId?: number; }) {
@@ -14,7 +13,24 @@ export default function LiveClassCard({ data, courseId }: { data: LiveClassProps
     const navigate = useNavigate();
     const [isZoomModalOpen, setIsZoomModalOpen] = useState(false);
 
-    const status = getStatus(data.start_time, data.end_time);
+    const canJoinLive = () => {
+        if (!data.start_time) return false;
+
+        const startTime = new Date(data.start_time).getTime();
+        const now = Date.now();
+
+        return now >= startTime - 2 * 60 * 1000;
+    };
+
+
+    console.log({
+        nowLocal: new Date().toString(),
+        startLocal: new Date(data.start_time).toString(),
+        canJoin: canJoinLive(),
+    });
+
+    const startTimeLabel = getTime(data.start_time);
+
 
     const handleJoinClass = () => {
         navigate(PATH.COURSE_MANAGEMENT.COURSES.JOIN_LIVE.ROOT(Number(courseId ? courseId : id), Number(data?.id)))
@@ -58,12 +74,12 @@ export default function LiveClassCard({ data, courseId }: { data: LiveClassProps
                         </div>
                         <Typography
                             color="text.middle"
-                            className={` status ${status}`}
+                            className={` status ${data?.status}`}
                             variant="subtitle2"
                             p={"2px 8px"}
                             borderRadius={0.5}
                         >
-                            {status}
+                            {data?.status}
                         </Typography>
                     </Box>
                 </div>
@@ -83,31 +99,69 @@ export default function LiveClassCard({ data, courseId }: { data: LiveClassProps
                     </Typography>
                 </Box>
 
-                <Button
-                    variant={status === "upcoming" ? "text" : "contained"}
+                {/* <Button
+                    variant={data?.status === "upcoming" ? "text" : "contained"}
                     size="small"
-                    color={status === "upcoming" ? "inherit" : "primary"}
+                    color={data?.status === "upcoming" ? "inherit" : "primary"}
                     className="mt-4"
                     fullWidth
                     sx={{
-                        backgroundColor: status === "upcoming" ? "button.light" : "button.main",
+                        backgroundColor: data?.status === "upcoming" ? "button.light" : "button.main",
                         fontWeight: 500,
                         fontSize: "16px",
                     }}
                     startIcon={
-                        status === "upcoming" ? (
+                        data?.status === "upcoming" ? (
                             <NotificationBing size={24} />
                         ) : null
                     }
-                    onClick={status === "ongoing" ? handleJoinClass : () => { }}
-                    disabled={status === "ended"}
+                    onClick={data?.status === "ongoing" ? handleJoinClass : () => { }}
+                    disabled={data?.status === "ended"}
 
                 >
-                    {status === "upcoming" && "Remind Me"}
-                    {status === "ongoing" && "Join Live"}
-                    {status === "ended" && "Class Already Ended"}
+                    {data?.status === "upcoming" && "Remind Me"}
+                    {data?.status === "ongoing" && "Join Live"}
+                    {data?.status === "ended" && "Class Already Ended"}
 
+                </Button> */}
+                <Button
+                    variant={data.status === "ongoing" && canJoinLive() ? "contained" : "text"}
+                    size="small"
+                    color={data.status === "ongoing" && canJoinLive() ? "primary" : "inherit"}
+                    className="mt-4"
+                    fullWidth
+                    sx={{
+                        backgroundColor:
+                            data.status === "ongoing" && canJoinLive()
+                                ? "button.main"
+                                : "button.light",
+                        fontWeight: 500,
+                        fontSize: "16px",
+                    }}
+                    startIcon={
+                        data.status === "upcoming" ? <Clock size={20} /> : null
+                    }
+                    onClick={
+                        data.status === "ongoing" && canJoinLive()
+                            ? handleJoinClass
+                            : undefined
+                    }
+                    disabled={
+                        data.status === "ended" ||
+                        (data.status === "ongoing" && !canJoinLive())
+                    }
+                >
+                    {data.status === "upcoming" &&
+                        `Class starts at ${startTimeLabel}`}
+
+                    {data.status === "ongoing" &&
+                        (canJoinLive()
+                            ? "Join Live"
+                            : `Join available at ${startTimeLabel}`)}
+
+                    {data.status === "ended" && "Class Already Ended"}
                 </Button>
+
             </Box>
             <ZoomMeetingModal
                 open={isZoomModalOpen}
