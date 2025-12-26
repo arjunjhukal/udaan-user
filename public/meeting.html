@@ -55,7 +55,7 @@
             ZoomMtg.init({
                 leaveUrl: meetingConfig.leaveUrl,
                 isSupportAV: true,
-                showMeetingHeader: false,
+                showMeetingHeader: true,
                 disableJoinAudio: false,
                 disableRecord: true,
                 // isSupportChat: false,
@@ -68,16 +68,27 @@
                         sdkKey: meetingConfig.key,
                         passWord: meetingConfig.pwd,
                         success: function (res) {
+                            ZoomMtg.mute({
+                                mute: true
+                            });
                             const style = document.createElement('style');
+
                             style.innerHTML = `
                                 .meeting-info-container__wrapper,
                                 .meeting-info-container__full-screen,
                                 .footer__panel, 
-                                .header-bar__container,
-                                .meeting-header,
+                                .header-bar__container,                               
                                 #participant,
                                 .notification-message-wrap__layer,
                                 #notificationManager {
+                                    display: none !important;
+                                }
+
+                                .join-audio-container,
+                                .audio-control-item,
+                                .mute-button,
+                                button[aria-label^="mute"],
+                                button[aria-label^="unmute"] {
                                     display: none !important;
                                 }
 
