@@ -13,7 +13,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { PATH } from "../../../../../routes/PATH";
 import { useGetMeetingSignatureMutation, useGetSingleLiveClassQuery } from "../../../../../services/courseApi";
 import { useAppSelector } from "../../../../../store/hook";
-import { renderHtml } from "../../../../../utils/renderHtml";
 import WaterMark from "../../../../../Watermark";
 
 type MeetingStatus =
@@ -352,8 +351,8 @@ export default function SingleLiveClassRoot() {
     // Ready to Join: Render the IFrame (Final state for successful launch)
     return (
         <>
-            <div className="flex items-end justify-between">
-                <div className="title__wrapper">
+            <div className="flex items-end justify-between py-4 hidden lg:flex">
+                {/* <div className="title__wrapper">
                     <Typography variant="h4" fontWeight={600}>{liveClassData?.data?.name}</Typography>
                     {liveClassData?.data?.description ? (<>
                         <Typography variant="h4" className="mb-4!" fontWeight={600}>Agenda</Typography>
@@ -363,12 +362,12 @@ export default function SingleLiveClassRoot() {
                         <Typography variant="h4" className="mb-4!" fontWeight={600}>More On {liveClassData?.data?.name}</Typography>
                         <Typography variant="subtitle2" color="text.middle">{renderHtml(liveClassData?.data?.description || "")}</Typography>
                     </>) : ""}
-                </div>
+                </div> */}
                 <Button variant="contained" onClick={handleFullscreen} startIcon={<Maximize2 />}>
                     Fullscreen Zoom
                 </Button>
             </div>
-            <Divider className="mt-2! mb-4!" />
+            <Divider className="mt-2! mb-4! hidden lg:block" />
 
             <Box
                 ref={zoomContainerRef}
