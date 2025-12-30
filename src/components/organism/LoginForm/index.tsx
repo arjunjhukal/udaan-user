@@ -8,6 +8,7 @@ import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { PATH } from "../../../routes/PATH";
+import { useValidateUserExistanceMutation } from "../../../services/authApi";
 import { showToast } from "../../../slice/toastSlice";
 import { useAppDispatch } from "../../../store/hook";
 
@@ -15,6 +16,7 @@ export default function LoginForm() {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 
+	const [validateUser] = useValidateUserExistanceMutation();
 
 	const validationSchema = Yup.object().shape({
 		phone: Yup.string().required("Phone Number is required"),
@@ -26,7 +28,10 @@ export default function LoginForm() {
 		validationSchema,
 		onSubmit: async (values) => {
 			try {
-				navigate(`${PATH.AUTH.VERIFY_OTP.ROOT}?phone=${values.phone}`);
+				const response = await validateUser({ data: values.phone }).unwrap();
+				if (response) {
+					navigate(`${PATH.AUTH.VERIFY_OTP.ROOT}?phone=${values.phone}`);
+				}
 			} catch (error: any) {
 				dispatch(
 					showToast({
