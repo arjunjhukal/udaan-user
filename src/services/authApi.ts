@@ -41,8 +41,21 @@ export const authApi = createApi({
 					bridge_token: one_time_token
 				}
 			})
+		}),
+		validateUserExistance: builder.mutation<GlobalResponse, { data: string }>({
+			query: (body) => ({
+				url: `/auth/has-user`,
+				method: "POST",
+				body
+			})
 		})
 	}),
 });
 
-export const { useRegisterMutation, useVerifyOtpMutation, useResendOtpMutation, useAuthBridgeMutation } = authApi;
+export const { 
+	useRegisterMutation, 
+	useVerifyOtpMutation, 
+	useResendOtpMutation, 
+	useAuthBridgeMutation ,
+	useValidateUserExistanceMutation
+} = authApi;
