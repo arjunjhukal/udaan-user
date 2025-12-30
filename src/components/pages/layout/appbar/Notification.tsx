@@ -142,7 +142,7 @@ export default function NotificationModal() {
                                         </Button>
                                     </Box>
 
-                                    <Divider className="lg:my-4!" />
+                                    <Divider className="lg:mt-4!" />
 
                                     {/* Scrollable Area */}
                                     <Box

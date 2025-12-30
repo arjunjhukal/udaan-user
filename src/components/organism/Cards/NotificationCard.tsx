@@ -41,10 +41,10 @@ const getNotificationIcon = (type: string) => {
 const formatTimeAgo = (date: string | number | Date) => {
     const diff = getTimeDifference(date);
 
-    if (diff.days > 0) return `${diff.days}d ago`;
-    if (diff.hours > 0) return `${diff.hours}h ago`;
-    if (diff.minutes > 0) return `${diff.minutes}m ago`;
-    return `${diff.seconds}s ago`;
+    if (diff.days > 0) return `${diff.days} Days ago`;
+    if (diff.hours > 0) return `${diff.hours} Hrs ago`;
+    if (diff.minutes > 0) return `${diff.minutes} Min ago`;
+    return `${diff.seconds} Sec ago`;
 };
 
 export default function NotificationCard({ data }: Props) {
@@ -98,7 +98,6 @@ export default function NotificationCard({ data }: Props) {
                     <Typography
                         variant="subtitle2"
                         color="text.middle"
-                        fontWeight={500}
                     >
                         {formatTimeAgo(data.sent_at)}
                     </Typography>
