@@ -24,7 +24,7 @@ export default function PrimaryMenu() {
   const isActive = (path: string) => location.pathname === path;
 
   return (
-    <Box sx={{ padding: "0 32px 32px", maxHeight: "calc(100vh - 162px)", overflow: "auto" }}>
+    <Box sx={{ padding: "0 32px 32px", maxHeight: "calc(100vh - 162px)", overflow: "auto" }} className="primary__menu">
       <div className="flex items-center gap-2 overflow-hidden mb-1">
         <Typography variant='caption' mb={1} sx={{
           color: theme.palette.text.light

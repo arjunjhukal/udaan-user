@@ -1,16 +1,13 @@
 import {
     Box,
-    Button,
-    ClickAwayListener,
     List,
     ListItem,
-    Paper,
-    Popper,
     Typography,
     useTheme
 } from "@mui/material";
-import { ArrowDown2 } from "iconsax-reactjs";
-import { useRef, useState } from "react";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick-theme.css";
+import "slick-carousel/slick/slick.css";
 
 interface TabOption<T> {
     label: string;
@@ -28,20 +25,74 @@ export default function TabController<T extends string | number>({
     currentActive,
     options = []
 }: TabControllerProps<T>) {
+    const settings = {
+        dots: false,
+        arrows: false,
+        infinite: false,
+        speed: 500,
+        mobileFirst: true,
+        slidesToShow: 3,
+        slidesToScroll: 2,
+        focusOnSelect: true,
+        variableWidth: true,
+        responsive: [
+            {
+                breakpoint: 768,
+                settings: {
+                    slidesToShow: 4,
+                }
+            },
+            {
+                breakpoint: 992,
+                settings: {
+                    slidesToShow: 5,
+                }
+            },
+            {
+                breakpoint: 1200,
+                settings: {
+                    slidesToShow: 6,
+                }
+            },
+            {
+                breakpoint: 1440,
+                settings: {
+                    slidesToShow: 7,
+                }
+            }
+        ]
+    };
+
 
     const theme = useTheme();
 
-    const anchorRef = useRef<HTMLButtonElement | null>(null);
-    const [open, setOpen] = useState(false);
 
-    const handleToggle = () => setOpen((prev) => !prev);
-    const handleClose = () => setOpen(false);
-
-    const activeLabel =
-        options.find((opt) => opt.value === currentActive)?.label || "";
 
     return (
         <>
+            <Box className="p-1! rounded-md"
+                sx={{
+                    background: theme.palette.tab.background,
+                    display: { xs: "block", lg: "none" }
+                }}>
+                <Slider {...settings}>
+                    {options.map((tab) => (
+                        <div key={tab.value}
+                            onClick={() => setActiveTab(tab.value)}
+                            className={
+                                currentActive === tab.value ? "active__tab__controller" : ""
+                            }>
+                            <Typography
+                                variant="subtitle2"
+                                color="text.middle"
+                                className="px-6 py-2 rounded-md cursor-pointer text-nowrap text-center"
+                            >
+                                {tab.label}
+                            </Typography>
+                        </div>
+                    ))}
+                </Slider>
+            </Box>
             {/* Desktop */}
             <List
                 sx={{
@@ -68,65 +119,6 @@ export default function TabController<T extends string | number>({
                     </ListItem>
                 ))}
             </List>
-
-            {/* Mobile */}
-            <Box sx={{ display: { xs: "block", lg: "none" } }}>
-                <Button
-                    ref={anchorRef}
-                    onClick={handleToggle}
-                    fullWidth
-                    sx={{ background: theme.palette.primary.main }}
-                    className="justify-between! py-4! px-4!"
-                >
-                    <Typography variant="subtitle2" color="primary.contrastText">
-                        {activeLabel}
-                    </Typography>
-                    <ArrowDown2 size={16} color={theme.palette.primary.contrastText} />
-                </Button>
-
-                <Popper
-                    open={open}
-                    anchorEl={anchorRef.current}
-                    placement="bottom-start"
-                    style={{ zIndex: 1200 }}
-                >
-                    <ClickAwayListener onClickAway={handleClose}>
-                        <Paper
-                            sx={{
-                                mt: 1,
-                                background: theme.palette.tab.background,
-                                borderRadius: 2,
-                                overflow: "hidden",
-                                minWidth: anchorRef.current?.offsetWidth,
-                            }}
-                        >
-                            {options.map((tab) => (
-                                <Box
-                                    key={tab.value}
-                                    onClick={() => {
-                                        setActiveTab(tab.value);
-                                        handleClose();
-                                    }}
-                                    sx={{
-                                        px: 2,
-                                        py: 2,
-                                        cursor: "pointer",
-                                        background:
-                                            currentActive === tab.value
-                                                ? theme.palette.action.hover
-                                                : "transparent",
-                                        "&:hover": { background: theme.palette.action.hover },
-                                    }}
-                                >
-                                    <Typography variant="subtitle2" color="text.middle">
-                                        {tab.label}
-                                    </Typography>
-                                </Box>
-                            ))}
-                        </Paper>
-                    </ClickAwayListener>
-                </Popper>
-            </Box>
         </>
     );
 }

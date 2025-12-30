@@ -407,7 +407,13 @@ const commonThemeOptions: ThemeOptions = {
             backgroundColor: theme.palette.error.main,
             color: theme.palette.primary.contrastText
           }
-        }
+        },
+        ".active__tab__controller": {
+          ".MuiTypography-root": {
+            background: theme.palette.primary.black,
+            color: theme.palette.primary.contrastText,
+          },
+        },
       }),
     },
     MuiStack: {
@@ -593,12 +599,7 @@ const commonThemeOptions: ThemeOptions = {
             },
           },
 
-          "&.active__tab__controller": {
-            ".MuiTypography-root": {
-              background: theme.palette.primary.black,
-              color: theme.palette.primary.contrastText,
-            },
-          },
+
         }),
       },
     },

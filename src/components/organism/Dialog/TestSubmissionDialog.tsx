@@ -15,9 +15,9 @@ export default function TestSubmissionDialog({ open, onSubmit, type, loading }: 
                 <div className="flex gap-8 flex-col">
                     <Box bgcolor={"primary.light"} width={64} height={64} className="rounded-full flex justify-center items-center">
                         {type === "timer" ? <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M27.6693 17.6667C27.6693 24.1067 22.4426 29.3333 16.0026 29.3333C9.5626 29.3333 4.33594 24.1067 4.33594 17.6667C4.33594 11.2267 9.5626 6 16.0026 6C22.4426 6 27.6693 11.2267 27.6693 17.6667Z" stroke="#303188" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                            <path d="M16 10.6667V17.3334" stroke="#848484" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                            <path d="M12 2.66675H20" stroke="#848484" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M27.6693 17.6667C27.6693 24.1067 22.4426 29.3333 16.0026 29.3333C9.5626 29.3333 4.33594 24.1067 4.33594 17.6667C4.33594 11.2267 9.5626 6 16.0026 6C22.4426 6 27.6693 11.2267 27.6693 17.6667Z" stroke="#303188" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                            <path d="M16 10.6667V17.3334" stroke="#848484" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                            <path d="M12 2.66675H20" stroke="#848484" strokeWidth="1.5" stroke-miterlimit="10" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
                             : <img src='/submit.svg' />
                         }
