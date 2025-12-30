@@ -1,5 +1,6 @@
 import { Box, Skeleton } from "@mui/material";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { PATH } from "../../../../../routes/PATH";
 import { useGetAllBookmarkedCourseQuery } from "../../../../../services/courseApi";
 import { EmptyList } from "../../../../molecules/EmptyList";
@@ -8,6 +9,7 @@ import CourseCard from "../../../../organism/Cards/CourseCard/CourseCard";
 import PageHeader from "../../../../organism/PageHeader";
 
 export default function SavedCourse() {
+    const { t } = useTranslation();
     const [qp, setQp] = useState({
         pageIndex: 1,
         pageSize: 8,
@@ -24,7 +26,7 @@ export default function SavedCourse() {
         <>
             <PageHeader
                 breadcrumb={[{
-                    title: "Saved Courses"
+                    title: t("menus.savedCourse")
                 }]}
             />
             {/* <Box className="flex flex-col justify-between gap-4 mb-4 lg:mb-8">

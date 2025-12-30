@@ -95,5 +95,8 @@ export const PATH = {
         MY_ACCOUNT: {
             ROOT: "/my-account"
         }
+    },
+    SUPPORT: {
+        ROOT: "/support"
     }
 };

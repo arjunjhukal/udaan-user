@@ -9,7 +9,7 @@ import {
   Typography,
   useTheme
 } from "@mui/material";
-import { AudioSquare, Book, Bookmark, Element4, Notepad2, PenAdd, SearchNormal, VideoOctagon, VideoPlay } from "iconsax-reactjs";
+import { AudioSquare, Book, Bookmark, Element4, I24Support, Notepad2, PenAdd, SearchNormal, VideoOctagon, VideoPlay } from "iconsax-reactjs";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import { PATH } from "../../../../routes/PATH";
@@ -22,9 +22,9 @@ export default function PrimaryMenu() {
 
 
   const isActive = (path: string) => location.pathname === path;
-  
+
   return (
-    <Box sx={{ padding: "0 32px 32px" }}>
+    <Box sx={{ padding: "0 32px 32px", maxHeight: "calc(100vh - 162px)", overflow: "auto" }}>
       <div className="flex items-center gap-2 overflow-hidden mb-1">
         <Typography variant='caption' mb={1} sx={{
           color: theme.palette.text.light
@@ -178,7 +178,7 @@ export default function PrimaryMenu() {
             <ListItemText primary={t("menus.rooms")} />
           </ListItemButton>
         </ListItem>
-      </List>
+      </List> */}
       <div className="flex items-center gap-2 overflow-hidden mb-1 mt-8">
         <Typography variant='caption' mb={1} sx={{
           color: theme.palette.text.light
@@ -189,7 +189,7 @@ export default function PrimaryMenu() {
       </div>
 
       <List>
-        <ListItem disablePadding className="menu__item">
+        {/* <ListItem disablePadding className="menu__item">
           <ListItemButton
             onClick={() => { }}
             className={isActive(PATH.LIVE_CLASSES.ROOT) ? "active" : ""}
@@ -210,11 +210,11 @@ export default function PrimaryMenu() {
             </ListItemIcon>
             <ListItemText primary={t("menus.feedback")} />
           </ListItemButton>
-        </ListItem>
+        </ListItem> */}
         <ListItem disablePadding className="menu__item">
           <ListItemButton
-            onClick={() => { }}
-            className={isActive(PATH.COURSE_MANAGEMENT.COURSES.ROOT) ? "active" : ""}
+            onClick={() => navigate(PATH.SUPPORT.ROOT)}
+            className={isActive(PATH.SUPPORT.ROOT) ? "active" : ""}
           >
             <ListItemIcon>
               <I24Support size={20} />
@@ -222,7 +222,7 @@ export default function PrimaryMenu() {
             <ListItemText primary={t("menus.support")} />
           </ListItemButton>
         </ListItem>
-      </List> */}
+      </List>
 
     </Box>
   );

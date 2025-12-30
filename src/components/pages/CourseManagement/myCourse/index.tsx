@@ -6,8 +6,10 @@ import { EmptyList } from "../../../molecules/EmptyList";
 import TablePagination from "../../../molecules/Pagination";
 import CourseCard from "../../../organism/Cards/CourseCard/CourseCard";
 import PageHeader from "../../../organism/PageHeader";
+import { useTranslation } from "react-i18next";
 
 export default function MyCourseRoot() {
+    const {t}=useTranslation();
     const [qp, setQp] = useState({
         pageIndex: 1,
         pageSize: 8,
@@ -23,7 +25,7 @@ export default function MyCourseRoot() {
         <>
             <PageHeader
                 breadcrumb={[{
-                    title: "My Course"
+                    title: t("messages.my_course")
                 }]}
             />
             {!isLoading && !courses.length ?

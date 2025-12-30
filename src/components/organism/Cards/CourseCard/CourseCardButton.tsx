@@ -1,8 +1,9 @@
 import { Button, Typography } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import type { CourseTypeProps } from '../../../../types/course';
 
 export default function CourseCardButton({ courseType, sellingPrice, markedPrice, to }: { courseType: CourseTypeProps, sellingPrice?: string, markedPrice?: string, to: string }) {
-
+    const { t } = useTranslation();
     const renderPrice = () => {
         switch (courseType) {
             case "free":
@@ -15,16 +16,16 @@ export default function CourseCardButton({ courseType, sellingPrice, markedPrice
             case "expiry":
                 return (
                     <div className="expiry__price flex gap-1 items-end">
-                        {markedPrice ? <Typography variant='caption' color='text.middle' className='text-nowrap'><del>NPR. {markedPrice}</del></Typography> : ""}
-                        {sellingPrice ? <Typography variant='subtitle1' fontWeight={600} className='text-nowrap'>NPR. {sellingPrice}</Typography> : ""}
+                        {markedPrice ? <Typography variant='caption' color='text.middle' className='text-nowrap'><del>{t("messages.npr")} {markedPrice}</del></Typography> : ""}
+                        {sellingPrice ? <Typography variant='subtitle1' fontWeight={600} className='text-nowrap'>{t("messages.npr")} {sellingPrice}</Typography> : ""}
                     </div>
                 );
 
             case "subscription":
                 return (
                     <div className="subscription__price">
-                        <Typography className='text-[8px]! lg:text-[12px]!' color='text.middle'>Starting from</Typography>
-                        {sellingPrice ? <Typography variant='subtitle1' fontWeight={600}>NPR. {sellingPrice}</Typography> : ""}
+                        <Typography className='text-[8px]! lg:text-[12px]!' color='text.middle'>{t("messages.starting_from")}</Typography>
+                        {sellingPrice ? <Typography variant='subtitle1' fontWeight={600}>{t("messages.npr")} {sellingPrice}</Typography> : ""}
                     </div>
                 );
         }
@@ -34,13 +35,13 @@ export default function CourseCardButton({ courseType, sellingPrice, markedPrice
         if (courseType === "free") {
             return (
                 <Button href={to} fullWidth variant="contained" color='primary'>
-                    Start Learning
+                    {t("messages.start_learning")}
                 </Button>
             );
         }
         return (
             <Button href={to} fullWidth variant="contained" color='primary'>
-                Enroll Now
+                {t("messages.enroll_now")}
             </Button>
         );
     };

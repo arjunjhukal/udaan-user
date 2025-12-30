@@ -27,6 +27,7 @@ import PurchaseRoot from "../components/pages/Purchase";
 import PurchaseFailure from "../components/pages/Purchase/failure";
 import PurchaseLayout from "../components/pages/Purchase/PurchaseLayout";
 import PaymentSuccessPage from "../components/pages/Purchase/success";
+import SupportRoot from "../components/pages/Support";
 import TestManagementRoot from "../components/pages/TestManagement";
 import AllTestRoot from "../components/pages/TestManagement/allTest";
 import ReviewTestRoot from "../components/pages/TestManagement/reviewTest";
@@ -183,6 +184,12 @@ const router = createBrowserRouter([
         path: PATH.USER.MY_ACCOUNT.ROOT,
         element: <RootLayout>
           <MyAccount />
+        </RootLayout>
+      },
+      {
+        path: PATH.SUPPORT.ROOT,
+        element: <RootLayout>
+          <SupportRoot />
         </RootLayout>
       }
     ],
