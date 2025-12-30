@@ -92,7 +92,7 @@ export default function CourseMediaListing({
     // Empty state when no results
     if (!isLoading && !medias.length) {
         return (
-            <>
+            <div className="pb-4">
                 <PageHeader
                     breadcrumb={[
                         {
@@ -119,12 +119,12 @@ export default function CourseMediaListing({
                         </button>
                     </div>
                 )}
-            </>
+            </div>
         );
     }
 
     return (
-        <>
+        <div className="pb-4">
             <PageHeader
                 breadcrumb={[
                     {
@@ -169,6 +169,6 @@ export default function CourseMediaListing({
                     <TablePagination qp={qp} setQp={setQp} totalPages={totalPages} />
                 </div>
             )}
-        </>
+        </div>
     );
 }

@@ -547,7 +547,7 @@ export default function SingleCourseCurriculum({ data, havePurchased }: Props) {
     const hasNoChapters = activeSubject && (!activeSubject.chapters || activeSubject.chapters.length === 0);
 
     return (
-        <>
+        <div className="pb-4">
             <div className="lg:grid gap-6 lg:grid-cols-12 hidden ">
                 <SubjectSidebar
                     subjects={data || []}
@@ -582,6 +582,6 @@ export default function SingleCourseCurriculum({ data, havePurchased }: Props) {
             <div className="lg:hidden">
                 <MobileCurriculum havePurchased={havePurchased} data={data} />
             </div>
-        </>
+        </div>
     );
 }

@@ -12,9 +12,9 @@ interface Props {
     qp: QueryParams;
     setQp: (qp: QueryParams) => void;
     totalPages: number;
-    havePurchased :boolean;
+    havePurchased: boolean;
 }
-export default function SinlgeCourseTest({ data, isLoading, totalPages, qp, setQp ,havePurchased}: Props) {
+export default function SinlgeCourseTest({ data, isLoading, totalPages, qp, setQp, havePurchased }: Props) {
     if (!isLoading && !data?.data?.data?.length) {
         return <EmptyList
             title="No Test Found"
@@ -22,16 +22,16 @@ export default function SinlgeCourseTest({ data, isLoading, totalPages, qp, setQ
         />
     }
     return (
-        <>
+        <div className="pb-4">
             <Box mt={1}>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     {data?.data?.data?.map((test, index) => (
-                        <TestCard key={index} test={test} havePurchased={havePurchased}/>
+                        <TestCard key={index} test={test} havePurchased={havePurchased} />
                     ))}
                 </div>
                 {totalPages > 1 ? <TablePagination qp={qp} setQp={setQp} totalPages={totalPages} /> : ""}
             </Box>
-        </>
+        </div>
     );
 }
 
