@@ -8,7 +8,7 @@ export default function CourseCardButton({ courseType, sellingPrice, markedPrice
             case "free":
                 return (
                     <div className="free__price">
-                        <span className='text-[12px]! lg:text-[10px]! block leading-3.5'>This course is free. You can learn anytime you want.</span>
+                        <span className='text-[12px]!  block leading-3.5'>This course is free. You can learn anytime you want.</span>
                     </div>
                 );
 
@@ -23,7 +23,7 @@ export default function CourseCardButton({ courseType, sellingPrice, markedPrice
             case "subscription":
                 return (
                     <div className="subscription__price">
-                        <Typography className='text-[8px]!' color='text.middle'>Starting from</Typography>
+                        <Typography className='text-[8px]! lg:text-[12px]!' color='text.middle'>Starting from</Typography>
                         {sellingPrice ? <Typography variant='subtitle1' fontWeight={600}>NPR. {sellingPrice}</Typography> : ""}
                     </div>
                 );
