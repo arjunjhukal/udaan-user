@@ -11,7 +11,6 @@ export default function UdaanThemeProvider({ children }: { children: React.React
     const { i18n: lang, mode } = useAppSelector(
         (state: RootState) => state.udaan_theme
     );
-    console.log("Current theme mode:", mode);
 
     const theme = React.useMemo(() => {
         // const themeMode =

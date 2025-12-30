@@ -1,4 +1,4 @@
-import { Box, Button, CircularProgress, Dialog, DialogContent, Typography, useTheme } from '@mui/material';
+import { Box, Button, CircularProgress, Dialog, DialogContent, Tooltip, Typography, useTheme } from '@mui/material';
 import Plyr, { type APITypes, type PlyrProps } from "plyr-react";
 import "plyr-react/plyr.css";
 import { useEffect, useRef, useState } from 'react';
@@ -21,7 +21,6 @@ const SpotifyAudioPlayer = ({ audioUrl, imageUrl, title }: { audioUrl: string, i
                 color: "white",
             }}
         >
-            {/* Image */}
             <div style={{ width: "100%", marginBottom: "12px" }}>
                 <img
                     src={imageUrl}
@@ -35,12 +34,10 @@ const SpotifyAudioPlayer = ({ audioUrl, imageUrl, title }: { audioUrl: string, i
                 />
             </div>
 
-            {/* Title */}
             {title && (
                 <h3 style={{ margin: "8px 0", fontSize: "18px" }}>{title}</h3>
             )}
 
-            {/* Audio Player */}
             {audioUrl ? (
                 <audio
                     controls
@@ -69,7 +66,6 @@ export default function ReadingDialog() {
     const containerRef = useRef<HTMLDivElement | null>(null);
     const [isLoading, setIsLoading] = useState(true);
 
-    // Get current media - video.id is the DB id, videoId from props is the YouTube ID
     const videoUrl = video?.url || null;
     const audioUrl = audio?.url || null;
     const pdfUrl = pdf?.url || null;
@@ -215,7 +211,7 @@ export default function ReadingDialog() {
                                 display: 'flex',
                                 justifyContent: 'center',
                                 alignItems: 'center',
-                                minHeight: '100%',
+                                minHeight: '400px',
                                 backgroundColor: '#000',
                             }}>
                                 <CircularProgress size={60} />
@@ -332,11 +328,11 @@ export default function ReadingDialog() {
                     </h2>
                 </div>
 
-                <div className="grid grid-cols-12 gap-4">
+                <div className="lg:grid lg:grid-cols-12 gap-4">
                     <div className="col-span-9">
                         {renderContent()}
                     </div>
-                    <div className="col-span-3">
+                    <div className="hidden lg:block col-span-3">
                         <Typography variant='subtitle1' className='block! mb-3!' sx={{ fontWeight: 600 }}>
                             Up Next
                         </Typography>
@@ -392,9 +388,11 @@ export default function ReadingDialog() {
                                                         </div>
                                                     )}
                                                 </div>
-                                                <Typography variant='subtitle1' className='font-medium mt-1!'>
-                                                    {relatedVideo.file_name}
-                                                </Typography>
+                                                <Tooltip title={relatedVideo.file_name}>
+                                                    <Typography variant='subtitle1' className='font-bold mt-1! line-clamp-1'>
+                                                        {relatedVideo.file_name}
+                                                    </Typography>
+                                                </Tooltip>
                                             </div>
                                         );
                                     })

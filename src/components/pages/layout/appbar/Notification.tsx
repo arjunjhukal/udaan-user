@@ -131,18 +131,18 @@ export default function NotificationModal() {
                     <Grow {...TransitionProps}>
                         <Paper elevation={3}>
                             <ClickAwayListener onClickAway={handleClose}>
-                                <Box className="p-4 w-[520px]">
+                                <Box className="p-4 md:w-[520px]">
                                     {/* Header */}
                                     <Box className="flex items-center justify-between">
                                         <Typography variant="h5" fontWeight={600}>
                                             Notifications
                                         </Typography>
                                         <Button variant="text" onClick={handleReadAllNotifications}>
-                                            Mark all as read
+                                            <Typography variant="subtitle2"> Mark all as read</Typography>
                                         </Button>
                                     </Box>
 
-                                    <Divider className="my-4!" />
+                                    <Divider className="lg:mt-4!" />
 
                                     {/* Scrollable Area */}
                                     <Box

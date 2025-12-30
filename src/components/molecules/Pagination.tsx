@@ -57,16 +57,12 @@ export default function TablePagination({
     return (
         <Box
             sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                padding: '16px 0',
-                flexWrap: 'wrap',
-                gap: 2
+                background: (theme) => theme.palette.primary.contrastText
             }}
+            className="sticky bottom-0 left-0 right-0 flex justify-between items-center gap-2 flex-wrap pb-4 lg:py-4"
         >
             {/* Page Size Selector */}
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <Box className="hidden lg:flex items-center gap-1">
                 <Typography variant="subtitle2" color='text.dark'>Show</Typography>
                 <Select
                     value={qp.pageSize}

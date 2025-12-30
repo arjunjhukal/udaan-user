@@ -5,10 +5,9 @@ import MyProgress from "../../atom/MyProgress";
 import BannerCourseTypeModule from "./BannerCourseTypeModule";
 
 
-export default function CourseBanner({ data, isLoading, havePurchased }: { data?: CourseProps; isLoading: boolean, havePurchased: boolean }) {
+export default function CourseBanner({ data,  havePurchased }: { data?: CourseProps; isLoading: boolean, havePurchased: boolean }) {
     const theme = useTheme();
 
-    console.log(isLoading);
 
     const course = data || null;
     return (

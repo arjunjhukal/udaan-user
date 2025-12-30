@@ -466,9 +466,8 @@ const EmptyChaptersState = () => {
     );
 };
 
-export default function SingleCourseCurriculum({ data, isLoading, havePurchased }: Props) {
+export default function SingleCourseCurriculum({ data, havePurchased }: Props) {
 
-    console.log(isLoading)
 
     const [openSubjectId, setOpenSubjectId] = useState<number | null>(null);
     const [activeChapterId, setActiveChapterId] = useState<number | null>(null);
@@ -548,7 +547,7 @@ export default function SingleCourseCurriculum({ data, isLoading, havePurchased 
     const hasNoChapters = activeSubject && (!activeSubject.chapters || activeSubject.chapters.length === 0);
 
     return (
-        <>
+        <div className="pb-4">
             <div className="lg:grid gap-6 lg:grid-cols-12 hidden ">
                 <SubjectSidebar
                     subjects={data || []}
@@ -583,6 +582,6 @@ export default function SingleCourseCurriculum({ data, isLoading, havePurchased 
             <div className="lg:hidden">
                 <MobileCurriculum havePurchased={havePurchased} data={data} />
             </div>
-        </>
+        </div>
     );
 }

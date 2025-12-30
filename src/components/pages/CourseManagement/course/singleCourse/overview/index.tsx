@@ -13,7 +13,7 @@ interface Props {
 export default function SinlgeCourseOverview({ data }: Props) {
 
     return (
-        <>
+        <div className="pb-4">
             {data?.about_this_course ? <div className="general-content">
                 {renderHtml(data?.about_this_course || "")}
             </div> : ""}
@@ -28,6 +28,6 @@ export default function SinlgeCourseOverview({ data }: Props) {
                     }
                 </div>
             </div> : ""}
-        </>
+        </div>
     )
 }

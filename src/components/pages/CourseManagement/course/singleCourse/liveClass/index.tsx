@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
-import { useAppDispatch } from "../../../../../../store/hook";
 import { setPurchase } from "../../../../../../slice/purchaseSlice";
+import { useAppDispatch } from "../../../../../../store/hook";
 import type { QueryParams } from "../../../../../../types";
 import type { LiveClassList } from "../../../../../../types/liveClass";
 
@@ -63,7 +63,7 @@ export default function SingleCourseLiveClass({
   }
 
   return (
-    <>
+    <div className="pb-4">
       <PageHeader
         breadcrumb={[
           {
@@ -87,6 +87,6 @@ export default function SingleCourseLiveClass({
           />
         )}
       </div>
-    </>
+    </div>
   );
 }
