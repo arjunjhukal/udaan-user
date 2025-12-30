@@ -11,7 +11,7 @@ import TableFilter from "../../../../organism/TableFilter";
 export default function CourseListing() {
     const [qp, setQp] = useState({
         pageIndex: 1,
-        pageSize: 8,
+        pageSize: 12,
     })
     const [activeCategory, setActiveCategory] = useState(0);
     const [search, setSearch] = useState("");
@@ -51,7 +51,7 @@ export default function CourseListing() {
                     currentActive={activeCategory}
                     setActiveTab={(val) => setActiveCategory(val)}
                 />
-                <TableFilter categoryLayout={true} search={search} setSearch={(newVal) => setSearch(newVal)} onFilter={() => { }} />
+                <TableFilter categoryLayout={true} search={search} setSearch={(newVal) => setSearch(newVal)} />
             </Box>
             {/* LOADING */}
             {isLoading ? (
@@ -92,7 +92,7 @@ export default function CourseListing() {
                 </div>
             ) : courses.length ? (
                 <>
-                    <div className="flex flex-col gap-4 lg:gap-3 sm:grid sm:grid-cols-2 xl:grid-cols-3 3xl:grid-cols-4">
+                    <div className="flex flex-col gap-4 lg:gap-3 sm:grid sm:grid-cols-2 xl:grid-cols-3 3xl:grid-cols-4 pb-4">
                         {courses.map((course) => (
                             <div key={course.id} className="col-span-1">
                                 <CourseCard course={course} />

@@ -151,7 +151,7 @@ export default function AlltestList() {
                 <Box
                     id="video__listing__wrapper"
                     sx={{
-                        maxHeight: "calc(100vh - 460px)",
+                        maxHeight: "calc(100vh - 360px)",
                         overflow: "auto",
                     }}
                 >

@@ -55,7 +55,7 @@ export default function FilterModal({
             maxWidth="lg"
             fullWidth
         >
-            <DialogContent>
+            <DialogContent className="p-0!">
                 <DialogTitle className="flex justify-between items-center ">
                     <Typography variant="h5" fontWeight={500}>Filter</Typography>
                     <IconButton sx={{ color: (theme) => theme.palette.error.main }}>
@@ -64,7 +64,7 @@ export default function FilterModal({
                 </DialogTitle>
                 <Divider className="mb-4!" />
                 {!!myCourses?.length && (
-                    <div className="my__course__filter mb-6">
+                    <div className="my__course__filter mb-6 px-4">
                         <Typography variant="subtitle1" fontWeight={600} className="mb-3!">
                             My Courses
                         </Typography>
@@ -97,7 +97,7 @@ export default function FilterModal({
                         </div>
                     </div>
                 )}
-                <div className="filter__wrapper flex flex-col gap-6">
+                <div className="filter__wrapper flex flex-col gap-6 px-4 pb-4">
                     {/* Action Footer */}
                     <div className="action__footer flex justify-end items-center gap-2">
                         <Button onClick={handleResetFilter} className="font-medium!"

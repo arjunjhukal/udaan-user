@@ -26,7 +26,6 @@ const baseQueryConfig = fetchBaseQuery({
 		headers.set("X-Device-Id", getDeviceId());
 		headers.set("X-Device-Type", "web");
 
-		console.log(accessToken);
 		if (accessToken) {
 			headers.set("Authorization", `Bearer ${accessToken?.access_token}`);
 		}
@@ -60,8 +59,7 @@ export const baseQuery: BaseQueryFn<
 
 				// Verify dispatch worked
 				setTimeout(() => {
-					const newState = api.getState() as RootState;
-					console.log("State after dispatch:", newState.session);
+					api.getState() as RootState;
 				}, 100);
 			} else {
 				console.log("⚠️ Popup already showing, skipping dispatch");

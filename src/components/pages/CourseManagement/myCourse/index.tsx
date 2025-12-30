@@ -34,7 +34,7 @@ export default function MyCourseRoot() {
                         url: PATH.COURSE_MANAGEMENT.COURSES.ROOT
                     }} /> :
 
-                <div className="flex flex-col gap-4 lg:gap-3 sm:grid sm:grid-cols-2 xl:grid-cols-3 3xl:grid-cols-4">
+                <div className="flex flex-col gap-4 lg:gap-3 sm:grid sm:grid-cols-2 xl:grid-cols-3 3xl:grid-cols-4 pb-4">
                     {isLoading ? Array.from({ length: 8 }).map((_, index) => (
                         <Box
                             className="course__card rounded-md overflow-hidden relative h-full flex flex-col"

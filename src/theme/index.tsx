@@ -124,13 +124,13 @@ const commonThemeOptions: ThemeOptions = {
     fontFamily: '"Noto Sans", sans-serif',
 
     h1: {
-      fontSize: "48px", // base (xs)
+      fontSize: "48px",
       lineHeight: "67px",
-      [`@media (min-width:600px)`]: { // sm
+      [`@media (min-width:600px)`]: {
         fontSize: "56px",
         lineHeight: "80px",
       },
-      [`@media (min-width:1200px)`]: { // xl
+      [`@media (min-width:1200px)`]: {
         fontSize: "64px",
         lineHeight: "90px",
       },
@@ -159,6 +159,42 @@ const commonThemeOptions: ThemeOptions = {
       [`@media (min-width:1200px)`]: {
         fontSize: "32px",
         lineHeight: "45px",
+      },
+    },
+    h4: {
+      fontSize: "18px",
+      lineHeight: "24px",
+      [`@media (min-width:600px)`]: {
+        fontSize: "22px",
+        lineHeight: "32px",
+      },
+      [`@media (min-width:1200px)`]: {
+        fontSize: "24px",
+        lineHeight: "34px",
+      },
+    },
+    h5: {
+      fontSize: "16px",
+      lineHeight: "26px",
+      [`@media (min-width:600px)`]: {
+        fontSize: "18px",
+        lineHeight: "28px",
+      },
+      [`@media (min-width:1200px)`]: {
+        fontSize: "20px",
+        lineHeight: "30px",
+      },
+    },
+    h6: {
+      fontSize: "14px",
+      lineHeight: "24px",
+      [`@media (min-width:600px)`]: {
+        fontSize: "16px",
+        lineHeight: "26px",
+      },
+      [`@media (min-width:1200px)`]: {
+        fontSize: "18px",
+        lineHeight: "28px",
       },
     },
 

@@ -22,6 +22,7 @@ export default function PrimaryMenu() {
 
 
   const isActive = (path: string) => location.pathname === path;
+  
   return (
     <Box sx={{ padding: "0 32px 32px" }}>
       <div className="flex items-center gap-2 overflow-hidden mb-1">

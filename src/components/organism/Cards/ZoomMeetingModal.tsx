@@ -111,7 +111,6 @@ export default function ZoomMeetingModal({
                 setIsMeetingJoined(true);
                 setIsLoading(false);
 
-                console.log("Successfully joined meeting:", meetingNumber);
             }
         } catch (err: any) {
             console.error("Error initializing Zoom:", err);

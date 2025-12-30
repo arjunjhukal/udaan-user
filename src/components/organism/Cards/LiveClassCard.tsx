@@ -23,11 +23,7 @@ export default function LiveClassCard({ data, courseId }: { data: LiveClassProps
     };
 
 
-    console.log({
-        nowLocal: new Date().toString(),
-        startLocal: new Date(data.start_time).toString(),
-        canJoin: canJoinLive(),
-    });
+
 
     const startTimeLabel = getTime(data.start_time);
 

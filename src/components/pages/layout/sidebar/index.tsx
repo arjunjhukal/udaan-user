@@ -4,7 +4,7 @@ import * as React from "react";
 
 import { useMediaQuery, useTheme } from "@mui/material";
 import Toolbar from "@mui/material/Toolbar";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import CustomAppbar from "../appbar";
 import PrimaryMenu from "./PrimaryMenu";
 
@@ -18,6 +18,8 @@ export default function ResponsiveDrawer(props: Props) {
     const { window } = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
     const [isClosing, setIsClosing] = React.useState(false);
+    const location = useLocation();
+
     const theme = useTheme();
     const handleDrawerClose = () => {
         setIsClosing(true);
@@ -33,6 +35,12 @@ export default function ResponsiveDrawer(props: Props) {
             setMobileOpen(!mobileOpen);
         }
     };
+
+    React.useEffect(() => {
+        if (mobileOpen) {
+            handleDrawerClose();
+        }
+    }, [location.pathname]);
 
     const drawer = (
         <div>
@@ -65,7 +73,6 @@ export default function ResponsiveDrawer(props: Props) {
                 component="nav"
                 sx={{ width: { lg: drawerWidth }, flexShrink: { md: 0 } }}
                 aria-label="mailbox folders">
-                {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
                 <Drawer
                     container={container}
                     variant="temporary"
@@ -105,14 +112,35 @@ export default function ResponsiveDrawer(props: Props) {
                 component="main"
                 sx={{
                     flexGrow: 1,
-                    width: { lg: `calc(100% - ${drawerWidth}px)`, padding: "32px 24px", overflow: "hidden" },
+                    width: {
+                        lg: `calc(100% - ${drawerWidth}px)`
+                    },
+                    padding: {
+                        xs: "16px 16px 0",
+                        lg: "32px 24px 0"
+                    },
+                    overflow: "hidden"
                 }}>
-                <Toolbar sx={{ height: 100 }} />
-                <Box className="content p-4 lg:px-8 lg:py-8 rounded-2xl overflow-y-auto flex flex-col" sx={{
-                    background: theme.palette.primary.contrastText,
-                    height: "calc(100vh - 165px)",
-                    overflow: "auto"
-                }}>
+                <Toolbar sx={{
+                    height: {
+                        xs: 64,
+                        lg: 100
+                    }
+                }} />
+                <Box
+                    className="content rounded-2xl overflow-y-auto flex flex-col mt-6 lg:mt-0"
+                    sx={{
+                        background: theme.palette.primary.contrastText,
+                        height: {
+                            xs: "calc(100vh - 120px)",
+                            lg: "calc(100vh - 165px)"
+                        },
+                        padding: {
+                            xs: "16px 16px 0",
+                            lg: "32px 32px 0"
+                        },
+                        overflow: "auto"
+                    }}>
                     {props.children}
                 </Box>
             </Box>

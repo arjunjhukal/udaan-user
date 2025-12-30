@@ -56,60 +56,60 @@ export default function ProfileMenu() {
             <Box
                 ref={anchorRef}
                 onClick={handleToggle}
-                className=" hidden lg:flex gap-2 items-center p-2 rounded-md cursor-pointer"
-                sx={{
-                    border: `1px solid ${theme.palette.separator.dark}`,
-                    minWidth: { lg: "160px" },
-                    "&:hover": { backgroundColor: theme.palette.action.hover },
-                }}
             >
-                {user?.profile_url ? (
-                    <img
-                        src={user.profile_url}
-                        alt={`${user?.name} Profile Picture`}
-                        className="user__profile w-7 h-7 rounded-full"
-                    />
-                ) : (
-                    <Box
-                        className="flex items-center w-7 h-7 rounded-full justify-center"
-                        sx={{
-                            background: theme.palette.separator.dark,
-                        }}
-                    >
-                        <Typography variant="subtitle1" color="text.dark">
+                <Box className=" hidden lg:flex gap-2 items-center p-2 rounded-md cursor-pointer"
+                    sx={{
+                        border: `1px solid ${theme.palette.separator.dark}`,
+                        minWidth: { lg: "160px" },
+                        "&:hover": { backgroundColor: theme.palette.action.hover },
+                    }}>
+                    {user?.profile_url ? (
+                        <img
+                            src={user.profile_url}
+                            alt={`${user?.name} Profile Picture`}
+                            className="user__profile w-7 h-7 rounded-full"
+                        />
+                    ) : (
+                        <Box
+                            className="flex items-center w-7 h-7 rounded-full justify-center"
+                            sx={{
+                                background: theme.palette.separator.dark,
+                            }}
+                        >
+                            <Typography variant="subtitle1" color="text.dark">
+                                {user?.name ? user?.name.charAt(0).toUpperCase() : ""}
+                            </Typography>
+                        </Box>
+                    )}
+
+                    <Typography variant="subtitle2" color="text.dark" className="hidden lg:block">
+                        {user?.name}
+                    </Typography>
+                    <CustomCollapseIcon isOpen={open} />
+                </Box>
+                <IconButton
+                    sx={{
+                        background: theme.palette.separator.dark,
+                        minWidth: "44px",
+                        aspectRatio: "1/1",
+                        "&:hover": { backgroundColor: theme.palette.action.hover },
+                    }}
+                    className="lg:hidden!"
+                >
+                    {user?.profile_url ? (
+                        <img
+                            src={user.profile_url}
+                            alt={`${user?.name} Profile Picture`}
+                            className="user__profile w-7 h-7 rounded-full"
+                        />
+                    ) : (
+
+                        <Typography variant="subtitle1" color="text.middle" fontWeight={600}>
                             {user?.name ? user?.name.charAt(0).toUpperCase() : ""}
                         </Typography>
-                    </Box>
-                )}
-
-                <Typography variant="subtitle2" color="text.dark" className="hidden lg:block">
-                    {user?.name}
-                </Typography>
-                <CustomCollapseIcon isOpen={open} />
+                    )}
+                </IconButton>
             </Box>
-            <IconButton
-
-                sx={{
-                    background: theme.palette.separator.dark,
-                    minWidth: "44px",
-                    aspectRatio: "1/1",
-                    "&:hover": { backgroundColor: theme.palette.action.hover },
-                }}
-                className="lg:hidden!"
-            >
-                {user?.profile_url ? (
-                    <img
-                        src={user.profile_url}
-                        alt={`${user?.name} Profile Picture`}
-                        className="user__profile w-7 h-7 rounded-full"
-                    />
-                ) : (
-
-                    <Typography variant="subtitle1" color="text.middle" fontWeight={600}>
-                        {user?.name ? user?.name.charAt(0).toUpperCase() : ""}
-                    </Typography>
-                )}
-            </IconButton>
 
             <Popper
                 open={open}
