@@ -79,3 +79,12 @@ input[type="number"] {
 .animate-swing {
     animation: swing 1.5s ease-in-out infinite;
 }
+
+.primary__menu {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.primary__menu::-webkit-scrollbar {
+    display: none;
+}
