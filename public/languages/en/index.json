@@ -3,7 +3,22 @@
         "main": "Main",
         "learning": "Learning",
         "communication": "Communication",
-        "others": "Others"
+        "others": "Others",
+        "my_course": "My Course",
+        "enroll_now": "Enroll Now",
+        "start_learning": "Start Learning",
+        "subject": "Subject",
+        "expiry": "Expiry",
+        "subscription": "Subscription",
+        "free": "Free",
+        "npr": "NPR.",
+        "starting_from": "Starting From",
+        "start_from": "Start From",
+        "ends": "Ends",
+        "all_notes": "All Notes",
+        "all_test": "All Test",
+        "all_videos": "All Videos",
+        "all_audios": "All Audios"
     },
     "menus": {
         "dashboard": "Dashboard",
