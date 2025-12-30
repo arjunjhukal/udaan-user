@@ -412,17 +412,13 @@ export default function ReadingDialog() {
                     </div>
                 </div>
 
-                <div style={{
-                    display: 'flex',
-                    justifyContent: 'flex-end',
-                    gap: '16px',
-                    marginTop: '24px'
-                }}>
-                    <Button variant='contained' onClick={handleClose} className='cancel__btn'>
-                        Cancel
-                    </Button>
+                <div className='flex flex-col gap-4 md:flex md:flex-row-reverse'>
+
                     <Button variant='contained' className='primary__btn'>
                         Mark as Completed
+                    </Button>
+                    <Button variant='contained' onClick={handleClose} className='cancel__btn'>
+                        Cancel
                     </Button>
                 </div>
             </DialogContent>

@@ -38,19 +38,22 @@ export default function TestCard({ test, havePurchased, courseId }: { test: Test
 
         {/* Content Section */}
         <div className="test__card__content">
-          <Typography variant="subtitle2" fontWeight={500} color="text.secondary" className="flex">
-            Exam Type:
+          <div className="flex gap-1 items-center">
+            <Typography variant="subtitle2" fontWeight={500} color="text.secondary" className="flex">
+              Exam Type:
+            </Typography>
             <Typography variant="subtitle2" fontWeight={500} color="text.dark" ml={1}>
               {test?.test_type}
             </Typography>
-          </Typography>
-
-          <Typography variant="subtitle2" color="text.secondary" className="flex" mt={1}>
-            Date:
+          </div>
+          <div className="flex gap-1 items-center">
+            <Typography variant="subtitle2" color="text.secondary" className="flex" mt={1}>
+              Date:
+            </Typography>
             <Typography variant="subtitle2" fontWeight={600} color="text.dark" ml={1}>
               {formatDateCustom(test?.start_datetime, { shortMonth: true })}
             </Typography>
-          </Typography>
+          </div>
         </div>
       </div>
 

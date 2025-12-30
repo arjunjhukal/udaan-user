@@ -84,10 +84,10 @@ export default function PageHeader(props: Props) {
                   <path
                     d="M0.75 16.59L7.27 10.07C8.04 9.3 8.04 8.04 7.27 7.27L0.75 0.75"
                     stroke="#6B7280"
-                    stroke-width="1.5"
+                    strokeWidth="1.5"
                     stroke-miterlimit="10"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                   />
                 </svg>
               </div>
