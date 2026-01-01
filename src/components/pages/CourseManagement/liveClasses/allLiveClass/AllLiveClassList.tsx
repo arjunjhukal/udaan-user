@@ -220,7 +220,7 @@ export default function AllLiveClassList() {
                   <LiveClassCard
                     key={item.id}
                     data={item}
-                    courseId={Number(selectedCourseId)}
+                    courseId={Number(item.course_id)}
                   />
                 ))}
               </div>
