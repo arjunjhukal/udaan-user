@@ -8,10 +8,10 @@ import type { AppDispatch } from "../../../store/store";
 import type { CourseTypeProps } from "../../../types/course";
 const renderButton = (
     type: CourseTypeProps,
+    id: string | undefined,
     navigate: (url: string) => void,
     dispatch: AppDispatch
 ) => {
-    const { id } = useParams();
     switch (type) {
         case "expiry":
             return (
@@ -66,6 +66,7 @@ const renderButton = (
 
 export default function PurchaseCourseDialog({ type }: { type?: CourseTypeProps }) {
     const theme = useTheme();
+    const { id } = useParams();
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const purchase = useAppSelector((state) => state.purchase);
@@ -120,7 +121,7 @@ export default function PurchaseCourseDialog({ type }: { type?: CourseTypeProps 
                 </Typography>
 
                 <div className="action__group flex gap-4 mt-8">
-                    {type && renderButton(type, navigate, dispatch)}
+                    {type && renderButton(type, id, navigate, dispatch)}
                     <Button
                         variant="contained"
                         size="small"

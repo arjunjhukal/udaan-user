@@ -5,6 +5,7 @@ import { courseApi } from '../services/courseApi';
 import { liveClassApi } from '../services/liveApi';
 import { mediaApi } from '../services/mediaApi';
 import { notificationApi } from '../services/notificationApi';
+import { settingApi } from '../services/settingApi';
 import { testApi } from '../services/testApi';
 import authReducer from "../slice/authSlice";
 import purchaseSlice from '../slice/purchaseSlice';
@@ -27,6 +28,7 @@ export const store = configureStore({
         [mediaApi.reducerPath]: mediaApi.reducer,
         [notificationApi.reducerPath]: notificationApi.reducer,
         [liveClassApi.reducerPath]: liveClassApi.reducer,
+        [settingApi.reducerPath]: settingApi.reducer,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware().concat(authApi.middleware)
@@ -36,6 +38,7 @@ export const store = configureStore({
             .concat(mediaApi.middleware)
             .concat(notificationApi.middleware)
             .concat(liveClassApi.middleware)
+            .concat(settingApi.middleware)
 })
 
 export type RootState = ReturnType<typeof store.getState>

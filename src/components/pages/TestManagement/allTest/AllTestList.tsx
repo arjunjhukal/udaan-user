@@ -1,12 +1,15 @@
 import { Box } from "@mui/material";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { PATH } from "../../../../routes/PATH";
-import { useGetCourseTestQuery, useGetUserPurchasedCourseQuery } from "../../../../services/courseApi";
+import { useGetUserPurchasedCourseQuery } from "../../../../services/courseApi";
+import { useGetUserAllTestQuery } from "../../../../services/testApi";
 import type { QueryParams } from "../../../../types";
 import type { TestProps } from "../../../../types/question";
 import { EmptyList } from "../../../molecules/EmptyList";
 import TestCard from "../../../organism/Cards/TestCard";
+import PageHeader from "../../../organism/PageHeader";
 import TableFilter from "../../../organism/TableFilter";
 
 const VideoSkeleton = () => (
@@ -26,6 +29,8 @@ const CourseFilterSkeleton = () => (
     </div>
 );
 export default function AlltestList() {
+    const { t } = useTranslation();
+
     const [qp, _setQp] = useState<QueryParams>({
         pageIndex: 1,
         pageSize: 10,
@@ -42,20 +47,15 @@ export default function AlltestList() {
     const { data: myCourse, isLoading } = useGetUserPurchasedCourseQuery(qp);
     const myCourses = myCourse?.data?.data || [];
 
-    useEffect(() => {
-        if (myCourses.length > 0 && !selectedCourseId) {
-            setSelectedCourseId(myCourses[0].id || null);
-        }
-    }, [myCourses, selectedCourseId]);
 
-    const { data: notes, isLoading: loadingTest } = useGetCourseTestQuery(
+
+    const { data: tests, isLoading: loadingTest } = useGetUserAllTestQuery(
         { id: selectedCourseId!, ...qpTest },
-        { skip: !selectedCourseId }
     );
 
     const selectedCourse = myCourses.find(course => course.id === selectedCourseId);
-    const testList = notes?.data?.data || [];
-    const totalPages = notes?.data?.pagination?.total_pages || 0;
+    const testList = tests?.data?.data || [];
+    const totalPages = tests?.data?.pagination?.total_pages || 0;
     const currentPage = qpTest.pageIndex;
 
 
@@ -128,8 +128,13 @@ export default function AlltestList() {
         );
     }
     return (
-        <div className="all__note__listing">
+        <div className="all__note__listing h-full flex flex-col jsutify-between">
             <div className="mb-6">
+                <PageHeader
+                    breadcrumb={[{
+                        title: t("messages.all_test")
+                    }]}
+                />
                 <TableFilter
                     search={search || ""}
                     setSearch={(search) => setSearch(search)}
@@ -147,11 +152,11 @@ export default function AlltestList() {
                 </div>
             )}
             {/* Media Listing */}
-            <div className="media__listing__wrapper">
+            <div className="media__listing__wrapper h-full overflow-auto">
                 <Box
                     id="video__listing__wrapper"
                     sx={{
-                        maxHeight: "calc(100vh - 360px)",
+                        maxHeight: selectedCourseId ? "calc(100vh - 450px)" : "calc(100vh - 380px)",
                         overflow: "auto",
                     }}
                 >
@@ -179,7 +184,6 @@ export default function AlltestList() {
                                         test={test}
                                         key={test.id}
                                         havePurchased={true}
-                                        courseId={Number(selectedCourseId)}
                                     />
                                 ))}
                             </div>

@@ -36,6 +36,7 @@ export interface QuestionList extends GlobalResponse {
 
 export interface TestProps {
     id?: number;
+    course_id?:number;
     name: string;
     test_type?: string;
     duration: {

@@ -9,6 +9,7 @@ import AllCourses from "../components/pages/CourseManagement/course/allCourse";
 import SingleCourse from "../components/pages/CourseManagement/course/singleCourse";
 
 import AuthBridge from "../components/pages/auth/bridge";
+import ChoosePlatform from "../components/pages/auth/choosePlatform";
 import SavedCourse from "../components/pages/CourseManagement/course/savedCourse";
 import SingleLiveClassRoot from "../components/pages/CourseManagement/course/singleLiveClass";
 import LiveClassRoot from "../components/pages/CourseManagement/liveClasses";
@@ -40,6 +41,10 @@ import Private from "./Private";
 import RootLayout from "./RootLayout";
 
 const router = createBrowserRouter([
+  {
+    path: PATH.AUTH.CHOOSE_PLATFORM.ROOT,
+    element: <ChoosePlatform />
+  },
   {
     element: <AuthRoot />,
     children: [

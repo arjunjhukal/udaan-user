@@ -2,6 +2,7 @@ import {
     Box,
     Button,
     CircularProgress,
+    FormHelperText,
     OutlinedInput,
     Typography,
 } from "@mui/material";
@@ -255,9 +256,9 @@ export default function VerifyOTP() {
                 </Box>
 
                 {formik.touched.otp && formik.errors.otp && (
-                    <Typography color="error" textAlign="center" sx={{ mb: 2, fontSize: 14 }}>
+                    <FormHelperText error={true}  sx={{ mb: 2,textAlign:"center"  }}>
                         {formik.errors.otp}
-                    </Typography>
+                    </FormHelperText>
                 )}
 
                 <Typography variant="subtitle2" textAlign="end" color="text.secondary" className="my-2!">

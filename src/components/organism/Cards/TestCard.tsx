@@ -5,7 +5,7 @@ import { formatDateCustom } from "../../../utils/dateFormat";
 import { getStatus } from "../../../utils/getStatus";
 import TestActionButton from "./TestActionButton";
 
-export default function TestCard({ test, havePurchased, courseId }: { test: TestProps; havePurchased: boolean; courseId?: number }) {
+export default function TestCard({ test, havePurchased, }: { test: TestProps; havePurchased: boolean; }) {
   const theme = useTheme();
   const status = getStatus(test?.start_datetime, test?.end_datetime);
   const { id } = useParams();
@@ -37,20 +37,20 @@ export default function TestCard({ test, havePurchased, courseId }: { test: Test
         <Divider className="my-3!" />
 
         {/* Content Section */}
-        <div className="test__card__content">
+        <div className="test__card__content flex flex-col gap-2">
           <div className="flex gap-1 items-center">
             <Typography variant="subtitle2" fontWeight={500} color="text.secondary" className="flex">
               Exam Type:
             </Typography>
-            <Typography variant="subtitle2" fontWeight={500} color="text.dark" ml={1}>
+            <Typography variant="subtitle2" fontWeight={500} color="text.dark" >
               {test?.test_type}
             </Typography>
           </div>
           <div className="flex gap-1 items-center">
-            <Typography variant="subtitle2" color="text.secondary" className="flex" mt={1}>
+            <Typography variant="subtitle2" color="text.secondary" className="flex">
               Date:
             </Typography>
-            <Typography variant="subtitle2" fontWeight={600} color="text.dark" ml={1}>
+            <Typography variant="subtitle2" fontWeight={600} color="text.dark" >
               {formatDateCustom(test?.start_datetime, { shortMonth: true })}
             </Typography>
           </div>
@@ -67,43 +67,51 @@ export default function TestCard({ test, havePurchased, courseId }: { test: Test
           my="12px"
         >
           <Box className="flex justify-between items-center gap-2">
-            <Typography variant="subtitle2" color="text.secondary" className="inline-flex">
-              Questions:
-              <Typography variant="subtitle2" fontWeight={500} color="text.dark" ml={1}>
+            <div className="flex items-center gap-2">
+              <Typography variant="subtitle2" color="text.secondary" className="inline-flex">
+                Questions:
+              </Typography>
+              <Typography variant="subtitle2" fontWeight={500} color="text.dark" >
                 {test?.total_questions}
               </Typography>
-            </Typography>
+            </div>
 
-            <Typography variant="subtitle2" color="text.secondary" className="inline-flex">
-              Duration:
+            <div className="flex items-center gap-2">
+              <Typography variant="subtitle2" color="text.secondary" className="inline-flex">
+                Duration:
+              </Typography>
               <Typography
                 variant="subtitle2"
                 fontWeight={500}
                 color="text.dark"
-                ml={1}
+
                 sx={{ textWrap: "nowrap" }}
               >
                 {test?.duration.hours} Hrs {test?.duration.minutes} Mins
               </Typography>
-            </Typography>
+            </div>
           </Box>
 
           <Divider className="my-2!" />
 
           <Box className="flex justify-between items-center gap-2">
-            <Typography variant="subtitle2" color="text.secondary" className="inline-flex">
-              Full marks:
-              <Typography variant="subtitle2" fontWeight={500} color="text.dark" ml={1}>
+            <div className="flex gap-1 itesm-center">
+              <Typography variant="subtitle2" color="text.secondary" className="inline-flex">
+                Full marks:
+              </Typography>
+              <Typography variant="subtitle2" fontWeight={500} color="text.dark" >
                 {test?.full_mark}
               </Typography>
-            </Typography>
+            </div>
 
-            <Typography variant="subtitle2" color="text.secondary" className="inline-flex">
-              Pass marks:
-              <Typography variant="subtitle2" fontWeight={500} color="text.dark" ml={1}>
+            <div className="flex gap-1 items-center">
+              <Typography variant="subtitle2" color="text.secondary" className="inline-flex">
+                Pass marks:
+              </Typography>
+              <Typography variant="subtitle2" fontWeight={500} color="text.dark" >
                 {test?.pass_mark}
               </Typography>
-            </Typography>
+            </div>
           </Box>
         </Box>
 
@@ -112,7 +120,7 @@ export default function TestCard({ test, havePurchased, courseId }: { test: Test
           test={test}
           status={status}
           havePurchased={havePurchased}
-          id={courseId ? Number(courseId) : Number(id)}
+          id={test?.course_id ? Number(test?.course_id) : Number(id)}
         />
 
 

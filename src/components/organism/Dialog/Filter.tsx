@@ -24,10 +24,9 @@ export default function FilterModal({
 }: Props) {
     const [tempSelectedCourseId, setTempSelectedCourseId] = useState<number | null>(selectedCourseId || null);
 
-    // Update temp state when modal opens
     useEffect(() => {
         if (open) {
-            setTempSelectedCourseId(selectedCourseId || null);
+            setTempSelectedCourseId(selectedCourseId ?? null);
         }
     }, [open, selectedCourseId]);
 
@@ -38,12 +37,10 @@ export default function FilterModal({
         onClose();
     };
 
-    const handleResetFilter = () => {
-        if (myCourses && myCourses.length > 0 && setSelectedCourseId) {
-            const firstCourseId = myCourses[0].id || null;
-            setTempSelectedCourseId(firstCourseId);
-            setSelectedCourseId(firstCourseId);
-        }
+
+    const handleClearFilter = () => {
+        setTempSelectedCourseId(null);
+        setSelectedCourseId?.(null);
         onResetFilter();
         onClose();
     };
@@ -100,7 +97,7 @@ export default function FilterModal({
                 <div className="filter__wrapper flex flex-col gap-6 px-4 pb-4">
                     {/* Action Footer */}
                     <div className="action__footer flex justify-end items-center gap-2">
-                        <Button onClick={handleResetFilter} className="font-medium!"
+                        <Button onClick={handleClearFilter} className="font-medium!"
                             sx={{
                                 background: (theme) => theme.palette.separator.dark,
                                 color: (theme) => theme.palette.text.middle

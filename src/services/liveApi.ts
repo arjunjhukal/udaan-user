@@ -7,9 +7,9 @@ export const liveClassApi = createApi({
     baseQuery: baseQuery,
     tagTypes: ["LiveClass"],
     endpoints: (builder) => ({
-        getAllLiveClasses: builder.query<LiveClassList, { pageIndex: number; pageSize: number, type: "ongoing" | "upcoming" }>({
-            query: ({ pageIndex, pageSize, type }) => ({
-                url: `/my-live?page=${pageIndex}&page_size=${pageSize}&type=${type}`,
+        getAllLiveClasses: builder.query<LiveClassList, { pageIndex: number; pageSize: number, type: "ongoing" | "upcoming"; id?: number }>({
+            query: ({ pageIndex, pageSize, type, id }) => ({
+                url: `/my-live?page=${pageIndex}&page_size=${pageSize}&type=${type}&course_id=${id}`,
                 method: "GET",
             }),
         }),
