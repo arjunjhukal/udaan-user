@@ -47,7 +47,8 @@ export default function PurchaseLayout() {
     const [payViaKhalti, { isLoading: isKhaltiLoading }] = usePurchaseWithKhaltiMutation();
 
     const price = Number(data?.data?.sale_price) || 0;
-    const vat = price * 0.13;
+    // const vat = price * 0.13;
+    const vat = 0;
     const total = price + vat;
 
     const baseUrl = window.location.origin;

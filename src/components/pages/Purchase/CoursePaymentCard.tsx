@@ -29,7 +29,7 @@ export default function CoursePaymentCard({ price, vat, total, isLoading }: Prop
                 </div>
 
                 <div className="grid grid-cols-2">
-                    <Typography variant="subtitle1" color="text.middle">VAT (13%):</Typography>
+                    <Typography variant="subtitle1" color="text.middle">VAT:</Typography>
                     <Typography variant="subtitle1" color="text.dark" className="text-end font-medium">
                         + NRs. {vat.toLocaleString()}
                     </Typography>
