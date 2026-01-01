@@ -1,4 +1,5 @@
 import { Box, Button, CircularProgress, Dialog, DialogContent, Tooltip, Typography, useTheme } from '@mui/material';
+import { Maximize2 } from 'iconsax-reactjs';
 import Plyr, { type APITypes, type PlyrProps } from "plyr-react";
 import "plyr-react/plyr.css";
 import { useEffect, useRef, useState } from 'react';
@@ -6,6 +7,7 @@ import { resetReadingScreen, setReadingScreen } from '../../../slice/ReadingScre
 import { useAppDispatch, useAppSelector } from '../../../store/hook';
 import type { MediaProps } from '../../../types/media';
 import { extractYouTubeVideoId, getYouTubeThumbnail } from '../../../utils/extractYoutubeVideoId';
+import WaterMark from '../../../Watermark';
 
 interface PlyrInstance {
     plyr?: APITypes;
@@ -69,6 +71,19 @@ export default function ReadingDialog() {
     const videoUrl = video?.url || null;
     const audioUrl = audio?.url || null;
     const pdfUrl = pdf?.url || null;
+
+    const videoRef = useRef<HTMLDivElement>(null);
+    const handleFullscreen = () => {
+        if (videoRef.current) {
+            if (videoRef.current.requestFullscreen) {
+                videoRef.current.requestFullscreen();
+            } else if ((videoRef.current as any).webkitRequestFullscreen) {
+                (videoRef.current as any).webkitRequestFullscreen();
+            } else if ((videoRef.current as any).msRequestFullscreen) {
+                (videoRef.current as any).msRequestFullscreen();
+            }
+        }
+    };
 
     const handleClose = () => {
         if (playerRef.current?.plyr) {
@@ -242,7 +257,7 @@ export default function ReadingDialog() {
                             'mute',
                             'volume',
                             'settings',
-                            'fullscreen'
+                            // 'fullscreen'
                         ],
                         keyboard: { focused: true, global: false },
                         clickToPlay: true,
@@ -287,14 +302,12 @@ export default function ReadingDialog() {
                     />
                 );
 
-
             case 'temp_notes':
                 return pdfUrl ? (
                     <iframe
-                        src={`${pdfUrl}#toolbar=0&navpanes=0&scrollbar=0`}
+                        src={`https://docs.google.com/viewer?url=${encodeURIComponent(pdfUrl)}&embedded=true`}
                         style={{ width: '100%', height: '600px', border: 'none' }}
                     />
-
                 ) : (
                     <p>No PDF available</p>
                 );
@@ -307,6 +320,8 @@ export default function ReadingDialog() {
     if (!open) {
         return null;
     }
+
+
 
     return (
         <Dialog
@@ -322,14 +337,18 @@ export default function ReadingDialog() {
             }}
         >
             <DialogContent sx={{ padding: '24px' }}>
-                <div style={{ marginBottom: '16px' }}>
+                <div className='mb-4 flex justify-between items-end'>
                     <h2 style={{ margin: 0, fontSize: '20px', fontWeight: 600 }}>
                         {title || 'Media Viewer'}
                     </h2>
+                    <Button variant="contained" onClick={handleFullscreen} startIcon={<Maximize2 />}>
+                        Fullscreen Zoom
+                    </Button>
                 </div>
 
                 <div className="lg:grid lg:grid-cols-12 gap-4">
-                    <div className="col-span-9">
+                    <div className="col-span-9" ref={videoRef}>
+                        <WaterMark />
                         {renderContent()}
                     </div>
                     <div className="hidden lg:block col-span-3">

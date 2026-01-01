@@ -218,7 +218,7 @@ export default function SingleTestRoot() {
         });
     };
 
-    const handleSubmit = async (type: SubmissionType) => {
+    const handleSubmit = async (_type: SubmissionType) => {
         try {
             setTimerPaused(true);
 
