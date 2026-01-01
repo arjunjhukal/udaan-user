@@ -14,6 +14,9 @@ export const PATH = {
         },
         BRIDGE: {
             ROOT: "/auth/bridge"
+        },
+        CHOOSE_PLATFORM: {
+            ROOT: "/choose-platform"
         }
     },
     DASHBOARD: {

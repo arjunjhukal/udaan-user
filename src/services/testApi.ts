@@ -1,6 +1,8 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
-import type { McqReportData, McqSubmissionPayload, McqSubmissionResponse, SingleMcqResponse } from "../types/question";
+import type { QueryParams } from "../types";
+import type { McqReportData, McqSubmissionPayload, McqSubmissionResponse, SingleMcqResponse, TestList } from "../types/question";
 import type { GlobalResponse } from "../types/user";
+import { buildQueryParams } from "../utils/buildQueryParams";
 import { baseQuery } from "./baseQuery";
 
 export const testApi = createApi({
@@ -8,6 +10,13 @@ export const testApi = createApi({
     baseQuery: baseQuery,
     tagTypes: ["Test"],
     endpoints: (builder) => ({
+        getUserAllTest: builder.query<TestList, QueryParams & { id?: number }>({
+            query: ({ id, pageIndex, pageSize, search }) => ({
+                url: `my-test?${buildQueryParams({ page: pageIndex, page_size: pageSize, search, course_id: id })}`,
+                method: "GET",
+            }),
+            providesTags: (_result, _error, { id }) => [{ type: "Test" as const, id }],
+        }),
         getTestById: builder.query<SingleMcqResponse, { courseId: number; testId: number }>({
             query: ({ courseId, testId }) => ({
                 url: `/course/${courseId}/test/${testId}`,
@@ -84,6 +93,7 @@ export const testApi = createApi({
 })
 
 export const {
+    useGetUserAllTestQuery,
     useGetTestByIdQuery,
     useSubmitMcqMutation,
     useReviewTestResultQuery,
@@ -92,5 +102,5 @@ export const {
     useGetSubjectiveAnswerQuery,
     useReviewSubjectiveTestResultQuery,
     useSubmitSubjectiveFinalMutation,
-    useGetTestResultQuery
+    useGetTestResultQuery,
 } = testApi;

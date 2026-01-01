@@ -71,8 +71,11 @@ const TestActionButton = ({ test, havePurchased, id }: { test: TestProps, status
 
     if (test.has_expired && !test.has_taken_test) {
         return (
-            <Button variant="contained" color="primary" disabled fullWidth >
-                Test Expired
+            <Button variant="contained" color="primary" fullWidth onClick={() => navigate(PATH.COURSE_MANAGEMENT.COURSES.VIEW_TEST.ROOT({
+                courseId: Number(id),
+                testId: Number(test?.id),
+            }))}>
+                View Questions
             </Button>
         )
     }
