@@ -152,7 +152,9 @@ export default function SingleLiveClassRoot() {
 
 
     const handleClose = () => {
-        navigate(PATH.COURSE_MANAGEMENT.COURSES.VIEW_COURSE.ROOT(Number(courseId)));
+        // navigate(PATH.COURSE_MANAGEMENT.COURSES.VIEW_COURSE.ROOT(Number(courseId)));
+        navigate(PATH.LIVE_CLASSES.ROOT);
+
     };
 
     const handleRetry = () => {
