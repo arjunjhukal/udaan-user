@@ -6,7 +6,7 @@ import PageHeader from "../../organism/PageHeader";
 
 export default function SupportRoot() {
     const { t } = useTranslation();
-    const { data, isLoading } = useGetAppSettingsQuery();
+    const { data } = useGetAppSettingsQuery();
     return (
         <div className="support__page__root h-full flex flex-col justify-start">
             <PageHeader
