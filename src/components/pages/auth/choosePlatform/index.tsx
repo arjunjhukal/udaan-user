@@ -57,6 +57,7 @@ export default function ChoosePlatform() {
             >
                 {/* Left Content */}
                 <Box>
+                    <img src="/logo.svg" alt="" className="max-w-[120px]" />
                     <Typography variant="h3" fontWeight={800} mb={2}>
                         Continue Your Learning
                     </Typography>
@@ -112,6 +113,8 @@ export default function ChoosePlatform() {
                         justifyContent: "center"
                     }}
                 >
+                    <img src="/auth-image.png" alt="" />
+
                     <Typography
                         variant="subtitle1"
                         color="text.secondary"
@@ -125,17 +128,7 @@ export default function ChoosePlatform() {
                         size="large"
                         endIcon={<ArrowRight />}
                         onClick={handleContinueWeb}
-                        sx={{
-                            bgcolor: theme.palette.grey[900],
-                            py: 1.75,
-                            borderRadius: 2,
-                            fontSize: 16,
-                            fontWeight: 600,
-                            textTransform: "none",
-                            "&:hover": {
-                                bgcolor: theme.palette.grey[800]
-                            }
-                        }}
+                        color="primary"
                     >
                         Continue with Web
                     </Button>
