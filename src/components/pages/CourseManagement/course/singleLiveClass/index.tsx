@@ -80,13 +80,11 @@ export default function SingleLiveClassRoot() {
             const meetingStartTime = meetingData.start_time ? new Date(meetingData.start_time) : null;
             const currentTime = new Date();
 
-            // 1. Check if meeting has not started yet
             if (meetingStartTime && currentTime < meetingStartTime) {
                 setMeetingStatus("not_started");
                 return;
             }
 
-            // 2. Proceed to Zoom preparation
             try {
                 setMeetingStatus("preparing_zoom");
                 setIsSignatureLoading(true);
@@ -105,7 +103,6 @@ export default function SingleLiveClassRoot() {
                 if (!meetingNumber) throw new Error("Invalid Meeting URL in server data.");
                 if (!sdkKey) throw new Error("Zoom SDK Key is not configured.");
 
-                // Generate Signature
                 const sigRes = await generateSignature({
                     meeting_id: Number(meetingNumber),
                     account_id: Number(meetingData?.account_id),
