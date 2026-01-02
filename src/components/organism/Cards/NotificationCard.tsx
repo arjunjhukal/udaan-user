@@ -8,7 +8,6 @@ import { useAppDispatch } from '../../../store/hook';
 import type { NotificationProps } from '../../../types/notification';
 import { getTimeDifference } from '../../../utils/formatTime';
 import { renderHtml } from '../../../utils/renderHtml';
-import { useNavigate } from 'react-router-dom';
 
 interface Props {
     data: NotificationProps;
@@ -47,7 +46,6 @@ const formatTimeAgo = (date: string | number | Date) => {
 
 export default function NotificationCard({ data }: Props) {
     const dispatch = useAppDispatch();
-    const navigate=useNavigate();
     const [readNotification] = useReadNotificationMutation();
 
     return (
@@ -62,9 +60,7 @@ export default function NotificationCard({ data }: Props) {
                     if (data?.external_link) {
                         window.open(data.external_link, "_blank", "noopener,noreferrer");
                     }
-                    else {
 
-                    }
                 }
                 catch (e: any) {
                     dispatch(
