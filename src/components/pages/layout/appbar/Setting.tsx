@@ -66,7 +66,7 @@ export default function SettingMenu() {
                 onClick={handleToggle}
                 sx={{
                     background: theme.palette.separator.dark,
-                    minWidth: "44px",
+                    minWidth: { xs: 36, lg: 44 },
                     aspectRatio: "1/1",
                     display: "flex",
                     alignItems: "center",

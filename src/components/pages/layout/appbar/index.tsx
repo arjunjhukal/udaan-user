@@ -4,7 +4,8 @@ import {
     IconButton,
     Stack,
     Toolbar,
-    useMediaQuery
+    useMediaQuery,
+    useTheme
 } from "@mui/material";
 import { HamburgerMenu } from "iconsax-reactjs";
 import NotificationModal from "./Notification";
@@ -17,7 +18,7 @@ export default function CustomAppbar({
 }: {
     handleDrawerToggle: () => void;
 }) {
-
+    const theme = useTheme();
     const isLargeScreen = useMediaQuery("(min-width:1440px)");
     const drawerWidth = isLargeScreen ? 356 : 320;
 
@@ -56,7 +57,7 @@ export default function CustomAppbar({
                     }}
 
                 >
-                    <HamburgerMenu />
+                    <HamburgerMenu color={theme.palette.separator.darkest} />
                 </IconButton>
                 <Stack
                     sx={{

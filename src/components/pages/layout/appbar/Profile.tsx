@@ -90,7 +90,7 @@ export default function ProfileMenu() {
                 <IconButton
                     sx={{
                         background: theme.palette.separator.dark,
-                        minWidth: "44px",
+                        minWidth: { xs: 36, lg: 44 },
                         aspectRatio: "1/1",
                         "&:hover": { backgroundColor: theme.palette.action.hover },
                     }}

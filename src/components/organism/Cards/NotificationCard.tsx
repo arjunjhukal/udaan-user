@@ -54,7 +54,7 @@ export default function NotificationCard({ data }: Props) {
 
 
     return (
-        <Box className="notification__item  flex gap-3 py-2 px-0 lg:p-4 2xl:p-6 cursor-pointer last:border-b-0!"
+        <Box className="notification__item  flex gap-3 py-1.5 px-0 lg:p-4 2xl:p-6 cursor-pointer last:border-b-0!"
             sx={{
                 backgroundColor: (theme) => data?.has_seen ? "transparent" : theme.palette.primary.light,
                 borderBottom: (theme) => `1px solid ${theme.palette.separator.darker}`,
