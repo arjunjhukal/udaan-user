@@ -41,9 +41,7 @@ export default function SingleLiveClassRoot() {
 
     const [generateSignature] = useGetMeetingSignatureMutation();
 
-    /**
-     * Helper function to format meeting time in Nepal Standard Time (NPT).
-     */
+
     const formatMeetingTime = (time: string | undefined) => {
         if (!time) return "";
         const startTime = new Date(time);
@@ -55,11 +53,10 @@ export default function SingleLiveClassRoot() {
             hour: "numeric",
             minute: "2-digit",
             hour12: true,
-            timeZone: 'Asia/Kathmandu', // 💡 Using Nepal Time Zone
+            timeZone: 'Asia/Kathmandu',
         }) + " (NPT)";
     };
 
-    // Core logic to check status and prepare Zoom URL
     useEffect(() => {
         if (isLoadingLiveClass) {
             setMeetingStatus("initial_loading");
@@ -152,7 +149,8 @@ export default function SingleLiveClassRoot() {
 
 
     const handleClose = () => {
-        navigate(-1);
+        navigate(PATH.COURSE_MANAGEMENT.COURSES.ROOT)
+        // navigate(-1);
         // navigate(PATH.LIVE_CLASSES.ROOT);
     };
 
