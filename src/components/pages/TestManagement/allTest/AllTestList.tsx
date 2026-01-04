@@ -47,10 +47,8 @@ export default function AlltestList() {
     const { data: myCourse, isLoading } = useGetUserPurchasedCourseQuery(qp);
     const myCourses = myCourse?.data?.data || [];
 
-
-
     const { data: tests, isLoading: loadingTest } = useGetUserAllTestQuery(
-        { id: selectedCourseId!, ...qpTest },
+        { ...qpTest },
     );
 
     const selectedCourse = myCourses.find(course => course.id === selectedCourseId);
@@ -119,7 +117,7 @@ export default function AlltestList() {
         return (
             <EmptyList
                 title="You Haven't Purchased any course"
-                description="Please purchase a course to view the videos."
+                description="Please purchase a course to view the tests."
                 cta={{
                     label: "Explore Course",
                     url: PATH.COURSE_MANAGEMENT.COURSES.ROOT

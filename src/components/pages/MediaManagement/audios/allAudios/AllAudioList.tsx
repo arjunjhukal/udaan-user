@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { PATH } from "../../../../../routes/PATH";
 import { useGetCourseMediaByTypeQuery, useGetUserPurchasedCourseQuery } from "../../../../../services/courseApi";
@@ -54,8 +54,15 @@ export default function AllAudioListing() {
         { skip: !selectedCourseId }
     );
 
-    const selectedCourse = myCourses.find(course => course.id === selectedCourseId);
-    const audioListing = audios?.data?.data || [];
+    const selectedCourse = useMemo(
+        () => myCourses.find(course => course.id === selectedCourseId),
+        [myCourses, selectedCourseId]
+    );
+
+    const audioListing = useMemo(() =>
+        audios?.data?.data || [],
+        [audios?.data?.data]
+    );
     const totalPages = audios?.data?.pagination?.total_pages || 0;
     const currentPage = qpMedia.pageIndex;
 
@@ -120,7 +127,7 @@ export default function AllAudioListing() {
         return (
             <EmptyList
                 title="You Haven't Purchased any course"
-                description="Please purchase a course to view the videos."
+                description="Please purchase a course to view the audios."
                 cta={{
                     label: "Explore Course",
                     url: PATH.COURSE_MANAGEMENT.COURSES.ROOT
