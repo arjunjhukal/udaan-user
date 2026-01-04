@@ -114,12 +114,12 @@ export const courseApi = createApi({
                 { type: "Media" as const, id: "LIST" },   // refetch all media
             ],
         }),
-        purchaseCourseWithEsewa: builder.query<GlobalResponse & { data: EsewaPaymentPayload }, { id: number }>({
+        purchaseCourseWithEsewa: builder.mutation<GlobalResponse & { data: EsewaPaymentPayload }, { id: number }>({
             query: ({ id }) => ({
                 url: `/course/${id}/payment/esewa`,
-                method: "GET",
+                method: "POST",
             }),
-            providesTags: (_result, _error, { id }) => [{ type: "Course" as const, id }],
+            invalidatesTags: (_result, _error, { id }) => [{ type: "Course" as const, id }],
         }),
         purchaseWithKhalti: builder.mutation<GlobalResponse & { data: { payment_url: string; pidx: string; order_id: string } }, { id: number, type: string, amount: number }>({
             query: ({ id, type, amount }) => ({
@@ -211,7 +211,7 @@ export const {
     useGetAllBookmarkedCourseQuery,
     useGetSingleLiveClassQuery,
     useGetMeetingSignatureMutation,
-    usePurchaseCourseWithEsewaQuery,
-    usePurchaseWithKhaltiMutation
+    usePurchaseWithKhaltiMutation,
+    usePurchaseCourseWithEsewaMutation
 
 } = courseApi;
