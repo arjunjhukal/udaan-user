@@ -23,6 +23,7 @@ import TestCancelDialog from "../../../organism/Dialog/TestCancelDialog";
 import TestResultDialog from "../../../organism/Dialog/TestResultDialog";
 import TestSubmissionDialog, { type SubmissionType } from "../../../organism/Dialog/TestSubmissionDialog";
 
+import { EmptyList } from "../../../molecules/EmptyList";
 import QuestionListView from "./QuestionListView";
 import QuestionView from "./QuestionView";
 
@@ -128,19 +129,23 @@ export default function SingleTestRoot() {
 
                 <Divider className="my-4!" />
 
-                {data.data.map(q => (
-                    <Box
-                        key={q.question}
-                        className="pb-4 mb-4 border-b last:border-b-0"
-                        sx={{
-                            bordercolor: (theme) => theme.palette.separator.dark
-                        }}
-                    >
-                        <Typography variant="h6">
-                            {renderHtml(q.question)}
-                        </Typography>
-                    </Box>
-                ))}
+                {data?.data?.length ? <EmptyList
+                    title="No Questions Available"
+                    description="Questions for this test haven’t been added yet. Please check back later."
+                />
+cle                    : (data.data.map(q => (
+                <Box
+                    key={q.question}
+                    className="pb-4 mb-4 border-b last:border-b-0"
+                    sx={{
+                        bordercolor: (theme) => theme.palette.separator.dark
+                    }}
+                >
+                    <Typography variant="h6">
+                        {renderHtml(q.question)}
+                    </Typography>
+                </Box>
+                    )))}
             </div>
         );
     }
