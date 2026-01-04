@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { PATH } from "../../../../../routes/PATH";
 import { useGetCourseMediaByTypeQuery, useGetUserPurchasedCourseQuery } from "../../../../../services/courseApi";
@@ -9,7 +9,6 @@ import { EmptyList } from "../../../../molecules/EmptyList";
 import MediaCard from "../../../../organism/Cards/MediaCard";
 import TableFilter from "../../../../organism/TableFilter";
 
-// Loading Skeleton Component
 const VideoSkeleton = () => (
   <div className="col-span-1 animate-pulse">
     <div className="bg-gray-200 rounded-xl h-48 w-full"></div>
@@ -28,7 +27,7 @@ const CourseFilterSkeleton = () => (
 );
 
 export default function AllVideosListing() {
-  const [qp, _setQp] = useState<QueryParams>({
+  const [qp] = useState<QueryParams>({
     pageIndex: 1,
     pageSize: 10,
     search: '',
@@ -41,22 +40,41 @@ export default function AllVideosListing() {
   });
   const [search, setSearch] = useState<string>("");
   const [allVideos, setAllVideos] = useState<MediaProps[]>([]);
-  const { data: myCourse, isLoading } = useGetUserPurchasedCourseQuery(qp);
-  const myCourses = myCourse?.data?.data || [];
 
+  // Use ref to track if initial course was set
+  const initialCourseSet = useRef(false);
+
+  const { data: myCourse, isLoading } = useGetUserPurchasedCourseQuery(qp);
+
+  // ✅ Memoize myCourses
+  const myCourses = useMemo(() =>
+    myCourse?.data?.data || [],
+    [myCourse?.data?.data]
+  );
+
+  // ✅ Auto-select first course only once
   useEffect(() => {
-    if (myCourses.length > 0 && !selectedCourseId) {
+    if (myCourses.length > 0 && !selectedCourseId && !initialCourseSet.current) {
       setSelectedCourseId(myCourses[0].id || null);
+      initialCourseSet.current = true;
     }
-  }, [myCourses, selectedCourseId]);
+  }, [myCourses.length, selectedCourseId]);
 
   const { data: videos, isLoading: loadingVideos } = useGetCourseMediaByTypeQuery(
     { id: selectedCourseId!, type: "videos", qp: qpVideos },
     { skip: !selectedCourseId }
   );
 
-  const selectedCourse = myCourses.find(course => course.id === selectedCourseId);
-  const videosList = videos?.data?.data || [];
+  const selectedCourse = useMemo(
+    () => myCourses.find(course => course.id === selectedCourseId),
+    [myCourses, selectedCourseId]
+  );
+
+  const videosList = useMemo(() =>
+    videos?.data?.data || [],
+    [videos?.data?.data]
+  );
+
   const totalPages = videos?.data?.pagination?.total_pages || 0;
   const currentPage = qpVideos.pageIndex;
 
@@ -74,7 +92,7 @@ export default function AllVideosListing() {
     } else if (qpVideos.pageIndex === 1) {
       setAllVideos([]);
     }
-  }, [videosList, qpVideos.pageIndex]);
+  }, [JSON.stringify(videosList.map(v => v.id)), qpVideos.pageIndex]);
 
   useEffect(() => {
     setQpVideos(prev => ({ ...prev, pageIndex: 1 }));
@@ -131,7 +149,6 @@ export default function AllVideosListing() {
 
   return (
     <div className="all__video__listing">
-      {/* Search and Filter Section */}
       <div className="mb-6">
         <TableFilter
           search={search || ""}
@@ -151,7 +168,6 @@ export default function AllVideosListing() {
         </div>
       )}
 
-      {/* Media Listing */}
       <div className="media__listing__wrapper">
         <Box
           id="video__listing__wrapper"

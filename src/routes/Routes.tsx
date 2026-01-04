@@ -79,34 +79,114 @@ const router = createBrowserRouter([
     element: <Private />,
     children: [
       {
-        index: true,
-        path: "/",
-        element: <RootLayout>
-          <App />
-        </RootLayout>,
-      },
-      {
-        path: PATH.DASHBOARD.ROOT,
-        element: <RootLayout>
-          <App />
-        </RootLayout>,
-      },
-      // COURSE INSIDE LAYOUT
-      {
-        element: <RootLayout>
-          <CourseRoot />
-        </RootLayout>,
+        element: <RootLayout />,
         children: [
-          { path: PATH.COURSE_MANAGEMENT.COURSES.ROOT, element: <AllCourses /> },
-          { path: PATH.COURSE_MANAGEMENT.COURSES.VIEW_COURSE.ROOT(), element: <SingleCourse /> },
-          { path: PATH.COURSE_MANAGEMENT.COURSES.VIEW_TEST.ROOT({}), element: <SingleTestRoot /> },
-          { path: PATH.COURSE_MANAGEMENT.COURSES.VIEW_TEST.SUBJECTIVE_TEST.ROOT({}), element: <SingleSubjectiveTest /> },
-          { path: PATH.COURSE_MANAGEMENT.COURSES.VIEW_TEST.REVIEW_TEST.ROOT({}), element: <ReviewTestRoot /> },
-          { path: PATH.COURSE_MANAGEMENT.COURSES.VIEW_TEST.REVIEW_TEST.REVIEW_SUBJECTIVE_TEST.ROOT({}), element: <ReviewSubjectTestRoot /> },
-          { path: PATH.COURSE_MANAGEMENT.COURSES.SAVED_COURSES.ROOT, element: <SavedCourse /> },
-        ],
+          {
+            index: true, path: "/", element: <App />
+          },
+          {
+            path: PATH.DASHBOARD.ROOT, element: <App />
+          },
+          // COURSE INSIDE LAYOUT
+          {
+            element: <CourseRoot />,
+            children: [
+              { path: PATH.COURSE_MANAGEMENT.COURSES.ROOT, element: <AllCourses /> },
+              { path: PATH.COURSE_MANAGEMENT.COURSES.VIEW_COURSE.ROOT(), element: <SingleCourse /> },
+              { path: PATH.COURSE_MANAGEMENT.COURSES.VIEW_TEST.ROOT({}), element: <SingleTestRoot /> },
+              { path: PATH.COURSE_MANAGEMENT.COURSES.VIEW_TEST.SUBJECTIVE_TEST.ROOT({}), element: <SingleSubjectiveTest /> },
+              { path: PATH.COURSE_MANAGEMENT.COURSES.VIEW_TEST.REVIEW_TEST.ROOT({}), element: <ReviewTestRoot /> },
+              { path: PATH.COURSE_MANAGEMENT.COURSES.VIEW_TEST.REVIEW_TEST.REVIEW_SUBJECTIVE_TEST.ROOT({}), element: <ReviewSubjectTestRoot /> },
+              { path: PATH.COURSE_MANAGEMENT.COURSES.SAVED_COURSES.ROOT, element: <SavedCourse /> },
+            ],
+          },
+          // COURSE OUTSIDE LAYOUT
+
+          {
+            element:
+              <TestManagementRoot />
+            ,
+            children: [
+              { path: PATH.TEST.ROOT, element: <AllTestRoot /> },
+
+            ]
+          },
+          {
+            element:
+              <PurchaseRoot />
+            ,
+            children: [
+              { path: PATH.COURSE_MANAGEMENT.COURSES.PURCHASE.ROOT(), element: <PurchaseLayout /> },
+              { path: PATH.COURSE_MANAGEMENT.COURSES.PURCHASE.SUCCESS.ROOT, element: <PaymentSuccessPage /> },
+              { path: PATH.COURSE_MANAGEMENT.COURSES.PURCHASE.FAILURE.ROOT, element: <PurchaseFailure /> },
+              // { path: PATH.COURSE_MANAGEMENT.LIVE_CLASSES.PURCHASE.ROOT(), element: <PurchaseLayout /> },
+            ],
+          },
+          {
+            path: PATH.MY_COURSE.ROOT,
+            element:
+              <MyCourseRoot />
+            ,
+          },
+          {
+
+            element:
+              <LiveClassRoot />
+            ,
+            children: [{
+              path: PATH.LIVE_CLASSES.ROOT,
+              element: <AllLiveClass />
+            }]
+          },
+          {
+
+            element:
+              <NotesRoot />
+            ,
+            children: [
+              { path: PATH.NOTES.ROOT, element: <AllNotes /> }
+            ]
+          },
+          {
+
+            element:
+              <TestManagementRoot />
+            ,
+            children: [
+              { path: PATH.TEST.ROOT, element: <AllTestRoot /> }
+            ]
+          },
+          {
+
+            element:
+              <VideosRoot />
+            ,
+            children: [
+              { path: PATH.VIDEOS.ROOT, element: <AllVideos /> }
+            ]
+          },
+          {
+            element:
+              <AudiosRoot />
+            ,
+            children: [
+              { path: PATH.AUDIOS.ROOT, element: <AllAudios /> }
+            ]
+          },
+          {
+            path: PATH.USER.MY_ACCOUNT.ROOT,
+            element:
+              <MyAccount />
+
+          },
+          {
+            path: PATH.SUPPORT.ROOT,
+            element:
+              <SupportRoot />
+
+          }
+        ]
       },
-      // COURSE OUTSIDE LAYOUT
       {
         element:
           <CourseRoot />,
@@ -114,90 +194,8 @@ const router = createBrowserRouter([
           { path: PATH.COURSE_MANAGEMENT.COURSES.JOIN_LIVE.ROOT(), element: <SingleLiveClassRoot /> },
         ],
       },
-      {
-        element: <RootLayout>
-          <TestManagementRoot />
-        </RootLayout>,
-        children: [
-          { path: PATH.TEST.ROOT, element: <AllTestRoot /> },
+    ]
 
-        ]
-      },
-      {
-        element: <RootLayout>
-          <PurchaseRoot />
-        </RootLayout>,
-        children: [
-          { path: PATH.COURSE_MANAGEMENT.COURSES.PURCHASE.ROOT(), element: <PurchaseLayout /> },
-          { path: PATH.COURSE_MANAGEMENT.COURSES.PURCHASE.SUCCESS.ROOT, element: <PaymentSuccessPage /> },
-          { path: PATH.COURSE_MANAGEMENT.COURSES.PURCHASE.FAILURE.ROOT, element: <PurchaseFailure /> },
-          // { path: PATH.COURSE_MANAGEMENT.LIVE_CLASSES.PURCHASE.ROOT(), element: <PurchaseLayout /> },
-        ],
-      },
-      {
-        path: PATH.MY_COURSE.ROOT,
-        element: <RootLayout>
-          <MyCourseRoot />
-        </RootLayout>,
-      },
-      {
-
-        element: <RootLayout>
-          <LiveClassRoot />
-        </RootLayout>,
-        children: [{
-          path: PATH.LIVE_CLASSES.ROOT,
-          element: <AllLiveClass />
-        }]
-      },
-      {
-
-        element: <RootLayout>
-          <NotesRoot />
-        </RootLayout>,
-        children: [
-          { path: PATH.NOTES.ROOT, element: <AllNotes /> }
-        ]
-      },
-      {
-
-        element: <RootLayout>
-          <TestManagementRoot />
-        </RootLayout>,
-        children: [
-          { path: PATH.TEST.ROOT, element: <AllTestRoot /> }
-        ]
-      },
-      {
-
-        element: <RootLayout>
-          <VideosRoot />
-        </RootLayout>,
-        children: [
-          { path: PATH.VIDEOS.ROOT, element: <AllVideos /> }
-        ]
-      },
-      {
-        element: <RootLayout>
-          <AudiosRoot />
-        </RootLayout>,
-        children: [
-          { path: PATH.AUDIOS.ROOT, element: <AllAudios /> }
-        ]
-      },
-      {
-        path: PATH.USER.MY_ACCOUNT.ROOT,
-        element: <RootLayout>
-          <MyAccount />
-        </RootLayout>
-      },
-      {
-        path: PATH.SUPPORT.ROOT,
-        element: <RootLayout>
-          <SupportRoot />
-        </RootLayout>
-      }
-    ],
   },
   {
     path: "*",

@@ -78,7 +78,7 @@ export default function ChoosePlatform() {
                                 maxWidth: 320
                             }}
                         >
-                            <img src="/logo.svg" alt="" className="mx-auto" />
+                            <img src="/qr.png" alt="" className="mx-auto w-40! h-40!" />
                             <Typography variant="body2" fontWeight={600} mt={2}>
                                 Scan to download the app
                             </Typography>
