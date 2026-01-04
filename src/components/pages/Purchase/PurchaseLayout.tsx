@@ -84,12 +84,8 @@ export default function PurchaseLayout() {
                     const response = await payViaKhalti({ id: Number(id), type: values.paymentOption, amount: total }).unwrap();
                     const paymentUrl = response?.data?.payment_url;
                     if (paymentUrl) {
-                        window.location.replace(paymentUrl); // replaces current page
+                        window.location.replace(paymentUrl);
                     }
-                    // dispatch(showToast({
-                    //     message: "Payment initiated successfully.",
-                    //     severity: "success"
-                    // }));
                 }
 
             } catch (e: any) {
