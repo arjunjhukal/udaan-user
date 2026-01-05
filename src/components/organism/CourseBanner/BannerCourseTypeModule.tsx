@@ -36,7 +36,7 @@ export default function BannerCourseTypeModule({ courseType, courseExpiry, cours
             return "Free Trial Ongoing";
         }
 
-        return "Free Trial Already Taken"; // taken + not valid
+        return "Free Trial Already Taken";
     };
 
     const renderButtons = () => {

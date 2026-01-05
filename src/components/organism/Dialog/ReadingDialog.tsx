@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from '../../../store/hook';
 import type { MediaProps } from '../../../types/media';
 import { extractYouTubeVideoId, getYouTubeThumbnail } from '../../../utils/extractYoutubeVideoId';
 import WaterMark from '../../../Watermark';
+import PdfReader from './PdfReader';
 
 interface PlyrInstance {
     plyr?: APITypes;
@@ -304,10 +305,10 @@ export default function ReadingDialog() {
 
             case 'temp_notes':
                 return pdfUrl ? (
-                    <iframe
-                        src={`https://docs.google.com/viewer?url=${encodeURIComponent(pdfUrl)}&embedded=true`}
-                        style={{ width: '100%', height: '600px', border: 'none' }}
-                    />
+                    <>
+
+                        <PdfReader fileUrl={pdfUrl} />
+                    </>
                 ) : (
                     <p>No PDF available</p>
                 );
@@ -382,30 +383,20 @@ export default function ReadingDialog() {
                                                     borderRadius: '8px',
                                                     overflow: 'hidden'
                                                 }}>
-                                                    {thumbnailUrl ? (
-                                                        <img
-                                                            src={thumbnailUrl}
-                                                            alt={relatedVideo.file_name}
-                                                            style={{
-                                                                position: 'absolute',
-                                                                top: 0,
-                                                                left: 0,
-                                                                width: '100%',
-                                                                height: '100%',
-                                                                objectFit: 'cover'
-                                                            }}
-                                                        />
-                                                    ) : (
-                                                        <div style={{
+
+                                                    <img
+                                                        src={thumbnailUrl || "/fallback.png"}
+                                                        alt={relatedVideo.file_name}
+                                                        style={{
                                                             position: 'absolute',
-                                                            top: '50%',
-                                                            left: '50%',
-                                                            transform: 'translate(-50%, -50%)',
-                                                            color: '#fff'
-                                                        }}>
-                                                            No thumbnail
-                                                        </div>
-                                                    )}
+                                                            top: 0,
+                                                            left: 0,
+                                                            width: '100%',
+                                                            height: '100%',
+                                                            objectFit: 'cover'
+                                                        }}
+                                                    />
+                                                    )
                                                 </div>
                                                 <Tooltip title={relatedVideo.file_name}>
                                                     <Typography variant='subtitle1' className='font-bold mt-1! line-clamp-1'>

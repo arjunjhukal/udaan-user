@@ -98,6 +98,7 @@ export default function TabController<T extends string | number>({
                 sx={{
                     background: theme.palette.tab.background,
                     display: { xs: "none", lg: "flex" },
+                    overflow: "auto"
                 }}
                 className="p-1! rounded-md max-w-fit flex items-center"
             >

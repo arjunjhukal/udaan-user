@@ -17,7 +17,7 @@ export default function CourseListing() {
     const [search, setSearch] = useState("");
     const [options, setOptions] = useState<{ label: string; value: number }[]>([]);
 
-    const { data, isLoading, isFetching } = useGetAllCourseQuery({
+    const { data, isLoading } = useGetAllCourseQuery({
         ...qp, search,
         ...(activeCategory !== 0 && {
             categoryFilter: {
@@ -54,7 +54,7 @@ export default function CourseListing() {
                 <TableFilter categoryLayout={true} search={search} setSearch={(newVal) => setSearch(newVal)} />
             </Box>
             {/* LOADING */}
-            {isLoading || isFetching ? (
+            {isLoading ? (
                 <div className="flex flex-col gap-4 lg:gap-3 sm:grid sm:grid-cols-2 xl:grid-cols-3 3xl:grid-cols-4">
                     {Array.from({ length: 8 }).map((_, index) => (
                         <Box
