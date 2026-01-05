@@ -320,6 +320,11 @@ const commonThemeOptions: ThemeOptions = {
           },
         },
         ".general__content__box": {
+          '& h1': {
+            ...theme.typography.h2,
+            fontWeight: 700,
+            margin: '1.5rem 0 1rem 0',
+          },
           '& h2': {
             ...theme.typography.h3,
             fontWeight: 700,
@@ -391,6 +396,17 @@ const commonThemeOptions: ThemeOptions = {
             borderTop: `1px solid ${theme.palette.divider}`,
             margin: '2rem 0',
           },
+        },
+        ".styled__list": {
+          "ul": {
+            ">li": {
+              listStyleType: "disc"
+            }
+          }, "ol": {
+            ">li": {
+              listStyleType: "decimal"
+            }
+          }
         },
         ".status": {
           padding: "4px 8px",

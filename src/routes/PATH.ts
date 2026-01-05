@@ -101,5 +101,8 @@ export const PATH = {
     },
     SUPPORT: {
         ROOT: "/support"
+    },
+    PRIVACY_POLICY: {
+        ROOT: "/privacy-policy"
     }
 };

@@ -24,6 +24,7 @@ import NotesRoot from "../components/pages/MediaManagement/notes";
 import AllNotes from "../components/pages/MediaManagement/notes/allNotes";
 import VideosRoot from "../components/pages/MediaManagement/videos";
 import AllVideos from "../components/pages/MediaManagement/videos/allVideos";
+import PrivacyPolicyRoot from "../components/pages/PrivacyPolicy";
 import PurchaseRoot from "../components/pages/Purchase";
 import PurchaseFailure from "../components/pages/Purchase/failure";
 import PurchaseLayout from "../components/pages/Purchase/PurchaseLayout";
@@ -183,10 +184,10 @@ const router = createBrowserRouter([
             path: PATH.SUPPORT.ROOT,
             element:
               <SupportRoot />
-
-          }
+          },
         ]
       },
+
       {
         element:
           <CourseRoot />,
@@ -196,6 +197,11 @@ const router = createBrowserRouter([
       },
     ]
 
+  },
+  {
+    path: PATH.PRIVACY_POLICY.ROOT,
+    element:
+      <PrivacyPolicyRoot />
   },
   {
     path: "*",
