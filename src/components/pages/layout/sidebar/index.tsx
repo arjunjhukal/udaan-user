@@ -116,7 +116,7 @@ export default function ResponsiveDrawer(props: Props) {
                         lg: `calc(100% - ${drawerWidth}px)`
                     },
                     padding: {
-                        xs: " 0",
+                        xs: "16px 0 0",
                         lg: "32px 24px 0"
                     },
                     overflow: "hidden"
@@ -132,7 +132,7 @@ export default function ResponsiveDrawer(props: Props) {
                     sx={{
                         background: theme.palette.primary.contrastText,
                         height: {
-                            xs: "calc(100vh - 60px)",
+                            xs: "calc(100vh - 85px)",
                             lg: "calc(100vh - 165px)"
                         },
                         padding: {
