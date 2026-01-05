@@ -1,4 +1,5 @@
 import { Activity, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import { useGetCourseByIdQuery, useGetCourseCurriculumByIdQuery, useGetCourseLiveClassQuery, useGetCourseMediaByTypeQuery, useGetCourseOverviewByIdQuery, useGetCourseTestQuery } from "../../../../../services/courseApi";
 import type { QueryParams } from "../../../../../types";
@@ -13,6 +14,7 @@ import SinlgeCourseTest from "./test";
 
 export default function SingleCourse() {
     const { id } = useParams();
+    const { t } = useTranslation();
 
     const [activeTab, setActiveTab] = useState("curriculum");
     // const [havePurchesed, setHavePurchased] = useState(false);
@@ -62,7 +64,6 @@ export default function SingleCourse() {
         courseBasic?.data?.user?.is_free_trial_valid ||
         false;
 
-
     return (
         <>
             <CourseBanner data={courseBasic?.data && courseBasic.data} isLoading={loadingBasic} havePurchased={havePurchased} />
@@ -70,31 +71,31 @@ export default function SingleCourse() {
                 <TabController
                     options={[
                         {
-                            label: "Overview",
+                            label: t("messages.overview"),
                             value: "overview"
                         },
                         {
-                            label: "Curriculum",
+                            label: t("messages.curriculum"),
                             value: "curriculum"
                         },
                         {
-                            label: "Notes",
+                            label: t("menus.notes"),
                             value: "notes"
                         },
                         {
-                            label: "Videos",
+                            label: t("menus.videos"),
                             value: "videos"
                         },
                         {
-                            label: "Audios",
+                            label: t("menus.audios"),
                             value: "audios"
                         },
                         {
-                            label: "Tests",
+                            label: t("menus.test"),
                             value: "tests"
                         },
                         {
-                            label: "Live Classes",
+                            label: t("menus.liveClasses"),
                             value: "live_classes"
                         },
                     ]}

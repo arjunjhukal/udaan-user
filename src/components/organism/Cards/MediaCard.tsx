@@ -136,7 +136,7 @@ export default function MediaCard({
                 <Divider className='my-1.5!' />
 
                 <Typography color='text.middle' className='text-[12px]!'>
-                    {convertToMb(media.size)} MB
+                    {media.size ? `${convertToMb(media.size)} MB` : "Size: N/A"}
                 </Typography>
             </div>
         </Box>

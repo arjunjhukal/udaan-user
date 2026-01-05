@@ -1,4 +1,5 @@
 import { Button, Typography } from "@mui/material";
+import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router-dom";
 import { PATH } from "../../../routes/PATH";
 import { usePurchaseCourseMutation } from "../../../services/courseApi";
@@ -21,6 +22,7 @@ interface Props {
 
 
 export default function BannerCourseTypeModule({ courseType, courseExpiry, courseSubscription, purchaseStatus }: Props) {
+    const { t } = useTranslation();
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const { id } = useParams();
@@ -29,14 +31,14 @@ export default function BannerCourseTypeModule({ courseType, courseExpiry, cours
 
     const getFreeTrialLabel = () => {
         if (!purchaseStatus?.has_taken_freetrial) {
-            return "Free Trial";
+            return t("messages.free_trail");
         }
 
         if (purchaseStatus?.has_taken_freetrial && purchaseStatus?.is_free_trial_valid) {
             return "Free Trial Ongoing";
         }
 
-        return "Free Trial Already Taken";
+        return t("messages.free_trial_already_taken");
     };
 
     const renderButtons = () => {
@@ -70,7 +72,7 @@ export default function BannerCourseTypeModule({ courseType, courseExpiry, cours
                         })
                     )
                 }
-            }}>{!isLoading ? "Assigning Course" : "Start Learning"}</Button>;
+            }}>{!isLoading ? "Assigning Course" : t("messages.start_learning")}</Button>;
         }
         return (
             <div className="actions flex flex-col gap-2">
@@ -82,7 +84,7 @@ export default function BannerCourseTypeModule({ courseType, courseExpiry, cours
                         courseId: Number(id),
                         open: true
                     })
-                )}>Purchase Now</Button>}
+                )}>{t("messages.purchase_now")}</Button>}
                 <Button variant="contained" fullWidth className={`white__btn ${!purchaseStatus?.is_free_trial_valid && purchaseStatus?.has_taken_freetrial ? "opacity-60 pointer-events-none" : ""}`} disabled={!purchaseStatus?.is_free_trial_valid && purchaseStatus?.has_taken_freetrial}
                     onClick={async () => {
                         try {

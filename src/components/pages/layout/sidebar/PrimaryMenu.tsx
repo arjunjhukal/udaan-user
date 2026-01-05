@@ -24,129 +24,130 @@ export default function PrimaryMenu() {
   const isActive = (path: string) => location.pathname === path;
 
   return (
-    <Box sx={{ padding: "0 32px 32px", maxHeight: "calc(100vh - 162px)", overflow: "auto" }} className="primary__menu">
-      <div className="flex items-center gap-2 overflow-hidden mb-1">
-        <Typography variant='caption' mb={1} sx={{
-          color: theme.palette.text.light
-        }}>{t("messages.main")}</Typography>
-        <Divider sx={{
-          borderColor: "#4B4B4B"
-        }} className="w-full" />
-      </div>
-      <List>
-        <ListItem disablePadding className="menu__item">
-          <ListItemButton
-            onClick={() => navigate(PATH.DASHBOARD.ROOT)}
-            className={isActive(PATH.DASHBOARD.ROOT) ? "active" : ""}
-          >
-            <ListItemIcon>
-              <Element4 size={20} />
-            </ListItemIcon>
-            <ListItemText primary={t("menus.dashboard")} />
-          </ListItemButton>
-        </ListItem>
-        <ListItem disablePadding className="menu__item">
-          <ListItemButton
-            onClick={() => navigate(PATH.MY_COURSE.ROOT)}
-            className={isActive(PATH.MY_COURSE.ROOT) ? "active" : ""}
-          >
-            <ListItemIcon>
-              <Book size={20} />
-            </ListItemIcon>
-            <ListItemText primary={t("menus.myCourse")} />
-          </ListItemButton>
-        </ListItem>
-        <ListItem disablePadding className="menu__item">
-          <ListItemButton
-            onClick={() => navigate(PATH.COURSE_MANAGEMENT.COURSES.ROOT)}
-            className={isActive(PATH.COURSE_MANAGEMENT.COURSES.ROOT) ? "active" : ""}
-          >
-            <ListItemIcon>
-              <SearchNormal size={20} />
-            </ListItemIcon>
-            <ListItemText primary={t("menus.exploreCourse")} />
-          </ListItemButton>
-        </ListItem>
-        <ListItem disablePadding className="menu__item">
-          <ListItemButton
-            onClick={() => navigate(PATH.COURSE_MANAGEMENT.COURSES.SAVED_COURSES.ROOT)}
-            className={isActive(PATH.COURSE_MANAGEMENT.COURSES.SAVED_COURSES.ROOT) ? "active" : ""}
-          >
-            <ListItemIcon>
-              <Bookmark size={20} />
-            </ListItemIcon>
-            <ListItemText primary={t("menus.savedCourse")} />
-          </ListItemButton>
-        </ListItem>
-      </List>
+    <div className="primary__menu__wrapper relative">
+      <Box sx={{ padding: "0 32px 32px", maxHeight: "calc(100vh - 162px)", overflow: "auto" }} className="primary__menu  relative">
+        <div className="flex items-center gap-2 overflow-hidden mb-1">
+          <Typography variant='caption' mb={1} sx={{
+            color: theme.palette.text.light
+          }}>{t("messages.main")}</Typography>
+          <Divider sx={{
+            borderColor: "#4B4B4B"
+          }} className="w-full" />
+        </div>
+        <List>
+          <ListItem disablePadding className="menu__item">
+            <ListItemButton
+              onClick={() => navigate(PATH.DASHBOARD.ROOT)}
+              className={isActive(PATH.DASHBOARD.ROOT) ? "active" : ""}
+            >
+              <ListItemIcon>
+                <Element4 size={20} />
+              </ListItemIcon>
+              <ListItemText primary={t("menus.dashboard")} />
+            </ListItemButton>
+          </ListItem>
+          <ListItem disablePadding className="menu__item">
+            <ListItemButton
+              onClick={() => navigate(PATH.MY_COURSE.ROOT)}
+              className={isActive(PATH.MY_COURSE.ROOT) ? "active" : ""}
+            >
+              <ListItemIcon>
+                <Book size={20} />
+              </ListItemIcon>
+              <ListItemText primary={t("menus.myCourse")} />
+            </ListItemButton>
+          </ListItem>
+          <ListItem disablePadding className="menu__item">
+            <ListItemButton
+              onClick={() => navigate(PATH.COURSE_MANAGEMENT.COURSES.ROOT)}
+              className={isActive(PATH.COURSE_MANAGEMENT.COURSES.ROOT) ? "active" : ""}
+            >
+              <ListItemIcon>
+                <SearchNormal size={20} />
+              </ListItemIcon>
+              <ListItemText primary={t("menus.exploreCourse")} />
+            </ListItemButton>
+          </ListItem>
+          <ListItem disablePadding className="menu__item">
+            <ListItemButton
+              onClick={() => navigate(PATH.COURSE_MANAGEMENT.COURSES.SAVED_COURSES.ROOT)}
+              className={isActive(PATH.COURSE_MANAGEMENT.COURSES.SAVED_COURSES.ROOT) ? "active" : ""}
+            >
+              <ListItemIcon>
+                <Bookmark size={20} />
+              </ListItemIcon>
+              <ListItemText primary={t("menus.savedCourse")} />
+            </ListItemButton>
+          </ListItem>
+        </List>
 
-      <div className="flex items-center gap-2 overflow-hidden mb-1 mt-8">
-        <Typography variant='caption' mb={1} sx={{
-          color: theme.palette.text.light
-        }}>{t("messages.learning")}</Typography>
-        <Divider sx={{
-          borderColor: "#4B4B4B"
-        }} className="w-full" />
-      </div>
+        <div className="flex items-center gap-2 overflow-hidden mb-1 mt-8">
+          <Typography variant='caption' mb={1} sx={{
+            color: theme.palette.text.light
+          }}>{t("messages.learning")}</Typography>
+          <Divider sx={{
+            borderColor: "#4B4B4B"
+          }} className="w-full" />
+        </div>
 
-      <List>
-        <ListItem disablePadding className="menu__item">
-          <ListItemButton
-            onClick={() => navigate(PATH.LIVE_CLASSES.ROOT)}
-            className={isActive(PATH.LIVE_CLASSES.ROOT) ? "active" : ""}
-          >
-            <ListItemIcon>
-              <VideoPlay />
-            </ListItemIcon>
-            <ListItemText primary={t("menus.liveClasses")} />
-          </ListItemButton>
-        </ListItem>
-        <ListItem disablePadding className="menu__item">
-          <ListItemButton
-            onClick={() => navigate(PATH.NOTES.ROOT)}
-            className={isActive(PATH.NOTES.ROOT) ? "active" : ""}
-          >
-            <ListItemIcon>
-              <Notepad2 />
-            </ListItemIcon>
-            <ListItemText primary={t("menus.notes")} />
-          </ListItemButton>
-        </ListItem>
-        <ListItem disablePadding className="menu__item">
-          <ListItemButton
-            onClick={() => navigate(PATH.TEST.ROOT)}
-            className={isActive(PATH.TEST.ROOT) ? "active" : ""}
-          >
-            <ListItemIcon>
-              <PenAdd size={20} />
-            </ListItemIcon>
-            <ListItemText primary={t("menus.test")} />
-          </ListItemButton>
-        </ListItem>
-        <ListItem disablePadding className="menu__item">
-          <ListItemButton
-            onClick={() => navigate(PATH.VIDEOS.ROOT)}
-            className={isActive(PATH.VIDEOS.ROOT) ? "active" : ""}
-          >
-            <ListItemIcon>
-              <VideoOctagon size={20} />
-            </ListItemIcon>
-            <ListItemText primary={t("menus.videos")} />
-          </ListItemButton>
-        </ListItem>
-        <ListItem disablePadding className="menu__item">
-          <ListItemButton
-            onClick={() => navigate(PATH.AUDIOS.ROOT)}
-            className={isActive(PATH.AUDIOS.ROOT) ? "active" : ""}
-          >
-            <ListItemIcon>
-              <AudioSquare size={20} />
-            </ListItemIcon>
-            <ListItemText primary={t("menus.audios")} />
-          </ListItemButton>
-        </ListItem>
-      </List>
-      {/* <div className="flex items-center gap-2 overflow-hidden mb-1 mt-8">
+        <List>
+          <ListItem disablePadding className="menu__item">
+            <ListItemButton
+              onClick={() => navigate(PATH.LIVE_CLASSES.ROOT)}
+              className={isActive(PATH.LIVE_CLASSES.ROOT) ? "active" : ""}
+            >
+              <ListItemIcon>
+                <VideoPlay />
+              </ListItemIcon>
+              <ListItemText primary={t("menus.liveClasses")} />
+            </ListItemButton>
+          </ListItem>
+          <ListItem disablePadding className="menu__item">
+            <ListItemButton
+              onClick={() => navigate(PATH.NOTES.ROOT)}
+              className={isActive(PATH.NOTES.ROOT) ? "active" : ""}
+            >
+              <ListItemIcon>
+                <Notepad2 />
+              </ListItemIcon>
+              <ListItemText primary={t("menus.notes")} />
+            </ListItemButton>
+          </ListItem>
+          <ListItem disablePadding className="menu__item">
+            <ListItemButton
+              onClick={() => navigate(PATH.TEST.ROOT)}
+              className={isActive(PATH.TEST.ROOT) ? "active" : ""}
+            >
+              <ListItemIcon>
+                <PenAdd size={20} />
+              </ListItemIcon>
+              <ListItemText primary={t("menus.test")} />
+            </ListItemButton>
+          </ListItem>
+          <ListItem disablePadding className="menu__item">
+            <ListItemButton
+              onClick={() => navigate(PATH.VIDEOS.ROOT)}
+              className={isActive(PATH.VIDEOS.ROOT) ? "active" : ""}
+            >
+              <ListItemIcon>
+                <VideoOctagon size={20} />
+              </ListItemIcon>
+              <ListItemText primary={t("menus.videos")} />
+            </ListItemButton>
+          </ListItem>
+          <ListItem disablePadding className="menu__item">
+            <ListItemButton
+              onClick={() => navigate(PATH.AUDIOS.ROOT)}
+              className={isActive(PATH.AUDIOS.ROOT) ? "active" : ""}
+            >
+              <ListItemIcon>
+                <AudioSquare size={20} />
+              </ListItemIcon>
+              <ListItemText primary={t("menus.audios")} />
+            </ListItemButton>
+          </ListItem>
+        </List>
+        {/* <div className="flex items-center gap-2 overflow-hidden mb-1 mt-8">
         <Typography variant='caption' mb={1} sx={{
           color: theme.palette.text.light
         }}>{t("messages.communication")}</Typography>
@@ -179,17 +180,17 @@ export default function PrimaryMenu() {
           </ListItemButton>
         </ListItem>
       </List> */}
-      <div className="flex items-center gap-2 overflow-hidden mb-1 mt-8">
-        <Typography variant='caption' mb={1} sx={{
-          color: theme.palette.text.light
-        }}>{t("messages.others")}</Typography>
-        <Divider sx={{
-          borderColor: "#4B4B4B"
-        }} className="w-full" />
-      </div>
+        <div className="flex items-center gap-2 overflow-hidden mb-1 mt-8">
+          <Typography variant='caption' mb={1} sx={{
+            color: theme.palette.text.light
+          }}>{t("messages.others")}</Typography>
+          <Divider sx={{
+            borderColor: "#4B4B4B"
+          }} className="w-full" />
+        </div>
 
-      <List>
-        {/* <ListItem disablePadding className="menu__item">
+        <List>
+          {/* <ListItem disablePadding className="menu__item">
           <ListItemButton
             onClick={() => { }}
             className={isActive(PATH.LIVE_CLASSES.ROOT) ? "active" : ""}
@@ -211,19 +212,22 @@ export default function PrimaryMenu() {
             <ListItemText primary={t("menus.feedback")} />
           </ListItemButton>
         </ListItem> */}
-        <ListItem disablePadding className="menu__item">
-          <ListItemButton
-            onClick={() => navigate(PATH.SUPPORT.ROOT)}
-            className={isActive(PATH.SUPPORT.ROOT) ? "active" : ""}
-          >
-            <ListItemIcon>
-              <I24Support size={20} />
-            </ListItemIcon>
-            <ListItemText primary={t("menus.support")} />
-          </ListItemButton>
-        </ListItem>
-      </List>
-
-    </Box>
+          <ListItem disablePadding className="menu__item">
+            <ListItemButton
+              onClick={() => navigate(PATH.SUPPORT.ROOT)}
+              className={isActive(PATH.SUPPORT.ROOT) ? "active" : ""}
+            >
+              <ListItemIcon>
+                <I24Support size={20} />
+              </ListItemIcon>
+              <ListItemText primary={t("menus.support")} />
+            </ListItemButton>
+          </ListItem>
+        </List>
+      </Box>
+      <Box className="absolute! bottom-0 right-0 left-0 h-10" sx={{
+        background: (theme) => `linear-gradient(to top, ${theme.palette.background.sidebar} 60%,transparent)`
+      }} />
+    </div>
   );
 }

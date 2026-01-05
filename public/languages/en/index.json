@@ -18,7 +18,12 @@
         "all_notes": "All Notes",
         "all_test": "All Test",
         "all_videos": "All Videos",
-        "all_audios": "All Audios"
+        "all_audios": "All Audios",
+        "overview": "Overview",
+        "curriculum": "Curriculum",
+        "purchase_now": "Purchase Now",
+        "free_trial": "Free Trial",
+        "free_trial_already_taken": "Free Trial Already Taken"
     },
     "menus": {
         "dashboard": "Dashboard",
