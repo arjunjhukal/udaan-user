@@ -1,4 +1,4 @@
-import React, { Activity, useState } from "react";
+import { Activity, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useGetCourseByIdQuery, useGetCourseCurriculumByIdQuery, useGetCourseLiveClassQuery, useGetCourseMediaByTypeQuery, useGetCourseOverviewByIdQuery, useGetCourseTestQuery } from "../../../../../services/courseApi";
 import type { QueryParams } from "../../../../../types";
@@ -15,7 +15,7 @@ export default function SingleCourse() {
     const { id } = useParams();
 
     const [activeTab, setActiveTab] = useState("curriculum");
-    const [havePurchesed, setHavePurchased] = useState(false);
+    // const [havePurchesed, setHavePurchased] = useState(false);
     const [qpNotes, setQpNotes] = useState<QueryParams>({
         pageIndex: 1,
         pageSize: 12,
@@ -58,21 +58,14 @@ export default function SingleCourse() {
     const { data: test, isLoading: loadingTest } = useGetCourseTestQuery({ id: Number(id), ...qpTest }, { skip: !id });
     const { data: liveClasses, isLoading: loadingLiveClass } = useGetCourseLiveClassQuery({ id: Number(id), ...qpLiveClass }, { skip: !id })
 
-    React.useEffect(() => {
-        if (courseBasic?.data?.user) {
-            const user = courseBasic.data.user;
-
-            const status = user.has_purchased || user.is_free_trial_valid;
-
-            setHavePurchased(status);
-        }
-    }, [courseBasic]);
-
+    const havePurchased = courseBasic?.data?.user?.has_purchased ||
+        courseBasic?.data?.user?.is_free_trial_valid ||
+        false;
 
 
     return (
         <>
-            <CourseBanner data={courseBasic?.data && courseBasic.data} isLoading={loadingBasic} havePurchased={havePurchesed} />
+            <CourseBanner data={courseBasic?.data && courseBasic.data} isLoading={loadingBasic} havePurchased={havePurchased} />
             <div className="my-8">
                 <TabController
                     options={[
@@ -113,22 +106,22 @@ export default function SingleCourse() {
             </div>
 
             {activeTab === "overview" && <Activity><SinlgeCourseOverview data={data?.data && data.data} isLoading={loadingOverview} /></Activity>}
-            {activeTab === "curriculum" && <Activity><SinlgeCourseCurriculum havePurchased={havePurchesed} data={curriculum?.data?.data} isLoading={loadingCurriculum} /></Activity>}
+            {activeTab === "curriculum" && <Activity><SinlgeCourseCurriculum havePurchased={havePurchased} data={curriculum?.data?.data} isLoading={loadingCurriculum} /></Activity>}
             {activeTab === "notes" && <Activity>
-                <CourseMediaListing havePurchased={havePurchesed} data={notes} isLoading={loadingNotes} type="temp_notes" qp={qpNotes} setQp={setQpNotes} totalPages={notes?.data?.pagination?.total_pages || 0} />
+                <CourseMediaListing havePurchased={havePurchased} data={notes} isLoading={loadingNotes} type="temp_notes" qp={qpNotes} setQp={setQpNotes} totalPages={notes?.data?.pagination?.total_pages || 0} />
             </Activity>}
             {activeTab === "audios" && <Activity>
-                <CourseMediaListing havePurchased={havePurchesed} data={audios} isLoading={loadingAudios} type="temp_audios" qp={qpAudios} setQp={setQpAudios} totalPages={audios?.data?.pagination?.total_pages || 0} />
+                <CourseMediaListing havePurchased={havePurchased} data={audios} isLoading={loadingAudios} type="temp_audios" qp={qpAudios} setQp={setQpAudios} totalPages={audios?.data?.pagination?.total_pages || 0} />
             </Activity>}
             {activeTab === "videos" && <Activity>
-                <CourseMediaListing havePurchased={havePurchesed} data={videos} isLoading={loadingVideos} type="temp_video" qp={qpVideos} setQp={setQpVideos} totalPages={videos?.data?.pagination?.total_pages || 0} />
+                <CourseMediaListing havePurchased={havePurchased} data={videos} isLoading={loadingVideos} type="temp_video" qp={qpVideos} setQp={setQpVideos} totalPages={videos?.data?.pagination?.total_pages || 0} />
             </Activity>}
             {activeTab === "tests" &&
                 <Activity >
-                    <SinlgeCourseTest havePurchased={havePurchesed} data={test} isLoading={loadingTest} qp={qpTest} setQp={setQpTest} totalPages={test?.data?.pagination?.total_pages || 0} />
+                    <SinlgeCourseTest havePurchased={havePurchased} data={test} isLoading={loadingTest} qp={qpTest} setQp={setQpTest} totalPages={test?.data?.pagination?.total_pages || 0} />
                 </Activity >}
             {activeTab === "live_classes" && <Activity>
-                <SinlgeCourseLiveClass havePurchased={havePurchesed} data={liveClasses} isLoading={loadingLiveClass} qp={qpLiveClass} setQp={setQpLiveClass} totalPages={liveClasses?.data?.pagination?.total_pages || 0} />
+                <SinlgeCourseLiveClass havePurchased={havePurchased} data={liveClasses} isLoading={loadingLiveClass} qp={qpLiveClass} setQp={setQpLiveClass} totalPages={liveClasses?.data?.pagination?.total_pages || 0} />
             </Activity>}
             <PurchaseCourseDialog type={courseBasic?.data?.course_type} />
         </>
