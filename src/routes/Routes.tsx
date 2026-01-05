@@ -196,7 +196,6 @@ const router = createBrowserRouter([
         ],
       },
     ]
-
   },
   {
     path: PATH.PRIVACY_POLICY.ROOT,
