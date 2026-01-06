@@ -9,7 +9,7 @@ import CourseCardButton from './CourseCardButton';
 import CourseFeature from './CourseFeature';
 import CourseStatus from './CourseStatus';
 
-export default function CourseCard({ course, havePurchased }: { course: CourseProps, havePurchased: boolean }) {
+export default function CourseCard({ course, havePurchased = false }: { course: CourseProps, havePurchased?: boolean }) {
     const dispatch = useAppDispatch()
     const theme = useTheme();
     const [bookmark] = useBookmakrCourseMutation();
