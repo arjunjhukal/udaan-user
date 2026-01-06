@@ -191,6 +191,7 @@ export default function SingleTestRoot() {
     };
 
     const handleSubmit = async (type: SubmissionType) => {
+        console.log(type);
         if (!data) return;
 
         try {
