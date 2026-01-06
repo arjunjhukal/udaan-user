@@ -5,7 +5,7 @@ import { setReadingScreen } from '../../../slice/ReadingScreenSlice';
 import { useAppDispatch } from '../../../store/hook';
 import type { CurriculumMediaType } from '../../../types/course';
 import type { MediaProps } from '../../../types/media';
-import { convertToMb } from '../../../utils/convertToMb';
+import { formatFileSize } from '../../../utils/convertToMb';
 import { extractYouTubeVideoId, isYouTubeVideo } from '../../../utils/extractYoutubeVideoId';
 
 const mediaUiConfig: any = {
@@ -136,7 +136,7 @@ export default function MediaCard({
                 <Divider className='my-1.5!' />
 
                 <Typography color='text.middle' className='text-[12px]!'>
-                    {media.size ? `${convertToMb(media.size)} MB` : "Size: N/A"}
+                    {media.size ? `${formatFileSize(media.size)} MB` : "Size: N/A"}
                 </Typography>
             </div>
         </Box>

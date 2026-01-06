@@ -23,7 +23,8 @@
         "curriculum": "पाठ्यक्रम",
         "purchase_now": "अहिले खरिद गर्नुहोस्",
         "free_trial": "निःशुल्क परीक्षण",
-        "free_trial_already_taken": "निःशुल्क परीक्षण पहिले नै लिइसकिएको छ"
+        "free_trial_already_taken": "निःशुल्क परीक्षण पहिले नै लिइसकिएको छ",
+        "continue_learning": "सिकाइलाई निरन्तरता दिनुहोस्"
     },
     "menus": {
         "dashboard": "ड्यासबोर्ड",

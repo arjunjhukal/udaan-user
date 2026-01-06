@@ -21,11 +21,14 @@ import { renderHtml } from "../../../../utils/renderHtml";
 
 import TestCancelDialog from "../../../organism/Dialog/TestCancelDialog";
 import TestResultDialog from "../../../organism/Dialog/TestResultDialog";
-import TestSubmissionDialog, { type SubmissionType } from "../../../organism/Dialog/TestSubmissionDialog";
+import TestSubmissionDialog, {
+    type SubmissionType,
+} from "../../../organism/Dialog/TestSubmissionDialog";
 
 import QuestionListView from "./QuestionListView";
 import QuestionView from "./QuestionView";
 
+/* ---------------- Skeletons ---------------- */
 
 const HeaderSkeleton = () => (
     <div className="animate-pulse space-y-3">
@@ -55,22 +58,30 @@ const QuestionSkeleton = () => (
     </div>
 );
 
+/* ---------------- Component ---------------- */
 
 export default function SingleTestRoot() {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
-    const { courseId, testId } = useParams();
+    const { courseId, testId } = useParams<{
+        courseId: string;
+        testId: string;
+    }>();
+
+    const numericCourseId = Number(courseId);
+    const numericTestId = Number(testId);
 
     const STORAGE_KEY = `mcq_test_progress_${courseId}_${testId}`;
     const RESULT_KEY = `mcq_test_result_${courseId}_${testId}`;
 
+    /* ---------------- State ---------------- */
 
     const [attendedQuestion, setAttendedQuestion] = useState<Answers[]>([]);
     const [currentQuestion, setCurrentQuestion] =
         useState<QuestionProps | null>(null);
     const [currentIndex, setCurrentIndex] = useState(0);
 
-    const [timeLeft, setTimeLeft] = useState<number>();
+    const [timeLeft, setTimeLeft] = useState<number | undefined>();
     const [timerPaused, setTimerPaused] = useState(false);
 
     const [cancelModal, setCancelModal] = useState(false);
@@ -84,73 +95,29 @@ export default function SingleTestRoot() {
 
     const initialTimeRef = useRef<number | null>(null);
 
+    /* ---------------- API ---------------- */
 
-    const { data, isLoading, isFetching } = useGetTestByIdQuery(
-        { courseId: Number(courseId), testId: Number(testId) },
-        { skip: !courseId || !testId }
+    const {
+        data,
+        isLoading,
+        isFetching,
+    } = useGetTestByIdQuery(
+        { courseId: numericCourseId, testId: numericTestId },
+        { skip: !numericCourseId || !numericTestId }
     );
 
     const [submitMcq, { isLoading: submitting }] =
         useSubmitMcqMutation();
 
-
-    if (isLoading || isFetching || !data) {
-        return (
-            <div className="single__test__wrapper">
-                <div className="test__header mb-6">
-                    <HeaderSkeleton />
-                </div>
-
-                <Divider className="my-4!" />
-
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                    <div className="lg:col-span-3">
-                        <SidebarSkeleton />
-                    </div>
-                    <div className="lg:col-span-9">
-                        <QuestionSkeleton />
-                    </div>
-                </div>
-            </div>
-        );
-    }
-
-
-    if (data.overview.test_type === "subjective") {
-        return (
-            <div className="subject__test_view">
-                <Button
-                    startIcon={<ArrowLeft />}
-                    onClick={() => navigate(-1)}
-                >
-                    Back to Test
-                </Button>
-
-                <Divider className="my-4!" />
-
-                {data.data.map(q => (
-                    <Box
-                        key={q.question}
-                        className="pb-4 mb-4 border-b last:border-b-0"
-                        sx={{
-                            bordercolor: (theme) => theme.palette.separator.dark
-                        }}
-                    >
-                        <Typography variant="h6">
-                            {renderHtml(q.question)}
-                        </Typography>
-                    </Box>
-                ))}
-            </div>
-        );
-    }
-
     /* ---------------- Restore Progress ---------------- */
 
     useEffect(() => {
+        if (!data || data.overview.test_type !== "mcq") return;
+
         initialTimeRef.current = data.overview.time;
 
         const saved = localStorage.getItem(STORAGE_KEY);
+
         if (!saved) {
             setCurrentQuestion(data.data[0]);
             setTimeLeft(data.overview.time);
@@ -158,13 +125,15 @@ export default function SingleTestRoot() {
         }
 
         const parsed = JSON.parse(saved);
+        const index = parsed.currentQuestionIndex ?? 0;
+
         setAttendedQuestion(parsed.attendedQuestion || []);
-        setCurrentIndex(parsed.currentQuestionIndex || 0);
-        setCurrentQuestion(data.data[parsed.currentQuestionIndex || 0]);
+        setCurrentIndex(index);
+        setCurrentQuestion(data.data[index]);
 
         const diff = Date.now() - parsed.lastUpdated;
         setTimeLeft(Math.max(parsed.timeLeft - diff, 0));
-    }, []);
+    }, [data, STORAGE_KEY]);
 
     /* ---------------- Persist Progress ---------------- */
 
@@ -180,7 +149,7 @@ export default function SingleTestRoot() {
                 lastUpdated: Date.now(),
             })
         );
-    }, [attendedQuestion, currentIndex, timeLeft]);
+    }, [attendedQuestion, currentIndex, timeLeft, timerPaused, STORAGE_KEY]);
 
     /* ---------------- Timer ---------------- */
 
@@ -202,23 +171,28 @@ export default function SingleTestRoot() {
             setTimerPaused(true);
             handleSubmit("timer");
         }
-    }, [timeLeft]);
+    }, [timeLeft, timerPaused]);
 
     /* ---------------- Handlers ---------------- */
 
     const handleAnswer = (value: Answers) => {
         setAttendedQuestion(prev => {
-            const i = prev.findIndex(v => v.question_id === value.question_id);
-            if (i !== -1) {
+            const index = prev.findIndex(
+                v => v.question_id === value.question_id
+            );
+
+            if (index !== -1) {
                 const copy = [...prev];
-                copy[i] = value;
+                copy[index] = value;
                 return copy;
             }
             return [...prev, value];
         });
     };
 
-    const handleSubmit = async (_type: SubmissionType) => {
+    const handleSubmit = async (type: SubmissionType) => {
+        if (!data) return;
+
         try {
             setTimerPaused(true);
 
@@ -226,8 +200,8 @@ export default function SingleTestRoot() {
                 (initialTimeRef.current ?? 0) - (timeLeft ?? 0);
 
             const res = await submitMcq({
-                courseId: Number(courseId),
-                testId: Number(testId),
+                courseId: numericCourseId,
+                testId: numericTestId,
                 body: {
                     answers: attendedQuestion,
                     time_taken: timeTaken,
@@ -256,10 +230,50 @@ export default function SingleTestRoot() {
         }
     };
 
+    /* ---------------- Derived Safe Values ---------------- */
+
+    const isReady = !!data && !isLoading && !isFetching;
+    const isMCQ = data?.overview.test_type === "mcq";
+    const questions = data?.data ?? [];
+
     const isFirst = currentIndex === 0;
-    const isLast = currentIndex === data.data.length - 1;
+    const isLast = currentIndex === questions.length - 1;
 
     /* ---------------- Render ---------------- */
+
+    if (!isReady) {
+        return (
+            <div className="single__test__wrapper">
+                <HeaderSkeleton />
+                <Divider className="my-4!" />
+                <div className="flex flex-col gap-6 w-full">
+                    <SidebarSkeleton />
+                    <QuestionSkeleton />
+                </div>
+            </div>
+        );
+    }
+
+    if (!isMCQ) {
+        return (
+            <div className="subject__test_view">
+                <Button startIcon={<ArrowLeft />} onClick={() => navigate(-1)}>
+                    Back to Test
+                </Button>
+
+                <Divider className="my-4!" />
+
+                {questions.map((q, index) => (
+                    <Box key={q.question} className="flex gap-4 mb-4">
+                        <Typography>{index + 1}.</Typography>
+                        <Typography variant="h6">
+                            {renderHtml(q.question)}
+                        </Typography>
+                    </Box>
+                ))}
+            </div>
+        );
+    }
 
     return (
         <div className="single__test__wrapper">
@@ -272,10 +286,10 @@ export default function SingleTestRoot() {
             <QuestionListView
                 timeLeft={timeLeft}
                 initialTime={initialTimeRef.current ?? undefined}
-                questions={data.data}
+                questions={questions}
                 currentQuestion={currentQuestion}
                 currentQuestionIndex={currentIndex}
-                totalQuestions={data.data.length}
+                totalQuestions={questions.length}
                 setCurrentQuestion={setCurrentQuestion}
                 setCurrentQuestionIndex={setCurrentIndex}
                 attendedQuestion={attendedQuestion}
@@ -291,20 +305,23 @@ export default function SingleTestRoot() {
                 <Button
                     disabled={isFirst}
                     onClick={() => {
-                        setCurrentIndex(i => i - 1);
-                        setCurrentQuestion(data.data[currentIndex - 1]);
+                        const next = currentIndex - 1;
+                        setCurrentIndex(next);
+                        setCurrentQuestion(questions[next]);
                     }}
                 >
                     Previous
                 </Button>
 
                 <Button
+                    variant="contained"
                     onClick={() =>
                         isLast
                             ? setSubmitModal({ open: true, type: "submit" })
                             : (() => {
-                                setCurrentIndex(i => i + 1);
-                                setCurrentQuestion(data.data[currentIndex + 1]);
+                                const next = currentIndex + 1;
+                                setCurrentIndex(next);
+                                setCurrentQuestion(questions[next]);
                             })()
                     }
                 >
@@ -312,10 +329,11 @@ export default function SingleTestRoot() {
                 </Button>
             </div>
 
-            {/* Dialogs */}
             <TestSubmissionDialog
                 open={submitModal.open}
-                handleClose={() => setSubmitModal({ open: false, type: "submit" })}
+                handleClose={() =>
+                    setSubmitModal({ open: false, type: "submit" })
+                }
                 onSubmit={() => handleSubmit(submitModal.type)}
                 type={submitModal.type}
                 loading={submitting}
@@ -333,15 +351,15 @@ export default function SingleTestRoot() {
                 onReview={() =>
                     navigate(
                         PATH.COURSE_MANAGEMENT.COURSES.VIEW_TEST.REVIEW_TEST.ROOT({
-                            courseId: Number(courseId),
-                            testId: Number(testId),
+                            courseId: numericCourseId,
+                            testId: numericTestId,
                         })
                     )
                 }
                 onBack={() =>
                     navigate(
                         PATH.COURSE_MANAGEMENT.COURSES.VIEW_COURSE.ROOT(
-                            Number(courseId)
+                            numericCourseId
                         )
                     )
                 }

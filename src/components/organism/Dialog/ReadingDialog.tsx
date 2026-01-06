@@ -212,6 +212,8 @@ export default function ReadingDialog() {
                 isYouTube: isYoutube,
                 videoId: vidId || undefined,
                 video: relatedVideo,
+                pdf: relatedVideo,
+                audio: relatedVideo,
                 title: relatedVideo.file_name
             })
         );
@@ -306,7 +308,6 @@ export default function ReadingDialog() {
             case 'temp_notes':
                 return pdfUrl ? (
                     <>
-
                         <PdfReader fileUrl={pdfUrl} />
                     </>
                 ) : (

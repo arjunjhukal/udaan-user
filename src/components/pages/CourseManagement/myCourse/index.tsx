@@ -1,15 +1,15 @@
 import { Box, Skeleton, useTheme } from "@mui/material";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { PATH } from "../../../../routes/PATH";
 import { useGetUserPurchasedCourseQuery } from "../../../../services/courseApi";
 import { EmptyList } from "../../../molecules/EmptyList";
 import TablePagination from "../../../molecules/Pagination";
 import CourseCard from "../../../organism/Cards/CourseCard/CourseCard";
 import PageHeader from "../../../organism/PageHeader";
-import { useTranslation } from "react-i18next";
 
 export default function MyCourseRoot() {
-    const {t}=useTranslation();
+    const { t } = useTranslation();
     const [qp, setQp] = useState({
         pageIndex: 1,
         pageSize: 8,
@@ -81,7 +81,7 @@ export default function MyCourseRoot() {
                     )) :
                         courses.map((course) => (
                             <div className="col-span-1">
-                                <CourseCard course={course} />
+                                <CourseCard course={course} havePurchased={true} />
                             </div>
                         ))
                     }

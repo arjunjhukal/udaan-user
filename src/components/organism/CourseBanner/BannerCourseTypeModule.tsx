@@ -31,7 +31,7 @@ export default function BannerCourseTypeModule({ courseType, courseExpiry, cours
 
     const getFreeTrialLabel = () => {
         if (!purchaseStatus?.has_taken_freetrial) {
-            return t("messages.free_trail");
+            return t("messages.free_trial");
         }
 
         if (purchaseStatus?.has_taken_freetrial && purchaseStatus?.is_free_trial_valid) {
@@ -98,10 +98,10 @@ export default function BannerCourseTypeModule({ courseType, courseExpiry, cours
                                     is_trial: true,
                                 },
                                 id: Number(id)
-                            });
+                            }).unwrap();
                             dispatch(
                                 showToast({
-                                    message: response?.data?.message || "Enrolled Successfully",
+                                    message: response?.message || "Enrolled Successfully",
                                     severity: "success"
                                 })
                             )

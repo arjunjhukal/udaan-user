@@ -23,7 +23,8 @@
         "curriculum": "Curriculum",
         "purchase_now": "Purchase Now",
         "free_trial": "Free Trial",
-        "free_trial_already_taken": "Free Trial Already Taken"
+        "free_trial_already_taken": "Free Trial Already Taken",
+        "continue_learning": "Continue Learning"
     },
     "menus": {
         "dashboard": "Dashboard",

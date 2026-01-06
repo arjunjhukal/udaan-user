@@ -124,7 +124,7 @@ export default function ResponsiveDrawer(props: Props) {
                 <Toolbar sx={{
                     height: {
                         xs: 64,
-                        lg: 100
+                        lg: 80
                     }
                 }} />
                 <Box
@@ -133,7 +133,7 @@ export default function ResponsiveDrawer(props: Props) {
                         background: theme.palette.primary.contrastText,
                         height: {
                             xs: "calc(100vh - 85px)",
-                            lg: "calc(100vh - 165px)"
+                            lg: "calc(100vh - 145px)"
                         },
                         padding: {
                             xs: "32px 16px 0",

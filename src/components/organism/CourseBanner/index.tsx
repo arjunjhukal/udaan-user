@@ -16,10 +16,10 @@ export default function CourseBanner({ data, havePurchased }: { data?: CoursePro
         }}>
             <div className="flex flex-col lg:grid grid-cols-20 gap-6">
                 <div className="col-span-4 hidden lg:block">
-                    <Box className=" thumbnail aspect-264/210 rounded-2xl lg:flex items-center" sx={{
+                    <Box className=" thumbnail aspect-264/210 rounded-2xl lg:flex items-center overflow-hidden" sx={{
                         background: theme.palette.primary.contrastText
                     }}>
-                        <img src={course?.thumbnail_url || "/logo.svg"} alt="" className="w-full h-full object-contain" />
+                        <img src={course?.thumbnail_url || "/logo.svg"} alt="" className="w-full h-full object-cover" />
                     </Box>
                 </div>
 

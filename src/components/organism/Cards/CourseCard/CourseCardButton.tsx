@@ -2,7 +2,7 @@ import { Button, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import type { CourseTypeProps } from '../../../../types/course';
 
-export default function CourseCardButton({ courseType, sellingPrice, markedPrice, to }: { courseType: CourseTypeProps, sellingPrice?: string, markedPrice?: string, to: string }) {
+export default function CourseCardButton({ courseType, sellingPrice, markedPrice, to, havePurchased }: { courseType: CourseTypeProps, sellingPrice?: string, markedPrice?: string, to: string, havePurchased: boolean }) {
     const { t } = useTranslation();
     const renderPrice = () => {
         switch (courseType) {
@@ -41,7 +41,7 @@ export default function CourseCardButton({ courseType, sellingPrice, markedPrice
         }
         return (
             <Button href={to} fullWidth variant="contained" color='primary'>
-                {t("messages.enroll_now")}
+                {havePurchased ? t("messages.continue_learning") : t("messages.enroll_now")}
             </Button>
         );
     };
