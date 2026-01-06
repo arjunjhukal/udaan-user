@@ -55,9 +55,9 @@ export const courseApi = createApi({
             providesTags: (_result, _error, { id }) => [{ type: "Course" as const, id }],
         }),
 
-        getCourseCurriculumById: builder.query<CurriculumList, { id: number }>({
-            query: ({ id }) => ({
-                url: `/course/${id}/curriculum/`,
+        getCourseCurriculumById: builder.query<CurriculumList, QueryParams & { id: number }>({
+            query: ({ id, pageIndex, pageSize }) => ({
+                url: `/course/${id}/curriculum?${buildQueryParams({ page: pageIndex, page_size: pageSize })}`,
                 method: "GET",
             }),
             providesTags: (_result, _error, { id }) => [{ type: "Curriculum" as const, id }],
