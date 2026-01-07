@@ -41,18 +41,15 @@ export default function AllVideosListing() {
   const [search, setSearch] = useState<string>("");
   const [allVideos, setAllVideos] = useState<MediaProps[]>([]);
 
-  // Use ref to track if initial course was set
   const initialCourseSet = useRef(false);
 
   const { data: myCourse, isLoading } = useGetUserPurchasedCourseQuery(qp);
 
-  // ✅ Memoize myCourses
   const myCourses = useMemo(() =>
     myCourse?.data?.data || [],
     [myCourse?.data?.data]
   );
 
-  // ✅ Auto-select first course only once
   useEffect(() => {
     if (myCourses.length > 0 && !selectedCourseId && !initialCourseSet.current) {
       setSelectedCourseId(myCourses[0].id || null);
@@ -60,7 +57,7 @@ export default function AllVideosListing() {
     }
   }, [myCourses.length, selectedCourseId]);
 
-  const { data: videos, isLoading: loadingVideos } = useGetCourseMediaByTypeQuery(
+  const { data: videos, isLoading: loadingVideos, isFetching } = useGetCourseMediaByTypeQuery(
     { id: selectedCourseId!, type: "videos", qp: qpVideos },
     { skip: !selectedCourseId }
   );
@@ -78,38 +75,35 @@ export default function AllVideosListing() {
   const totalPages = videos?.data?.pagination?.total_pages || 0;
   const currentPage = qpVideos.pageIndex;
 
+  // ✅ Main effect to update allVideos - this handles all cases
   useEffect(() => {
-    if (videosList.length > 0) {
-      if (qpVideos.pageIndex === 1) {
-        setAllVideos(videosList);
-      } else {
-        setAllVideos(prev => {
-          const existingIds = new Set(prev.map(v => v.id));
-          const newVideos = videosList.filter(v => !existingIds.has(v.id));
-          return [...prev, ...newVideos];
-        });
-      }
-    } else if (qpVideos.pageIndex === 1) {
-      setAllVideos([]);
+    if (qpVideos.pageIndex === 1) {
+      // First page - replace all videos
+      setAllVideos(videosList);
+    } else if (videosList.length > 0) {
+      // Subsequent pages - append new videos
+      setAllVideos(prev => {
+        const existingIds = new Set(prev.map(v => v.id));
+        const newVideos = videosList.filter(v => !existingIds.has(v.id));
+        return [...prev, ...newVideos];
+      });
     }
-  }, [JSON.stringify(videosList.map(v => v.id)), qpVideos.pageIndex]);
+  }, [videosList, qpVideos.pageIndex]);
 
   useEffect(() => {
     setQpVideos(prev => ({ ...prev, pageIndex: 1 }));
-    setAllVideos([]);
   }, [selectedCourseId]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setQpVideos(prev => ({ ...prev, search, pageIndex: 1 }));
-      setAllVideos([]);
     }, 500);
 
     return () => clearTimeout(timer);
   }, [search]);
 
   const fetchMoreVideos = () => {
-    if (!loadingVideos && currentPage < totalPages) {
+    if (!loadingVideos && !isFetching && currentPage < totalPages) {
       setQpVideos(prev => ({
         ...prev,
         pageIndex: prev.pageIndex + 1
@@ -118,6 +112,8 @@ export default function AllVideosListing() {
   };
 
   const hasMore = currentPage < totalPages;
+
+  const isLoadingFirstPage = (loadingVideos || isFetching) && qpVideos.pageIndex === 1 && allVideos.length === 0;
 
   if (isLoading) {
     return (
@@ -165,8 +161,7 @@ export default function AllVideosListing() {
           <h2 className="text-2xl font-bold text-gray-800">
             {selectedCourse.name}
           </h2>
-        </div>
-      )}
+        </div>)}
 
       <div className="media__listing__wrapper">
         <Box
@@ -176,13 +171,13 @@ export default function AllVideosListing() {
             overflow: "auto",
           }}
         >
-          {loadingVideos ? (
+          {isLoadingFirstPage ? (
             <div className="flex flex-col gap-4 md:grid grid-cols-2 xl:grid-cols-3 lg:gap-6">
               {[...Array(6)].map((_, idx) => (
                 <VideoSkeleton key={idx} />
               ))}
             </div>
-          ) : videosList.length > 0 ? (
+          ) : allVideos.length > 0 ? (
             <InfiniteScroll
               dataLength={allVideos.length}
               next={fetchMoreVideos}
@@ -201,7 +196,7 @@ export default function AllVideosListing() {
                     key={media.id}
                     type="temp_video"
                     havePurchased={true}
-                    relatedVideos={allVideos}
+                    relatedVideos={allVideos.filter((item) => item.id !== media.id)}
                   />
                 ))}
               </div>
@@ -214,6 +209,6 @@ export default function AllVideosListing() {
           )}
         </Box>
       </div>
-    </div>
+    </div >
   );
 }

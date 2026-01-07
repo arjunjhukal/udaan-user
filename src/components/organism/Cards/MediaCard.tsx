@@ -41,7 +41,7 @@ export default function MediaCard({
     media,
     type,
     havePurchased,
-    relatedVideos
+    relatedVideos,
 }: {
     media: MediaProps;
     type?: CurriculumMediaType;
@@ -136,7 +136,7 @@ export default function MediaCard({
                 <Divider className='my-1.5!' />
 
                 <Typography color='text.middle' className='text-[12px]!'>
-                    {media.size ? `${formatFileSize(media.size)} MB` : "Size: N/A"}
+                    {`${formatFileSize(media.size)}`}
                 </Typography>
             </div>
         </Box>

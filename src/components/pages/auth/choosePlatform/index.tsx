@@ -19,13 +19,8 @@ export default function ChoosePlatform() {
     };
 
     const handleAppRedirect = () => {
-        if (/Android/i.test(navigator.userAgent)) {
-            window.location.href =
-                "https://play.google.com/store/apps/details?id=com.udaan.Shaikshik.kendra";
-        } else if (/iPhone|iPad/i.test(navigator.userAgent)) {
-            window.location.href =
-                "https://apps.apple.com/app/com.udaan.ios.Shaikshik.kendra";
-        }
+        window.location.href =
+            "https://onelink.to/45cn2t";
     };
 
     return (

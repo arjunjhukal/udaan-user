@@ -25,6 +25,7 @@ import TestSubmissionDialog, {
     type SubmissionType,
 } from "../../../organism/Dialog/TestSubmissionDialog";
 
+import { EmptyList } from "../../../molecules/EmptyList";
 import QuestionListView from "./QuestionListView";
 import QuestionView from "./QuestionView";
 
@@ -112,7 +113,7 @@ export default function SingleTestRoot() {
     /* ---------------- Restore Progress ---------------- */
 
     useEffect(() => {
-        if (!data || data.overview.test_type !== "mcq") return;
+        if (!data || data.overview?.test_type !== "mcq") return;
 
         initialTimeRef.current = data.overview.time;
 
@@ -234,7 +235,7 @@ export default function SingleTestRoot() {
     /* ---------------- Derived Safe Values ---------------- */
 
     const isReady = !!data && !isLoading && !isFetching;
-    const isMCQ = data?.overview.test_type === "mcq";
+    const isMCQ = data?.overview?.test_type === "mcq";
     const questions = data?.data ?? [];
 
     const isFirst = currentIndex === 0;
@@ -264,14 +265,14 @@ export default function SingleTestRoot() {
 
                 <Divider className="my-4!" />
 
-                {questions.map((q, index) => (
+                {!questions.length ? <EmptyList title="No Questions Found" description="No Questions added to this test yet!" /> : (questions.map((q, index) => (
                     <Box key={q.question} className="flex gap-4 mb-4">
                         <Typography>{index + 1}.</Typography>
                         <Typography variant="h6">
                             {renderHtml(q.question)}
                         </Typography>
                     </Box>
-                ))}
+                )))}
             </div>
         );
     }

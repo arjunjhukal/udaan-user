@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { PATH } from "../../../../../routes/PATH";
 import { useGetCourseMediaByTypeQuery, useGetUserPurchasedCourseQuery } from "../../../../../services/courseApi";
@@ -25,6 +25,7 @@ const CourseFilterSkeleton = () => (
         <div className="h-10 bg-gray-200 rounded w-1/2"></div>
     </div>
 );
+
 export default function AllNoteList() {
     const [qp, _setQp] = useState<QueryParams>({
         pageIndex: 1,
@@ -39,16 +40,27 @@ export default function AllNoteList() {
     });
     const [allNotes, setAllNotes] = useState<MediaProps[]>([]);
 
+    // ✅ Add ref to track initial course selection
+    const initialCourseSet = useRef(false);
+
     const { data: myCourse, isLoading } = useGetUserPurchasedCourseQuery(qp);
-    const myCourses = myCourse?.data?.data || [];
 
+    // ✅ Memoize myCourses
+    const myCourses = useMemo(() =>
+        myCourse?.data?.data || [],
+        [myCourse?.data?.data]
+    );
+
+    // ✅ Auto-select first course only once
     useEffect(() => {
-        if (myCourses.length > 0 && !selectedCourseId) {
+        if (myCourses.length > 0 && !selectedCourseId && !initialCourseSet.current) {
             setSelectedCourseId(myCourses[0].id || null);
+            initialCourseSet.current = true;
         }
-    }, [myCourses, selectedCourseId]);
+    }, [myCourses.length, selectedCourseId]);
 
-    const { data: notes, isLoading: loadingNotes } = useGetCourseMediaByTypeQuery(
+    // ✅ Add isFetching to track cache loading
+    const { data: notes, isLoading: loadingNotes, isFetching } = useGetCourseMediaByTypeQuery(
         { id: selectedCourseId!, type: "notes", qp: qpNotes },
         { skip: !selectedCourseId }
     );
@@ -62,42 +74,43 @@ export default function AllNoteList() {
         notes?.data?.data || [],
         [notes?.data?.data]
     );
+
     const totalPages = notes?.data?.pagination?.total_pages || 0;
     const currentPage = qpNotes.pageIndex;
 
-
+    // ✅ Simplified effect - let RTK Query cache handle the data
     useEffect(() => {
-        if (notesList.length > 0) {
-            if (qpNotes.pageIndex === 1) {
-                setAllNotes(notesList);
-            } else {
-                setAllNotes(prev => {
-                    const existingIds = new Set(prev.map(v => v.id));
-                    const newVideos = notesList.filter(v => !existingIds.has(v.id));
-                    return [...prev, ...newVideos];
-                });
-            }
-        } else if (qpNotes.pageIndex === 1) {
-            setAllNotes([]);
+        if (qpNotes.pageIndex === 1) {
+            // First page - replace all notes
+            setAllNotes(notesList);
+        } else if (notesList.length > 0) {
+            // Subsequent pages - append new notes
+            setAllNotes(prev => {
+                const existingIds = new Set(prev.map(v => v.id));
+                const newNotes = notesList.filter(v => !existingIds.has(v.id));
+                return [...prev, ...newNotes];
+            });
         }
     }, [notesList, qpNotes.pageIndex]);
 
+    // ✅ Reset pagination when course changes - don't clear allNotes
     useEffect(() => {
         setQpNotes(prev => ({ ...prev, pageIndex: 1 }));
-        setAllNotes([]);
+        // Let the notesList effect handle updating allNotes
     }, [selectedCourseId]);
 
+    // ✅ Reset pagination when search changes - don't clear allNotes
     useEffect(() => {
         const timer = setTimeout(() => {
             setQpNotes(prev => ({ ...prev, search, pageIndex: 1 }));
-            setAllNotes([]);
+            // Let the notesList effect handle updating allNotes
         }, 500);
 
         return () => clearTimeout(timer);
     }, [search]);
 
     const fetchMoreNotes = () => {
-        if (!loadingNotes && currentPage < totalPages) {
+        if (!loadingNotes && !isFetching && currentPage < totalPages) {
             setQpNotes(prev => ({
                 ...prev,
                 pageIndex: prev.pageIndex + 1
@@ -106,6 +119,9 @@ export default function AllNoteList() {
     };
 
     const hasMore = currentPage < totalPages;
+
+    // ✅ Show loading skeleton only when actually loading first page with no notes
+    const isLoadingFirstPage = (loadingNotes || isFetching) && qpNotes.pageIndex === 1 && allNotes.length === 0;
 
     if (isLoading) {
         return (
@@ -134,6 +150,7 @@ export default function AllNoteList() {
             />
         );
     }
+
     return (
         <div className="all__note__listing">
             <div className="mb-6">
@@ -153,7 +170,6 @@ export default function AllNoteList() {
                     </h2>
                 </div>
             )}
-            {/* Media Listing */}
             <div className="media__listing__wrapper">
                 <Box
                     id="video__listing__wrapper"
@@ -162,13 +178,13 @@ export default function AllNoteList() {
                         overflow: "auto",
                     }}
                 >
-                    {loadingNotes ? (
+                    {isLoadingFirstPage ? (
                         <div className="flex flex-col gap-4 md:grid grid-cols-2 xl:grid-cols-3 lg:gap-6">
                             {[...Array(6)].map((_, idx) => (
                                 <VideoSkeleton key={idx} />
                             ))}
                         </div>
-                    ) : notesList.length > 0 ? (
+                    ) : allNotes.length > 0 ? (
                         <InfiniteScroll
                             dataLength={allNotes.length}
                             next={fetchMoreNotes}
@@ -187,7 +203,7 @@ export default function AllNoteList() {
                                         key={media.id}
                                         type="temp_notes"
                                         havePurchased={true}
-                                        relatedVideos={allNotes}
+                                        relatedVideos={allNotes.filter((item) => item.id !== media.id)}
                                     />
                                 ))}
                             </div>

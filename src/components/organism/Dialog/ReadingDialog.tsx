@@ -8,7 +8,6 @@ import { useAppDispatch, useAppSelector } from '../../../store/hook';
 import type { MediaProps } from '../../../types/media';
 import { extractYouTubeVideoId, getYouTubeThumbnail } from '../../../utils/extractYoutubeVideoId';
 import WaterMark from '../../../Watermark';
-import PdfReader from './PdfReader';
 
 interface PlyrInstance {
     plyr?: APITypes;
@@ -308,7 +307,12 @@ export default function ReadingDialog() {
             case 'temp_notes':
                 return pdfUrl ? (
                     <>
-                        <PdfReader fileUrl={pdfUrl} />
+                        {/* <PdfReader fileUrl={pdfUrl} /> */}
+                        <iframe
+                            className='h-full'
+                            src={`https://docs.google.com/viewer?url=${encodeURIComponent(pdfUrl)}&embedded=true`}
+                            style={{ width: '100%', border: 'none' }}
+                        />
                     </>
                 ) : (
                     <p>No PDF available</p>
@@ -349,7 +353,7 @@ export default function ReadingDialog() {
                 </div>
 
                 <div className="lg:grid lg:grid-cols-12 gap-4">
-                    <div className="col-span-9" ref={videoRef}>
+                    <div className="col-span-9 min-h-[500px]" ref={videoRef}>
                         <WaterMark />
                         {renderContent()}
                     </div>

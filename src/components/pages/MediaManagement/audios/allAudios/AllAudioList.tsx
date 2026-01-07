@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { PATH } from "../../../../../routes/PATH";
 import { useGetCourseMediaByTypeQuery, useGetUserPurchasedCourseQuery } from "../../../../../services/courseApi";
@@ -9,7 +9,6 @@ import { EmptyList } from "../../../../molecules/EmptyList";
 import MediaCard from "../../../../organism/Cards/MediaCard";
 import TableFilter from "../../../../organism/TableFilter";
 
-// Loading Skeleton Component
 const VideoSkeleton = () => (
     <div className="col-span-1 animate-pulse">
         <div className="bg-gray-200 rounded-xl h-48 w-full"></div>
@@ -26,6 +25,7 @@ const CourseFilterSkeleton = () => (
         <div className="h-10 bg-gray-200 rounded w-1/2"></div>
     </div>
 );
+
 export default function AllAudioListing() {
     const [qp, _setQp] = useState<QueryParams>({
         pageIndex: 1,
@@ -40,16 +40,27 @@ export default function AllAudioListing() {
     });
     const [allAudios, setAllAudios] = useState<MediaProps[]>([]);
 
+    // ✅ Add ref to track initial course selection
+    const initialCourseSet = useRef(false);
+
     const { data: myCourse, isLoading } = useGetUserPurchasedCourseQuery(qp);
-    const myCourses = myCourse?.data?.data || [];
 
+    // ✅ Memoize myCourses
+    const myCourses = useMemo(() =>
+        myCourse?.data?.data || [],
+        [myCourse?.data?.data]
+    );
+
+    // ✅ Auto-select first course only once
     useEffect(() => {
-        if (myCourses.length > 0 && !selectedCourseId) {
+        if (myCourses.length > 0 && !selectedCourseId && !initialCourseSet.current) {
             setSelectedCourseId(myCourses[0].id || null);
+            initialCourseSet.current = true;
         }
-    }, [myCourses, selectedCourseId]);
+    }, [myCourses.length, selectedCourseId]);
 
-    const { data: audios, isLoading: loadingAudios } = useGetCourseMediaByTypeQuery(
+    // ✅ Add isFetching to track cache loading
+    const { data: audios, isLoading: loadingAudios, isFetching } = useGetCourseMediaByTypeQuery(
         { id: selectedCourseId!, type: "audios", qp: qpMedia },
         { skip: !selectedCourseId }
     );
@@ -63,42 +74,43 @@ export default function AllAudioListing() {
         audios?.data?.data || [],
         [audios?.data?.data]
     );
+
     const totalPages = audios?.data?.pagination?.total_pages || 0;
     const currentPage = qpMedia.pageIndex;
 
-
+    // ✅ Simplified effect - let RTK Query cache handle the data
     useEffect(() => {
-        if (audioListing.length > 0) {
-            if (qpMedia.pageIndex === 1) {
-                setAllAudios(audioListing);
-            } else {
-                setAllAudios(prev => {
-                    const existingIds = new Set(prev.map(v => v.id));
-                    const newVideos = audioListing.filter(v => !existingIds.has(v.id));
-                    return [...prev, ...newVideos];
-                });
-            }
-        } else if (qpMedia.pageIndex === 1) {
-            setAllAudios([]);
+        if (qpMedia.pageIndex === 1) {
+            // First page - replace all audios
+            setAllAudios(audioListing);
+        } else if (audioListing.length > 0) {
+            // Subsequent pages - append new audios
+            setAllAudios(prev => {
+                const existingIds = new Set(prev.map(v => v.id));
+                const newAudios = audioListing.filter(v => !existingIds.has(v.id));
+                return [...prev, ...newAudios];
+            });
         }
     }, [audioListing, qpMedia.pageIndex]);
 
+    // ✅ Reset pagination when course changes - don't clear allAudios
     useEffect(() => {
         setQpMedia(prev => ({ ...prev, pageIndex: 1 }));
-        setAllAudios([]);
+        // Let the audioListing effect handle updating allAudios
     }, [selectedCourseId]);
 
+    // ✅ Reset pagination when search changes - don't clear allAudios
     useEffect(() => {
         const timer = setTimeout(() => {
             setQpMedia(prev => ({ ...prev, search, pageIndex: 1 }));
-            setAllAudios([]);
+            // Let the audioListing effect handle updating allAudios
         }, 500);
 
         return () => clearTimeout(timer);
     }, [search]);
 
     const fetchMoreaudios = () => {
-        if (!loadingAudios && currentPage < totalPages) {
+        if (!loadingAudios && !isFetching && currentPage < totalPages) {
             setQpMedia(prev => ({
                 ...prev,
                 pageIndex: prev.pageIndex + 1
@@ -107,6 +119,9 @@ export default function AllAudioListing() {
     };
 
     const hasMore = currentPage < totalPages;
+
+    // ✅ Show loading skeleton only when actually loading first page with no audios
+    const isLoadingFirstPage = (loadingAudios || isFetching) && qpMedia.pageIndex === 1 && allAudios.length === 0;
 
     if (isLoading) {
         return (
@@ -135,6 +150,7 @@ export default function AllAudioListing() {
             />
         );
     }
+
     return (
         <div className="all__note__listing">
             <div className="mb-6">
@@ -154,7 +170,6 @@ export default function AllAudioListing() {
                     </h2>
                 </div>
             )}
-            {/* Media Listing */}
             <div className="media__listing__wrapper">
                 <Box
                     id="video__listing__wrapper"
@@ -163,13 +178,13 @@ export default function AllAudioListing() {
                         overflow: "auto",
                     }}
                 >
-                    {loadingAudios ? (
+                    {isLoadingFirstPage ? (
                         <div className="flex flex-col gap-4 md:grid grid-cols-2 xl:grid-cols-3 lg:gap-6">
                             {[...Array(6)].map((_, idx) => (
                                 <VideoSkeleton key={idx} />
                             ))}
                         </div>
-                    ) : audioListing.length > 0 ? (
+                    ) : allAudios.length > 0 ? (
                         <InfiniteScroll
                             dataLength={allAudios.length}
                             next={fetchMoreaudios}
@@ -188,7 +203,7 @@ export default function AllAudioListing() {
                                         key={media.id}
                                         type="temp_audios"
                                         havePurchased={true}
-                                        relatedVideos={allAudios}
+                                        relatedVideos={allAudios.filter((item) => item.id !== media.id)}
                                     />
                                 ))}
                             </div>
