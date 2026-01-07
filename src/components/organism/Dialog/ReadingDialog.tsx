@@ -10,7 +10,6 @@ import type { courseTabType, CurriculumMediaType } from '../../../types/course';
 import type { MediaProps } from '../../../types/media';
 import { extractYouTubeVideoId, getYouTubeThumbnail } from '../../../utils/extractYoutubeVideoId';
 import WaterMark from '../../../Watermark';
-import DocumentReader from './PdfReader';
 
 interface PlyrInstance {
     plyr?: APITypes;
@@ -381,7 +380,12 @@ export default function ReadingDialog() {
                     //     style={{ width: '100%', border: 'none' }}
                     // />
 
-                    <DocumentReader fileUrl={mediaUrl} />
+                    // <DocumentReader fileUrl={mediaUrl} />
+                    <iframe
+                        className='h-full'
+                        src={`${mediaUrl}`}
+                        style={{ width: '100%', border: 'none' }}
+                    />
                 ) : (
                     <p>No PDF available</p>
                 );
@@ -458,7 +462,7 @@ export default function ReadingDialog() {
 
                 <div className="lg:grid lg:grid-cols-12 gap-4">
                     <div className="col-span-9 max-h-[500px] overflow-auto">
-                        <div className="" ref={videoRef}>
+                        <div className="h-full" ref={videoRef}>
                             <WaterMark />
                             {renderContent()}
                         </div>
