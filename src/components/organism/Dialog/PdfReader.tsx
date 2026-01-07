@@ -40,7 +40,7 @@ function PdfReader({ fileUrl }: { fileUrl: string }) {
     }
 
     return (
-        <Box sx={{ width: "100%", overflowY: "auto", maxHeight: "70vh" }}>
+        <Box sx={{ width: "100%", overflowY: "auto", maxHeight: "100%" }}>
             {loading && (
                 <Box display="flex" justifyContent="center" alignItems="center" minHeight="200px">
                     <CircularProgress />
@@ -64,6 +64,7 @@ function PdfReader({ fileUrl }: { fileUrl: string }) {
                         renderTextLayer={true}
                         renderAnnotationLayer={true}
                         width={800}
+                        className="mx-auto"
                     />
                 ))}
             </Document>

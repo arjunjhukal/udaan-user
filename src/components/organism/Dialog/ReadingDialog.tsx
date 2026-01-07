@@ -1,5 +1,5 @@
 import { Box, Button, CircularProgress, Dialog, DialogContent, Tooltip, Typography, useTheme } from '@mui/material';
-import { Maximize2 } from 'iconsax-reactjs';
+import { DocumentDownload, Maximize2 } from 'iconsax-reactjs';
 import Plyr, { type APITypes, type PlyrProps } from "plyr-react";
 import "plyr-react/plyr.css";
 import { useEffect, useRef, useState } from 'react';
@@ -10,6 +10,7 @@ import type { courseTabType, CurriculumMediaType } from '../../../types/course';
 import type { MediaProps } from '../../../types/media';
 import { extractYouTubeVideoId, getYouTubeThumbnail } from '../../../utils/extractYoutubeVideoId';
 import WaterMark from '../../../Watermark';
+import DocumentReader from './PdfReader';
 
 interface PlyrInstance {
     plyr?: APITypes;
@@ -374,11 +375,13 @@ export default function ReadingDialog() {
 
             case 'temp_notes':
                 return mediaUrl ? (
-                    <iframe
-                        className='h-full'
-                        src={`https://docs.google.com/viewer?url=${encodeURIComponent(mediaUrl)}&embedded=true`}
-                        style={{ width: '100%', border: 'none' }}
-                    />
+                    // <iframe
+                    //     className='h-full'
+                    //     src={`https://docs.google.com/viewer?url=${encodeURIComponent(mediaUrl)}&embedded=true`}
+                    //     style={{ width: '100%', border: 'none' }}
+                    // />
+
+                    <DocumentReader fileUrl={mediaUrl} />
                 ) : (
                     <p>No PDF available</p>
                 );
@@ -410,7 +413,19 @@ export default function ReadingDialog() {
     const upcomingMedia = getUpcomingMedia();
     const currentMediaId = media?.id;
 
-    console.log({ upcomingMedia, mediaList })
+    const handleDownloadNote = async () => {
+        if (!mediaUrl) return;
+
+        const link = document.createElement("a");
+        link.href = mediaUrl;
+        link.setAttribute("download", title ? `${title}.pdf` : "note.pdf");
+        link.style.display = "none";
+
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
     return (
         <Dialog
             open={open}
@@ -429,15 +444,24 @@ export default function ReadingDialog() {
                     <h2 style={{ margin: 0, fontSize: '20px', fontWeight: 600 }}>
                         {title || 'Media Viewer'}
                     </h2>
-                    <Button variant="contained" onClick={handleFullscreen} startIcon={<Maximize2 />}>
-                        Fullscreen Zoom
-                    </Button>
+                    <div className="flex justify-end items-center gap-4">
+                        <Button variant="contained" onClick={handleFullscreen} startIcon={<Maximize2 />}>
+                            Fullscreen Zoom
+                        </Button>
+                        {type === "temp_notes" &&
+                            <Button variant="contained" startIcon={<DocumentDownload />} onClick={handleDownloadNote}>
+                                Download Note
+                            </Button>
+                        }
+                    </div>
                 </div>
 
                 <div className="lg:grid lg:grid-cols-12 gap-4">
-                    <div className="col-span-9 min-h-[500px]" ref={videoRef}>
-                        <WaterMark />
-                        {renderContent()}
+                    <div className="col-span-9 max-h-[500px] overflow-auto">
+                        <div className="" ref={videoRef}>
+                            <WaterMark />
+                            {renderContent()}
+                        </div>
                     </div>
                     <div className="hidden lg:block col-span-3">
                         <Typography variant='subtitle1' className='block! mb-3!' sx={{ fontWeight: 600 }}>

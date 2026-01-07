@@ -7,7 +7,6 @@ export const mediaApi = createApi({
     baseQuery: baseQuery,
     tagTypes: ["Media", "Notes", "Audio", "Video", "Images"],
     endpoints: (builder) => ({
-
         uploadMediaImage: builder.mutation<
             GlobalResponse & {
                 data: {
@@ -24,7 +23,16 @@ export const mediaApi = createApi({
             }),
             invalidatesTags: [{ type: "Media", id: "LIST" }]
         }),
+        downloadMedia: builder.mutation<
+            GlobalResponse,
+            { courseId: Number; mediaId: Number }
+        >({
+            query: ({ courseId, mediaId }) => ({
+                url: `/course/${courseId}/media/${mediaId}`,
+                method: "POST",
+            }),
+        }),
     })
 })
 
-export const { useUploadMediaImageMutation } = mediaApi;
+export const { useUploadMediaImageMutation, useDownloadMediaMutation } = mediaApi;
