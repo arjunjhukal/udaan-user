@@ -203,7 +203,7 @@ export default function AllNoteList() {
                                         key={media.id}
                                         type="temp_notes"
                                         havePurchased={true}
-                                        relatedVideos={allNotes.filter((item) => item.id !== media.id)}
+                                        courseId={selectedCourseId}
                                     />
                                 ))}
                             </div>

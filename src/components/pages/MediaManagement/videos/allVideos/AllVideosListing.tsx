@@ -196,7 +196,7 @@ export default function AllVideosListing() {
                     key={media.id}
                     type="temp_video"
                     havePurchased={true}
-                    relatedVideos={allVideos.filter((item) => item.id !== media.id)}
+                    courseId={selectedCourseId}
                   />
                 ))}
               </div>

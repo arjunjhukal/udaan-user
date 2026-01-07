@@ -1,7 +1,7 @@
 import { Box, Divider, Typography, useTheme } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { setPurchase } from '../../../slice/purchaseSlice';
-import { setReadingScreen } from '../../../slice/ReadingScreenSlice';
+import { setReadingScreen, type ReadingScreenProps } from '../../../slice/ReadingScreenSlice';
 import { useAppDispatch } from '../../../store/hook';
 import type { CurriculumMediaType } from '../../../types/course';
 import type { MediaProps } from '../../../types/media';
@@ -41,12 +41,12 @@ export default function MediaCard({
     media,
     type,
     havePurchased,
-    relatedVideos,
+    courseId
 }: {
     media: MediaProps;
     type?: CurriculumMediaType;
     havePurchased: boolean;
-    relatedVideos?: MediaProps[]
+    courseId?: number | null;
 }) {
     const theme = useTheme();
     const dispatch = useAppDispatch();
@@ -71,11 +71,11 @@ export default function MediaCard({
 
     const handleMediaClick = () => {
         if (havePurchased) {
-            const payload: any = {
+            const payload: ReadingScreenProps = {
                 open: true,
                 type: type,
                 title: media.file_name,
-                relatedVideos: relatedVideos
+                courseId: courseId
             };
 
             switch (type) {
@@ -85,19 +85,18 @@ export default function MediaCard({
 
                     if (isYoutube) {
                         const youtubeId = extractYouTubeVideoId(media.url);
-                        payload.videoId = youtubeId;
+                        payload.mediaId = youtubeId || undefined;
                     }
 
-                    // Always set the video object regardless of YouTube or not
-                    payload.video = media;
+                    payload.media = media;
                     break;
 
                 case 'temp_audios':
-                    payload.audio = media;
+                    payload.media = media;
                     break;
 
                 case 'temp_notes':
-                    payload.pdf = media;
+                    payload.media = media;
                     break;
 
                 default:

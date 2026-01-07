@@ -17,7 +17,7 @@ export default function TablePagination({
     totalRecords
 }: TablePaginationProps) {
     const theme = useTheme();
-    const pageSizeOptions = [6, 12, 20, 50, 100];
+    const pageSizeOptions = [6, 8, 12, 20, 50, 100];
     const isXs = useMediaQuery(theme.breakpoints.down("sm"));
     const handlePageChange = (_event: React.ChangeEvent<unknown>, page: number) => {
         setQp({ ...qp, pageIndex: page });

@@ -3,8 +3,10 @@ import { Maximize2 } from 'iconsax-reactjs';
 import Plyr, { type APITypes, type PlyrProps } from "plyr-react";
 import "plyr-react/plyr.css";
 import { useEffect, useRef, useState } from 'react';
+import { useGetCourseMediaByTypeQuery } from '../../../services/courseApi';
 import { resetReadingScreen, setReadingScreen } from '../../../slice/ReadingScreenSlice';
 import { useAppDispatch, useAppSelector } from '../../../store/hook';
+import type { courseTabType, CurriculumMediaType } from '../../../types/course';
 import type { MediaProps } from '../../../types/media';
 import { extractYouTubeVideoId, getYouTubeThumbnail } from '../../../utils/extractYoutubeVideoId';
 import WaterMark from '../../../Watermark';
@@ -12,6 +14,7 @@ import WaterMark from '../../../Watermark';
 interface PlyrInstance {
     plyr?: APITypes;
 }
+
 const SpotifyAudioPlayer = ({ audioUrl, imageUrl, title }: { audioUrl: string, imageUrl: string, title: string }) => {
     return (
         <div
@@ -21,58 +24,126 @@ const SpotifyAudioPlayer = ({ audioUrl, imageUrl, title }: { audioUrl: string, i
                 borderRadius: "12px",
                 padding: "16px",
                 color: "white",
+                height: "100%"
             }}
         >
-            <div style={{ width: "100%", marginBottom: "12px" }}>
+            <Box sx={{ width: "100%", marginBottom: "12px", height: "calc(100% - 100px)" }}>
                 <img
                     src={imageUrl}
                     alt="cover"
                     style={{
                         width: "100%",
-                        height: "250px",
+                        height: "100%",
                         objectFit: "cover",
                         borderRadius: "12px",
                     }}
                 />
+            </Box>
+
+            <div className="audio__bottom">
+                {title && (
+                    <h3 style={{ margin: "8px 0", fontSize: "18px" }}>{title}</h3>
+                )}
+
+                {audioUrl ? (
+                    <audio
+                        controls
+                        controlsList="nodownload"
+                        src={audioUrl}
+                        style={{
+                            width: "100%",
+                            borderRadius: "8px",
+                        }}
+                    />
+                ) : (
+                    <p>No audio available</p>
+                )}
             </div>
-
-            {title && (
-                <h3 style={{ margin: "8px 0", fontSize: "18px" }}>{title}</h3>
-            )}
-
-            {audioUrl ? (
-                <audio
-                    controls
-                    src={audioUrl}
-                    style={{
-                        width: "100%",
-                        borderRadius: "8px",
-                    }}
-                />
-            ) : (
-                <p>No audio available</p>
-            )}
         </div>
     );
 };
 
-
 export default function ReadingDialog() {
     const theme = useTheme();
     const dispatch = useAppDispatch();
-    const { open, type, video, audio, pdf, title, isYouTube, videoId, relatedVideos } = useAppSelector(
+    const { open, type, media, title, isYouTube, mediaId, courseId } = useAppSelector(
         state => state.readScreen
     );
 
     const playerRef = useRef<PlyrInstance | null>(null);
     const containerRef = useRef<HTMLDivElement | null>(null);
     const [isLoading, setIsLoading] = useState(true);
+    const [qp, setQp] = useState({
+        pageIndex: 1,
+        pageSize: 15,
+    });
+    const [allMedia, setAllMedia] = useState<MediaProps[]>([]);
 
-    const videoUrl = video?.url || null;
-    const audioUrl = audio?.url || null;
-    const pdfUrl = pdf?.url || null;
+
+    const mediaUrl = media?.url || null;
 
     const videoRef = useRef<HTMLDivElement>(null);
+
+    function switchType(type: CurriculumMediaType): courseTabType {
+        switch (type) {
+            case "temp_audios":
+                return "audios";
+            case "temp_video":
+                return "videos";
+            case "temp_notes":
+                return "notes";
+            default:
+                return "videos";
+        }
+    }
+
+    const { data, isFetching } = useGetCourseMediaByTypeQuery(
+        { id: courseId!, type: switchType(type as CurriculumMediaType), qp: qp },
+        { skip: !courseId || !open }
+    );
+
+
+    const mediaList = data?.data?.data || [];
+    const totalPages = data?.data?.pagination?.total_pages || 0;
+    const currentPage = qp.pageIndex;
+    const hasMore = currentPage < totalPages;
+
+    useEffect(() => {
+        if (mediaList.length > 0) {
+            if (qp.pageIndex === 1) {
+                setAllMedia(mediaList);
+            } else {
+                setAllMedia(prev => {
+                    const existingIds = new Set(prev.map(v => v.id));
+                    const newMedia = mediaList.filter(v => !existingIds.has(v.id));
+                    return [...prev, ...newMedia];
+                });
+            }
+        }
+    }, [mediaList, qp.pageIndex]);
+
+    useEffect(() => {
+        if (open) {
+            setQp({ pageIndex: 1, pageSize: 15 });
+            setAllMedia([]);
+        }
+    }, [open, courseId, type]);
+
+    useEffect(() => {
+        if (!open || !media?.id) return;
+
+        const currentIndex = allMedia.findIndex(v => v.id === media?.id);
+        if (currentIndex === -1) return;
+
+        const remainingMedia = allMedia.length - currentIndex - 1;
+        if (remainingMedia < 6 && hasMore && !isFetching) {
+            setQp(prev => ({
+                ...prev,
+                pageIndex: prev.pageIndex + 1
+            }));
+        }
+    }, [media?.id, allMedia.length, hasMore, isFetching, open]);
+
     const handleFullscreen = () => {
         if (videoRef.current) {
             if (videoRef.current.requestFullscreen) {
@@ -209,10 +280,8 @@ export default function ReadingDialog() {
         dispatch(
             setReadingScreen({
                 isYouTube: isYoutube,
-                videoId: vidId || undefined,
-                video: relatedVideo,
-                pdf: relatedVideo,
-                audio: relatedVideo,
+                mediaId: vidId || undefined,
+                media: relatedVideo,
                 title: relatedVideo.file_name
             })
         );
@@ -221,8 +290,8 @@ export default function ReadingDialog() {
     const renderContent = () => {
         switch (type) {
             case 'temp_video':
-                if (isYouTube && videoId) {
-                    if (isLoading || !videoId) {
+                if (isYouTube && mediaId) {
+                    if (isLoading || !mediaId) {
                         return (
                             <div style={{
                                 display: 'flex',
@@ -240,7 +309,7 @@ export default function ReadingDialog() {
                         type: "video",
                         sources: [
                             {
-                                src: videoId,
+                                src: mediaId,
                                 provider: "youtube",
                             },
                         ],
@@ -259,7 +328,6 @@ export default function ReadingDialog() {
                             'mute',
                             'volume',
                             'settings',
-                            // 'fullscreen'
                         ],
                         keyboard: { focused: true, global: false },
                         clickToPlay: true,
@@ -290,30 +358,27 @@ export default function ReadingDialog() {
                             />
                         </div>
                     );
-                } else if (videoUrl) {
-                    return <video controls src={videoUrl} style={{ width: '100%' }} />;
+                } else if (mediaUrl) {
+                    return <video controls src={mediaUrl} style={{ width: '100%' }} />;
                 }
                 return <p>No video available</p>;
 
             case 'temp_audios':
                 return (
                     <SpotifyAudioPlayer
-                        audioUrl={audioUrl || ""}
-                        imageUrl="/logo.svg"
+                        audioUrl={mediaUrl || ""}
+                        imageUrl="/fallback.png"
                         title="Sample Audio"
                     />
                 );
 
             case 'temp_notes':
-                return pdfUrl ? (
-                    <>
-                        {/* <PdfReader fileUrl={pdfUrl} /> */}
-                        <iframe
-                            className='h-full'
-                            src={`https://docs.google.com/viewer?url=${encodeURIComponent(pdfUrl)}&embedded=true`}
-                            style={{ width: '100%', border: 'none' }}
-                        />
-                    </>
+                return mediaUrl ? (
+                    <iframe
+                        className='h-full'
+                        src={`https://docs.google.com/viewer?url=${encodeURIComponent(mediaUrl)}&embedded=true`}
+                        style={{ width: '100%', border: 'none' }}
+                    />
                 ) : (
                     <p>No PDF available</p>
                 );
@@ -323,12 +388,29 @@ export default function ReadingDialog() {
         }
     };
 
+    const getUpcomingMedia = () => {
+        if (!media?.id || allMedia.length === 0) return [];
+
+        const currentIndex = allMedia.findIndex(v => v.id === media?.id);
+        if (currentIndex === -1) return allMedia.slice(0, 6);
+
+        const upcomingItems = allMedia.slice(currentIndex + 1, currentIndex + 7);
+
+        if (upcomingItems.length < 6 && !hasMore) {
+            return allMedia.slice(-6);
+        }
+
+        return upcomingItems;
+    };
+
     if (!open) {
         return null;
     }
 
+    const upcomingMedia = getUpcomingMedia();
+    const currentMediaId = media?.id;
 
-
+    console.log({ upcomingMedia, mediaList })
     return (
         <Dialog
             open={open}
@@ -365,70 +447,88 @@ export default function ReadingDialog() {
                             maxHeight: `440px`,
                             overflowY: "auto",
                         }}>
-                            {relatedVideos && relatedVideos.length > 0 ? (() => {
+                            {upcomingMedia.length > 0 ? (
+                                upcomingMedia.map((relatedVideo) => {
+                                    const vidId = extractYouTubeVideoId(relatedVideo.url);
+                                    const thumbnailUrl = vidId ? getYouTubeThumbnail(vidId) : '';
+                                    const isCurrentlyPlaying = relatedVideo.id === currentMediaId;
 
-                                const currentIndex = relatedVideos.findIndex(v => v.id === video?.id);
-                                const nextVideos = relatedVideos.slice(currentIndex + 1, currentIndex + 6);
-
-                                return nextVideos.length > 0 ? (
-                                    nextVideos.map((relatedVideo) => {
-                                        const vidId = extractYouTubeVideoId(relatedVideo.url);
-                                        const thumbnailUrl = vidId ? getYouTubeThumbnail(vidId) : '';
-
-                                        return (
-                                            <div
-                                                key={relatedVideo.id}
-                                                onClick={() => handleRelatedVideoClick(relatedVideo)}
-                                                className='cursor-pointer'
-                                            >
-                                                <div style={{
-                                                    position: 'relative',
-                                                    paddingBottom: '56.25%',
-                                                    background: '#000',
-                                                    borderRadius: '8px',
-                                                    overflow: 'hidden'
-                                                }}>
-
-                                                    <img
-                                                        src={thumbnailUrl || "/fallback.png"}
-                                                        alt={relatedVideo.file_name}
-                                                        style={{
-                                                            position: 'absolute',
-                                                            top: 0,
-                                                            left: 0,
-                                                            width: '100%',
-                                                            height: '100%',
-                                                            objectFit: 'cover'
-                                                        }}
-                                                    />
-                                                    )
-                                                </div>
-                                                <Tooltip title={relatedVideo.file_name}>
-                                                    <Typography variant='subtitle1' className='font-bold mt-1! line-clamp-1'>
-                                                        {relatedVideo.file_name}
-                                                    </Typography>
-                                                </Tooltip>
+                                    return (
+                                        <div
+                                            key={relatedVideo.id}
+                                            onClick={() => !isCurrentlyPlaying && handleRelatedVideoClick(relatedVideo)}
+                                            className='cursor-pointer'
+                                            style={{
+                                                opacity: isCurrentlyPlaying ? 0.6 : 1,
+                                                pointerEvents: isCurrentlyPlaying ? 'none' : 'auto',
+                                                border: isCurrentlyPlaying ? `2px solid ${theme.palette.primary.main}` : 'none',
+                                                borderRadius: '8px',
+                                                padding: isCurrentlyPlaying ? '4px' : '0',
+                                                position: 'relative'
+                                            }}
+                                        >
+                                            {isCurrentlyPlaying && (
+                                                <Box
+                                                    sx={{
+                                                        position: 'absolute',
+                                                        top: '8px',
+                                                        right: '8px',
+                                                        backgroundColor: theme.palette.primary.main,
+                                                        color: 'white',
+                                                        padding: '4px 8px',
+                                                        borderRadius: '4px',
+                                                        fontSize: '12px',
+                                                        fontWeight: 600,
+                                                        zIndex: 10
+                                                    }}
+                                                >
+                                                    Now Playing
+                                                </Box>
+                                            )}
+                                            <div style={{
+                                                position: 'relative',
+                                                paddingBottom: '56.25%',
+                                                background: '#000',
+                                                borderRadius: '8px',
+                                                overflow: 'hidden'
+                                            }}>
+                                                <img
+                                                    src={thumbnailUrl || "/fallback.png"}
+                                                    alt={relatedVideo.file_name}
+                                                    style={{
+                                                        position: 'absolute',
+                                                        top: 0,
+                                                        left: 0,
+                                                        width: '100%',
+                                                        height: '100%',
+                                                        objectFit: 'cover'
+                                                    }}
+                                                />
                                             </div>
-                                        );
-                                    })
-                                ) : (
-                                    <Typography variant="subtitle2" color="text.middle">
-                                        No related videos available
-                                    </Typography>
-                                );
-
-                            })() : (
+                                            <Tooltip title={relatedVideo.file_name}>
+                                                <Typography
+                                                    variant='subtitle1'
+                                                    className='font-bold mt-1! line-clamp-1'
+                                                    sx={{
+                                                        color: isCurrentlyPlaying ? theme.palette.primary.main : 'inherit'
+                                                    }}
+                                                >
+                                                    {relatedVideo.file_name}
+                                                </Typography>
+                                            </Tooltip>
+                                        </div>
+                                    );
+                                })
+                            ) : (
                                 <Typography variant="subtitle2" color="text.middle">
-                                    No related videos available
+                                    {isFetching ? 'Loading more...' : 'No upcoming media available'}
                                 </Typography>
                             )}
-
                         </Box>
                     </div>
                 </div>
 
                 <div className='flex flex-col gap-4 md:flex md:flex-row-reverse'>
-
                     <Button variant='contained' className='primary__btn'>
                         Mark as Completed
                     </Button>

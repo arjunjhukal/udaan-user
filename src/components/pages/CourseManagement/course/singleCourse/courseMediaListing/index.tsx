@@ -41,6 +41,7 @@ interface Props {
     qp: QueryParams;
     setQp: (qp: QueryParams) => void;
     totalPages: number;
+    courseId?: number | null;
 }
 
 export default function CourseMediaListing({
@@ -50,7 +51,8 @@ export default function CourseMediaListing({
     havePurchased,
     qp,
     setQp,
-    totalPages
+    totalPages,
+    courseId
 }: Props) {
     const config = mediaConfigs[type];
     const medias = data?.data?.data || [];
@@ -158,7 +160,7 @@ export default function CourseMediaListing({
                             key={media.id}
                             type={type}
                             havePurchased={havePurchased}
-                            relatedVideos={medias}
+                            courseId={courseId}
                         />
                     ))
                 )}

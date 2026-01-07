@@ -2,30 +2,29 @@ import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { CurriculumMediaType } from "../types/course";
 import type { MediaProps } from "../types/media";
 
-interface ReadingScreenProps {
-    video?: MediaProps | undefined;
-    audio?: MediaProps | undefined;
-    pdf?: MediaProps | undefined;
+export interface ReadingScreenProps {
+    // video?: MediaProps | undefined;
+    // audio?: MediaProps | undefined;
+    // pdf?: MediaProps | undefined;
+    media?: MediaProps | undefined;
     title?: string;
     message?: string;
     open: boolean;
     type?: CurriculumMediaType;
     isYouTube?: boolean;
-    relatedVideos?: MediaProps[] | undefined;
-    videoId?:string;
+    mediaId?: string;
+    courseId?: number | null;
 }
 
 const initialState: ReadingScreenProps = {
-    video: undefined,
-    audio: undefined,
-    pdf: undefined,
+    media: undefined,
     title: undefined,
     message: undefined,
     open: false,
     type: undefined,
     isYouTube: false,
-    relatedVideos: undefined,
-    videoId:undefined,
+    courseId: undefined,
+    mediaId: undefined,
 };
 
 export const readingScreen = createSlice({

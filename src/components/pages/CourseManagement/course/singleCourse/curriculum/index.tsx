@@ -1,6 +1,7 @@
 import { Box, Collapse, Divider, useTheme } from '@mui/material';
 import { ArrowRight2 } from 'iconsax-reactjs';
 import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import type { CurriculumMediaProps, CurriculumProps } from '../../../../../../types/course';
 import CustomCollapseIcon from '../../../../../atom/CustomCollapseIcon';
 import MediaCard from '../../../../../organism/Cards/MediaCard';
@@ -193,9 +194,10 @@ interface ChildLessonProps {
     isOpen: boolean;
     onToggle: (childLessonId: number) => void;
     havePurchased: boolean;
+    courseId?: number | null;
 }
 
-const ChildLesson = ({ childLesson, isOpen, onToggle, havePurchased }: ChildLessonProps) => {
+const ChildLesson = ({ childLesson, isOpen, onToggle, havePurchased, courseId }: ChildLessonProps) => {
     const theme = useTheme();
 
     return (
@@ -224,7 +226,7 @@ const ChildLesson = ({ childLesson, isOpen, onToggle, havePurchased }: ChildLess
                         <div className="flex flex-col md:grid md:grid-cols-2  xl:grid-cols-3 gap-4">
                             {childLesson.media.map((item: CurriculumMediaProps) => (
                                 <div className="col-span-1" key={item.id}>
-                                    <MediaCard havePurchased={havePurchased} type={item.type} media={item} />
+                                    <MediaCard havePurchased={havePurchased} type={item.type} media={item} courseId={courseId} />
                                 </div>
                             ))}
                         </div>
@@ -242,9 +244,10 @@ interface LessonItemProps {
     onToggle: (lessonId: number) => void;
     onChildLessonToggle: (childLessonId: number) => void;
     havePurchased: boolean;
+    courseId?: number | null;
 }
 
-const LessonItem = ({ lesson, isOpen, openChildLessonIds, onToggle, onChildLessonToggle, havePurchased }: LessonItemProps) => {
+const LessonItem = ({ lesson, isOpen, openChildLessonIds, onToggle, onChildLessonToggle, havePurchased, courseId }: LessonItemProps) => {
     const theme = useTheme();
 
     return (
@@ -274,7 +277,7 @@ const LessonItem = ({ lesson, isOpen, openChildLessonIds, onToggle, onChildLesso
                         <div className="flex flex-col md:grid md:grid-cols-2  xl:grid-cols-3 gap-4 mb-4">
                             {lesson.media.map((item: CurriculumMediaProps) => (
                                 <div className="col-span-1" key={item.id}>
-                                    <MediaCard havePurchased={havePurchased} type={item.type} media={item} />
+                                    <MediaCard havePurchased={havePurchased} type={item.type} media={item} courseId={courseId} />
                                 </div>
                             ))}
                         </div>
@@ -289,6 +292,7 @@ const LessonItem = ({ lesson, isOpen, openChildLessonIds, onToggle, onChildLesso
                                     isOpen={openChildLessonIds.has(childLesson.id)}
                                     onToggle={onChildLessonToggle}
                                     havePurchased={havePurchased}
+                                    courseId={courseId}
                                 />
                             ))}
                         </div>
@@ -308,9 +312,10 @@ interface UnitItemProps {
     onLessonToggle: (lessonId: number) => void;
     onChildLessonToggle: (childLessonId: number) => void;
     havePurchased: boolean;
+    courseId?: number | null;
 }
 
-const UnitItem = ({ unit, isOpen, openLessonIds, openChildLessonIds, onUnitToggle, onLessonToggle, onChildLessonToggle, havePurchased }: UnitItemProps) => {
+const UnitItem = ({ unit, isOpen, openLessonIds, openChildLessonIds, onUnitToggle, onLessonToggle, onChildLessonToggle, havePurchased, courseId }: UnitItemProps) => {
     const theme = useTheme();
 
     return (
@@ -340,7 +345,7 @@ const UnitItem = ({ unit, isOpen, openLessonIds, openChildLessonIds, onUnitToggl
                         <div className="flex flex-col md:grid md:grid-cols-2  xl:grid-cols-3 gap-4 mb-4">
                             {unit.media.map((item: CurriculumMediaProps) => (
                                 <div className="col-span-1" key={item.id}>
-                                    <MediaCard havePurchased={havePurchased} type={item.type} media={item} />
+                                    <MediaCard havePurchased={havePurchased} type={item.type} media={item} courseId={courseId} />
                                 </div>
                             ))}
                         </div>
@@ -355,6 +360,7 @@ const UnitItem = ({ unit, isOpen, openLessonIds, openChildLessonIds, onUnitToggl
                             onToggle={onLessonToggle}
                             onChildLessonToggle={onChildLessonToggle}
                             havePurchased={havePurchased}
+                            courseId={courseId}
                         />
                     ))}
                 </Box>
@@ -373,6 +379,7 @@ interface ChapterContentProps {
     onLessonToggle: (lessonId: number) => void;
     onChildLessonToggle: (childLessonId: number) => void;
     havePurchased: boolean;
+    courseId?: number | null;
 }
 
 const ChapterContent = ({
@@ -384,7 +391,8 @@ const ChapterContent = ({
     onUnitToggle,
     onLessonToggle,
     onChildLessonToggle,
-    havePurchased
+    havePurchased,
+    courseId
 }: ChapterContentProps) => {
     return (
         <div>
@@ -401,7 +409,7 @@ const ChapterContent = ({
                 <div className="flex flex-col md:grid md:grid-cols-2  xl:grid-cols-3 gap-4 mb-4">
                     {activeChapter.media.map((item: CurriculumMediaProps) => (
                         <div className="col-span-1" key={item.id}>
-                            <MediaCard havePurchased={havePurchased} type={item.type} media={item} />
+                            <MediaCard havePurchased={havePurchased} type={item.type} media={item} courseId={courseId} />
                         </div>
                     ))}
                 </div>
@@ -421,6 +429,7 @@ const ChapterContent = ({
                         onLessonToggle={onLessonToggle}
                         onChildLessonToggle={onChildLessonToggle}
                         havePurchased={havePurchased}
+                        courseId={courseId}
                     />
                 ))}
             </Box>
@@ -467,7 +476,7 @@ const EmptyChaptersState = () => {
 };
 
 export default function SingleCourseCurriculum({ data, havePurchased }: Props) {
-
+    const { id } = useParams();
 
     const [openSubjectId, setOpenSubjectId] = useState<number | null>(null);
     const [activeChapterId, setActiveChapterId] = useState<number | null>(null);
@@ -571,6 +580,7 @@ export default function SingleCourseCurriculum({ data, havePurchased }: Props) {
                             onLessonToggle={toggleLesson}
                             onChildLessonToggle={toggleChildLesson}
                             havePurchased={havePurchased}
+                            courseId={Number(id)}
                         />
                     ) : (
                         <div className="text-center py-12 text-gray-500">
@@ -580,7 +590,7 @@ export default function SingleCourseCurriculum({ data, havePurchased }: Props) {
                 </div>
             </div>
             <div className="lg:hidden">
-                <MobileCurriculum havePurchased={havePurchased} data={data} />
+                <MobileCurriculum havePurchased={havePurchased} data={data} courseId={Number(id)} />
             </div>
         </div>
     );

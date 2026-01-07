@@ -203,7 +203,7 @@ export default function AllAudioListing() {
                                         key={media.id}
                                         type="temp_audios"
                                         havePurchased={true}
-                                        relatedVideos={allAudios.filter((item) => item.id !== media.id)}
+                                        courseId={selectedCourseId}
                                     />
                                 ))}
                             </div>

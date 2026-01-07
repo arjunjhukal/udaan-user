@@ -109,13 +109,13 @@ export default function SingleCourse() {
             {activeTab === "overview" && <Activity><SinlgeCourseOverview data={data?.data && data.data} isLoading={loadingOverview} /></Activity>}
             {activeTab === "curriculum" && <Activity><SinlgeCourseCurriculum havePurchased={havePurchased} data={curriculum?.data?.data} isLoading={loadingCurriculum} /></Activity>}
             {activeTab === "notes" && <Activity>
-                <CourseMediaListing havePurchased={havePurchased} data={notes} isLoading={loadingNotes} type="temp_notes" qp={qpNotes} setQp={setQpNotes} totalPages={notes?.data?.pagination?.total_pages || 0} />
+                <CourseMediaListing havePurchased={havePurchased} data={notes} isLoading={loadingNotes} type="temp_notes" qp={qpNotes} setQp={setQpNotes} totalPages={notes?.data?.pagination?.total_pages || 0} courseId={Number(id)} />
             </Activity>}
             {activeTab === "audios" && <Activity>
-                <CourseMediaListing havePurchased={havePurchased} data={audios} isLoading={loadingAudios} type="temp_audios" qp={qpAudios} setQp={setQpAudios} totalPages={audios?.data?.pagination?.total_pages || 0} />
+                <CourseMediaListing havePurchased={havePurchased} data={audios} isLoading={loadingAudios} type="temp_audios" qp={qpAudios} setQp={setQpAudios} totalPages={audios?.data?.pagination?.total_pages || 0} courseId={Number(id)} />
             </Activity>}
             {activeTab === "videos" && <Activity>
-                <CourseMediaListing havePurchased={havePurchased} data={videos} isLoading={loadingVideos} type="temp_video" qp={qpVideos} setQp={setQpVideos} totalPages={videos?.data?.pagination?.total_pages || 0} />
+                <CourseMediaListing havePurchased={havePurchased} data={videos} isLoading={loadingVideos} type="temp_video" qp={qpVideos} setQp={setQpVideos} totalPages={videos?.data?.pagination?.total_pages || 0} courseId={Number(id)} />
             </Activity>}
             {activeTab === "tests" &&
                 <Activity >

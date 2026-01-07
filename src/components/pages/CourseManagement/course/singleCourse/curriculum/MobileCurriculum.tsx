@@ -7,6 +7,7 @@ import MediaCard from '../../../../../organism/Cards/MediaCard';
 interface Props {
     data?: CurriculumProps[];
     havePurchased: boolean;
+    courseId?: number | null;
 }
 
 interface ResourceCounts {
@@ -114,9 +115,10 @@ const ResourceCounter = ({ item, isWhite = false }: ResourceCounterProps) => {
 };
 
 
-const MobileChildLesson = ({ childLesson, havePurchased }: {
+const MobileChildLesson = ({ childLesson, havePurchased, courseId }: {
     childLesson: any;
     havePurchased: boolean;
+    courseId?: number | null;
 }) => {
     const theme = useTheme();
     const [isOpen, setIsOpen] = useState(false);
@@ -149,7 +151,7 @@ const MobileChildLesson = ({ childLesson, havePurchased }: {
                     {childLesson?.media?.length ? (
                         <div className="flex flex-col gap-3">
                             {childLesson.media.map((item: CurriculumMediaProps) => (
-                                <MediaCard key={item.id} havePurchased={havePurchased} type={item.type} media={item} />
+                                <MediaCard havePurchased={havePurchased} type={item.type} media={item} courseId={courseId} />
                             ))}
                         </div>
                     ) : null}
@@ -159,9 +161,11 @@ const MobileChildLesson = ({ childLesson, havePurchased }: {
     );
 };
 
-const MobileLesson = ({ lesson, havePurchased }: {
+const MobileLesson = ({ lesson, havePurchased, courseId }: {
     lesson: any;
     havePurchased: boolean;
+    courseId?: number | null;
+
 }) => {
     const theme = useTheme();
     const [isOpen, setIsOpen] = useState(false);
@@ -192,7 +196,7 @@ const MobileLesson = ({ lesson, havePurchased }: {
                     {lesson?.media?.length ? (
                         <div className="flex flex-col gap-3 mb-3">
                             {lesson.media.map((item: CurriculumMediaProps) => (
-                                <MediaCard key={item.id} havePurchased={havePurchased} type={item.type} media={item} />
+                                <MediaCard havePurchased={havePurchased} type={item.type} media={item} courseId={courseId} />
                             ))}
                         </div>
                     ) : null}
@@ -204,6 +208,7 @@ const MobileLesson = ({ lesson, havePurchased }: {
                                     key={childLesson.id}
                                     childLesson={childLesson}
                                     havePurchased={havePurchased}
+                                    courseId={courseId}
                                 />
                             ))}
                         </div>
@@ -215,9 +220,11 @@ const MobileLesson = ({ lesson, havePurchased }: {
 };
 
 
-const MobileUnit = ({ unit, havePurchased }: {
+const MobileUnit = ({ unit, havePurchased, courseId }: {
     unit: any;
     havePurchased: boolean;
+    courseId?: number | null;
+
 }) => {
     const theme = useTheme();
     const [isOpen, setIsOpen] = useState(false);
@@ -248,7 +255,7 @@ const MobileUnit = ({ unit, havePurchased }: {
                     {unit?.media?.length ? (
                         <div className="flex flex-col gap-3 mb-3">
                             {unit.media.map((item: CurriculumMediaProps) => (
-                                <MediaCard key={item.id} havePurchased={havePurchased} type={item.type} media={item} />
+                                <MediaCard havePurchased={havePurchased} type={item.type} media={item} courseId={courseId} />
                             ))}
                         </div>
                     ) : null}
@@ -258,6 +265,7 @@ const MobileUnit = ({ unit, havePurchased }: {
                             key={lesson.id}
                             lesson={lesson}
                             havePurchased={havePurchased}
+                            courseId={courseId}
                         />
                     ))}
                 </Box>
@@ -267,9 +275,11 @@ const MobileUnit = ({ unit, havePurchased }: {
 };
 
 
-const MobileChapter = ({ chapter, havePurchased }: {
+const MobileChapter = ({ chapter, havePurchased, courseId }: {
     chapter: any;
     havePurchased: boolean;
+    courseId?: number | null;
+
 }) => {
     const theme = useTheme();
     const [isOpen, setIsOpen] = useState(false);
@@ -300,7 +310,8 @@ const MobileChapter = ({ chapter, havePurchased }: {
                     {chapter?.media?.length ? (
                         <div className="flex flex-col gap-3 mb-3">
                             {chapter.media.map((item: CurriculumMediaProps) => (
-                                <MediaCard key={item.id} havePurchased={havePurchased} type={item.type} media={item} />
+                                <MediaCard havePurchased={havePurchased} type={item.type} media={item} courseId={courseId} />
+
                             ))}
                         </div>
                     ) : null}
@@ -310,6 +321,7 @@ const MobileChapter = ({ chapter, havePurchased }: {
                             key={unit.id}
                             unit={unit}
                             havePurchased={havePurchased}
+                            courseId={courseId}
                         />
                     ))}
                 </Box>
@@ -319,9 +331,11 @@ const MobileChapter = ({ chapter, havePurchased }: {
 };
 
 
-const MobileSubject = ({ subject, havePurchased }: {
+const MobileSubject = ({ subject, havePurchased, courseId }: {
     subject: CurriculumProps;
     havePurchased: boolean;
+    courseId?: number | null;
+
 }) => {
     const theme = useTheme();
     const [isOpen, setIsOpen] = useState(false);
@@ -357,6 +371,7 @@ const MobileSubject = ({ subject, havePurchased }: {
                                 key={chapter.id}
                                 chapter={chapter}
                                 havePurchased={havePurchased}
+                                courseId={courseId}
                             />
                         ))
                     ) : (
@@ -370,7 +385,7 @@ const MobileSubject = ({ subject, havePurchased }: {
     );
 };
 
-export default function MobileCurriculum({ data, havePurchased }: Props) {
+export default function MobileCurriculum({ data, havePurchased, courseId }: Props) {
     return (
         <div className="space-y-2">
             {data?.map((subject) => (
@@ -378,6 +393,7 @@ export default function MobileCurriculum({ data, havePurchased }: Props) {
                     key={subject.id}
                     subject={subject}
                     havePurchased={havePurchased}
+                    courseId={Number(courseId)}
                 />
             ))}
         </div>
