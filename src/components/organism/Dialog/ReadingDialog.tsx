@@ -335,17 +335,17 @@ export default function ReadingDialog() {
                         fullscreen: { enabled: true },
                         seekTime: 10,
                         youtube: {
-                            noCookie: false,
+                            noCookie: true,
                             rel: 0,
                             showinfo: 0,
                             iv_load_policy: 3,
                             modestbranding: 1,
                             controls: 0,
                             disablekb: 0,
-                            fs: 1,
+                            // fs: 1,
                             cc_load_policy: 0,
                             autoplay: 0,
-                            origin: window.location.origin
+                            // origin: window.location.origin
                         },
                     };
 
