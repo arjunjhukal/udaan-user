@@ -1,14 +1,15 @@
-import { Box, Button, CircularProgress, Dialog, DialogContent, Tooltip, Typography, useTheme } from '@mui/material';
+import { Box, Button, CircularProgress, Dialog, DialogContent, useTheme } from '@mui/material';
 import { DocumentDownload, Maximize2 } from 'iconsax-reactjs';
 import Plyr, { type APITypes, type PlyrProps } from "plyr-react";
 import "plyr-react/plyr.css";
 import { useEffect, useRef, useState } from 'react';
 import { useGetCourseMediaByTypeQuery } from '../../../services/courseApi';
-import { resetReadingScreen, setReadingScreen } from '../../../slice/ReadingScreenSlice';
+import { useGetPlayableUrlMutation } from '../../../services/mediaApi';
+import { resetReadingScreen } from '../../../slice/ReadingScreenSlice';
+import { showToast } from '../../../slice/toastSlice';
 import { useAppDispatch, useAppSelector } from '../../../store/hook';
 import type { courseTabType, CurriculumMediaType } from '../../../types/course';
 import type { MediaProps } from '../../../types/media';
-import { extractYouTubeVideoId, getYouTubeThumbnail } from '../../../utils/extractYoutubeVideoId';
 import WaterMark from '../../../Watermark';
 
 interface PlyrInstance {
@@ -101,6 +102,30 @@ export default function ReadingDialog() {
         { id: courseId!, type: switchType(type as CurriculumMediaType), qp: qp },
         { skip: !courseId || !open }
     );
+
+    const [getPlayableUrl, { isLoading: loadingVideoUrl }] = useGetPlayableUrlMutation();
+    const [playableUrl, setPlayableUrl] = useState("")
+    const handleGetPlayableUrl = async () => {
+        try {
+            const response = await getPlayableUrl({ url: media?.url }).unwrap();
+            dispatch(showToast({
+                message: "Successfully fetched the url",
+                severity: "success",
+            }))
+            setPlayableUrl(response?.data?.url);
+        } catch (e: any) {
+            dispatch(showToast({
+                message: e?.data?.message || "Error Getting URL",
+                severity: "error",
+            }))
+        }
+    }
+
+    useEffect(() => {
+        if (media?.id) {
+            handleGetPlayableUrl();
+        }
+    }, [media?.id, media?.url])
 
 
     const mediaList = data?.data?.data || [];
@@ -273,37 +298,24 @@ export default function ReadingDialog() {
         };
     }, []);
 
-    const handleRelatedVideoClick = (relatedVideo: MediaProps) => {
-        const isYoutube = relatedVideo.url.includes('youtube.com') || relatedVideo.url.includes('youtu.be');
-        const vidId = isYoutube ? extractYouTubeVideoId(relatedVideo.url) : null;
+    // const handleRelatedVideoClick = (relatedVideo: MediaProps) => {
+    //     const isYoutube = relatedVideo.url.includes('youtube.com') || relatedVideo.url.includes('youtu.be');
+    //     const vidId = isYoutube ? extractYouTubeVideoId(relatedVideo.url) : null;
 
-        dispatch(
-            setReadingScreen({
-                isYouTube: isYoutube,
-                mediaId: vidId || undefined,
-                media: relatedVideo,
-                title: relatedVideo.file_name
-            })
-        );
-    };
+    //     dispatch(
+    //         setReadingScreen({
+    //             isYouTube: isYoutube,
+    //             mediaId: vidId || undefined,
+    //             media: relatedVideo,
+    //             title: relatedVideo.file_name
+    //         })
+    //     );
+    // };
 
     const renderContent = () => {
         switch (type) {
             case 'temp_video':
                 if (isYouTube && mediaId) {
-                    if (isLoading || !mediaId) {
-                        return (
-                            <div style={{
-                                display: 'flex',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                minHeight: '400px',
-                                backgroundColor: '#000',
-                            }}>
-                                <CircularProgress size={60} />
-                            </div>
-                        );
-                    }
 
                     const plyrSource: PlyrProps['source'] = {
                         type: "video",
@@ -374,28 +386,33 @@ export default function ReadingDialog() {
                             iv_load_policy: 3,
                             cc_load_policy: 0,
                             playsinline: 1,
-                            // ❌ REMOVED: sho
-                            // winfo (deprecated)
-                            // ❌ REMOVED: modestbranding (deprecated)
-                            // ❌ REMOVED: controls: 0 (Plyr handles this)
-                            // ❌ REMOVED: disablekb (Plyr handles this)
-                            // ❌ REMOVED: fs (Plyr handles this)
-                            // ❌ REMOVED: autoplay (already set at top level)
-                            // ❌ REMOVED: origin (causes bot detection issues)
-                            // origin: window.location.origin
+
                         },
                     };
                     return (
-                        <div className='h-full' ref={containerRef}>
-                            <Plyr
-                                ref={playerRef as any}
-                                source={plyrSource}
-                                options={plyrOptions}
-                            />
+                        <div className='h-full min-h-[400px] flex justify-center items-center' ref={containerRef}>
+                            <div className="hidden">
+                                <Plyr
+                                    ref={playerRef as any}
+                                    source={plyrSource}
+                                    options={plyrOptions}
+                                />
+                            </div>
+                            {loadingVideoUrl ? <div className='w-full' style={{
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                minHeight: '400px',
+                                backgroundColor: '#000',
+                            }}>
+                                <CircularProgress size={60} />
+                            </div> : <video controls className='w-full h-full'>
+                                <source src={playableUrl}></source>
+                            </video>}
                         </div>
                     );
                 } else if (mediaUrl) {
-                    return <video controls src={mediaUrl} style={{ width: '100%' }} />;
+                    return <video controls src={mediaUrl} style={{ width: '100%' }} controlsList="nodownload" />;
                 }
                 return <p>No video available</p>;
 
@@ -431,27 +448,27 @@ export default function ReadingDialog() {
         }
     };
 
-    const getUpcomingMedia = () => {
-        if (!media?.id || allMedia.length === 0) return [];
+    // const getUpcomingMedia = () => {
+    //     if (!media?.id || allMedia.length === 0) return [];
 
-        const currentIndex = allMedia.findIndex(v => v.id === media?.id);
-        if (currentIndex === -1) return allMedia.slice(0, 6);
+    //     const currentIndex = allMedia.findIndex(v => v.id === media?.id);
+    //     if (currentIndex === -1) return allMedia.slice(0, 6);
 
-        const upcomingItems = allMedia.slice(currentIndex + 1, currentIndex + 7);
+    //     const upcomingItems = allMedia.slice(currentIndex + 1, currentIndex + 7);
 
-        if (upcomingItems.length < 6 && !hasMore) {
-            return allMedia.slice(-6);
-        }
+    //     if (upcomingItems.length < 6 && !hasMore) {
+    //         return allMedia.slice(-6);
+    //     }
 
-        return upcomingItems;
-    };
+    //     return upcomingItems;
+    // };
 
     if (!open) {
         return null;
     }
 
-    const upcomingMedia = getUpcomingMedia();
-    const currentMediaId = media?.id;
+    // const upcomingMedia = getUpcomingMedia();
+    // const currentMediaId = media?.id;
 
     const handleDownloadNote = async () => {
         if (!mediaUrl) return;
@@ -466,6 +483,7 @@ export default function ReadingDialog() {
         document.body.removeChild(link);
     };
 
+    console.log(playableUrl)
     return (
         <Dialog
             open={open}
@@ -497,13 +515,13 @@ export default function ReadingDialog() {
                 </div>
 
                 <div className="lg:grid lg:grid-cols-12 gap-4">
-                    <div className="col-span-9 max-h-[500px] overflow-auto">
+                    <div className="col-span-12 max-h-[500px] overflow-auto">
                         <div className="h-full overflow-auto" ref={videoRef}>
                             <WaterMark />
                             {renderContent()}
                         </div>
                     </div>
-                    <div className="hidden lg:block col-span-3">
+                    {/* <div className="hidden lg:block col-span-3">
                         <Typography variant='subtitle1' className='block! mb-3!' sx={{ fontWeight: 600 }}>
                             Up Next
                         </Typography>
@@ -589,7 +607,7 @@ export default function ReadingDialog() {
                                 </Typography>
                             )}
                         </Box>
-                    </div>
+                    </div> */}
                 </div>
 
                 <div className='flex flex-col gap-4 md:flex md:flex-row-reverse mt-4'>
