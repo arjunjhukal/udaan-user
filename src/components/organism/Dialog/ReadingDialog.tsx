@@ -73,7 +73,7 @@ export default function ReadingDialog() {
 
     const playerRef = useRef<PlyrInstance | null>(null);
     const containerRef = useRef<HTMLDivElement | null>(null);
-    const [isLoading, setIsLoading] = useState(true);
+    const [_isLoading, setIsLoading] = useState(true);
     const [qp, setQp] = useState({
         pageIndex: 1,
         pageSize: 15,
