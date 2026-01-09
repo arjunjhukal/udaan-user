@@ -58,22 +58,20 @@ export default function CourseMediaListing({
     const medias = data?.data?.data || [];
     const [searchInput, setSearchInput] = useState(qp.search || "");
 
-    // Debounce search - update query params after user stops typing
     useEffect(() => {
         const timer = setTimeout(() => {
             if (searchInput !== qp.search) {
                 setQp({
                     ...qp,
                     search: searchInput,
-                    pageIndex: 1 // Reset to first page when searching
+                    pageIndex: 1
                 });
             }
-        }, 500); // 500ms delay
+        }, 500);
 
         return () => clearTimeout(timer);
     }, [searchInput]);
 
-    // Update local search input when qp.search changes externally
     useEffect(() => {
         setSearchInput(qp.search || "");
     }, [qp.search]);
@@ -82,16 +80,7 @@ export default function CourseMediaListing({
         setSearchInput(search);
     };
 
-    const clearSearch = () => {
-        setSearchInput("");
-        setQp({
-            ...qp,
-            search: "",
-            pageIndex: 1
-        });
-    };
 
-    // Empty state when no results
     if (!isLoading && !medias.length) {
         return (
             <div className="pb-4">
