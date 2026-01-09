@@ -111,16 +111,7 @@ export default function CourseMediaListing({
                     title={qp.search ? `No ${type.split("_")[1]} found matching your search` : config.emptyTitle}
                     description={qp.search ? `Try adjusting your search terms or clear the search to see all ${type.split("_")[1]}.` : config.emptyMessage}
                 />
-                {qp.search && (
-                    <div className="text-center mt-4">
-                        <button
-                            onClick={clearSearch}
-                            className="px-4 py-2 text-blue-600 hover:text-blue-700 font-medium text-sm border border-blue-600 rounded-lg hover:bg-blue-50 transition-colors"
-                        >
-                            Clear Search
-                        </button>
-                    </div>
-                )}
+
             </div>
         );
     }
