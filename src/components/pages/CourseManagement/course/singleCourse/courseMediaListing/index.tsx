@@ -58,22 +58,20 @@ export default function CourseMediaListing({
     const medias = data?.data?.data || [];
     const [searchInput, setSearchInput] = useState(qp.search || "");
 
-    // Debounce search - update query params after user stops typing
     useEffect(() => {
         const timer = setTimeout(() => {
             if (searchInput !== qp.search) {
                 setQp({
                     ...qp,
                     search: searchInput,
-                    pageIndex: 1 // Reset to first page when searching
+                    pageIndex: 1
                 });
             }
-        }, 500); // 500ms delay
+        }, 500);
 
         return () => clearTimeout(timer);
     }, [searchInput]);
 
-    // Update local search input when qp.search changes externally
     useEffect(() => {
         setSearchInput(qp.search || "");
     }, [qp.search]);
@@ -82,16 +80,7 @@ export default function CourseMediaListing({
         setSearchInput(search);
     };
 
-    const clearSearch = () => {
-        setSearchInput("");
-        setQp({
-            ...qp,
-            search: "",
-            pageIndex: 1
-        });
-    };
 
-    // Empty state when no results
     if (!isLoading && !medias.length) {
         return (
             <div className="pb-4">
@@ -111,16 +100,7 @@ export default function CourseMediaListing({
                     title={qp.search ? `No ${type.split("_")[1]} found matching your search` : config.emptyTitle}
                     description={qp.search ? `Try adjusting your search terms or clear the search to see all ${type.split("_")[1]}.` : config.emptyMessage}
                 />
-                {qp.search && (
-                    <div className="text-center mt-4">
-                        <button
-                            onClick={clearSearch}
-                            className="px-4 py-2 text-blue-600 hover:text-blue-700 font-medium text-sm border border-blue-600 rounded-lg hover:bg-blue-50 transition-colors"
-                        >
-                            Clear Search
-                        </button>
-                    </div>
-                )}
+
             </div>
         );
     }
