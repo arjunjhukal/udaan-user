@@ -104,15 +104,17 @@ export default function ReadingDialog() {
     );
 
     const [getPlayableUrl, { isLoading: loadingVideoUrl }] = useGetPlayableUrlMutation();
-    const [playableUrl, setPlayableUrl] = useState("")
+    const [playableUrl, setPlayableUrl] = useState<string | null>(null);
     const handleGetPlayableUrl = async () => {
         try {
+            setPlayableUrl(null);
             const response = await getPlayableUrl({ url: media?.url }).unwrap();
             // dispatch(showToast({
             //     message: "Successfully fetched the url",
             //     severity: "success",
             // }))
             setPlayableUrl(response?.data?.url);
+
         } catch (e: any) {
             dispatch(showToast({
                 message: e?.data?.message || "Error Getting URL",
@@ -398,6 +400,14 @@ export default function ReadingDialog() {
                                     options={plyrOptions}
                                 />
                             </div>
+                            {/* {responseStatus === 422 ? <div className='w-full' style={{
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                minHeight: '400px',
+                            }}>
+                                <Button >Retry</Button>
+                            </div> : ""} */}
                             {loadingVideoUrl ? <div className='w-full' style={{
                                 display: 'flex',
                                 justifyContent: 'center',
@@ -406,9 +416,30 @@ export default function ReadingDialog() {
                                 backgroundColor: '#000',
                             }}>
                                 <CircularProgress size={60} />
-                            </div> : <video controls className='w-full h-full'>
-                                <source src={playableUrl}></source>
-                            </video>}
+                            </div> :
+                                playableUrl ? <Plyr
+                                    source={{
+                                        type: "video",
+                                        sources: [
+                                            {
+                                                src: playableUrl,
+                                                type: "video/mp4",
+                                            },
+                                        ],
+                                    }}
+                                    options={{
+                                        controls: [
+                                            "play",
+                                            "progress",
+                                            "current-time",
+                                            "mute",
+                                            "volume",
+                                            // "fullscreen",
+                                        ],
+                                        hideControls: false,
+                                    }}
+                                /> : <Button variant='contained' color="primary" onClick={handleGetPlayableUrl}>Retry</Button>
+                            }
                         </div>
                     );
                 } else if (mediaUrl) {
