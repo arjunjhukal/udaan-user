@@ -315,6 +315,40 @@ export default function ReadingDialog() {
                         ],
                     };
 
+                    // const plyrOptions: PlyrProps['options'] = {
+                    //     autoplay: false,
+                    //     controls: [
+                    //         'play-large',
+                    //         'play',
+                    //         'rewind',
+                    //         'progress',
+                    //         'fast-forward',
+                    //         'current-time',
+                    //         'duration',
+                    //         'mute',
+                    //         'volume',
+                    //         'settings',
+                    //     ],
+                    //     keyboard: { focused: true, global: false },
+                    //     clickToPlay: true,
+                    //     disableContextMenu: true,
+                    //     fullscreen: { enabled: true },
+                    //     seekTime: 10,
+                    //     youtube: {
+                    //         noCookie: false,
+                    //         rel: 0,
+                    //         showinfo: 0,
+                    //         iv_load_policy: 3,
+                    //         modestbranding: 1,
+                    //         controls: 0,
+                    //         disablekb: 0,
+                    //         fs: 1,
+                    //         cc_load_policy: 0,
+                    //         autoplay: 0,
+                    //         origin: window.location.origin
+                    //     },
+                    // };
+
                     const plyrOptions: PlyrProps['options'] = {
                         autoplay: false,
                         controls: [
@@ -335,22 +369,22 @@ export default function ReadingDialog() {
                         fullscreen: { enabled: true },
                         seekTime: 10,
                         youtube: {
-                            noCookie: false,
+                            noCookie: true,
                             rel: 0,
-                            showinfo: 0,
                             iv_load_policy: 3,
-                            modestbranding: 1,
-                            controls: 0,
-                            disablekb: 0,
-                            fs: 1,
                             cc_load_policy: 0,
-                            autoplay: 0,
-                            origin: window.location.origin
+                            playsinline: 1,
+                            // ❌ REMOVED: showinfo (deprecated)
+                            // ❌ REMOVED: modestbranding (deprecated)
+                            // ❌ REMOVED: controls: 0 (Plyr handles this)
+                            // ❌ REMOVED: disablekb (Plyr handles this)
+                            // ❌ REMOVED: fs (Plyr handles this)
+                            // ❌ REMOVED: autoplay (already set at top level)
+                            // ❌ REMOVED: origin (causes bot detection issues)
                         },
                     };
-
                     return (
-                        <div ref={containerRef}>
+                        <div className='h-full' ref={containerRef}>
                             <Plyr
                                 ref={playerRef as any}
                                 source={plyrSource}
@@ -462,7 +496,7 @@ export default function ReadingDialog() {
 
                 <div className="lg:grid lg:grid-cols-12 gap-4">
                     <div className="col-span-9 max-h-[500px] overflow-auto">
-                        <div className="h-full" ref={videoRef}>
+                        <div className="h-full overflow-auto" ref={videoRef}>
                             <WaterMark />
                             {renderContent()}
                         </div>
