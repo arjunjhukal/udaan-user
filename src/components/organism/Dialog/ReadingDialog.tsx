@@ -108,10 +108,10 @@ export default function ReadingDialog() {
     const handleGetPlayableUrl = async () => {
         try {
             const response = await getPlayableUrl({ url: media?.url }).unwrap();
-            dispatch(showToast({
-                message: "Successfully fetched the url",
-                severity: "success",
-            }))
+            // dispatch(showToast({
+            //     message: "Successfully fetched the url",
+            //     severity: "success",
+            // }))
             setPlayableUrl(response?.data?.url);
         } catch (e: any) {
             dispatch(showToast({
