@@ -369,7 +369,7 @@ export default function ReadingDialog() {
                         fullscreen: { enabled: true },
                         seekTime: 10,
                         youtube: {
-                            noCookie: true,
+                            noCookie: false,
                             rel: 0,
                             iv_load_policy: 3,
                             cc_load_policy: 0,
@@ -382,6 +382,7 @@ export default function ReadingDialog() {
                             // ❌ REMOVED: fs (Plyr handles this)
                             // ❌ REMOVED: autoplay (already set at top level)
                             // ❌ REMOVED: origin (causes bot detection issues)
+                            // origin: window.location.origin
                         },
                     };
                     return (
