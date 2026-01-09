@@ -345,7 +345,7 @@ export default function ReadingDialog() {
                             fs: 1,
                             cc_load_policy: 0,
                             autoplay: 0,
-                            // origin: window.location.origin
+                            origin: window.location.origin
                         },
                     };
 
