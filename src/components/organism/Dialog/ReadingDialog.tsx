@@ -592,7 +592,7 @@ export default function ReadingDialog() {
                     </div>
                 </div>
 
-                <div className='flex flex-col gap-4 md:flex md:flex-row-reverse'>
+                <div className='flex flex-col gap-4 md:flex md:flex-row-reverse mt-4'>
                     <Button variant='contained' className='primary__btn'>
                         Mark as Completed
                     </Button>
