@@ -374,7 +374,8 @@ export default function ReadingDialog() {
                             iv_load_policy: 3,
                             cc_load_policy: 0,
                             playsinline: 1,
-                            // ❌ REMOVED: showinfo (deprecated)
+                            // ❌ REMOVED: sho
+                            // winfo (deprecated)
                             // ❌ REMOVED: modestbranding (deprecated)
                             // ❌ REMOVED: controls: 0 (Plyr handles this)
                             // ❌ REMOVED: disablekb (Plyr handles this)
