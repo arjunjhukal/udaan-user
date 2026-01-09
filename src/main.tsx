@@ -14,6 +14,7 @@ import Loading from "./Loading.tsx";
 import GlobalRoutes from "./routes/Routes.tsx";
 import { store } from "./store/store.ts";
 import UdaanThemeProvider from "./ThemeProvider.tsx";
+import ScreenProtection from './ScreenProtection.tsx';
 
 i18n
   .use(HttpApi)
@@ -43,12 +44,12 @@ createRoot(document.getElementById("root")!).render(
         <Suspense fallback={<Loading />}>
           <GoogleOAuthProvider clientId='361289665406-npg48sokjoqcdepd1qov5dq4l6meipri.apps.googleusercontent.com'>
             <UdaanThemeProvider>
-              {/* <ScreenProtection> */}
+              <ScreenProtection>
               <GlobalRoutes />
               <Toast />
               <SessionExpiredPopup />
               <ReadingDialog />
-              {/* </ScreenProtection> */}
+              </ScreenProtection>
             </UdaanThemeProvider>
           </GoogleOAuthProvider>
         </Suspense>
