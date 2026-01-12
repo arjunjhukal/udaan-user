@@ -10,6 +10,8 @@ import SingleCourse from "../components/pages/CourseManagement/course/singleCour
 
 import AuthBridge from "../components/pages/auth/bridge";
 import ChoosePlatform from "../components/pages/auth/choosePlatform";
+import IntroScreenRoot from "../components/pages/auth/introScreens";
+import SelectPreferedLanguage from "../components/pages/auth/selectPreferedLang";
 import SavedCourse from "../components/pages/CourseManagement/course/savedCourse";
 import SingleLiveClassRoot from "../components/pages/CourseManagement/course/singleLiveClass";
 import LiveClassRoot from "../components/pages/CourseManagement/liveClasses";
@@ -45,6 +47,14 @@ const router = createBrowserRouter([
   {
     path: PATH.AUTH.CHOOSE_PLATFORM.ROOT,
     element: <ChoosePlatform />
+  },
+  {
+    path: PATH.AUTH.CHOOSE_PREFERED_LANG.ROOT,
+    element: <SelectPreferedLanguage />
+  },
+  {
+    path: PATH.AUTH.INTRO.ROOT,
+    element: <IntroScreenRoot />
   },
   {
     element: <AuthRoot />,

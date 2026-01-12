@@ -15,7 +15,7 @@ export default function ChoosePlatform() {
     const isMobile = /Android|iPhone|iPad/i.test(navigator.userAgent);
 
     const handleContinueWeb = () => {
-        navigate(PATH.AUTH.LOGIN.ROOT);
+        navigate(PATH.AUTH.CHOOSE_PREFERED_LANG.ROOT);
     };
 
     const handleAppRedirect = () => {
@@ -31,8 +31,8 @@ export default function ChoosePlatform() {
                 alignItems: "center",
                 justifyContent: "center",
                 background: `linear-gradient(135deg,
-          ${theme.palette.background.sidebar} 0%,
-          ${theme.palette.primary.main} 100%)`,
+          ${theme.palette.primary.light} 0%,
+          ${theme.palette.primary.light} 100%)`,
                 px: 3
             }}
         >
@@ -113,7 +113,7 @@ export default function ChoosePlatform() {
                     <Typography
                         variant="subtitle1"
                         color="text.secondary"
-                        mb={2}
+                        my={2}
                     >
                         Prefer to continue on the web?
                     </Typography>
