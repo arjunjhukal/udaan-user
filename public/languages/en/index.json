@@ -33,7 +33,12 @@
         "english": "English",
         "nepali": "Nepali",
         "skip": "Skip",
-        "next": "Next"
+        "next": "Next",
+        "save": "Save",
+        "saving": "Saving",
+        "course": "Course",
+        "select_your_interest": "Select your Interests ",
+        "select_your_interest_message": "Let us help you to find course you are looking for."
     },
     "menus": {
         "dashboard": "Dashboard",

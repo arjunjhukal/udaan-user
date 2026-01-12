@@ -69,7 +69,7 @@ export default function IntroScreenRoot() {
                                             key={item.description}
                                             className="py-4! px-5! flex justify-start items-center gap-3"
                                             sx={{
-                                                bgcolor: (theme) => theme.palette.gray.gray2,
+                                                bgcolor: (theme) => theme.palette.gray.gray1,
                                                 borderRadius: "12px",
                                                 border: (theme) => `1px solid ${theme.palette.gray.gray2}`,
                                             }}
@@ -85,16 +85,21 @@ export default function IntroScreenRoot() {
                                     ))}
                                 </List>
                             ) : (
-                                <div className="flex flex-col gap-3 md:grid grid-cols-2">
+                                <div className="flex flex-col gap-3 sm:grid grid-cols-2">
                                     {currentItem.items?.map((item) => (
                                         <div className="col-span-1" key={item.icon_url}>
-                                            {item.icon_url && <img src={item.icon_url} alt="" />}
-                                            <div className="content">
-                                                <Typography variant="h6">{item.title}</Typography>
-                                                <Typography variant="subtitle1" color="text.middle">
-                                                    {item.description}
-                                                </Typography>
-                                            </div>
+                                            <Box className="card px-4 py-5 rounded-xl" sx={{
+                                                bgcolor: "#F8FAFC",
+                                                border: (theme) => theme.palette.textField.border
+                                            }}>
+                                                {item.icon_url && <img src={item.icon_url} alt="" className="mb-1" />}
+                                                <div className="content">
+                                                    <Typography variant="h6" className="mb-1!" color="primary">{item.title}</Typography>
+                                                    <Typography variant="subtitle1" >
+                                                        {item.description}
+                                                    </Typography>
+                                                </div>
+                                            </Box>
                                         </div>
                                     ))}
                                 </div>
@@ -120,7 +125,6 @@ export default function IntroScreenRoot() {
                         ))}
                     </div>
 
-                    {/* Buttons */}
                     <div className="flex flex-col gap-4 mt-6 md:mt-12 lg:mt-32">
                         <Button variant="outlined" color="primary" onClick={completeOnboarding}>
                             {t("messages.skip")}

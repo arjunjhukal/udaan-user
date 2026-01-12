@@ -1,4 +1,5 @@
 import { Box, Button, FormControlLabel, Radio, Typography } from "@mui/material";
+import { useEffect } from "react";
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from "react-router-dom";
 import { PATH } from "../../../../routes/PATH";
@@ -28,7 +29,11 @@ export default function SelectPreferedLanguage() {
         dispatch(setLanguage(lang));
         i18n.changeLanguage(lang);
     };
-    console.log(selectedLanguage)
+    useEffect(() => {
+        if (selectedLanguage) {
+            navigate(PATH.AUTH.LOGIN.ROOT, { replace: true });
+        }
+    }, [navigate]);
     return (
         <Box className="min-h-screen flex justify-center items-center">
             <div className="container mx-auto px-4">

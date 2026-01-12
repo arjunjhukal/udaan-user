@@ -10,6 +10,7 @@ import SingleCourse from "../components/pages/CourseManagement/course/singleCour
 
 import AuthBridge from "../components/pages/auth/bridge";
 import ChoosePlatform from "../components/pages/auth/choosePlatform";
+import InterestRoot from "../components/pages/auth/interest";
 import IntroScreenRoot from "../components/pages/auth/introScreens";
 import SelectPreferedLanguage from "../components/pages/auth/selectPreferedLang";
 import SavedCourse from "../components/pages/CourseManagement/course/savedCourse";
@@ -64,6 +65,14 @@ const router = createBrowserRouter([
         element: (
           <SingleFormAuthLayout>
             <VerifyOTP />
+          </SingleFormAuthLayout>
+        ),
+      },
+      {
+        path: PATH.AUTH.INTEREST.ROOT,
+        element: (
+          <SingleFormAuthLayout>
+            <InterestRoot />
           </SingleFormAuthLayout>
         ),
       },

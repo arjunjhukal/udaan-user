@@ -8,14 +8,20 @@ import {
 import { ArrowRight, DocumentDownload } from "iconsax-reactjs";
 import { useNavigate } from "react-router-dom";
 import { PATH } from "../../../../routes/PATH";
+import { useAppSelector } from "../../../../store/hook";
 
 export default function ChoosePlatform() {
     const theme = useTheme();
     const navigate = useNavigate();
     const isMobile = /Android|iPhone|iPad/i.test(navigator.userAgent);
-
+    const { lang: selectedLanguage } = useAppSelector((state) => state.udaan_theme);
     const handleContinueWeb = () => {
-        navigate(PATH.AUTH.CHOOSE_PREFERED_LANG.ROOT);
+        if (selectedLanguage) {
+            navigate(PATH.AUTH.LOGIN.ROOT);
+        }
+        else {
+            navigate(PATH.AUTH.CHOOSE_PREFERED_LANG.ROOT);
+        }
     };
 
     const handleAppRedirect = () => {

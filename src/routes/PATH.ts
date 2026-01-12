@@ -23,6 +23,9 @@ export const PATH = {
         },
         INTRO: {
             ROOT: "/intro"
+        },
+        INTEREST: {
+            ROOT: "/auth/interest"
         }
     },
     DASHBOARD: {
